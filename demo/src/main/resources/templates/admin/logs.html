@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Activity Logs – Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark: #1E3A8A; --blue: #3B82F6;
+      --heading: #1F2937; --sub: #4A5565;
+      --bg: #F3F4F6; --border: #E5E7EB;
+      --sidebar-w: 260px; --sidebar-bg: #0F172A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--heading); }
+    h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+
+    /* Sidebar */
+    .sidebar { position: fixed; top:0; left:0; bottom:0; width: var(--sidebar-w); background: var(--sidebar-bg); display: flex; flex-direction: column; z-index: 1000; }
+    .sidebar-brand { display: flex; align-items: center; gap: 12px; padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,.08); text-decoration: none; }
+    .sidebar-brand-icon { width: 40px; height: 40px; background: linear-gradient(135deg,#1E3A8A,#3B82F6); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .sidebar-brand-icon i { color: #fff; font-size: 1.1rem; }
+    .sidebar-brand-name { font-family: 'Poppins', sans-serif; font-size: .95rem; font-weight: 700; color: #fff; display: block; }
+    .sidebar-brand-sub { font-size: .7rem; color: #64748B; display: block; }
+    .sidebar-nav { flex: 1; padding: 16px 12px; }
+    .sidebar-section-label { font-size: .65rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: .08em; padding: 12px 8px 6px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: #94A3B8; font-size: .875rem; font-weight: 500; margin-bottom: 2px; transition: all .2s; }
+    .sidebar-link i { font-size: 1rem; width: 18px; text-align: center; }
+    .sidebar-link:hover { background: rgba(255,255,255,.07); color: #fff; }
+    .sidebar-link.active { background: rgba(59,130,246,.2); color: #60A5FA; }
+    .sidebar-footer { padding: 16px 12px; border-top: 1px solid rgba(255,255,255,.08); }
+    .admin-profile { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; }
+    .admin-avatar { width: 36px; height: 36px; background: linear-gradient(135deg,#1E3A8A,#3B82F6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .8rem; font-weight: 700; }
+    .admin-name { font-size: .82rem; font-weight: 600; color: #fff; display: block; }
+    .admin-role { font-size: .7rem; color: #64748B; display: block; }
+    .admin-logout { margin-left: auto; color: #64748B; font-size: .9rem; cursor: pointer; border: none; background: none; }
+    .admin-logout:hover { color: #EF4444; }
+
+    /* Main */
+    .main-content { margin-left: var(--sidebar-w); min-height: 100vh; }
+    .top-header { background: #fff; border-bottom: 1px solid var(--border); padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; }
+    .top-header h1 { font-size: 1.2rem; font-weight: 700; }
+    .top-header p { font-size: .8rem; color: var(--sub); }
+    .page-body { padding: 28px; }
+
+    /* Tabs */
+    .tab-bar { display: flex; gap: 8px; margin-bottom: 20px; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 6px; width: fit-content; }
+    .tab-btn { padding: 8px 18px; border: none; background: none; border-radius: 8px; font-size: .85rem; font-weight: 600; color: var(--sub); cursor: pointer; transition: all .2s; }
+    .tab-btn.active { background: var(--blue); color: #fff; }
+
+    /* Filter bar */
+    .filter-bar { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .filter-select, .filter-date { padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .85rem; background: #fff; cursor: pointer; }
+
+    /* Table card */
+    .table-card { background: #fff; border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .table-header { padding: 18px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .table-header h3 { font-size: .95rem; font-weight: 700; }
+    .table-count { font-size: .78rem; font-weight: 600; color: var(--sub); background: var(--bg); border: 1.5px solid var(--border); border-radius: 50px; padding: 3px 10px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: 10px 20px; font-size: .72rem; font-weight: 700; color: var(--sub); text-transform: uppercase; letter-spacing: .06em; background: var(--bg); border-bottom: 1px solid var(--border); text-align: left; }
+    td { padding: 13px 20px; font-size: .85rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg); }
+    .user-cell { display: flex; align-items: center; gap: 10px; }
+    .user-avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,#1E3A8A,#3B82F6); display: flex; align-items: center; justify-content: center; color: #fff; font-size: .72rem; font-weight: 700; flex-shrink: 0; }
+    .tool-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 6px; font-size: .72rem; font-weight: 600; }
+    .tb-pdf   { background:#EFF6FF; color:#1E3A8A; }
+    .tb-image { background:#F0FDF4; color:#16A34A; }
+    .tb-audio { background:#F5F3FF; color:#7C3AED; }
+    .tb-video { background:#FFF0F6; color:#DB2777; }
+    .status-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 50px; font-size: .72rem; font-weight: 600; }
+    .sb-success { background:#DCFCE7; color:#16A34A; }
+    .sb-failed  { background:#FEE2E2; color:#DC2626; }
+    .time-text { font-size: .78rem; color: var(--sub); }
+
+    @media (max-width: 991.98px) {
+      .sidebar { transform: translateX(-100%); }
+      .main-content { margin-left: 0; }
+      .page-body { padding: 16px; }
+      table { font-size: .8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <a class="sidebar-brand" href="/">
+    <div class="sidebar-brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+    <div>
+      <span class="sidebar-brand-name">Vetri Files</span>
+      <span class="sidebar-brand-sub">Admin Panel</span>
+    </div>
+  </a>
+  <nav class="sidebar-nav">
+    <p class="sidebar-section-label">Main</p>
+    <a href="/admin/dashboard" class="sidebar-link"><i class="bi bi-grid-fill"></i> Dashboard</a>
+    <a href="/admin/users" class="sidebar-link"><i class="bi bi-people-fill"></i> Users</a>
+    <a href="/admin/logs" class="sidebar-link active"><i class="bi bi-clock-history"></i> Activity Logs</a>
+    <a href="/admin/visitors" class="sidebar-link"><i class="bi bi-eye-fill"></i> Visitors Logs</a>
+    <p class="sidebar-section-label">Settings</p>
+    <a href="/admin/settings" class="sidebar-link"><i class="bi bi-gear-fill"></i> Settings</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="admin-profile">
+      <div class="admin-avatar" id="adminAvatar">A</div>
+      <div>
+        <span class="admin-name" id="adminName">Admin</span>
+        <span class="admin-role">Super Admin</span>
+      </div>
+      <button class="admin-logout" onclick="logout()"><i class="bi bi-box-arrow-right"></i></button>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+  <div class="top-header">
+    <div>
+      <h1>Activity Logs</h1>
+      <p>File processing and login history</p>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('files', this)">File Activity</button>
+      <button class="tab-btn" onclick="switchTab('logins', this)">Login History</button>
+    </div>
+
+    <!-- Filters (file tab only) -->
+    <div class="filter-bar" id="fileFilters">
+      <select class="filter-select" id="typeFilter" onchange="filterLogs()">
+        <option value="">All File Types</option>
+        <option value="pdf">PDF</option>
+        <option value="image">Image</option>
+        <option value="audio">Audio</option>
+        <option value="video">Video</option>
+      </select>
+      <select class="filter-select" id="statusFilter" onchange="filterLogs()">
+        <option value="">All Status</option>
+        <option value="success">Success</option>
+        <option value="failed">Failed</option>
+      </select>
+    </div>
+
+    <!-- File Activity Table -->
+    <div class="table-card" id="fileTable">
+      <div class="table-header">
+        <h3>File Processing Activity</h3>
+        <span class="table-count" id="fileCount">— records</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Tool</th>
+              <th>File Type</th>
+              <th>Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="filesBody">
+            <tr><td colspan="5" style="text-align:center;color:var(--sub);padding:32px">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Login History Table -->
+    <div class="table-card" id="loginTable" style="display:none">
+      <div class="table-header">
+        <h3>Login History</h3>
+        <span class="table-count" id="loginCount">— records</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Location</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="loginsBody">
+            <tr><td colspan="4" style="text-align:center;color:var(--sub);padding:32px">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let allFiles  = [];
+let allLogins = [];
+
+window.addEventListener('DOMContentLoaded', () => {
+  const user = JSON.parse(sessionStorage.getItem('vetri_user') || '{}');
+  const name = user.name || 'Admin';
+  document.getElementById('adminName').textContent = name;
+  document.getElementById('adminAvatar').textContent =
+    name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+
+  loadFileLogs();
+  loadLoginLogs();
+});
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.getElementById('fileTable').style.display   = tab === 'files'  ? 'block' : 'none';
+  document.getElementById('loginTable').style.display  = tab === 'logins' ? 'block' : 'none';
+  document.getElementById('fileFilters').style.display  = tab === 'files'  ? 'flex'  : 'none';
+}
+
+function loadFileLogs() {
+  fetch('/api/admin/logs/files')
+    .then(r => r.json())
+    .then(data => {
+      allFiles = data.files || data || [];
+      renderFiles(allFiles);
+    })
+    .catch(() => {
+      document.getElementById('filesBody').innerHTML =
+        `<tr><td colspan="5" style="text-align:center;color:var(--sub);padding:32px">Could not load logs</td></tr>`;
+    });
+}
+
+function loadLoginLogs() {
+  fetch('/api/admin/logs/logins')
+    .then(r => r.json())
+    .then(data => {
+      allLogins = data.logins || data || [];
+      renderLogins(allLogins);
+    })
+    .catch(() => {
+      document.getElementById('loginsBody').innerHTML =
+        `<tr><td colspan="4" style="text-align:center;color:var(--sub);padding:32px">Could not load logs</td></tr>`;
+    });
+}
+
+function renderFiles(files) {
+  const tbody = document.getElementById('filesBody');
+  document.getElementById('fileCount').textContent = files.length + ' records';
+
+  if (!files.length) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--sub);padding:32px">No activity yet</td></tr>`;
+    return;
+  }
+
+  const typeClass = { pdf:'tb-pdf', image:'tb-image', audio:'tb-audio', video:'tb-video' };
+  const typeIcon  = {
+    pdf:'bi-file-earmark-pdf-fill', image:'bi-image-fill',
+    audio:'bi-music-note-beamed', video:'bi-camera-video-fill'
+  };
+
+  tbody.innerHTML = files.map(f => {
+    const initials = (f.userName || 'GU').split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+    const tc = typeClass[f.fileType] || 'tb-pdf';
+    const ti = typeIcon[f.fileType] || 'bi-file-earmark';
+    const time = f.processedAt ? new Date(f.processedAt).toLocaleString() : '—';
+
+    return `
+      <tr>
+        <td>
+          <div class="user-cell">
+            <div class="user-avatar-sm">${initials}</div>
+            <span>${f.userName || 'Guest'}</span>
+          </div>
+        </td>
+        <td>
+          <span class="tool-badge ${tc}"><i class="bi ${ti}"></i> ${f.toolUsed}</span>
+        </td>
+        <td style="color:var(--sub)">${(f.fileType || '').toUpperCase()}</td>
+        <td><span class="time-text">${time}</span></td>
+        <td>
+          <span class="status-badge ${f.status === 'success' ? 'sb-success' : 'sb-failed'}">
+            <i class="bi ${f.status === 'success' ? 'bi-check-circle-fill' : 'bi-x-circle-fill'}"></i>
+            ${f.status === 'success' ? 'Success' : 'Failed'}
+          </span>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function renderLogins(logins) {
+  const tbody = document.getElementById('loginsBody');
+  document.getElementById('loginCount').textContent = logins.length + ' records';
+
+  if (!logins.length) {
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--sub);padding:32px">No logins yet</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = logins.map(l => {
+    const initials = (l.userName || 'U').split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+    const time = l.loggedInAt ? new Date(l.loggedInAt).toLocaleString() : '—';
+
+    return `
+      <tr>
+        <td>
+          <div class="user-cell">
+            <div class="user-avatar-sm">${initials}</div>
+            <span>${l.userName || '—'}</span>
+          </div>
+        </td>
+        <td style="color:var(--sub)">${l.userEmail || '—'}</td>
+        <td>${(l.city || '') + (l.country ? ', ' + l.country : '') || '—'}</td>
+        <td><span class="time-text">${time}</span></td>
+      </tr>`;
+  }).join('');
+}
+
+function filterLogs() {
+  const type   = document.getElementById('typeFilter').value;
+  const status = document.getElementById('statusFilter').value;
+
+  const filtered = allFiles.filter(f =>
+    (!type || f.fileType === type) &&
+    (!status || f.status === status)
+  );
+  renderFiles(filtered);
+}
+
+function logout() {
+  sessionStorage.clear();
+  window.location.href = '/login';
+}
+</script>
+
+</body>
+</html>

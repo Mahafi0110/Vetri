@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trim Audio – Vetri Files</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue-main: #3B82F6;
+            --heading: #1F2937;
+            --subtext: #4A5565;
+            --accent-1: #F3F4F6;
+            --accent-2: #E5E7EB;
+            --white: #ffffff;
+            --purple: #7C3AED;
+            --purple-light: #A855F7;
+            --radius-card: 16px;
+            --radius-btn: 50px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--heading);
+            background: var(--accent-1);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--white);
+            padding: 14px 0;
+            border-bottom: 1px solid var(--accent-2);
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .brand-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .navbar-nav .nav-link {
+            font-size: .95rem;
+            font-weight: 500;
+            color: var(--heading) !important;
+            padding: 6px 14px !important;
+            transition: color .2s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--blue-main) !important;
+        }
+
+        .btn-login {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--blue-main) !important;
+            padding: 6px 14px !important;
+            border-radius: var(--radius-btn);
+        }
+
+        .btn-get-started {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            color: #fff !important;
+            border: none;
+            padding: 10px 24px !important;
+            border-radius: var(--radius-btn);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+            transition: transform .2s;
+            white-space: nowrap;
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width:991.98px) {
+            .navbar-collapse {
+                background: var(--white);
+                border-top: 1px solid var(--accent-2);
+                padding: 12px 0 16px;
+                margin-top: 10px;
+            }
+
+            .navbar-nav {
+                align-items: flex-start !important;
+                padding: 0 8px;
+            }
+
+            .btn-login,
+            .btn-get-started {
+                margin: 4px 8px !important;
+            }
+        }
+
+        /* Page Header */
+        .page-header {
+            background: var(--accent-1);
+            padding: 20px 0 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 6px;
+            transition: color .2s;
+             /* 🔥 ADD THESE */
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: var(--purple);
+        }
+
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        /* Tool Main */
+        .tool-main {
+            padding: 24px 0 64px;
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+            height: 100%;
+        }
+
+        .settings-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-title i {
+            color: var(--purple);
+        }
+
+        .divider-line {
+            border: none;
+            border-top: 1.5px solid var(--accent-2);
+            margin: 20px 0;
+        }
+
+        .form-label-custom {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .label-hint {
+            font-size: .75rem;
+            color: var(--subtext);
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* File info */
+        .file-info-box {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .file-info-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .95rem;
+            flex-shrink: 0;
+        }
+
+        .audio-icon {
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+        }
+
+        .file-info-name {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .file-info-box div {
+    min-width: 0;
+}
+
+
+        .file-info-size {
+            font-size: .75rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        /* Time input */
+        .time-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time-input-box {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            padding: 8px 12px;
+            transition: border-color .2s;
+        }
+
+        .time-input-box:focus-within {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, .08);
+        }
+
+        .time-input-box i {
+            color: var(--purple);
+            font-size: .85rem;
+            flex-shrink: 0;
+        }
+
+        .time-input-box input {
+            border: none;
+            background: transparent;
+            font-size: .9rem;
+            font-family: 'Inter', sans-serif;
+            color: var(--heading);
+            outline: none;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .time-sep-label {
+            font-size: .75rem;
+            color: var(--subtext);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        /* Snap buttons */
+        .snap-btns {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .snap-btn {
+            flex: 1;
+            padding: 7px 6px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            background: var(--white);
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--subtext);
+            cursor: pointer;
+            transition: all .2s;
+            text-align: center;
+        }
+
+        .snap-btn:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+            background: #F5F3FF;
+        }
+
+        /* Duration display */
+        .duration-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F5F3FF;
+            border: 1.5px solid #DDD6FE;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-top: 12px;
+        }
+
+        .duration-badge i {
+            color: var(--purple);
+            font-size: .95rem;
+        }
+
+        .duration-badge-label {
+            font-size: .75rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        .duration-badge-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 800;
+            color: var(--purple);
+            margin: 0;
+        }
+
+        /* Output format select */
+        .select-custom {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: .9rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--heading);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5565' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            cursor: pointer;
+            transition: border-color .2s;
+        }
+
+        .select-custom:focus {
+            outline: none;
+            border-color: var(--purple);
+        }
+
+        /* Fade option */
+        .fade-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .fade-option-name {
+            font-size: .83rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0 0 2px;
+        }
+
+        .fade-option-desc {
+            font-size: .72rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: var(--accent-2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 3px;
+            top: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform .2s;
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background: var(--purple);
+        }
+
+        .toggle-switch input:checked+.toggle-slider:before {
+            transform: translateX(18px);
+        }
+
+        /* Hint box */
+        .range-hint-box {
+            background: var(--accent-1);
+            border-radius: 8px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: .75rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        .range-hint-box i {
+            color: var(--purple);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* Preview Card */
+        .preview-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+        }
+
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        /* Audio Player */
+        .audio-player-card {
+            background: #1F2937;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 16px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .no-audio-state {
+            text-align: center;
+            color: #6B7280;
+        }
+
+        .no-audio-state i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px;
+            color: #4B5563;
+        }
+
+        .no-audio-state p {
+            font-size: .95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #9CA3AF;
+        }
+
+        .no-audio-state span {
+            font-size: .82rem;
+            color: #6B7280;
+        }
+
+        .player-ui {
+            width: 100%;
+        }
+
+        /* Waveform + trim region */
+        .waveform-outer {
+            position: relative;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #waveformCanvas {
+            display: block;
+            width: 100%;
+            height: 80px;
+        }
+
+        /* Trim region overlay */
+        .trim-region {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            background: rgba(124, 58, 237, 0.22);
+            border-left: 2px solid #A855F7;
+            border-right: 2px solid #A855F7;
+            pointer-events: none;
+        }
+
+        /* Left/right darkened mask */
+        .trim-mask-left {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.45);
+            pointer-events: none;
+        }
+
+        .trim-mask-right {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.45);
+            pointer-events: none;
+        }
+
+        /* Handle labels */
+        .trim-handle-label {
+            position: absolute;
+            top: 2px;
+            background: #7C3AED;
+            color: #fff;
+            font-size: .62rem;
+            font-weight: 700;
+            padding: 2px 5px;
+            border-radius: 4px;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .trim-handle-label.start {
+            left: 4px;
+        }
+
+        .trim-handle-label.end {
+            right: 4px;
+        }
+
+        /* Playback line */
+        .playback-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            background: #F59E0B;
+            pointer-events: none;
+        }
+
+        /* Controls */
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .ctrl-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, .1);
+            border: none;
+            border-radius: 8px;
+            color: #D1D5DB;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+            transition: background .2s;
+            flex-shrink: 0;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(255, 255, 255, .2);
+        }
+
+        .play-btn {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform .2s, box-shadow .2s;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(124, 58, 237, .4);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, .5);
+        }
+
+        .time-display {
+            font-size: .82rem;
+            font-weight: 600;
+            color: #D1D5DB;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+        }
+
+        .time-sep {
+            margin: 0 3px;
+            color: #6B7280;
+        }
+
+        .volume-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+
+        .vol-icon {
+            color: #9CA3AF;
+            font-size: .9rem;
+        }
+
+        .vol-range {
+            width: 70px;
+            height: 3px;
+            accent-color: #7C3AED;
+            cursor: pointer;
+        }
+
+        /* Progress bar */
+        .audio-progress-wrap {
+            cursor: pointer;
+            padding: 6px 0;
+        }
+
+        .audio-progress-track {
+            height: 4px;
+            background: rgba(255, 255, 255, .15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .audio-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7C3AED, #A855F7);
+            border-radius: 4px;
+            width: 0%;
+            transition: width .1s linear;
+        }
+
+        /* Trim info bar */
+        .trim-info-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .trim-stat {
+            flex: 1;
+            min-width: 80px;
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            padding: 10px 14px;
+            text-align: center;
+        }
+
+        .trim-stat-label {
+            font-size: .68rem;
+            color: var(--subtext);
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            margin: 0 0 3px;
+        }
+
+        .trim-stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 800;
+            color: var(--purple);
+            margin: 0;
+        }
+
+        /* Process button */
+        .btn-process {
+            width: 100%;
+            padding: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(124, 58, 237, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s, box-shadow .2s;
+            cursor: pointer;
+        }
+
+        .btn-process:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(124, 58, 237, .45);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 30, 30, .55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px 40px 44px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+            transform: scale(.95);
+            transition: transform .3s;
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
+        }
+
+        .spinner-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 5px solid var(--accent-2);
+            border-top-color: #7C3AED;
+            animation: spin .9s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .modal-title-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 10px;
+        }
+
+        .modal-sub-text {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 24px;
+        }
+
+        .progress-track {
+            background: var(--accent-2);
+            border-radius: 50px;
+            height: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #7C3AED, #A855F7);
+            width: 0%;
+            transition: width .3s ease;
+        }
+
+        /* Success */
+        .success-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .85rem;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: color .2s;
+        }
+
+        .success-back:hover {
+            color: var(--purple);
+        }
+
+        .success-circle {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 6px 20px rgba(124, 58, 237, .3);
+        }
+
+        .success-circle i {
+            color: #fff;
+            font-size: 2rem;
+        }
+
+        .success-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 8px;
+        }
+
+        .success-file {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 4px;
+        }
+
+        .success-note {
+            font-size: .85rem;
+            color: var(--subtext);
+            margin-bottom: 20px;
+        }
+
+        .audio-summary {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .audio-summary-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: .85rem;
+            color: var(--heading);
+        }
+
+        .audio-summary-item i {
+            color: var(--purple);
+            width: 16px;
+        }
+
+        .audio-summary-item:not(:last-child) {
+            border-bottom: 1px solid var(--accent-2);
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(124, 58, 237, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-another {
+            width: 100%;
+            padding: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 600;
+            background: var(--white);
+            color: var(--heading);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: border-color .2s, color .2s;
+        }
+
+        .btn-another:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--white);
+            border-top: 1px solid var(--accent-2);
+            padding: 56px 0 0;
+        }
+
+        .footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .footer-tagline {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            font-size: .88rem;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-main);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--accent-2);
+            padding: 18px 0;
+            margin-top: 48px;
+        }
+
+        .footer-copy {
+            font-size: .84rem;
+            color: var(--subtext);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--subtext);
+            font-size: .95rem;
+            text-decoration: none;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        @media (max-width:767.98px) {
+            .tool-main {
+                padding: 20px 0 48px;
+            }
+
+            .settings-card {
+                margin-bottom: 16px;
+            }
+
+            .modal-box {
+                padding: 36px 24px 32px;
+            }
+
+            .trim-info-row {
+                flex-direction: column;
+            }
+
+            .vol-range {
+                width: 50px;
+            }
+
+            .footer {
+                padding: 40px 0 0;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="/">
+      <div class="brand-icon">
+        <i class="bi bi-file-earmark-text-fill"></i>
+      </div>
+      <span class="brand-name">Vetri Files</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- Move links to RIGHT -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/all-tools">Tools</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Feature">Features</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="container">
+            <!-- <a href="/file-tools" class="back-link"><i class="bi bi-arrow-left"></i> Back</a> -->
+            <button class="back-link" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Back
+            </button>
+            <h1 class="page-title">Trim Audio</h1>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Settings Panel -->
+                <div class="col-12 col-lg-3">
+                    <div class="settings-card">
+                        <div class="settings-title"><i class="bi bi-gear-fill"></i> Settings</div>
+
+                        <!-- File Info -->
+                        <div class="file-info-box">
+                            <div class="file-info-icon audio-icon">
+                                <i class="bi bi-file-earmark-music-fill"></i>
+                            </div>
+                            <div>
+                                <p class="file-info-name" id="fileInfoName">No file loaded</p>
+                                <p class="file-info-size" id="fileInfoSize">—</p>
+                            </div>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Trim Start -->
+                        <label class="form-label-custom">
+                            Start Time
+                            <span class="label-hint">Where the trimmed clip begins</span>
+                        </label>
+                        <div class="time-input-row">
+                            <div class="time-input-box">
+                                <i class="bi bi-skip-start-fill"></i>
+                                <input type="text" id="startTime" value="0:00" placeholder="0:00"
+                                    oninput="onTimeInput('start')" />
+                            </div>
+                        </div>
+                        <div class="snap-btns">
+                            <div class="snap-btn" onclick="snapTime('start', 0)">Start</div>
+                            <div class="snap-btn" onclick="snapTime('start', 5)">+5s</div>
+                            <div class="snap-btn" onclick="snapTime('start', 10)">+10s</div>
+                            <div class="snap-btn" onclick="snapTime('start', 30)">+30s</div>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Trim End -->
+                        <label class="form-label-custom">
+                            End Time
+                            <span class="label-hint">Where the trimmed clip ends</span>
+                        </label>
+                        <div class="time-input-row">
+                            <div class="time-input-box">
+                                <i class="bi bi-skip-end-fill"></i>
+                                <input type="text" id="endTime" value="0:00" placeholder="0:00"
+                                    oninput="onTimeInput('end')" />
+                            </div>
+                        </div>
+                        <div class="snap-btns">
+                            <div class="snap-btn" onclick="snapTime('end', -30)">-30s</div>
+                            <div class="snap-btn" onclick="snapTime('end', -10)">-10s</div>
+                            <div class="snap-btn" onclick="snapTime('end', -5)">-5s</div>
+                            <div class="snap-btn" onclick="snapToEnd()">End</div>
+                        </div>
+
+                        <!-- Trim duration badge -->
+                        <div class="duration-badge" id="durationBadge">
+                            <i class="bi bi-stopwatch-fill"></i>
+                            <div>
+                                <p class="duration-badge-label">Trimmed Duration</p>
+                                <p class="duration-badge-value" id="trimDuration">0:00</p>
+                            </div>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Output Format -->
+                        <label class="form-label-custom">Output Format</label>
+                        <select class="select-custom" id="outputFormat">
+                            <option value="mp3">MP3</option>
+                            <option value="aac">AAC</option>
+                            <option value="ogg">OGG</option>
+                            <option value="m4a">M4A</option>
+                            <option value="wav">WAV</option>
+                        </select>
+
+                        <hr class="divider-line" />
+
+                        <!-- Fade Options -->
+                        <label class="form-label-custom">Fade Effects</label>
+                        <div class="fade-option">
+                            <div class="fade-option-info">
+                                <p class="fade-option-name">Fade In</p>
+                                <p class="fade-option-desc">Gradually increase at start</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="fadeIn" />
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="fade-option">
+                            <div class="fade-option-info">
+                                <p class="fade-option-name">Fade Out</p>
+                                <p class="fade-option-desc">Gradually decrease at end</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="fadeOut" />
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="range-hint-box">
+                            <i class="bi bi-info-circle"></i>
+                            <span>Drag the purple region on the waveform to adjust trim points visually.</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Preview Panel -->
+                <div class="col-12 col-lg-9">
+                    <div class="preview-card">
+                        <p class="preview-title">Preview</p>
+
+                        <!-- Audio Player -->
+                        <div class="audio-player-card" id="audioPlayerCard">
+                            <div class="no-audio-state" id="noAudioState">
+                                <i class="bi bi-music-note-beamed"></i>
+                                <p>No audio file loaded</p>
+                                <span>Upload an audio file from the home page</span>
+                            </div>
+
+                            <div class="player-ui" id="playerUI" style="display:none">
+
+                                <!-- Waveform with trim region overlay -->
+                                <div class="waveform-outer" id="waveformOuter" onmousedown="onWaveformMouseDown(event)"
+                                    ontouchstart="onWaveformTouchStart(event)">
+                                    <canvas id="waveformCanvas" width="600" height="80"></canvas>
+                                    <!-- Masks -->
+                                    <div class="trim-mask-left" id="maskLeft"></div>
+                                    <div class="trim-mask-right" id="maskRight"></div>
+                                    <!-- Trim region -->
+                                    <div class="trim-region" id="trimRegion">
+                                        <span class="trim-handle-label start" id="labelStart">0:00</span>
+                                        <span class="trim-handle-label end" id="labelEnd">0:00</span>
+                                    </div>
+                                    <!-- Playback line -->
+                                    <div class="playback-line" id="playbackLine"></div>
+                                </div>
+
+                                <!-- Controls -->
+                                <div class="player-controls">
+                                    <button class="ctrl-btn" onclick="seekAudio(-5)" title="Rewind 5s">
+                                        <i class="bi bi-skip-backward-fill"></i>
+                                    </button>
+                                    <button class="play-btn" id="playBtn" onclick="togglePlay()">
+                                        <i class="bi bi-play-fill" id="playIcon"></i>
+                                    </button>
+                                    <button class="ctrl-btn" onclick="seekAudio(5)" title="Forward 5s">
+                                        <i class="bi bi-skip-forward-fill"></i>
+                                    </button>
+                                    <div class="time-display">
+                                        <span id="currentTime">0:00</span>
+                                        <span class="time-sep">/</span>
+                                        <span id="totalTime">0:00</span>
+                                    </div>
+                                    <div class="volume-wrap">
+                                        <i class="bi bi-volume-up-fill vol-icon"></i>
+                                        <input type="range" class="vol-range" id="volumeRange" min="0" max="1"
+                                            step="0.1" value="1" oninput="setVolume(this.value)" />
+                                    </div>
+                                </div>
+
+                                <!-- Progress bar (click to seek) -->
+                                <div class="audio-progress-wrap" onclick="seekByClick(event)">
+                                    <div class="audio-progress-track">
+                                        <div class="audio-progress-fill" id="audioProgressFill"></div>
+                                    </div>
+                                </div>
+
+                                <audio id="audioEl" preload="metadata"></audio>
+                            </div>
+                        </div>
+
+                        <!-- Trim Stats -->
+                        <div class="trim-info-row" id="trimInfoRow" style="display:none">
+                            <div class="trim-stat">
+                                <p class="trim-stat-label">Original</p>
+                                <p class="trim-stat-value" id="statOriginal">0:00</p>
+                            </div>
+                            <div class="trim-stat">
+                                <p class="trim-stat-label">Start</p>
+                                <p class="trim-stat-value" id="statStart">0:00</p>
+                            </div>
+                            <div class="trim-stat">
+                                <p class="trim-stat-label">End</p>
+                                <p class="trim-stat-value" id="statEnd">0:00</p>
+                            </div>
+                            <div class="trim-stat">
+                                <p class="trim-stat-label">Trimmed</p>
+                                <p class="trim-stat-value" id="statTrimmed">0:00</p>
+                            </div>
+                        </div>
+
+                        <!-- Process Button -->
+                        <button class="btn-process" onclick="startProcessing()">
+                            <i class="bi bi-scissors"></i>
+                            Trim &amp; Download
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- PROCESSING MODAL -->
+    <div class="modal-overlay" id="processingModal">
+        <div class="modal-box">
+            <div class="spinner-ring"></div>
+            <p class="modal-title-text">Trimming Audio</p>
+            <p class="modal-sub-text">Cutting your audio to the selected range...</p>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <a href="/file-tools" class="success-back"><i class="bi bi-arrow-left"></i> Back</a>
+            <div class="success-circle"><i class="bi bi-check-lg"></i></div>
+            <p class="success-title">Audio Trimmed!</p>
+            <p class="success-file" id="successFileName">audio.mp3</p>
+            <p class="success-note">has been trimmed successfully</p>
+            <div class="audio-summary">
+                <div class="audio-summary-item">
+                    <i class="bi bi-skip-start-fill"></i>
+                    <span id="summaryStart">Start: 0:00</span>
+                </div>
+                <div class="audio-summary-item">
+                    <i class="bi bi-skip-end-fill"></i>
+                    <span id="summaryEnd">End: 0:00</span>
+                </div>
+                <div class="audio-summary-item">
+                    <i class="bi bi-stopwatch-fill"></i>
+                    <span id="summaryDuration">Duration: 0:00</span>
+                </div>
+                <div class="audio-summary-item">
+                    <i class="bi bi-file-earmark-music"></i>
+                    <span id="summaryFormat">Format: MP3</span>
+                </div>
+            </div>
+            <button class="btn-download" onclick="downloadFile()">
+                <i class="bi bi-cloud-arrow-down-fill"></i>
+                Download Trimmed Audio
+            </button>
+            <button class="btn-another" onclick="trimAnother()">
+                <i class="bi bi-arrow-clockwise"></i>
+                Trim Another Audio
+            </button>
+        </div>
+    </div>
+
+    <!-- ── NETWORK ERROR MODAL ── -->
+<div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+            <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+        </div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;"
+            id="netErrTitle">Something went wrong</p>
+        <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;"
+            id="netErrMsg">Please try again.</p>
+        <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            Try Again
+        </button>
+        <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            Upload New File
+        </button>
+    </div>
+</div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4 g-lg-5">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <span class="footer-brand-name">Vetri Files</span>
+                    </div>
+                    <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+                        seconds.</p>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+                    <p class="footer-col-title">Product</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools">All Tools</a></li>
+                        <li><a href="/Feature">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">All Tools</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools#document-tools">Document Tools</a></li>
+                        <li><a href="/all-tools#image-tools">Image Tools</a></li>
+                        <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+                        <li><a href="/all-tools#video-tools">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">Legal</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+                <div class="social-links mt-3 mt-sm-0">
+                    <a href="https://twitter.com/VTSITPARK" target="_blank" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="https://github.com/Vetri-Technology-Solutions" target="_blank" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>      
+     <script src="/js/vetri-file-helper.js"></script>  
+    <script>
+        /* ─────────────────────────────────────────
+           STATE
+        ───────────────────────────────────────── */
+        let currentFile = null;
+        let processedBlob = null;
+        let processedName = 'trimmed.mp3';
+        let audioEl = null;
+        let isPlaying = false;
+        let animFrame = null;
+        let totalDuration = 0;
+
+        // Trim points in seconds
+        let trimStart = 0;
+        let trimEnd = 0;
+
+        // Waveform drag state
+        let dragTarget = null; // 'start' | 'end' | 'region'
+        let dragStartX = 0;
+        let dragStartTrimStart = 0;
+        let dragStartTrimEnd = 0;
+
+        /* ─────────────────────────────────────────
+           INIT
+        ───────────────────────────────────────── */
+        window.addEventListener('DOMContentLoaded', () => {
+             // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+  if (!isFromUpload()) {
+    // Show "no file" state — don't load previous file
+    showNoFileState();
+    return;
+  }
+            const stored = sessionStorage.getItem('vetri_file');
+            if (!stored) return;
+            try { currentFile = JSON.parse(stored); } catch (e) { return; }
+
+            getFileObjectURL(function (url) {
+                if (!url) {
+                    document.querySelector('#noAudioState span').textContent =
+                        'File data missing. Upload again from the home page.';
+                    return;
+                }
+                loadAudio(currentFile, url);
+            });
+        });
+
+function showNoFileState() {
+  // Show the empty state UI — each tool already has this
+  // e.g. for compress-audio:
+  document.getElementById('noAudioState').style.display = 'block';
+  document.getElementById('playerUI').style.display = 'none';
+  document.getElementById('fileInfoName').textContent = 'No file loaded';
+  document.getElementById('fileInfoSize').textContent = '—';
+  // Add a button to go back and upload
+  document.getElementById('fileInfoName').innerHTML = 
+'<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+
+}
+
+        /* ─────────────────────────────────────────
+           LOAD AUDIO
+        ───────────────────────────────────────── */
+        function loadAudio(f, dataURL) {
+            document.getElementById('fileInfoName').textContent = f.name || 'audio';
+            document.getElementById('fileInfoSize').textContent = formatSize(f.size);
+            document.getElementById('successFileName').textContent = f.name || 'audio.mp3';
+            processedName = 'trimmed_' + (f.name || 'audio.mp3');
+
+            document.getElementById('noAudioState').style.display = 'none';
+            document.getElementById('playerUI').style.display = 'block';
+            document.getElementById('trimInfoRow').style.display = 'flex';
+
+            audioEl = document.getElementById('audioEl');
+            audioEl.src = dataURL;
+
+            audioEl.addEventListener('loadedmetadata', () => {
+                totalDuration = audioEl.duration;
+                trimStart = 0;
+                trimEnd = totalDuration;
+
+                document.getElementById('totalTime').textContent = formatTime(totalDuration);
+                document.getElementById('startTime').value = formatTime(0);
+                document.getElementById('endTime').value = formatTime(totalDuration);
+                document.getElementById('statOriginal').textContent = formatTime(totalDuration);
+
+                drawWaveform();
+                updateTrimUI();
+            });
+
+            audioEl.addEventListener('timeupdate', updateProgress);
+            audioEl.addEventListener('ended', () => {
+                isPlaying = false;
+                document.getElementById('playIcon').className = 'bi bi-play-fill';
+                cancelAnimationFrame(animFrame);
+            });
+        }
+
+        /* ─────────────────────────────────────────
+           WAVEFORM DRAW
+        ───────────────────────────────────────── */
+        function drawWaveform() {
+            const canvas = document.getElementById('waveformCanvas');
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width, H = canvas.height;
+            ctx.clearRect(0, 0, W, H);
+
+            const bars = 100;
+            const barW = W / bars - 1;
+            for (let i = 0; i < bars; i++) {
+                const h = Math.random() * (H * 0.7) + (H * 0.15);
+                const x = i * (barW + 1);
+                const y = (H - h) / 2;
+                ctx.fillStyle = 'rgba(168,85,247,0.55)';
+                ctx.beginPath();
+                ctx.roundRect(x, y, barW, h, 2);
+                ctx.fill();
+            }
+        }
+
+        /* ─────────────────────────────────────────
+           TRIM REGION UI
+        ───────────────────────────────────────── */
+        function updateTrimUI() {
+            if (!totalDuration) return;
+
+            const outer = document.getElementById('waveformOuter');
+            const W = outer.offsetWidth || 600;
+            const startPct = (trimStart / totalDuration) * 100;
+            const endPct = (trimEnd / totalDuration) * 100;
+
+            // Trim region
+            const region = document.getElementById('trimRegion');
+            region.style.left = startPct + '%';
+            region.style.width = (endPct - startPct) + '%';
+
+            // Masks
+            document.getElementById('maskLeft').style.width = startPct + '%';
+            document.getElementById('maskRight').style.width = (100 - endPct) + '%';
+
+            // Handle labels
+            document.getElementById('labelStart').textContent = formatTime(trimStart);
+            document.getElementById('labelEnd').textContent = formatTime(trimEnd);
+
+            // Input fields
+            document.getElementById('startTime').value = formatTime(trimStart);
+            document.getElementById('endTime').value = formatTime(trimEnd);
+
+            // Stats
+            const trimmedDur = Math.max(0, trimEnd - trimStart);
+            document.getElementById('statStart').textContent = formatTime(trimStart);
+            document.getElementById('statEnd').textContent = formatTime(trimEnd);
+            document.getElementById('statTrimmed').textContent = formatTime(trimmedDur);
+            document.getElementById('trimDuration').textContent = formatTime(trimmedDur);
+        }
+
+        /* ─────────────────────────────────────────
+           WAVEFORM DRAG — MOUSE
+        ───────────────────────────────────────── */
+        function onWaveformMouseDown(e) {
+            if (!totalDuration) return;
+            const outer = document.getElementById('waveformOuter');
+            const rect = outer.getBoundingClientRect();
+            const pct = (e.clientX - rect.left) / rect.width;
+            const time = pct * totalDuration;
+            const W = rect.width;
+
+            const startPx = (trimStart / totalDuration) * W;
+            const endPx = (trimEnd / totalDuration) * W;
+            const clickPx = e.clientX - rect.left;
+
+            const HANDLE_ZONE = 14; // px near handles
+
+            if (Math.abs(clickPx - startPx) <= HANDLE_ZONE) {
+                dragTarget = 'start';
+            } else if (Math.abs(clickPx - endPx) <= HANDLE_ZONE) {
+                dragTarget = 'end';
+            } else if (clickPx > startPx && clickPx < endPx) {
+                dragTarget = 'region';
+                dragStartX = e.clientX;
+                dragStartTrimStart = trimStart;
+                dragStartTrimEnd = trimEnd;
+            } else {
+                // Click outside region — seek playback
+                audioEl.currentTime = Math.max(0, Math.min(time, totalDuration));
+                return;
+            }
+
+            document.addEventListener('mousemove', onWaveformMouseMove);
+            document.addEventListener('mouseup', onWaveformMouseUp);
+            e.preventDefault();
+        }
+
+        function onWaveformMouseMove(e) {
+            if (!dragTarget) return;
+            const outer = document.getElementById('waveformOuter');
+            const rect = outer.getBoundingClientRect();
+            const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+            const time = pct * totalDuration;
+
+            if (dragTarget === 'start') {
+                trimStart = Math.max(0, Math.min(time, trimEnd - 0.5));
+            } else if (dragTarget === 'end') {
+                trimEnd = Math.min(totalDuration, Math.max(time, trimStart + 0.5));
+            } else if (dragTarget === 'region') {
+                const deltaPx = e.clientX - dragStartX;
+                const deltaSec = (deltaPx / rect.width) * totalDuration;
+                const newStart = Math.max(0, dragStartTrimStart + deltaSec);
+                const dur = dragStartTrimEnd - dragStartTrimStart;
+                const newEnd = Math.min(totalDuration, newStart + dur);
+                trimStart = newEnd - dur;
+                trimEnd = newEnd;
+            }
+            updateTrimUI();
+        }
+
+        function onWaveformMouseUp() {
+            dragTarget = null;
+            document.removeEventListener('mousemove', onWaveformMouseMove);
+            document.removeEventListener('mouseup', onWaveformMouseUp);
+        }
+
+        /* ─────────────────────────────────────────
+           WAVEFORM DRAG — TOUCH
+        ───────────────────────────────────────── */
+        function onWaveformTouchStart(e) {
+            if (!totalDuration) return;
+            const touch = e.touches[0];
+            const outer = document.getElementById('waveformOuter');
+            const rect = outer.getBoundingClientRect();
+            const clickPx = touch.clientX - rect.left;
+            const W = rect.width;
+            const startPx = (trimStart / totalDuration) * W;
+            const endPx = (trimEnd / totalDuration) * W;
+            const HANDLE_ZONE = 20;
+
+            if (Math.abs(clickPx - startPx) <= HANDLE_ZONE) {
+                dragTarget = 'start';
+            } else if (Math.abs(clickPx - endPx) <= HANDLE_ZONE) {
+                dragTarget = 'end';
+            } else if (clickPx > startPx && clickPx < endPx) {
+                dragTarget = 'region';
+                dragStartX = touch.clientX;
+                dragStartTrimStart = trimStart;
+                dragStartTrimEnd = trimEnd;
+            } else { return; }
+
+            document.addEventListener('touchmove', onWaveformTouchMove, { passive: false });
+            document.addEventListener('touchend', onWaveformTouchEnd);
+            e.preventDefault();
+        }
+
+        function onWaveformTouchMove(e) {
+            if (!dragTarget) return;
+            const touch = e.touches[0];
+            const outer = document.getElementById('waveformOuter');
+            const rect = outer.getBoundingClientRect();
+            const pct = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
+            const time = pct * totalDuration;
+
+            if (dragTarget === 'start') {
+                trimStart = Math.max(0, Math.min(time, trimEnd - 0.5));
+            } else if (dragTarget === 'end') {
+                trimEnd = Math.min(totalDuration, Math.max(time, trimStart + 0.5));
+            } else if (dragTarget === 'region') {
+                const deltaPx = touch.clientX - dragStartX;
+                const deltaSec = (deltaPx / rect.width) * totalDuration;
+                const newStart = Math.max(0, dragStartTrimStart + deltaSec);
+                const dur = dragStartTrimEnd - dragStartTrimStart;
+                const newEnd = Math.min(totalDuration, newStart + dur);
+                trimStart = newEnd - dur;
+                trimEnd = newEnd;
+            }
+            updateTrimUI();
+            e.preventDefault();
+        }
+
+        function onWaveformTouchEnd() {
+            dragTarget = null;
+            document.removeEventListener('touchmove', onWaveformTouchMove);
+            document.removeEventListener('touchend', onWaveformTouchEnd);
+        }
+
+        /* ─────────────────────────────────────────
+           TIME INPUTS
+        ───────────────────────────────────────── */
+        function onTimeInput(which) {
+            const val = which === 'start'
+                ? document.getElementById('startTime').value
+                : document.getElementById('endTime').value;
+            const secs = parseTimeInput(val);
+            if (isNaN(secs)) return;
+
+            if (which === 'start') {
+                trimStart = Math.max(0, Math.min(secs, trimEnd - 0.5));
+            } else {
+                trimEnd = Math.min(totalDuration, Math.max(secs, trimStart + 0.5));
+            }
+            updateTrimUI();
+        }
+
+        function parseTimeInput(str) {
+            str = str.trim();
+            if (!str) return NaN;
+            if (str.includes(':')) {
+                const parts = str.split(':');
+                const m = parseInt(parts[0]) || 0;
+                const s = parseFloat(parts[1]) || 0;
+                return m * 60 + s;
+            }
+            return parseFloat(str);
+        }
+
+        /* ─────────────────────────────────────────
+           SNAP BUTTONS
+        ───────────────────────────────────────── */
+        function snapTime(which, offsetSecs) {
+            if (!totalDuration) return;
+            if (which === 'start') {
+                trimStart = Math.max(0, Math.min(offsetSecs >= 0 ? offsetSecs : trimStart + offsetSecs, trimEnd - 0.5));
+            } else {
+                if (offsetSecs < 0) {
+                    trimEnd = Math.max(trimStart + 0.5, totalDuration + offsetSecs);
+                } else {
+                    trimEnd = Math.min(totalDuration, trimEnd + offsetSecs);
+                }
+            }
+            updateTrimUI();
+        }
+
+        function snapToEnd() {
+            if (!totalDuration) return;
+            trimEnd = totalDuration;
+            updateTrimUI();
+        }
+
+        /* ─────────────────────────────────────────
+           PLAYBACK
+        ───────────────────────────────────────── */
+        function togglePlay() {
+            if (!audioEl) return;
+            if (isPlaying) {
+                audioEl.pause();
+                isPlaying = false;
+                document.getElementById('playIcon').className = 'bi bi-play-fill';
+                cancelAnimationFrame(animFrame);
+            } else {
+                // If outside trim region, seek to start
+                if (audioEl.currentTime < trimStart || audioEl.currentTime >= trimEnd) {
+                    audioEl.currentTime = trimStart;
+                }
+                audioEl.play();
+                isPlaying = true;
+                document.getElementById('playIcon').className = 'bi bi-pause-fill';
+                animatePlayback();
+            }
+        }
+
+        function animatePlayback() {
+            if (!isPlaying) return;
+            // Auto-stop at trim end
+            if (audioEl.currentTime >= trimEnd) {
+                audioEl.pause();
+                audioEl.currentTime = trimStart;
+                isPlaying = false;
+                document.getElementById('playIcon').className = 'bi bi-play-fill';
+                cancelAnimationFrame(animFrame);
+                return;
+            }
+            const canvas = document.getElementById('waveformCanvas');
+            const pct = audioEl.currentTime / (totalDuration || 1);
+            document.getElementById('playbackLine').style.left = (pct * (canvas.offsetWidth || 600)) + 'px';
+            animFrame = requestAnimationFrame(animatePlayback);
+        }
+
+        function updateProgress() {
+            if (!audioEl || !totalDuration) return;
+            const pct = (audioEl.currentTime / totalDuration) * 100;
+            document.getElementById('audioProgressFill').style.width = pct + '%';
+            document.getElementById('currentTime').textContent = formatTime(audioEl.currentTime);
+        }
+
+        function seekAudio(sec) {
+            if (!audioEl) return;
+            audioEl.currentTime = Math.max(0, Math.min(audioEl.currentTime + sec, totalDuration));
+        }
+
+        function seekByClick(e) {
+            if (!audioEl || !totalDuration) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const pct = (e.clientX - rect.left) / rect.width;
+            audioEl.currentTime = pct * totalDuration;
+        }
+
+        function setVolume(val) {
+            if (audioEl) audioEl.volume = parseFloat(val);
+        }
+
+        /* ─────────────────────────────────────────
+           START PROCESSING
+        ───────────────────────────────────────── */
+        function startProcessing() {
+            if (!currentFile) {
+                alert('No audio file found. Please upload from home page.');
+                window.location.href = '/';
+                return;
+            }
+            if (trimEnd <= trimStart) {
+                alert('End time must be greater than start time.');
+                return;
+            }
+
+            const format = document.getElementById('outputFormat').value;
+            const fadeIn = document.getElementById('fadeIn').checked;
+            const fadeOut = document.getElementById('fadeOut').checked;
+            const trimmedDur = trimEnd - trimStart;
+
+            // Update success modal
+            document.getElementById('summaryStart').textContent = 'Start: ' + formatTime(trimStart);
+            document.getElementById('summaryEnd').textContent = 'End: ' + formatTime(trimEnd);
+            document.getElementById('summaryDuration').textContent = 'Duration: ' + formatTime(trimmedDur);
+            document.getElementById('summaryFormat').textContent = 'Format: ' + format.toUpperCase();
+            processedName = 'trimmed_' + (currentFile.name || 'audio').replace(/\.[^.]+$/, '') + '.' + format;
+
+            const processingModal = document.getElementById('processingModal');
+            const progressFill = document.getElementById('progressFill');
+
+            if (isPlaying) {
+                audioEl.pause();
+                isPlaying = false;
+                document.getElementById('playIcon').className = 'bi bi-play-fill';
+            }
+
+            processingModal.classList.add('show');
+
+            getFileBlob(function (file, meta) {
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 18;
+                    if (progress >= 95) { progress = 95; clearInterval(interval); }
+                    progressFill.style.width = progress + '%';
+                }, 300);
+
+                const formData = new FormData();
+                formData.append('file', file, meta.name);
+                formData.append('start', trimStart.toFixed(3));
+                formData.append('end', trimEnd.toFixed(3));
+                formData.append('format', format);
+                formData.append('fadeIn', fadeIn ? '1' : '0');
+                formData.append('fadeOut', fadeOut ? '1' : '0');
+
+                fetch('/api/audio/trim', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(r => {
+                        if (!r.ok) throw new Error('Trim failed');
+                        return r.blob();
+                    })
+                    .then(blob => {
+                        clearInterval(interval);
+                        progressFill.style.width = '100%';
+                        processedBlob = blob;
+                        setTimeout(() => {
+                            processingModal.classList.remove('show');
+                            document.getElementById('successModal').classList.add('show');
+                        }, 400);
+                    })
+                   .catch(err => {
+    clearInterval(interval);
+    processingModal.classList.remove('show');
+    console.error(err);
+    if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        showNetworkError('No Internet Connection',
+            'Connection lost while trimming audio. Check your WiFi and try again.');
+    } else {
+        showNetworkError('Processing Failed',
+            'Could not trim your audio. Please try again.');
+    }
+});
+            });
+        }
+
+        /* ─────────────────────────────────────────
+           DOWNLOAD
+        ───────────────────────────────────────── */
+        function downloadFile() {
+            if (!processedBlob) return;
+            const url = URL.createObjectURL(processedBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = processedName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        /* ─────────────────────────────────────────
+           TRIM ANOTHER
+        ───────────────────────────────────────── */
+        function trimAnother() {
+            document.getElementById('successModal').classList.remove('show');
+            document.getElementById('progressFill').style.width = '0%';
+            if (audioEl) { audioEl.pause(); audioEl.src = ''; }
+            window.location.href = '/';
+        }
+
+        /* ─────────────────────────────────────────
+           UTILS
+        ───────────────────────────────────────── */
+        function formatTime(secs) {
+            if (isNaN(secs) || secs < 0) return '0:00';
+            const m = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return m + ':' + (s < 10 ? '0' : '') + s;
+        }
+
+        function formatSize(bytes) {
+            if (!bytes) return '—';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / 1048576).toFixed(2) + ' MB';
+        }
+         function goBack() {
+            const ref = document.referrer || "";
+
+            if (ref.includes('/all-tools')) {
+                window.location.href = '/all-tools';
+            } else if (ref.includes('/file-tools')) {
+                window.location.href = '/file-tools';
+            } else if (window.history.length > 1) {
+                window.history.back(); // smart fallback
+            } else {
+                window.location.href = '/';
+            }
+        }
+        function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent   = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+    </script>
+</body>
+
+</html>

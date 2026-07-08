@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resize Image – Vetri Files</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue-main: #3B82F6;
+      --heading: #1F2937;
+      --subtext: #4A5565;
+      --accent-1: #F3F4F6;
+      --accent-2: #E5E7EB;
+      --white: #ffffff;
+      --green: #16A34A;
+      --radius-card: 16px;
+      --radius-btn: 50px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--heading);
+      background: var(--accent-1);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--white);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--accent-2);
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .navbar-nav .nav-link {
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--heading) !important;
+      padding: 6px 14px !important;
+      transition: color .2s;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--blue-main) !important;
+    }
+
+    .btn-login {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--blue-main) !important;
+      padding: 6px 14px !important;
+      border-radius: var(--radius-btn);
+    }
+
+    .btn-get-started {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff !important;
+      border: none;
+      padding: 10px 24px !important;
+      border-radius: var(--radius-btn);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+      transition: transform .2s;
+      white-space: nowrap;
+    }
+
+    .btn-get-started:hover {
+      transform: translateY(-1px);
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 4px 8px;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    @media (max-width:991.98px) {
+      .navbar-collapse {
+        background: var(--white);
+        border-top: 1px solid var(--accent-2);
+        padding: 12px 0 16px;
+        margin-top: 10px;
+      }
+
+      .navbar-nav {
+        align-items: flex-start !important;
+        padding: 0 8px;
+      }
+
+      .btn-login,
+      .btn-get-started {
+        margin: 4px 8px !important;
+      }
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      background: var(--accent-1);
+      padding: 20px 0 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color .2s;
+       /* 🔥 ADD THESE */
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+    }
+
+    .back-link:hover {
+      color: var(--blue-main);
+    }
+
+    .page-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--white);
+      border-top: 1px solid var(--accent-2);
+      padding: 56px 0 0;
+    }
+
+    .footer-brand-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .footer-tagline {
+      font-size: .88rem;
+      color: var(--subtext);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-col-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      font-size: .88rem;
+      color: var(--subtext);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue-main);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--accent-2);
+      padding: 18px 0;
+      margin-top: 48px;
+    }
+
+    .footer-copy {
+      font-size: .84rem;
+      color: var(--subtext);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+      font-size: .95rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    @media (max-width:767.98px) {
+      .tool-main {
+        padding: 20px 0 48px;
+      }
+
+      .settings-card {
+        margin-bottom: 16px;
+      }
+
+      .modal-box {
+        padding: 36px 24px 32px;
+      }
+
+      .footer {
+        padding: 40px 0 0;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+
+      .stats-row {
+        flex-direction: column;
+      }
+
+      .success-stats {
+        flex-direction: column;
+      }
+    }
+
+    .tool-main {
+      padding: 24px 0 64px;
+    }
+
+    .page-header {
+      background: var(--accent-1);
+      padding: 20px 0 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color .2s;
+    }
+
+    .back-link:hover {
+      color: var(--blue-main);
+    }
+
+    .page-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    /* Settings */
+    .settings-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 16px;
+      padding: 28px 24px;
+      height: 100%;
+    }
+
+    .settings-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .settings-title i {
+      color: var(--blue-main);
+    }
+
+    .divider-line {
+      border: none;
+      border-top: 1.5px solid var(--accent-2);
+      margin: 20px 0;
+    }
+
+    .form-label-custom {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* File info */
+    .file-info-box {
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .file-info-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: .95rem;
+      flex-shrink: 0;
+    }
+
+    .img-icon {
+      background: linear-gradient(135deg, #0D9488, #2DD4BF);
+    }
+
+    .file-info-name {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .file-info-box div {
+    min-width: 0;
+}
+
+
+    .file-info-size {
+      font-size: .75rem;
+      color: var(--subtext);
+      margin: 0;
+    }
+
+    /* Original dim box */
+    .orig-dim-box {
+      background: #EFF6FF;
+      border: 1.5px solid #BFDBFE;
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--blue-dark);
+      margin-bottom: 0;
+    }
+
+    .orig-dim-box i {
+      font-size: .85rem;
+    }
+
+    /* Resize mode */
+    .resize-mode-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .resize-mode-btn {
+      flex: 1;
+      padding: 10px;
+      font-size: .82rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--subtext);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .resize-mode-btn:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+    }
+
+    .resize-mode-btn.active {
+      border-color: var(--blue-main);
+      background: #EFF6FF;
+      color: var(--blue-dark);
+    }
+
+    /* Dimension grid */
+    .dim-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .dim-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .dim-label {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--subtext);
+    }
+
+    .dim-input {
+      padding: 10px;
+      font-size: .95rem;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--heading);
+      outline: none;
+      width: 100%;
+      text-align: center;
+      transition: border-color .2s;
+    }
+
+    .dim-input:focus {
+      border-color: var(--blue-main);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, .1);
+    }
+
+    /* Lock ratio button */
+    .lock-icon-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 2px;
+    }
+
+    .lock-ratio-btn {
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--subtext);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      transition: all .2s;
+    }
+
+    .lock-ratio-btn:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+    }
+
+    .lock-ratio-btn.locked {
+      border-color: var(--blue-main);
+      background: #EFF6FF;
+      color: var(--blue-main);
+    }
+
+    /* Percent */
+    .percent-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .percent-row .dim-input {
+      font-size: 1.3rem;
+    }
+
+    .percent-sign {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--subtext);
+    }
+
+    .scale-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .scale-preset-btn {
+      padding: 6px 10px;
+      font-size: .75rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--subtext);
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .scale-preset-btn:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    /* Preset list */
+    .preset-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .preset-item {
+      padding: 10px 12px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      background: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all .2s;
+    }
+
+    .preset-item:hover {
+      border-color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    .preset-name {
+      font-size: .83rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .preset-dim {
+      font-size: .75rem;
+      color: var(--subtext);
+    }
+
+    /* Select */
+    .select-custom {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--heading);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5565' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+
+    .select-custom:focus {
+      outline: none;
+      border-color: var(--blue-main);
+    }
+
+    /* Preview card */
+    .preview-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+
+    .preview-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 16px;
+    }
+
+    /* Image preview area */
+    .img-preview-area {
+      background: repeating-conic-gradient(#E5E7EB 0% 25%, #F9FAFB 0% 50%) 0 0/20px 20px;
+      border-radius: 12px;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 16px;
+      padding: 16px;
+    }
+
+    .no-img-state {
+      text-align: center;
+      color: #9CA3AF;
+    }
+
+    .no-img-state i {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .no-img-state p {
+      font-size: .95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--subtext);
+    }
+
+    .no-img-state span {
+      font-size: .82rem;
+    }
+
+    .preview-img-el {
+      max-width: 100%;
+      max-height: 280px;
+      object-fit: contain;
+      border-radius: 8px;
+      transition: all .3s;
+    }
+
+    /* Resize info row */
+    .resize-info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .info-card {
+      flex: 1;
+      min-width: 80px;
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .info-card.highlight {
+      background: #EFF6FF;
+      border-color: #BFDBFE;
+    }
+
+    .info-label {
+      font-size: .7rem;
+      color: var(--subtext);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .info-value {
+      font-family: 'Poppins', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    .info-value.blue {
+      color: var(--blue-dark);
+    }
+
+    .info-card-arrow {
+      color: var(--blue-main);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* Process button */
+    .btn-process {
+      width: 100%;
+      padding: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0D9488, #2DD4BF);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(13, 148, 136, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .btn-process:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(13, 148, 136, .45);
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 30, 30, .55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 48px 40px 44px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+      transform: scale(.95);
+      transition: transform .3s;
+    }
+
+    .modal-overlay.show .modal-box {
+      transform: scale(1);
+    }
+
+    .spinner-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 5px solid var(--accent-2);
+      border-top-color: #0D9488;
+      animation: spin .9s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .modal-title-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 10px;
+    }
+
+    .modal-sub-text {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 24px;
+    }
+
+    .progress-track {
+      background: var(--accent-2);
+      border-radius: 50px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #0D9488, #2DD4BF);
+      width: 0%;
+      transition: width .3s ease;
+    }
+
+    /* Success */
+    .success-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .85rem;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: color .2s;
+    }
+
+    .success-back:hover {
+      color: var(--blue-main);
+    }
+
+    .success-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0D9488, #2DD4BF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 6px 20px rgba(13, 148, 136, .3);
+    }
+
+    .success-circle i {
+      color: #fff;
+      font-size: 2rem;
+    }
+
+    .success-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 8px;
+    }
+
+    .success-file {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 4px;
+    }
+
+    .success-note {
+      font-size: .85rem;
+      color: var(--subtext);
+      margin-bottom: 20px;
+    }
+
+    .resize-summary {
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .resize-summary-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: .85rem;
+      color: var(--heading);
+    }
+
+    .resize-summary-item i {
+      color: #0D9488;
+      width: 16px;
+    }
+
+    .resize-summary-item:not(:last-child) {
+      border-bottom: 1px solid var(--accent-2);
+    }
+
+    .btn-download {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0D9488, #2DD4BF);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(13, 148, 136, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-resize-another {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      background: var(--white);
+      color: var(--heading);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+
+    .btn-resize-another:hover {
+      border-color: #0D9488;
+      color: #0D9488;
+    }
+
+    @media (max-width:767.98px) {
+      .tool-main {
+        padding: 20px 0 48px;
+      }
+
+      .settings-card {
+        margin-bottom: 16px;
+      }
+
+      .modal-box {
+        padding: 36px 24px 32px;
+      }
+
+      .resize-info-row {
+        gap: 6px;
+      }
+
+      .info-card {
+        min-width: 60px;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="/">
+      <div class="brand-icon">
+        <i class="bi bi-file-earmark-text-fill"></i>
+      </div>
+      <span class="brand-name">Vetri Files</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- Move links to RIGHT -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/all-tools">Tools</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Feature">Features</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+<!-- ════════════════════════════════
+     PAGE HEADER
+════════════════════════════════ -->
+  <div class="page-header">
+    <div class="container">
+      <!-- <a href="/file-tools" class="back-link">
+        <i class="bi bi-arrow-left"></i> Back
+      </a> -->
+      <button class="back-link" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+      <h1 class="page-title">Resize Image</h1>
+    </div>
+  </div>
+  <!-- MAIN CONTENT -->
+  <main class="tool-main">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- ── Settings Panel ── -->
+        <div class="col-12 col-lg-3">
+          <div class="settings-card">
+            <div class="settings-title">
+              <i class="bi bi-gear-fill"></i> Settings
+            </div>
+
+            <!-- File Info -->
+            <div class="file-info-box">
+              <div class="file-info-icon img-icon">
+                <i class="bi bi-file-earmark-image-fill"></i>
+              </div>
+              <div>
+                <p class="file-info-name" id="fileInfoName">
+                  No file loaded
+                </p>
+                <p class="file-info-size" id="fileInfoSize">—</p>
+              </div>
+            </div>
+
+            <!-- Original Dimensions -->
+            <div class="orig-dim-box" id="origDimBox">
+              <i class="bi bi-arrows-fullscreen"></i>
+              <span>Original: </span>
+              <span id="origDimText">— × —</span>
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Resize Mode -->
+            <label class="form-label-custom">Resize Mode</label>
+            <div class="resize-mode-btns">
+              <button class="resize-mode-btn active" onclick="setResizeMode('pixels', this)">
+                <i class="bi bi-aspect-ratio"></i> Pixels
+              </button>
+              <button class="resize-mode-btn" onclick="setResizeMode('percent', this)">
+                <i class="bi bi-percent"></i> Percent
+              </button>
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Pixel Mode -->
+            <div id="pixelPanel">
+              <label class="form-label-custom">Dimensions</label>
+              <div class="dim-grid">
+                <div class="dim-item">
+                  <label class="dim-label">Width (px)</label>
+                  <input type="number" class="dim-input" id="resizeW" value="800" min="1" oninput="onWidthChange()" />
+                </div>
+                <div class="lock-icon-wrap">
+                  <button class="lock-ratio-btn" id="lockRatioBtn" onclick="toggleLockRatio()"
+                    title="Lock aspect ratio">
+                    <i class="bi bi-lock-fill" id="lockIcon"></i>
+                  </button>
+                </div>
+                <div class="dim-item">
+                  <label class="dim-label">Height (px)</label>
+                  <input type="number" class="dim-input" id="resizeH" value="600" min="1" oninput="onHeightChange()" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Percent Mode -->
+            <div id="percentPanel" style="display:none">
+              <label class="form-label-custom">
+                Scale Percentage
+              </label>
+              <div class="percent-row">
+                <input type="number" class="dim-input" id="scalePercent" value="50" min="1" max="500"
+                  oninput="onPercentChange()" />
+                <span class="percent-sign">%</span>
+              </div>
+              <div class="scale-presets">
+                <button class="scale-preset-btn" onclick="setPercent(25)">25%</button>
+                <button class="scale-preset-btn" onclick="setPercent(50)">50%</button>
+                <button class="scale-preset-btn" onclick="setPercent(75)">75%</button>
+                <button class="scale-preset-btn" onclick="setPercent(150)">150%</button>
+                <button class="scale-preset-btn" onclick="setPercent(200)">200%</button>
+              </div>
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Common Presets -->
+            <label class="form-label-custom">Quick Presets</label>
+            <div class="preset-list">
+              <button class="preset-item" onclick="applyPreset(1920,1080)">
+                <span class="preset-name">Full HD</span>
+                <span class="preset-dim">1920 × 1080</span>
+              </button>
+              <button class="preset-item" onclick="applyPreset(1280,720)">
+                <span class="preset-name">HD</span>
+                <span class="preset-dim">1280 × 720</span>
+              </button>
+              <button class="preset-item" onclick="applyPreset(800,600)">
+                <span class="preset-name">Web</span>
+                <span class="preset-dim">800 × 600</span>
+              </button>
+              <button class="preset-item" onclick="applyPreset(1080,1080)">
+                <span class="preset-name">Instagram</span>
+                <span class="preset-dim">1080 × 1080</span>
+              </button>
+              <button class="preset-item" onclick="applyPreset(1200,630)">
+                <span class="preset-name">Facebook</span>
+                <span class="preset-dim">1200 × 630</span>
+              </button>
+              <button class="preset-item" onclick="applyPreset(1500,500)">
+                <span class="preset-name">Twitter</span>
+                <span class="preset-dim">1500 × 500</span>
+              </button>
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Output Format -->
+            <label class="form-label-custom">Output Format</label>
+            <select class="select-custom" id="outputFormat">
+              <option value="jpg">JPG</option>
+              <option value="png">PNG</option>
+              <option value="webp">WEBP</option>
+            </select>
+
+          </div>
+        </div>
+
+        <!-- ── Preview Panel ── -->
+        <div class="col-12 col-lg-9">
+          <div class="preview-card">
+            <p class="preview-title">Preview</p>
+
+            <!-- Image Preview -->
+            <div class="img-preview-area" id="imgPreviewArea">
+              <div class="no-img-state" id="noImgState">
+                <i class="bi bi-image"></i>
+                <p>No image loaded</p>
+                <span>Upload an image from the home page</span>
+              </div>
+              <img id="previewImg" src="" alt="Preview" style="display:none" class="preview-img-el" />
+            </div>
+
+            <!-- Resize Info Cards -->
+            <div class="resize-info-row" id="resizeInfoRow">
+              <div class="info-card">
+                <p class="info-label">Original Size</p>
+                <p class="info-value" id="infoOrigSize">—</p>
+              </div>
+              <div class="info-card-arrow">
+                <i class="bi bi-arrow-right"></i>
+              </div>
+              <div class="info-card highlight">
+                <p class="info-label">New Size</p>
+                <p class="info-value blue" id="infoNewSize">—</p>
+              </div>
+              <div class="info-card">
+                <p class="info-label">Scale</p>
+                <p class="info-value" id="infoScale">—</p>
+              </div>
+              <div class="info-card">
+                <p class="info-label">Aspect Ratio</p>
+                <p class="info-value" id="infoRatio">—</p>
+              </div>
+            </div>
+
+            <!-- Process Button -->
+            <button class="btn-process" onclick="startProcessing()">
+              <i class="bi bi-arrows-fullscreen"></i>
+              Resize &amp; Download
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- PROCESSING MODAL -->
+  <div class="modal-overlay" id="processingModal">
+    <div class="modal-box">
+      <div class="spinner-ring"></div>
+      <p class="modal-title-text">Resizing Your Image</p>
+      <p class="modal-sub-text">
+        Processing your image...
+      </p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <a href="/file-tools" class="success-back">
+        <i class="bi bi-arrow-left"></i> Back
+      </a>
+      <div class="success-circle">
+        <i class="bi bi-check-lg"></i>
+      </div>
+      <p class="success-title">Image Resized!</p>
+      <p class="success-file" id="successFileName">image.jpg</p>
+      <p class="success-note">has been resized successfully</p>
+      <div class="resize-summary">
+        <div class="resize-summary-item">
+          <i class="bi bi-arrows-fullscreen"></i>
+          <span id="successDimensions">800 × 600 px</span>
+        </div>
+        <div class="resize-summary-item">
+          <i class="bi bi-file-earmark-image"></i>
+          <span id="successFormat">JPG format</span>
+        </div>
+      </div>
+      <button class="btn-download" onclick="downloadFile()">
+        <i class="bi bi-cloud-arrow-down-fill"></i>
+        Download Resized Image
+      </button>
+      <button class="btn-resize-another" onclick="resizeAnother()">
+        <i class="bi bi-arrow-clockwise"></i>
+        Resize Another Image
+      </button>
+    </div>
+  </div>
+
+  <!-- ── NETWORK ERROR MODAL ── -->
+<div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+            <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+        </div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;"
+            id="netErrTitle">Something went wrong</p>
+        <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;"
+            id="netErrMsg">Please try again.</p>
+        <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            Try Again
+        </button>
+        <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            Upload New File
+        </button>
+    </div>
+</div>
+
+  <!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4 g-lg-5">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+            <span class="footer-brand-name">Vetri Files</span>
+          </div>
+          <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+            seconds.</p>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+          <p class="footer-col-title">Product</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools">All Tools</a></li>
+            <li><a href="/Feature">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">All Tools</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools#document-tools">Document Tools</a></li>
+            <li><a href="/all-tools#image-tools">Image Tools</a></li>
+            <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+            <li><a href="/all-tools#video-tools">Video Tools</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">Legal</p>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+        <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+        <div class="social-links mt-3 mt-sm-0">
+          <a href="https://www.instagram.com/vetriitsystems/" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="https://x.com/VTSITPARK" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
+          <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" title="Linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/auth.js"></script>   
+   <script src="/js/vetri-file-helper.js"></script>     
+  <script>
+    let currentFile = null;
+    let processedBlob = null;
+    let processedName = 'resized.jpg';
+    let resizeMode = 'pixels';
+    let lockRatio = true;
+    let origW = 0;
+    let origH = 0;
+    let aspectRatio = 1;
+
+    /* ── Init ── */
+    window.addEventListener('DOMContentLoaded', () => {
+       // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+  if (!isFromUpload()) {
+    // Show "no file" state — don't load previous file
+    showNoFileState();
+    return;
+  }
+      const stored = sessionStorage.getItem('vetri_file');
+      const dataURL = sessionStorage.getItem('vetri_file_data');
+      if (!stored || !dataURL) return;
+      try {
+        currentFile = JSON.parse(stored);
+        loadImage(currentFile, dataURL);
+      } catch (e) { }
+
+      // Lock ratio active by default
+      document.getElementById('lockRatioBtn')
+        .classList.add('locked');
+    });
+
+function showNoFileState() {
+  document.getElementById('previewFilename').textContent = 'No file loaded';
+  document.getElementById('previewIcon').className = 'bi bi-cloud-upload';
+  document.querySelector('.preview-hint').innerHTML =
+'<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+    
+}
+
+    /* ── Load image ── */
+    function loadImage(f, dataURL) {
+      document.getElementById('fileInfoName').textContent =
+        f.name || 'image';
+      document.getElementById('fileInfoSize').textContent =
+        formatSize(f.size);
+      document.getElementById('successFileName').textContent =
+        f.name || 'image';
+      processedName =
+        'resized_' + (f.name || 'image');
+
+      const img = document.getElementById('previewImg');
+      img.src = dataURL;
+      img.onload = () => {
+        origW = img.naturalWidth;
+        origH = img.naturalHeight;
+        aspectRatio = origW / origH;
+
+        document.getElementById('noImgState').style.display =
+          'none';
+        img.style.display = 'block';
+
+        // Set initial values
+        document.getElementById('resizeW').value = origW;
+        document.getElementById('resizeH').value = origH;
+        document.getElementById('origDimText').textContent =
+          origW + ' × ' + origH + ' px';
+
+        updateInfoCards(origW, origH);
+      };
+    }
+
+    /* ── Resize mode ── */
+    function setResizeMode(mode, btn) {
+      resizeMode = mode;
+      document.querySelectorAll('.resize-mode-btn')
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('pixelPanel').style.display =
+        mode === 'pixels' ? 'block' : 'none';
+      document.getElementById('percentPanel').style.display =
+        mode === 'percent' ? 'block' : 'none';
+      if (mode === 'percent') {
+        document.getElementById('scalePercent').value = 100;
+        onPercentChange();
+      }
+    }
+
+    /* ── Lock ratio toggle ── */
+    function toggleLockRatio() {
+      lockRatio = !lockRatio;
+      const btn = document.getElementById('lockRatioBtn');
+      const icon = document.getElementById('lockIcon');
+      if (lockRatio) {
+        btn.classList.add('locked');
+        icon.className = 'bi bi-lock-fill';
+      } else {
+        btn.classList.remove('locked');
+        icon.className = 'bi bi-unlock-fill';
+      }
+    }
+
+    /* ── Width change ── */
+    function onWidthChange() {
+      const w = parseInt(document.getElementById('resizeW').value);
+      if (lockRatio && origH > 0) {
+        const h = Math.round(w / aspectRatio);
+        document.getElementById('resizeH').value = h;
+        updateInfoCards(w, h);
+      } else {
+        const h = parseInt(document.getElementById('resizeH').value);
+        updateInfoCards(w, h);
+      }
+      updateImgPreview();
+    }
+
+    /* ── Height change ── */
+    function onHeightChange() {
+      const h = parseInt(document.getElementById('resizeH').value);
+      if (lockRatio && origW > 0) {
+        const w = Math.round(h * aspectRatio);
+        document.getElementById('resizeW').value = w;
+        updateInfoCards(w, h);
+      } else {
+        const w = parseInt(document.getElementById('resizeW').value);
+        updateInfoCards(w, h);
+      }
+      updateImgPreview();
+    }
+
+    /* ── Percent change ── */
+    function onPercentChange() {
+      const pct = parseInt(
+        document.getElementById('scalePercent').value
+      ) || 100;
+      const w = Math.round(origW * pct / 100);
+      const h = Math.round(origH * pct / 100);
+      updateInfoCards(w, h);
+      updateImgPreview();
+    }
+
+    /* ── Set percent ── */
+    function setPercent(pct) {
+      document.getElementById('scalePercent').value = pct;
+      onPercentChange();
+    }
+
+    /* ── Apply preset ── */
+    function applyPreset(w, h) {
+      setResizeMode('pixels',
+        document.querySelector('.resize-mode-btn.active')
+        || document.querySelectorAll('.resize-mode-btn')[0]
+      );
+      document.getElementById('pixelPanel').style.display = 'block';
+      document.getElementById('percentPanel').style.display = 'none';
+      document.querySelectorAll('.resize-mode-btn')
+        .forEach((b, i) => b.classList.toggle('active', i === 0));
+      resizeMode = 'pixels';
+      document.getElementById('resizeW').value = w;
+      document.getElementById('resizeH').value = h;
+      updateInfoCards(w, h);
+      updateImgPreview();
+    }
+
+    /* ── Update info cards ── */
+    function updateInfoCards(w, h) {
+      const scaleX = origW > 0 ? ((w / origW) * 100).toFixed(0) : '—';
+      const gcd = getGCD(w, h);
+      const ratioW = w / gcd;
+      const ratioH = h / gcd;
+      const ratioStr = ratioW <= 20 && ratioH <= 20
+        ? ratioW + ':' + ratioH : '—';
+
+      document.getElementById('infoOrigSize').textContent =
+        origW + ' × ' + origH;
+      document.getElementById('infoNewSize').textContent =
+        w + ' × ' + h;
+      document.getElementById('infoScale').textContent =
+        scaleX + '%';
+      document.getElementById('infoRatio').textContent = ratioStr;
+
+      document.getElementById('successDimensions').textContent =
+        w + ' × ' + h + ' px';
+    }
+
+    /* ── GCD for ratio ── */
+    function getGCD(a, b) {
+      return b === 0 ? a : getGCD(b, a % b);
+    }
+
+    /* ── Update preview img size ── */
+    function updateImgPreview() {
+      const img = document.getElementById('previewImg');
+      if (!img.src) return;
+      let w, h;
+      if (resizeMode === 'pixels') {
+        w = parseInt(document.getElementById('resizeW').value);
+        h = parseInt(document.getElementById('resizeH').value);
+      } else {
+        const pct = parseInt(
+          document.getElementById('scalePercent').value
+        ) || 100;
+        w = Math.round(origW * pct / 100);
+        h = Math.round(origH * pct / 100);
+      }
+      // Just show at aspect ratio visually
+      const maxW = 300, maxH = 200;
+      const scale = Math.min(maxW / w, maxH / h, 1);
+      img.style.width = Math.round(w * scale) + 'px';
+      img.style.height = Math.round(h * scale) + 'px';
+    }
+
+    /* ── Format size ── */
+    function formatSize(bytes) {
+      if (!bytes) return '—';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024)
+        return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    /* ── Get final dimensions ── */
+    function getFinalDimensions() {
+      if (resizeMode === 'pixels') {
+        return {
+          w: parseInt(document.getElementById('resizeW').value),
+          h: parseInt(document.getElementById('resizeH').value)
+        };
+      } else {
+        const pct = parseInt(
+          document.getElementById('scalePercent').value
+        ) || 100;
+        return {
+          w: Math.round(origW * pct / 100),
+          h: Math.round(origH * pct / 100)
+        };
+      }
+    }
+
+    /* ── Start Processing ── */
+    function startProcessing() {
+      if (!currentFile) {
+        alert('No image found. Please upload from home page.');
+        window.location.href = '/';
+        return;
+      }
+
+      const { w, h } = getFinalDimensions();
+      const format =
+        document.getElementById('outputFormat').value;
+
+      if (!w || !h || w < 1 || h < 1) {
+        alert('Please enter valid dimensions!');
+        return;
+      }
+
+      document.getElementById('successFormat').textContent =
+        format.toUpperCase() + ' format';
+      processedName = 'resized_' +
+        (currentFile.name || 'image')
+          .replace(/\.[^.]+$/, '') + '.' + format;
+
+      const processingModal =
+        document.getElementById('processingModal');
+      const progressFill =
+        document.getElementById('progressFill');
+      processingModal.classList.add('show');
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 20;
+        if (progress >= 95) {
+          progress = 95; clearInterval(interval);
+        }
+        progressFill.style.width = progress + '%';
+      }, 300);
+
+      const dataURL = sessionStorage.getItem('vetri_file_data');
+      if (!dataURL) {
+        clearInterval(interval);
+        processingModal.classList.remove('show');
+        alert('File data not found. Please upload again.');
+        window.location.href = '/';
+        return;
+      }
+
+      // ── SPRING BOOT API ──
+      fetch(dataURL)
+        .then(r => r.blob())
+        .then(blob => {
+          const formData = new FormData();
+          formData.append('file', blob, currentFile.name);
+          formData.append('width', w);
+          formData.append('height', h);
+          formData.append('format', format);
+          return fetch('/api/image/resize', {
+            method: 'POST', body: formData
+          });
+        })
+        .then(r => {
+          if (!r.ok) throw new Error('Resize failed');
+          return r.blob();
+        })
+        .then(blob => {
+          clearInterval(interval);
+          progressFill.style.width = '100%';
+          processedBlob = blob;
+          setTimeout(() => {
+            processingModal.classList.remove('show');
+            document.getElementById('successModal')
+              .classList.add('show');
+          }, 400);
+        })
+        .catch(err => {
+    clearInterval(interval);
+    processingModal.classList.remove('show');
+    console.error(err);
+    if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        showNetworkError('No Internet Connection',
+            'Connection lost while resizing image. Check your WiFi and try again.');
+    } else {
+        showNetworkError('Resize Failed',
+            'Could not resize your image. Please try again.');
+    }
+});
+    }
+
+    /* ── Download ── */
+    function downloadFile() {
+      if (processedBlob) {
+        const url = URL.createObjectURL(processedBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = processedName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    /* ── Resize Another ── */
+    function resizeAnother() {
+      document.getElementById('successModal')
+        .classList.remove('show');
+      document.getElementById('progressFill').style.width = '0%';
+      window.location.href = '/';
+    }
+     function goBack() {
+            const ref = document.referrer || "";
+
+            if (ref.includes('/all-tools')) {
+                window.location.href = '/all-tools';
+            } else if (ref.includes('/file-tools')) {
+                window.location.href = '/file-tools';
+            } else if (window.history.length > 1) {
+                window.history.back(); // smart fallback
+            } else {
+                window.location.href = '/';
+            }
+        }
+        function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent   = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+  </script>
+</body>
+
+</html>

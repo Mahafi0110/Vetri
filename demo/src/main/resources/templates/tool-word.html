@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word to PDF – Vetri Files</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue-main: #3B82F6;
+      --heading: #1F2937;
+      --subtext: #4A5565;
+      --accent-1: #F3F4F6;
+      --accent-2: #E5E7EB;
+      --white: #ffffff;
+      --radius-card: 16px;
+      --radius-btn: 50px;
+      --shadow-hover: 0 8px 32px rgba(59, 130, 246, .13);
+      --word-from: #1E3A8A;
+      --word-to: #2563EB;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--heading);
+      background: var(--accent-1);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--white);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--accent-2);
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--heading);
+      letter-spacing: -.3px;
+    }
+
+    .navbar-nav .nav-link {
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--heading) !important;
+      padding: 6px 14px !important;
+      transition: color .2s;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--blue-main) !important;
+    }
+
+    .btn-login {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--blue-main) !important;
+      padding: 6px 14px !important;
+      border-radius: var(--radius-btn);
+      transition: background .2s;
+    }
+
+    .btn-login:hover {
+      background: var(--accent-1);
+    }
+
+    .btn-get-started {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff !important;
+      border: none;
+      padding: 10px 24px !important;
+      border-radius: var(--radius-btn);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+      transition: transform .2s, box-shadow .2s;
+      white-space: nowrap;
+    }
+
+    .btn-get-started:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, .45);
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 4px 8px;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    @media(max-width:991.98px) {
+      .navbar-collapse {
+        background: var(--white);
+        border-top: 1px solid var(--accent-2);
+        padding: 12px 0 16px;
+        margin-top: 10px;
+      }
+
+      .navbar-nav {
+        align-items: flex-start !important;
+        padding: 0 8px;
+      }
+
+      .btn-login,
+      .btn-get-started {
+        margin: 4px 8px !important;
+      }
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--accent-2);
+      padding: 20px 0;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--subtext);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .back-link:hover {
+      color: var(--blue-main);
+    }
+
+    /* ── Hero banner ── */
+    .tool-hero {
+      background: linear-gradient(135deg, var(--word-from) 0%, var(--word-to) 100%);
+      padding: 52px 0 44px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(255, 255, 255, .10) 0%, transparent 65%),
+        radial-gradient(ellipse at 10% 80%, rgba(6, 182, 212, .15) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-icon-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .18);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255, 255, 255, .28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .tool-hero p {
+      font-size: .97rem;
+      color: rgba(255, 255, 255, .80);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    .badge-format {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, .15);
+      border: 1px solid rgba(255, 255, 255, .25);
+      border-radius: 50px;
+      padding: 5px 14px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: .4px;
+    }
+
+    /* ── Main area ── */
+    .tool-main {
+      padding: 40px 0 72px;
+    }
+
+    /* ── Upload zone ── */
+    .upload-zone {
+      background: var(--white);
+      border: 2px dashed var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 52px 28px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .25s, background .25s, box-shadow .25s;
+      position: relative;
+    }
+
+    .upload-zone:hover,
+    .upload-zone.dragover {
+      border-color: var(--blue-main);
+      background: #F0F7FF;
+      box-shadow: var(--shadow-hover);
+    }
+
+    .upload-zone input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .uz-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--word-from), var(--word-to));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #fff;
+      margin: 0 auto 20px;
+      box-shadow: 0 6px 20px rgba(37, 99, 235, .35);
+    }
+
+    .uz-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 6px;
+    }
+
+    .uz-sub {
+      font-size: .86rem;
+      color: var(--subtext);
+      margin-bottom: 22px;
+    }
+
+    .btn-choose-file {
+      background: linear-gradient(135deg, var(--word-from), var(--word-to));
+      color: #fff;
+      border: none;
+      padding: 11px 30px;
+      border-radius: var(--radius-btn);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: .9rem;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, .35);
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      pointer-events: all;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-choose-file:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, .45);
+    }
+
+    .format-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .format-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 50px;
+      padding: 4px 14px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--subtext);
+    }
+
+    /* ── File ready card ── */
+    .file-ready-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      display: none;
+    }
+
+    .file-ready-card.show {
+      display: block;
+    }
+
+    .frc-file-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--accent-2);
+    }
+
+    .frc-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--word-from), var(--word-to));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    .frc-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .frc-meta {
+      font-size: .83rem;
+      color: var(--subtext);
+      margin: 0;
+    }
+
+    .frc-change {
+      margin-left: auto;
+      font-size: .83rem;
+      font-weight: 500;
+      color: var(--subtext);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-btn);
+      background: var(--white);
+      padding: 7px 16px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .frc-change:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+    }
+
+    /* Options */
+    .opt-label {
+      font-family: 'Poppins', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 10px;
+    }
+
+    .quality-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .qpill {
+      padding: 8px 20px;
+      border-radius: var(--radius-btn);
+      border: 1.5px solid var(--accent-2);
+      background: var(--white);
+      font-size: .84rem;
+      font-weight: 600;
+      color: var(--subtext);
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .qpill.active,
+    .qpill:hover {
+      border-color: var(--blue-main);
+      background: #EFF6FF;
+      color: var(--blue-dark);
+    }
+
+    .form-check-input:checked {
+      background-color: var(--blue-main);
+      border-color: var(--blue-main);
+    }
+
+    /* Convert button */
+    .btn-convert {
+      width: 100%;
+      background: linear-gradient(135deg, var(--word-from), var(--word-to));
+      color: #fff;
+      border: none;
+      padding: 14px 0;
+      border-radius: var(--radius-btn);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 4px 18px rgba(37, 99, 235, .35);
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn-convert:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, .45);
+    }
+
+    .btn-convert:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+    }
+
+    /* Progress */
+    .progress-wrap {
+      display: none;
+    }
+
+    .progress-wrap.show {
+      display: block;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 50px;
+      background: var(--accent-2);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--word-from), var(--blue-main));
+      width: 0%;
+      transition: width .35s ease;
+    }
+
+    .progress-label {
+      font-size: .84rem;
+      color: var(--subtext);
+      margin-top: 8px;
+    }
+
+    /* Result */
+    .result-card {
+      background: linear-gradient(135deg, #EFF6FF, #F0FDF4);
+      border: 1.5px solid #BFDBFE;
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+      text-align: center;
+      display: none;
+    }
+
+    .result-card.show {
+      display: block;
+    }
+
+    .result-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #16A34A, #4ADE80);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #fff;
+      margin: 0 auto 16px;
+      box-shadow: 0 4px 16px rgba(22, 163, 74, .3);
+    }
+
+    .result-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #15803D;
+      margin-bottom: 6px;
+    }
+
+    .result-sub {
+      font-size: .86rem;
+      color: #16A34A;
+      margin-bottom: 20px;
+    }
+
+    .btn-download {
+      background: linear-gradient(135deg, #16A34A, #22C55E);
+      color: #fff;
+      border: none;
+      padding: 12px 32px;
+      border-radius: var(--radius-btn);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      box-shadow: 0 4px 16px rgba(22, 163, 74, .3);
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(22, 163, 74, .4);
+      color: #fff;
+    }
+
+    .btn-convert-another {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: .86rem;
+      font-weight: 600;
+      color: var(--subtext);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color .2s;
+    }
+
+    .btn-convert-another:hover {
+      color: var(--blue-main);
+    }
+
+    /* Error */
+    .error-card {
+      background: #FEF2F2;
+      border: 1.5px solid #FECACA;
+      border-radius: var(--radius-card);
+      padding: 20px 22px;
+      display: none;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .error-card.show {
+      display: flex;
+    }
+
+    .error-card i {
+      font-size: 1.3rem;
+      color: #DC2626;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .error-card p {
+      font-size: .88rem;
+      color: #B91C1C;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── Info cards ── */
+    .info-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 24px 20px;
+      height: 100%;
+      transition: box-shadow .25s, transform .25s;
+    }
+
+    .info-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-3px);
+    }
+
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .ii-blue {
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+    }
+
+    .ii-green {
+      background: linear-gradient(135deg, #16A34A, #4ADE80);
+    }
+
+    .ii-orange {
+      background: linear-gradient(135deg, #EA580C, #FB923C);
+    }
+
+    .info-card h6 {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 6px;
+    }
+
+    .info-card p {
+      font-size: .83rem;
+      color: var(--subtext);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--white);
+      border-top: 1px solid var(--accent-2);
+      padding: 56px 0 0;
+    }
+
+    .footer-brand-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .footer-tagline {
+      font-size: .88rem;
+      color: var(--subtext);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-col-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      font-size: .88rem;
+      color: var(--subtext);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue-main);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--accent-2);
+      padding: 18px 0;
+      margin-top: 48px;
+    }
+
+    .footer-copy {
+      font-size: .84rem;
+      color: var(--subtext);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+      font-size: .95rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    @media(max-width:767.98px) {
+      .tool-main {
+        padding: 24px 0 48px;
+      }
+
+      .frc-file-row {
+        flex-wrap: wrap;
+      }
+
+      .frc-change {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+      }
+
+      .footer {
+        padding: 40px 0 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════ NAVBAR ══════════════════════════ -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+        <span class="brand-name">Vetri Files</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+        aria-controls="mainNav" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link" href="/all-tools">Tools</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+          <a href="/login" class="nav-link btn-login">Login</a>
+          <a href="/register" class="nav-link btn-get-started">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════ PAGE HEADER ══════════════════════════ -->
+  <div class="page-header">
+    <div class="container">
+      <a href="/file-tools" class="back-link" id="backLink">
+        <i class="bi bi-arrow-left"></i> Back to Tools
+      </a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ HERO ══════════════════════════ -->
+  <div class="tool-hero">
+    <div class="container">
+      <div class="hero-icon-wrap">
+        <i class="bi bi-file-earmark-word-fill"></i>
+      </div>
+      <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+        <span class="badge-format"><i class="bi bi-file-earmark-word-fill"></i> DOC / DOCX</span>
+        <i class="bi bi-arrow-right" style="color:rgba(255,255,255,.6)"></i>
+        <span class="badge-format"><i class="bi bi-file-earmark-pdf-fill"></i> PDF</span>
+      </div>
+      <h1>Word to PDF Converter</h1>
+      <p>Convert .doc and .docx Word documents to PDF with perfect formatting — powered by LibreOffice. Fast, secure,
+        and free.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ MAIN ══════════════════════════ -->
+  <main class="tool-main">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- Left: Upload + Options + Convert -->
+        <div class="col-12 col-lg-7">
+
+          <!-- Upload zone (shown when no file selected) -->
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput"
+              accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+            <div class="uz-icon"><i class="bi bi-file-earmark-word-fill"></i></div>
+            <p class="uz-title">Drop your Word file here</p>
+            <p class="uz-sub">Supports .doc and .docx files</p>
+            <button class="btn-choose-file"
+              onclick="document.getElementById('fileInput').click(); event.stopPropagation();">
+              <i class="bi bi-folder2-open me-2"></i>Choose File
+            </button>
+            <div class="format-chips">
+              <span class="format-chip"><i class="bi bi-check-circle-fill text-success"></i>.doc</span>
+              <span class="format-chip"><i class="bi bi-check-circle-fill text-success"></i>.docx</span>
+              <span class="format-chip"><i class="bi bi-shield-fill-check" style="color:#16A34A"></i>Secure</span>
+              <span class="format-chip"><i class="bi bi-lightning-charge-fill" style="color:#EA580C"></i>Fast</span>
+            </div>
+          </div>
+
+          <!-- File ready card (shown after file selected) -->
+          <div class="file-ready-card" id="fileReadyCard">
+
+            <!-- File row -->
+            <div class="frc-file-row">
+              <div class="frc-icon"><i class="bi bi-file-earmark-word-fill"></i></div>
+              <div style="flex:1;min-width:0;">
+                <p class="frc-name" id="selectedFileName">document.docx</p>
+                <p class="frc-meta" id="selectedFileMeta">—</p>
+              </div>
+              <button class="frc-change" onclick="resetTool()">
+                <i class="bi bi-arrow-repeat me-1"></i> Change
+              </button>
+            </div>
+
+            <!-- Options -->
+            <div class="mb-4">
+              <p class="opt-label">PDF Quality</p>
+              <div class="quality-pills">
+                <button class="qpill active" data-quality="standard" onclick="selectQuality(this)">Standard</button>
+                <button class="qpill" data-quality="high" onclick="selectQuality(this)">High Quality</button>
+                <button class="qpill" data-quality="print" onclick="selectQuality(this)">Print Ready</button>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <p class="opt-label mb-2">Options</p>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="chkBookmarks" checked />
+                <label class="form-check-label" for="chkBookmarks" style="font-size:.88rem;">
+                  Preserve headings as PDF bookmarks
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="chkLinks" checked />
+                <label class="form-check-label" for="chkLinks" style="font-size:.88rem;">
+                  Keep hyperlinks clickable
+                </label>
+              </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-wrap mb-4" id="progressWrap">
+              <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+              </div>
+              <p class="progress-label" id="progressLabel">Converting your document…</p>
+            </div>
+
+            <!-- Error -->
+            <div class="error-card mb-4" id="errorCard">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <p id="errorMsg">Something went wrong. Please try again.</p>
+            </div>
+
+            <!-- Result -->
+            <div class="result-card mb-4" id="resultCard">
+              <div class="result-icon"><i class="bi bi-check-lg"></i></div>
+              <p class="result-title">Conversion Complete!</p>
+              <p class="result-sub" id="resultSub">Your PDF is ready to download.</p>
+              <a class="btn-download" id="downloadLink" href="#" download>
+                <i class="bi bi-cloud-arrow-down-fill"></i> Download PDF
+              </a>
+              <br />
+              <span class="btn-convert-another" onclick="resetTool()">
+                <i class="bi bi-arrow-repeat me-1"></i> Convert another file
+              </span>
+            </div>
+
+            <!-- Convert button -->
+            <button class="btn-convert" id="btnConvert" onclick="startConversion()">
+              <i class="bi bi-arrow-right-circle-fill me-2"></i> Convert to PDF
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Right: Info cards -->
+        <div class="col-12 col-lg-5">
+          <div class="row g-3">
+
+            <div class="col-12">
+              <div class="info-card">
+                <div class="info-icon ii-blue"><i class="bi bi-shield-fill-check"></i></div>
+                <h6>100% Secure Conversion</h6>
+                <p>Your files are processed on our server and deleted immediately after conversion. We never store your
+                  documents.</p>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-12">
+              <div class="info-card">
+                <div class="info-icon ii-green"><i class="bi bi-check2-all"></i></div>
+                <h6>Perfect Formatting</h6>
+                <p>LibreOffice engine preserves fonts, tables, images, headers, footers and page layout exactly as in
+                  your Word document.</p>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-12">
+              <div class="info-card">
+                <div class="info-icon ii-orange"><i class="bi bi-file-earmark-check-fill"></i></div>
+                <h6>.doc &amp; .docx Supported</h6>
+                <p>Works with both legacy Word 97–2003 (.doc) and modern Word (.docx) formats without any compromise.
+                </p>
+              </div>
+            </div>
+
+            <!-- Also try -->
+            <div class="col-12">
+              <div
+                style="background:var(--white);border:1.5px solid var(--accent-2);border-radius:var(--radius-card);padding:22px 20px;">
+                <p class="opt-label mb-3">Also Try</p>
+                <div class="d-flex flex-column gap-2">
+                  <a href="/tool-word-html" class="d-flex align-items-center gap-3 text-decoration-none p-2 rounded"
+                    style="transition:background .2s" onmouseover="this.style.background='#F3F4F6'"
+                    onmouseout="this.style.background=''">
+                    <div
+                      style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#312E81,#6366F1);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.95rem;flex-shrink:0;">
+                      <i class="bi bi-file-earmark-code-fill"></i>
+                    </div>
+                    <div>
+                      <p
+                        style="font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:700;color:var(--heading);margin:0">
+                        Word to HTML</p>
+                      <p style="font-size:.78rem;color:var(--subtext);margin:0">Export as web page</p>
+                    </div>
+                  </a>
+                  <a href="/tool-word-text" class="d-flex align-items-center gap-3 text-decoration-none p-2 rounded"
+                    style="transition:background .2s" onmouseover="this.style.background='#F3F4F6'"
+                    onmouseout="this.style.background=''">
+                    <div
+                      style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#0F766E,#2DD4BF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.95rem;flex-shrink:0;">
+                      <i class="bi bi-file-earmark-text-fill"></i>
+                    </div>
+                    <div>
+                      <p
+                        style="font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:700;color:var(--heading);margin:0">
+                        Extract Text</p>
+                      <p style="font-size:.78rem;color:var(--subtext);margin:0">Pull plain text content</p>
+                    </div>
+                  </a>
+                  <a href="/tool-word-count" class="d-flex align-items-center gap-3 text-decoration-none p-2 rounded"
+                    style="transition:background .2s" onmouseover="this.style.background='#F3F4F6'"
+                    onmouseout="this.style.background=''">
+                    <div
+                      style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#1E3A8A,#06B6D4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.95rem;flex-shrink:0;">
+                      <i class="bi bi-bar-chart-fill"></i>
+                    </div>
+                    <div>
+                      <p
+                        style="font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:700;color:var(--heading);margin:0">
+                        Word Count</p>
+                      <p style="font-size:.78rem;color:var(--subtext);margin:0">Stats & analysis</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /row -->
+    </div><!-- /container -->
+  </main>
+
+  <!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4 g-lg-5">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+            <span class="footer-brand-name">Vetri Files</span>
+          </div>
+          <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in seconds.
+          </p>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+          <p class="footer-col-title">Product</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools">All Tools</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">All Tools</p>
+          <ul class="footer-links">
+            <li><a href="#">Document Tools</a></li>
+            <li><a href="#">Image Tools</a></li>
+            <li><a href="#">Audio Tools</a></li>
+            <li><a href="#">Video Tools</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">Legal</p>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+        <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+        <div class="social-links mt-3 mt-sm-0">
+          <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    /* ═══════════════════════════════════════
+       State
+    ═══════════════════════════════════════ */
+    let selectedFile = null;
+    let selectedQuality = 'standard';
+    let convertedBlob = null;
+
+    /* ═══════════════════════════════════════
+       Init — check if file came from file-tools page
+    ═══════════════════════════════════════ */
+    window.addEventListener('DOMContentLoaded', () => {
+      // Try to restore file from sessionStorage (passed from file-tools page)
+      const stored = sessionStorage.getItem('vetri_file');
+      const storedData = sessionStorage.getItem('vetri_file_data');
+
+      if (stored && storedData) {
+        try {
+          const meta = JSON.parse(stored);
+          const ext = (meta.name || '').split('.').pop().toLowerCase();
+          if (ext === 'doc' || ext === 'docx') {
+            // Reconstruct File from base64
+            const arr = storedData.split(',');
+            const mimeMatch = arr[0].match(/:(.*?);/);
+            const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+            const bstr = atob(arr[1]);
+            const u8arr = new Uint8Array(bstr.length);
+            for (let i = 0; i < bstr.length; i++) u8arr[i] = bstr.charCodeAt(i);
+            const file = new File([u8arr], meta.name, { type: mime });
+            bindFile(file);
+          }
+        } catch (e) { /* no pre-loaded file, show upload zone */ }
+      }
+    });
+
+    /* ═══════════════════════════════════════
+       File input
+    ═══════════════════════════════════════ */
+    const fileInput = document.getElementById('fileInput');
+    const uploadZone = document.getElementById('uploadZone');
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length) bindFile(fileInput.files[0]);
+    });
+
+    uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+    uploadZone.addEventListener('drop', e => {
+      e.preventDefault(); uploadZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) bindFile(e.dataTransfer.files[0]);
+    });
+
+    function bindFile(file) {
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (!['doc', 'docx'].includes(ext)) {
+        showError('Please select a .doc or .docx file.');
+        return;
+      }
+      selectedFile = file;
+      document.getElementById('selectedFileName').textContent = file.name;
+      document.getElementById('selectedFileMeta').textContent =
+        formatSize(file.size) + ' • ' + ext.toUpperCase() + ' Document';
+
+      uploadZone.style.display = 'none';
+      document.getElementById('fileReadyCard').classList.add('show');
+      hideAll();
+    }
+
+    /* ═══════════════════════════════════════
+       Quality selector
+    ═══════════════════════════════════════ */
+    function selectQuality(btn) {
+      document.querySelectorAll('.qpill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      selectedQuality = btn.dataset.quality;
+    }
+
+    /* ═══════════════════════════════════════
+       Conversion
+    ═══════════════════════════════════════ */
+    async function startConversion() {
+      if (!selectedFile) return;
+
+      hideAll();
+      showProgress('Uploading document…');
+      setBtnState(true);
+
+      const fd = new FormData();
+      fd.append('file', selectedFile);
+      // Pass quality as a query param (backend can honour it via LO flags if desired)
+      const url = `/api/word/to-pdf?quality=${selectedQuality}`;
+
+      try {
+        // Animate progress
+        animateProgress(0, 40, 1200, 'Uploading document…');
+
+        const res = await fetch(url, { method: 'POST', body: fd });
+
+        animateProgress(40, 85, 1500, 'Converting with LibreOffice…');
+
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(errText || 'Server error ' + res.status);
+        }
+
+        const blob = await res.blob();
+        convertedBlob = blob;
+
+        animateProgress(85, 100, 400, 'Finalising…');
+
+        await delay(500);
+
+        hideAll();
+        showResult(selectedFile.name, blob);
+
+      } catch (err) {
+        hideAll();
+        showError(err.message || 'Conversion failed. Please try again.');
+      } finally {
+        setBtnState(false);
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       UI helpers
+    ═══════════════════════════════════════ */
+    function showProgress(label) {
+      const pw = document.getElementById('progressWrap');
+      pw.classList.add('show');
+      document.getElementById('progressLabel').textContent = label;
+      document.getElementById('progressBar').style.width = '0%';
+    }
+
+    function animateProgress(from, to, duration, label) {
+      const bar = document.getElementById('progressBar');
+      const lbl = document.getElementById('progressLabel');
+      lbl.textContent = label;
+      const start = performance.now();
+      function step(now) {
+        const t = Math.min((now - start) / duration, 1);
+        bar.style.width = (from + (to - from) * t) + '%';
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function showResult(originalName, blob) {
+      const rc = document.getElementById('resultCard');
+      rc.classList.add('show');
+      const outName = originalName.replace(/\.(docx?)$/i, '') + '.pdf';
+      document.getElementById('resultSub').textContent =
+        'Your PDF is ready · ' + formatSize(blob.size);
+
+      const url = URL.createObjectURL(blob);
+      const dl = document.getElementById('downloadLink');
+      dl.href = url;
+      dl.download = outName;
+    }
+
+    function showError(msg) {
+      const ec = document.getElementById('errorCard');
+      ec.classList.add('show');
+      document.getElementById('errorMsg').textContent = msg;
+    }
+
+    function hideAll() {
+      document.getElementById('progressWrap').classList.remove('show');
+      document.getElementById('resultCard').classList.remove('show');
+      document.getElementById('errorCard').classList.remove('show');
+    }
+
+    function setBtnState(disabled) {
+      const btn = document.getElementById('btnConvert');
+      btn.disabled = disabled;
+      btn.innerHTML = disabled
+        ? '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Converting…'
+        : '<i class="bi bi-arrow-right-circle-fill me-2"></i> Convert to PDF';
+    }
+
+    function resetTool() {
+      selectedFile = null;
+      convertedBlob = null;
+      fileInput.value = '';
+      uploadZone.style.display = '';
+      document.getElementById('fileReadyCard').classList.remove('show');
+      hideAll();
+      setBtnState(false);
+    }
+
+    function formatSize(bytes) {
+      if (!bytes) return '—';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+  </script>
+
+</body>
+
+</html>

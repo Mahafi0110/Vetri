@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Features – Vetri Files</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <script src="/js/vetri-file-helper.js"></script>
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue: #3B82F6;
+            --gray-bg: #F3F4F6;
+            --border: #E5E7EB;
+            --text: #1F2937;
+            --sub: #4A5565;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: #fff;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ── Navbar ── */
+        nav {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 13px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            padding: 7px 14px;
+            border-radius: 8px;
+            transition: background .2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--gray-bg);
+            color: var(--blue);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-login {
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--blue);
+            text-decoration: none;
+            padding: 7px 14px;
+        }
+
+        .btn-started {
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            color: #fff;
+            border: none;
+            padding: 9px 22px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: .88rem;
+            text-decoration: none;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            background: var(--gray-bg);
+            padding: 72px 0 56px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #EFF6FF;
+            border: 1.5px solid #BFDBFE;
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--blue-dark);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.9rem, 4vw, 2.9rem);
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--sub);
+            max-width: 540px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+
+        .hero-btns {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-hero {
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            color: #fff;
+            border: none;
+            padding: 13px 32px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: .95rem;
+            text-decoration: none;
+            box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+            transition: transform .2s;
+        }
+
+        .btn-primary-hero:hover {
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        .btn-outline-hero {
+            border: 1.5px solid var(--border);
+            background: #fff;
+            color: var(--text);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: .95rem;
+            text-decoration: none;
+            transition: border-color .2s;
+        }
+
+        .btn-outline-hero:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        /* ── Stats row ── */
+        .stats-section {
+            background: #fff;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .stat-num {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .stat-num span {
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: .85rem;
+            color: var(--sub);
+            margin-top: 4px;
+        }
+
+        .stat-divider {
+            width: 1px;
+            background: var(--border);
+            align-self: stretch;
+        }
+
+        /* ── Section ── */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-alt {
+            background: var(--gray-bg);
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: #EFF6FF;
+            color: var(--blue-dark);
+            font-size: .78rem;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 50px;
+            margin-bottom: 14px;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .section-sub {
+            font-size: .95rem;
+            color: var(--sub);
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ── Feature cards ── */
+        .feat-card {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            padding: 28px 24px;
+            height: 100%;
+            transition: box-shadow .3s, transform .3s;
+        }
+
+        .feat-card:hover {
+            box-shadow: 0 8px 32px rgba(59, 130, 246, .12);
+            transform: translateY(-4px);
+        }
+
+        .feat-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 18px;
+        }
+
+        .feat-card h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .feat-card p {
+            font-size: .85rem;
+            color: var(--sub);
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        .fi-blue {
+            background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+        }
+
+        .fi-green {
+            background: linear-gradient(135deg, #16A34A, #4ADE80);
+        }
+
+        .fi-purple {
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+        }
+
+        .fi-orange {
+            background: linear-gradient(135deg, #EA580C, #FB923C);
+        }
+
+        .fi-pink {
+            background: linear-gradient(135deg, #DB2777, #F472B6);
+        }
+
+        .fi-teal {
+            background: linear-gradient(135deg, #0D9488, #06B6D4);
+        }
+
+        .fi-yellow {
+            background: linear-gradient(135deg, #D97706, #FCD34D);
+        }
+
+        .fi-red {
+            background: linear-gradient(135deg, #DC2626, #F87171);
+        }
+
+        /* ── Tool categories ── */
+        .tool-cat-card {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            padding: 28px 24px;
+            transition: box-shadow .3s, transform .3s;
+            text-decoration: none;
+            display: block;
+            color: var(--text);
+        }
+
+        .tool-cat-card:hover {
+            box-shadow: 0 8px 32px rgba(59, 130, 246, .12);
+            transform: translateY(-4px);
+            color: var(--text);
+        }
+
+        .tool-cat-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .tool-cat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .tool-cat-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .tool-cat-count {
+            font-size: .78rem;
+            color: var(--sub);
+        }
+
+        .tool-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .tool-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .84rem;
+            color: var(--sub);
+        }
+
+        .tool-list li i {
+            color: var(--blue);
+            font-size: .8rem;
+            width: 14px;
+        }
+
+        /* ── How it works timeline ── */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .tl-item {
+            display: flex;
+            gap: 24px;
+            padding-bottom: 32px;
+            position: relative;
+        }
+
+        .tl-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 44px;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .tl-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: .9rem;
+            flex-shrink: 0;
+        }
+
+        .tl-content h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+            margin-top: 8px;
+        }
+
+        .tl-content p {
+            font-size: .86rem;
+            color: var(--sub);
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        /* ── Security section ── */
+        .security-card {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .sec-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        /* ── CTA ── */
+        .cta-section {
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .cta-section p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, .8);
+            margin-bottom: 32px;
+        }
+
+        .btn-cta-white {
+            background: #fff;
+            color: var(--blue-dark);
+            border: none;
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, .15);
+            transition: transform .2s;
+        }
+
+        .btn-cta-white:hover {
+            transform: translateY(-2px);
+            color: var(--blue-dark);
+        }
+
+        .btn-cta-outline {
+            border: 2px solid rgba(255, 255, 255, .6);
+            color: #fff;
+            background: transparent;
+            padding: 13px 32px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: border-color .2s;
+        }
+
+        .btn-cta-outline:hover {
+            border-color: #fff;
+            color: #fff;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: #fff;
+            border-top: 1px solid var(--border);
+            padding: 48px 0 0;
+        }
+
+        .footer-brand {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .footer-tag {
+            font-size: .84rem;
+            color: var(--sub);
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        .footer-col h6 {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 14px;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: .84rem;
+            color: var(--sub);
+            text-decoration: none;
+            margin-bottom: 9px;
+        }
+
+        .footer-col a:hover {
+            color: var(--blue);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding: 16px 0;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-copy {
+            font-size: .8rem;
+            color: var(--sub);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .social-links a {
+            width: 34px;
+            height: 34px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--sub);
+            font-size: .9rem;
+            text-decoration: none;
+            transition: border-color .2s, color .2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        @media(max-width:768px) {
+            .stat-divider {
+                display: none;
+            }
+
+            .stats-section .d-flex {
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+        }
+
+        nav {
+            background: #fff;
+            border-bottom: 1px solid var(--border, #E5E7EB);
+            padding: 13px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1F2937;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            font-size: .9rem;
+            font-weight: 500;
+            color: #1F2937;
+            text-decoration: none;
+            padding: 7px 14px;
+            border-radius: 8px;
+            transition: background .2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #F3F4F6;
+            color: #3B82F6;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F3F4F6;
+            border: 1.5px solid #E5E7EB;
+            border-radius: 50px;
+            padding: 5px 14px 5px 5px;
+            cursor: pointer;
+            transition: border-color .2s;
+            font-family: 'Inter', sans-serif;
+            font-size: .85rem;
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .profile-btn:hover {
+            border-color: #3B82F6;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            font-size: .75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .profile-name {
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu-custom {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: #fff;
+            border: 1.5px solid #E5E7EB;
+            border-radius: 14px;
+            box-shadow: 0 12px 40px rgba(30, 58, 138, .12);
+            min-width: 220px;
+            padding: 6px;
+            display: none;
+            z-index: 999;
+        }
+
+        .dropdown-menu-custom.open {
+            display: block;
+        }
+
+        .dropdown-header {
+            padding: 12px;
+            border-bottom: 1px solid #E5E7EB;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar-lg {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            font-size: .9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            flex-shrink: 0;
+        }
+
+        .dh-name {
+            font-weight: 700;
+            font-size: .88rem;
+            color: #1F2937;
+        }
+
+        .dh-email {
+            font-size: .75rem;
+            color: #4A5565;
+            margin-top: 2px;
+            word-break: break-all;
+        }
+
+        .dropdown-item-custom {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 9px;
+            font-size: .85rem;
+            font-weight: 500;
+            color: #1F2937;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+            transition: background .15s;
+        }
+
+        .dropdown-item-custom:hover {
+            background: #F3F4F6;
+        }
+
+        .dropdown-item-custom.logout {
+            color: #DC2626;
+        }
+
+        .dropdown-item-custom.logout:hover {
+            background: #FEF2F2;
+        }
+
+        /* ── Hamburger fix ── */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: #1F2937;
+            cursor: pointer;
+            padding: 6px;
+            flex-shrink: 0;
+        }
+
+        @media(max-width: 575.98px) {
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #fff;
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px 24px;
+                gap: 4px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+                z-index: 998;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 10px 12px;
+            }
+
+            .nav-inner {
+                position: relative;
+            }
+        }
+
+        @media(max-width: 767.98px) and (min-width: 576px) {
+            .nav-inner {
+                padding: 0 16px;
+                gap: 10px;
+            }
+
+            .nav-links {
+                gap: 2px;
+            }
+
+            .nav-links a {
+                padding: 6px 10px;
+                font-size: .85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── Navbar ── -->
+    <nav>
+        <div class="nav-inner">
+            <a class="brand" href="/">
+                <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                <span class="brand-name">Vetri Files</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/all-tools">Tools</a>
+                <a href="/features" class="active">Features</a>
+            </div>
+            <!-- filled by JS -->
+            <div style="display:flex; align-items:center; gap:6px;">
+                <div class="nav-right" id="navRight"></div>
+                <button class="nav-toggle" id="navToggle" onclick="toggleNavLinks()" aria-label="Toggle menu">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+    <!-- ── Hero ── -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge"><i class="bi bi-stars"></i> Everything you need</div>
+            <h1>Powerful Features for<br><span class="hero-gradient">Every File You Work With</span></h1>
+            <p>From PDFs to videos, Vetri Files gives you professional-grade tools — fast, free, and right in your
+                browser.</p>
+            <div class="hero-btns">
+                <a href="/all-tools" class="btn-primary-hero">Explore All Tools</a>
+                <a href="/register" class="btn-outline-hero">Get Started Free</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Stats ── -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-center gap-0">
+                <div class="stat-item">
+                    <div class="stat-num"><span>20+</span></div>
+                    <div class="stat-label">File Tools</div>
+                </div>
+                <div class="stat-divider mx-4" style="height:48px;"></div>
+                <div class="stat-item">
+                    <div class="stat-num"><span>5</span></div>
+                    <div class="stat-label">File Categories</div>
+                </div>
+                <div class="stat-divider mx-4" style="height:48px;"></div>
+                <div class="stat-item">
+                    <div class="stat-num"><span>100%</span></div>
+                    <div class="stat-label">Free to Use</div>
+                </div>
+                <div class="stat-divider mx-4" style="height:48px;"></div>
+                <div class="stat-item">
+                    <div class="stat-num"><span>0</span></div>
+                    <div class="stat-label">Sign-ups Required</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Core Features ── -->
+    <section class="section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-badge">Core Features</span>
+                <h2 class="section-title">Why Vetri Files?</h2>
+                <p class="section-sub">Everything built to save you time and make file processing effortless.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feat-card">
+                        <div class="feat-icon fi-green"><i class="bi bi-shield-fill-check"></i></div>
+                        <h5>Secure & Private</h5>
+                        <p>Files are processed in memory and never stored permanently on our servers.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feat-card">
+                        <div class="feat-icon fi-orange"><i class="bi bi-lightning-charge-fill"></i></div>
+                        <h5>Lightning Fast</h5>
+                        <p>Optimized processing pipelines deliver results in seconds, not minutes.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feat-card">
+                        <div class="feat-icon fi-blue"><i class="bi bi-currency-dollar"></i></div>
+                        <h5>Completely Free</h5>
+                        <p>All tools are free with no hidden fees, no watermarks, no limits.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feat-card">
+                        <div class="feat-icon fi-purple"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+                        <h5>All File Types</h5>
+                        <p>PDF, images, audio, video, and archives — all handled in one place.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feat-card">
+                        <div class="feat-icon fi-teal"><i class="bi bi-phone"></i></div>
+                        <h5>Works on Any Device</h5>
+                        <p>Fully responsive — use it on desktop, tablet, or mobile with ease.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feat-card">
+                        <div class="feat-icon fi-pink"><i class="bi bi-arrow-repeat"></i></div>
+                        <h5>Batch Processing</h5>
+                        <p>Process multiple files at once and save hours of repetitive work.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feat-card">
+                        <div class="feat-icon fi-yellow"><i class="bi bi-eye"></i></div>
+                        <h5>Live Preview</h5>
+                        <p>See your changes before downloading — no surprises, no wasted time.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feat-card">
+                        <div class="feat-icon fi-red"><i class="bi bi-cloud-arrow-down-fill"></i></div>
+                        <h5>Instant Download</h5>
+                        <p>Download your processed file immediately — no email, no waiting.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Tool Categories ── -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-badge">Tools</span>
+                <h2 class="section-title">All Tool Categories</h2>
+                <p class="section-sub">Every tool you need, organized by file type.</p>
+            </div>
+            <div class="row g-4">
+
+                <!-- PDF -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a href="/all-tools" class="tool-cat-card">
+                        <div class="tool-cat-header">
+                            <div class="tool-cat-icon fi-blue"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+                            <div>
+                                <div class="tool-cat-name">PDF Tools</div>
+                                <div class="tool-cat-count">7 tools available</div>
+                            </div>
+                        </div>
+                        <ul class="tool-list">
+                            <li><i class="bi bi-check2"></i> Convert PDF</li>
+                            <li><i class="bi bi-check2"></i> Compress PDF</li>
+                            <li><i class="bi bi-check2"></i> Merge & Split PDF</li>
+                            <li><i class="bi bi-check2"></i> Lock & Unlock PDF</li>
+                            <li><i class="bi bi-check2"></i> Add Signature</li>
+                        </ul>
+                    </a>
+                </div>
+
+                <!-- Images -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a href="/all-tools" class="tool-cat-card">
+                        <div class="tool-cat-header">
+                            <div class="tool-cat-icon fi-green"><i class="bi bi-image-fill"></i></div>
+                            <div>
+                                <div class="tool-cat-name">Image Tools</div>
+                                <div class="tool-cat-count">7 tools available</div>
+                            </div>
+                        </div>
+                        <ul class="tool-list">
+                            <li><i class="bi bi-check2"></i> Convert Image</li>
+                            <li><i class="bi bi-check2"></i> Compress Image</li>
+                            <li><i class="bi bi-check2"></i> Crop & Resize</li>
+                            <li><i class="bi bi-check2"></i> Add Watermark</li>
+                            <li><i class="bi bi-check2"></i> Remove Background</li>
+                        </ul>
+                    </a>
+                </div>
+
+                <!-- Audio -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a href="/all-tools" class="tool-cat-card">
+                        <div class="tool-cat-header">
+                            <div class="tool-cat-icon fi-purple"><i class="bi bi-music-note-beamed"></i></div>
+                            <div>
+                                <div class="tool-cat-name">Audio Tools</div>
+                                <div class="tool-cat-count">5 tools available</div>
+                            </div>
+                        </div>
+                        <ul class="tool-list">
+                            <li><i class="bi bi-check2"></i> Convert Audio</li>
+                            <li><i class="bi bi-check2"></i> Compress Audio</li>
+                            <li><i class="bi bi-check2"></i> Trim Audio</li>
+                            <li><i class="bi bi-check2"></i> Merge Audio</li>
+                            <li><i class="bi bi-check2"></i> Extract Audio</li>
+                        </ul>
+                    </a>
+                </div>
+
+                <!-- Video -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a href="/all-tools" class="tool-cat-card">
+                        <div class="tool-cat-header">
+                            <div class="tool-cat-icon fi-pink"><i class="bi bi-camera-video-fill"></i></div>
+                            <div>
+                                <div class="tool-cat-name">Video Tools</div>
+                                <div class="tool-cat-count">4 tools available</div>
+                            </div>
+                        </div>
+                        <ul class="tool-list">
+                            <li><i class="bi bi-check2"></i> Compress Video</li>
+                            <li><i class="bi bi-check2"></i> Trim Video</li>
+                            <li><i class="bi bi-check2"></i> Merge Videos</li>
+                            <li><i class="bi bi-check2"></i> Extract Audio from Video</li>
+                        </ul>
+                    </a>
+                </div>
+
+                <!-- Archives -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a href="/all-tools" class="tool-cat-card">
+                        <div class="tool-cat-header">
+                            <div class="tool-cat-icon fi-orange"><i class="bi bi-file-zip-fill"></i></div>
+                            <div>
+                                <div class="tool-cat-name">Word Tools</div>
+                                <div class="tool-cat-count">3 tools available</div>
+                            </div>
+                        </div>
+                        <ul class="tool-list">
+                            <li><i class="bi bi-check2"></i> Word to PDF</li>
+                            <li><i class="bi bi-check2"></i> Word to HTML</li>
+                            <li><i class="bi bi-check2"></i> Extract Text</li>
+                            <!-- <li><i class="bi bi-check2"></i> Password-protect ZIP</li> -->
+                        </ul>
+                    </a>
+                </div>
+
+                <!-- More coming -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="tool-cat-card"
+                        style="border-style:dashed;background:var(--gray-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:200px;">
+                        <div style="font-size:2rem;color:#9CA3AF;margin-bottom:12px;"><i class="bi bi-plus-circle"></i>
+                        </div>
+                        <div style="font-weight:700;color:var(--text);margin-bottom:6px;">More Coming Soon</div>
+                        <div style="font-size:.83rem;color:var(--sub);">We're constantly adding new tools based on user
+                            feedback.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── How it works ── -->
+    <section class="section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-12 col-lg-5">
+                    <span class="section-badge">How It Works</span>
+                    <h2 class="section-title">Simple 3-Step Process</h2>
+                    <p class="section-sub" style="text-align:left;">No software to install. No account required. Just
+                        upload, process, and download.</p>
+                </div>
+                <div class="col-12 col-lg-7">
+                    <div class="timeline">
+                        <div class="tl-item">
+                            <div class="tl-dot">1</div>
+                            <div class="tl-content">
+                                <h5>Upload Your File</h5>
+                                <p>Drag and drop your file or click to browse. We support all major formats across PDF,
+                                    images, audio, and video.</p>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">2</div>
+                            <div class="tl-content">
+                                <h5>Choose a Tool & Settings</h5>
+                                <p>Pick from our smart tool suggestions. Adjust settings like quality, format,
+                                    resolution, or compression level.</p>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">3</div>
+                            <div class="tl-content">
+                                <h5>Download Instantly</h5>
+                                <p>Your file is processed securely and ready to download in seconds. No email required,
+                                    no waiting.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Security ── -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-badge">Security</span>
+                <h2 class="section-title">Your Files Are Safe With Us</h2>
+                <p class="section-sub">We take privacy seriously. Here's how we protect your data.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-12 col-md-6">
+                    <div class="security-card">
+                        <div class="sec-icon fi-green"><i class="bi bi-shield-lock-fill"></i></div>
+                        <div>
+                            <h5 style="font-size:.98rem;font-weight:700;margin-bottom:6px;">No Permanent Storage</h5>
+                            <p style="font-size:.84rem;color:var(--sub);margin:0;line-height:1.65;">Your files are
+                                processed in memory and immediately deleted after download. We never store your data.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="security-card">
+                        <div class="sec-icon fi-blue"><i class="bi bi-lock-fill"></i></div>
+                        <div>
+                            <h5 style="font-size:.98rem;font-weight:700;margin-bottom:6px;">Encrypted Transfers</h5>
+                            <p style="font-size:.84rem;color:var(--sub);margin:0;line-height:1.65;">All file transfers
+                                use HTTPS encryption so your data is safe during upload and download.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="security-card">
+                        <div class="sec-icon fi-purple"><i class="bi bi-person-fill-lock"></i></div>
+                        <div>
+                            <h5 style="font-size:.98rem;font-weight:700;margin-bottom:6px;">No Account Needed</h5>
+                            <p style="font-size:.84rem;color:var(--sub);margin:0;line-height:1.65;">Most tools work
+                                without an account. Your identity stays private unless you choose to sign up.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="security-card">
+                        <div class="sec-icon fi-orange"><i class="bi bi-eye-slash-fill"></i></div>
+                        <div>
+                            <h5 style="font-size:.98rem;font-weight:700;margin-bottom:6px;">No Ads, No Tracking</h5>
+                            <p style="font-size:.84rem;color:var(--sub);margin:0;line-height:1.65;">We don't sell your
+                                data or show ads. Your privacy is more important than our profit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>Join thousands of users who process their files with Vetri Files every day.</p>
+            <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap">
+                <a href="/all-tools" class="btn-cta-white">Start Using Free Tools</a>
+                <a href="/register" class="btn-cta-outline">Create Free Account</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-12 col-md-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <span class="footer-brand">Vetri Files</span>
+                    </div>
+                    <p class="footer-tag">Smart file tools for everyone.<br>Process, convert, and edit files in seconds.
+                    </p>
+                </div>
+                <div class="col-6 col-md-2 offset-md-1 footer-col">
+                    <h6>Product</h6>
+                    <a href="/all-tools">All Tools</a>
+                    <a href="/features">Features</a>
+                    <a href="#">Pricing</a>
+                </div>
+                <div class="col-6 col-md-2 footer-col">
+                    <h6>Tools</h6>
+                    <a href="/all-tools">Documents</a>
+                    <a href="/all-tools">Images</a>
+                    <a href="/all-tools">Audio</a>
+                    <a href="/all-tools">Video</a>
+                </div>
+                <div class="col-6 col-md-2 footer-col">
+                    <h6>Legal</h6>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-copy">© 2026 Vetri Files. All rights reserved.</span>
+                <div class="social-links">
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-github"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        /* ── USER NAVBAR — same as index.html ── */
+        (function () {
+            const raw = sessionStorage.getItem('vetri_user');
+            const user = raw ? JSON.parse(raw) : null;
+            const navRight = document.getElementById('navRight');
+
+            if (user) {
+                const initials = user.name
+                    ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+                    : (user.email ? user.email[0].toUpperCase() : 'U');
+                const firstName = user.name ? user.name.split(' ')[0] : user.email;
+
+                navRight.innerHTML = `
+      <div class="dropdown">
+        <button class="profile-btn" onclick="toggleDropdown()">
+          <div class="avatar">${initials}</div>
+          <span class="profile-name">${firstName}</span>
+          <i class="bi bi-chevron-down" style="font-size:.7rem;color:#4A5565"></i>
+        </button>
+        <div class="dropdown-menu-custom" id="profileMenu">
+          <div class="dropdown-header">
+            <div class="avatar-lg">${initials}</div>
+            <div>
+              <div class="dh-name">${user.name || ''}</div>
+              <div class="dh-email">${user.email || ''}</div>
+            </div>
+          </div>
+          <button class="dropdown-item-custom logout" onclick="logout()">
+            <i class="bi bi-box-arrow-right"></i> Sign Out
+          </button>
+        </div>
+      </div>`;
+            } else {
+                navRight.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;">
+        <a href="/login" style="font-size:.88rem;font-weight:600;color:#3B82F6;text-decoration:none;padding:7px 14px;">Login</a>
+        <a href="/register" style="background:linear-gradient(135deg,#1E3A8A,#3B82F6);color:#fff;padding:9px 22px;border-radius:50px;font-weight:600;font-size:.88rem;text-decoration:none;">Get Started</a>
+      </div>`;
+            }
+        })();
+
+        function toggleDropdown() {
+            document.getElementById('profileMenu').classList.toggle('open');
+        }
+        document.addEventListener('click', function (e) {
+            const menu = document.getElementById('profileMenu');
+            if (menu && !e.target.closest('.dropdown')) menu.classList.remove('open');
+        });
+        function logout() {
+            fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+                sessionStorage.removeItem('vetri_user');
+                window.location.href = '/login';
+            });
+        }
+
+        function toggleNavLinks() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+window.addEventListener('resize', () => {
+  if (window.innerWidth >= 576) {
+    document.getElementById('navLinks').classList.remove('open');
+  }
+});
+    </script>
+</body>
+
+</html>

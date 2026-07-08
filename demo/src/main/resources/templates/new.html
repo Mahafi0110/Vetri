@@ -1,0 +1,99 @@
+<script>
+  const FILE_TOOLS_PATH = "/file-tools";
+  const IDB_NAME = "vetri_files_db";
+  const IDB_STORE = "files";
+  const IDB_KEY = "pending_upload";
+  /** ~3MB raw — base64 stays under typical 5MB sessionStorage limit */
+  const MAX_DATA_URL_BYTES = 3 * 1024 * 1024;
+  function openIdb() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(IDB_NAME, 1);
+      req.onupgradeneeded = () => {
+        if (!req.result.objectStoreNames.contains(IDB_STORE)) {
+          req.result.createObjectStore(IDB_STORE);
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  function idbPutFile(file) {
+    return openIdb().then(
+      (db) =>
+        new Promise((resolve, reject) => {
+          const tx = db.transaction(IDB_STORE, "readwrite");
+          tx.objectStore(IDB_STORE).put(file, IDB_KEY);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        })
+    );
+  }
+  function goToFileTools(source) {
+    sessionStorage.setItem("vetri_file_source", source); // "session" | "idb" | "meta_only"
+    window.location.href = FILE_TOOLS_PATH;
+  }
+  function handleFiles(files) {
+    if (!files.length) return;
+    const file = files[0];
+    const meta = { name: file.name, size: file.size, type: file.type || "" };
+    sessionStorage.setItem("vetri_file", JSON.stringify(meta));
+    sessionStorage.removeItem("vetri_file_data");
+    // Large files: skip data URL + sessionStorage — use IndexedDB
+    if (file.size > MAX_DATA_URL_BYTES) {
+      idbPutFile(file)
+        .then(() => goToFileTools("idb"))
+        .catch(() => {
+          sessionStorage.setItem("vetri_file_oversized", "1");
+          goToFileTools("meta_only");
+        });
+      return;
+    }
+    const reader = new FileReader();
+    reader.onerror = () => {
+      idbPutFile(file)
+        .then(() => goToFileTools("idb"))
+        .catch(() => goToFileTools("meta_only"));
+    };
+    reader.onload = (e) => {
+      try {
+        sessionStorage.setItem("vetri_file_data", e.target.result);
+        goToFileTools("session");
+      } catch (err) {
+        idbPutFile(file)
+          .then(() => goToFileTools("idb"))
+          .catch(() => goToFileTools("meta_only"));
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+  const card = document.getElementById("uploadCard");
+  const input = document.getElementById("fileInput");
+  ["dragenter", "dragover"].forEach((evt) => {
+    card.addEventListener(evt, (ev) => {
+      ev.preventDefault();
+      card.classList.add("drag-over");
+    });
+  });
+  ["dragleave", "drop"].forEach((evt) => {
+    card.addEventListener(evt, (ev) => {
+      ev.preventDefault();
+      card.classList.remove("drag-over");
+    });
+  });
+  card.addEventListener("drop", (ev) => {
+    const dropped = ev.dataTransfer.files;
+    if (dropped.length) handleFiles(dropped);
+  });
+  card.addEventListener("click", (e) => {
+    if (e.target.closest(".btn-choose-file")) return;
+    input.click();
+  });
+  input.addEventListener("change", () => handleFiles(input.files));
+  document.querySelectorAll(".cat-pill").forEach((pill) => {
+    pill.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.querySelectorAll(".cat-pill").forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+    });
+  });
+</script>

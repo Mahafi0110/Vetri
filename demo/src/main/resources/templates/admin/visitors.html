@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visitor Logs – Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue: #3B82F6;
+            --heading: #1F2937;
+            --sub: #4A5565;
+            --bg: #F3F4F6;
+            --border: #E5E7EB;
+            --sidebar-w: 260px;
+            --sidebar-bg: #0F172A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--heading);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-w);
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            text-decoration: none;
+        }
+
+        .sidebar-brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-brand-icon i {
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-brand-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: #fff;
+            display: block;
+        }
+
+        .sidebar-brand-sub {
+            font-size: .7rem;
+            color: #64748B;
+            display: block;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+
+        .sidebar-section-label {
+            font-size: .65rem;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 12px 8px 6px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #94A3B8;
+            font-size: .875rem;
+            font-weight: 500;
+            margin-bottom: 2px;
+            transition: all .2s;
+        }
+
+        .sidebar-link i {
+            font-size: 1rem;
+            width: 18px;
+            text-align: center;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, .07);
+            color: #fff;
+        }
+
+        .sidebar-link.active {
+            background: rgba(59, 130, 246, .2);
+            color: #60A5FA;
+        }
+
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+        }
+
+        .admin-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .8rem;
+            font-weight: 700;
+        }
+
+        .admin-name {
+            font-size: .82rem;
+            font-weight: 600;
+            color: #fff;
+            display: block;
+        }
+
+        .admin-role {
+            font-size: .7rem;
+            color: #64748B;
+            display: block;
+        }
+
+        .admin-logout {
+            margin-left: auto;
+            color: #64748B;
+            font-size: .9rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .admin-logout:hover {
+            color: #EF4444;
+        }
+
+        /* Main */
+        .main-content {
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .top-header h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .top-header p {
+            font-size: .8rem;
+            color: var(--sub);
+        }
+
+        .page-body {
+            padding: 28px;
+        }
+
+        /* Range tabs */
+        .range-tabs {
+            display: flex;
+            gap: 6px;
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 5px;
+        }
+
+        .range-tab {
+            padding: 7px 14px;
+            border: none;
+            background: none;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--sub);
+            cursor: pointer;
+            transition: all .2s;
+            white-space: nowrap;
+        }
+
+        .range-tab.active {
+            background: var(--blue);
+            color: #fff;
+        }
+
+        /* Stat cards */
+        .stat-card {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            height: 100%;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .si-blue {
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+        }
+
+        .si-green {
+            background: linear-gradient(135deg, #16A34A, #4ADE80);
+        }
+
+        .si-purple {
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+        }
+
+        .si-orange {
+            background: linear-gradient(135deg, #D97706, #FCD34D);
+        }
+
+        .stat-label {
+            font-size: .78rem;
+            color: var(--sub);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: var(--heading);
+            line-height: 1;
+        }
+
+        /* Search bar */
+        .search-bar {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-input-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-input-wrap i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--sub);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 9px 12px 9px 36px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: .88rem;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-input:focus {
+            border-color: var(--blue);
+        }
+
+        .filter-select {
+            padding: 9px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: .85rem;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .filter-select:focus {
+            border-color: var(--blue);
+        }
+
+        /* Table card */
+        .table-card {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .table-header h3 {
+            font-size: .95rem;
+            font-weight: 700;
+        }
+
+        .table-count {
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--sub);
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 50px;
+            padding: 3px 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 10px 20px;
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--sub);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        td {
+            padding: 13px 20px;
+            font-size: .85rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--bg);
+        }
+
+        .num-cell {
+            font-weight: 700;
+            color: var(--sub);
+            font-size: .8rem;
+        }
+
+        .ip-text {
+            font-family: 'Inter', sans-serif;
+            font-size: .82rem;
+            color: var(--sub);
+        }
+
+        .location-text {
+            font-weight: 500;
+        }
+
+        .device-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: .72rem;
+            font-weight: 600;
+        }
+
+        .device-mobile {
+            background: #F5F3FF;
+            color: #7C3AED;
+        }
+
+        .device-laptop {
+            background: #EFF6FF;
+            color: #1E3A8A;
+        }
+
+        .device-tablet {
+            background: #F0FDF4;
+            color: #16A34A;
+        }
+
+        .device-unknown {
+            background: #F3F4F6;
+            color: #4A5565;
+        }
+
+        .time-text {
+            font-size: .78rem;
+            color: var(--sub);
+        }
+
+        /* Country card */
+        .country-card {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .country-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .country-item:last-child {
+            border-bottom: none;
+        }
+
+        .country-item:hover {
+            background: var(--bg);
+        }
+
+        .country-flag {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            width: 28px;
+            text-align: center;
+        }
+
+        .country-name {
+            font-size: .88rem;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .country-count {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .country-bar-wrap {
+            width: 80px;
+            background: var(--bg);
+            border-radius: 50px;
+            height: 5px;
+            overflow: hidden;
+        }
+
+        .country-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+            border-radius: 50px;
+        }
+
+        @media(max-width:991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .page-body {
+                padding: 16px;
+            }
+
+            table {
+                font-size: .8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a class="sidebar-brand" href="/">
+            <div class="sidebar-brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+            <div>
+                <span class="sidebar-brand-name">Vetri Files</span>
+                <span class="sidebar-brand-sub">Admin Panel</span>
+            </div>
+        </a>
+        <nav class="sidebar-nav">
+            <p class="sidebar-section-label">Main</p>
+            <a href="/admin/dashboard" class="sidebar-link"><i class="bi bi-grid-fill"></i> Dashboard</a>
+            <a href="/admin/users" class="sidebar-link"><i class="bi bi-people-fill"></i> Users</a>
+            <a href="/admin/logs" class="sidebar-link"><i class="bi bi-clock-history"></i> Activity Logs</a>
+             <a href="/admin/visitors" class="sidebar-link active"><i class="bi bi-eye-fill"></i> Visitor Logs</a>
+            <p class="sidebar-section-label">Settings</p>
+            <a href="/admin/settings" class="sidebar-link"><i class="bi bi-gear-fill"></i> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="admin-profile">
+                <div class="admin-avatar" id="adminAvatar">A</div>
+                <div>
+                    <span class="admin-name" id="adminName">Admin</span>
+                    <span class="admin-role">Super Admin</span>
+                </div>
+                <button class="admin-logout" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main-content">
+
+        <!-- Header -->
+        <div class="top-header">
+            <div>
+                <h1>Visitor Logs</h1>
+                <p>Track who visited your website</p>
+            </div>
+            <div class="range-tabs">
+                <button class="range-tab active" onclick="setRange('today',this)">Today</button>
+                <button class="range-tab" onclick="setRange('7d',this)">Last 7 Days</button>
+                <button class="range-tab" onclick="setRange('1m',this)">Last 1 Month</button>
+                <button class="range-tab" onclick="setRange('1y',this)">Last 1 Year</button>
+            </div>
+        </div>
+
+        <div class="page-body">
+
+            <!-- Stat Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon si-blue"><i class="bi bi-eye-fill"></i></div>
+                        <div>
+                            <p class="stat-label">Total Visitors</p>
+                            <p class="stat-value" id="totalVisits">—</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon si-green"><i class="bi bi-phone-fill"></i></div>
+                        <div>
+                            <p class="stat-label">Mobile</p>
+                            <p class="stat-value" id="mobileCount">—</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon si-purple"><i class="bi bi-laptop-fill"></i></div>
+                        <div>
+                            <p class="stat-label">Laptop</p>
+                            <p class="stat-value" id="laptopCount">—</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon si-orange"><i class="bi bi-tablet-fill"></i></div>
+                        <div>
+                            <p class="stat-label">Tablet</p>
+                            <p class="stat-value" id="tabletCount">—</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+
+                <!-- Visitor Logs Table -->
+                <div class="col-12 col-lg-8">
+
+                    <!-- Search bar -->
+                    <div class="search-bar">
+                        <div class="search-input-wrap">
+                            <i class="bi bi-search"></i>
+                            <input type="text" class="search-input" id="searchInput"
+                                placeholder="Search by IP or location..." oninput="filterTable()" />
+                        </div>
+                        <select class="filter-select" id="deviceFilter" onchange="filterTable()">
+                            <option value="">All Devices</option>
+                            <option value="Mobile">Mobile</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Tablet">Tablet</option>
+                        </select>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3>Visitor Logs</h3>
+                            <span class="table-count" id="visitorCount">— visitors</span>
+                        </div>
+                        <div style="overflow-x:auto;max-height:500px;overflow-y:auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>IP Address</th>
+                                        <th>Location</th>
+                                        <th>Device</th>
+                                        <th>Date &amp; Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="visitorTableBody">
+                                    <tr>
+                                        <td colspan="5" style="text-align:center;
+                      color:var(--sub);padding:32px">
+                                            <div class="spinner-border spinner-border-sm
+                                text-primary me-2"></div>
+                                            Loading...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Country-wise Count -->
+                <div class="col-12 col-lg-4">
+                    <div class="country-card">
+                        <div class="table-header">
+                            <h3>
+                                <i class="bi bi-globe2 me-2" style="color:var(--blue)"></i>
+                                Country-wise Count
+                            </h3>
+                        </div>
+                        <div id="countryList">
+                            <div style="text-align:center;color:var(--sub);
+                        padding:32px;font-size:.85rem">
+                                Loading...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let allVisits = [];
+        let currentRange = 'today';
+
+        const flagMap = {
+            'India': '🇮🇳',
+            'United States': '🇺🇸',
+            'United Kingdom': '🇬🇧',
+            'Germany': '🇩🇪',
+            'Singapore': '🇸🇬',
+            'Australia': '🇦🇺',
+            'Canada': '🇨🇦',
+            'France': '🇫🇷',
+            'Japan': '🇯🇵',
+            'Brazil': '🇧🇷',
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(
+                sessionStorage.getItem('vetri_user') || '{}'
+            );
+            const name = user.name || 'Admin';
+            document.getElementById('adminName').textContent = name;
+            document.getElementById('adminAvatar').textContent =
+                name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+
+            loadData();
+        });
+
+        function setRange(range, btn) {
+            currentRange = range;
+            document.querySelectorAll('.range-tab')
+                .forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadData();
+        }
+
+        function loadData() {
+            document.getElementById('visitorTableBody').innerHTML = `
+    <tr><td colspan="5" style="text-align:center;
+        color:var(--sub);padding:32px">
+      <div class="spinner-border spinner-border-sm
+                  text-primary me-2"></div>
+      Loading...
+    </td></tr>`;
+
+            fetch(`/api/admin/visitors?range=${currentRange}`)
+                .then(r => r.json())
+                .then(data => renderAll(data))
+                .catch(() => {
+                    document.getElementById('visitorTableBody').innerHTML =
+                        `<tr><td colspan="5" style="text-align:center;
+            color:var(--sub);padding:32px">
+          Could not load visitor data
+        </td></tr>`;
+                });
+        }
+
+        function renderAll(data) {
+            allVisits = data.visits || [];
+
+            // Stats
+            const total = data.totalVisits || allVisits.length || 0;
+            const mobile = allVisits.filter(v =>
+                v.deviceType === 'Mobile').length;
+            const laptop = allVisits.filter(v =>
+                v.deviceType === 'Laptop').length;
+            const tablet = allVisits.filter(v =>
+                v.deviceType === 'Tablet').length;
+
+            document.getElementById('totalVisits').textContent = total;
+            document.getElementById('mobileCount').textContent = mobile;
+            document.getElementById('laptopCount').textContent = laptop;
+            document.getElementById('tabletCount').textContent = tablet;
+
+            // Table
+            renderTable(allVisits);
+
+            // Country counts
+            renderCountries(data.countryCounts || []);
+        }
+
+        function renderTable(visits) {
+            const tbody = document.getElementById('visitorTableBody');
+            document.getElementById('visitorCount').textContent =
+                visits.length + ' visitors';
+
+            if (!visits.length) {
+                tbody.innerHTML = `
+      <tr><td colspan="5" style="text-align:center;
+          color:var(--sub);padding:40px">
+        <i class="bi bi-eye-slash" style="font-size:2rem;
+           display:block;margin-bottom:10px;"></i>
+        No visitors found for this period
+      </td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = visits.map((v, i) => {
+                const deviceClass = {
+                    'Mobile': 'device-mobile',
+                    'Laptop': 'device-laptop',
+                    'Tablet': 'device-tablet'
+                }[v.deviceType] || 'device-unknown';
+
+                const deviceIcon = {
+                    'Mobile': 'bi-phone-fill',
+                    'Laptop': 'bi-laptop-fill',
+                    'Tablet': 'bi-tablet-fill'
+                }[v.deviceType] || 'bi-question-circle';
+
+                const time = v.visitedAt
+                    ? new Date(v.visitedAt).toLocaleString('en-IN', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                    })
+                    : '—';
+
+                return `
+      <tr>
+        <td><span class="num-cell">${i + 1}</span></td>
+        <td><span class="ip-text">${v.ipAddress || '—'}</span></td>
+        <td><span class="location-text">
+          ${v.location || '—'}
+        </span></td>
+        <td>
+          <span class="device-badge ${deviceClass}">
+            <i class="bi ${deviceIcon}"></i>
+            ${v.deviceType || 'Unknown'}
+          </span>
+        </td>
+        <td><span class="time-text">${time}</span></td>
+      </tr>`;
+            }).join('');
+        }
+
+        function renderCountries(countryCounts) {
+            const list = document.getElementById('countryList');
+
+            if (!countryCounts.length) {
+                list.innerHTML = `
+      <div style="text-align:center;color:var(--sub);
+                  padding:32px;font-size:.85rem">
+        No data yet
+      </div>`;
+                return;
+            }
+
+            const maxCount = Math.max(
+                ...countryCounts.map(c => c.count), 1
+            );
+
+            list.innerHTML = countryCounts.map(c => {
+                const flag = flagMap[c.country] || '🌍';
+                const pct = Math.round((c.count / maxCount) * 100);
+                return `
+      <div class="country-item">
+        <div class="country-flag">${flag}</div>
+        <div class="country-name">${c.country || 'Unknown'}</div>
+        <div class="country-bar-wrap">
+          <div class="country-bar" style="width:${pct}%"></div>
+        </div>
+        <div class="country-count">${c.count}</div>
+      </div>`;
+            }).join('');
+        }
+
+        function filterTable() {
+            const search = document.getElementById('searchInput')
+                .value.toLowerCase();
+            const device = document.getElementById('deviceFilter').value;
+
+            const filtered = allVisits.filter(v => {
+                const loc = (v.location || '').toLowerCase();
+                const ip = (v.ipAddress || '').toLowerCase();
+                const matchSearch = !search ||
+                    loc.includes(search) || ip.includes(search);
+                const matchDevice = !device || v.deviceType === device;
+                return matchSearch && matchDevice;
+            });
+
+            renderTable(filtered);
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = '/login';
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compress PDF – Vetri Files</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue-main: #3B82F6;
+      --heading: #1F2937;
+      --subtext: #4A5565;
+      --accent-1: #F3F4F6;
+      --accent-2: #E5E7EB;
+      --white: #ffffff;
+      --green: #16A34A;
+      --radius-card: 16px;
+      --radius-btn: 50px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--heading);
+      background: var(--accent-1);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--white);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--accent-2);
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .navbar-nav .nav-link {
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--heading) !important;
+      padding: 6px 14px !important;
+      transition: color .2s;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--blue-main) !important;
+    }
+
+    .btn-login {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--blue-main) !important;
+      padding: 6px 14px !important;
+      border-radius: var(--radius-btn);
+    }
+
+    .btn-get-started {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff !important;
+      border: none;
+      padding: 10px 24px !important;
+      border-radius: var(--radius-btn);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+      transition: transform .2s;
+      white-space: nowrap;
+    }
+
+    .btn-get-started:hover {
+      transform: translateY(-1px);
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 4px 8px;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    @media (max-width:991.98px) {
+      .navbar-collapse {
+        background: var(--white);
+        border-top: 1px solid var(--accent-2);
+        padding: 12px 0 16px;
+        margin-top: 10px;
+      }
+
+      .navbar-nav {
+        align-items: flex-start !important;
+        padding: 0 8px;
+      }
+
+      .btn-login,
+      .btn-get-started {
+        margin: 4px 8px !important;
+      }
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      background: var(--accent-1);
+      padding: 20px 0 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color .2s;
+       /* 🔥 ADD THESE */
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+    }
+
+    .back-link:hover {
+      color: var(--blue-main);
+    }
+
+    .page-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    /* ── Tool Layout ── */
+    .tool-main {
+      padding: 24px 0 64px;
+    }
+
+    /* ── Settings Card ── */
+    .settings-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+      height: 100%;
+    }
+
+    .settings-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .settings-title i {
+      color: var(--blue-main);
+    }
+
+    .form-label-custom {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .divider-line {
+      border: none;
+      border-top: 1.5px solid var(--accent-2);
+      margin: 20px 0;
+    }
+
+    /* ── Compression Level Buttons ── */
+    .compression-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .comp-btn {
+      padding: 12px 16px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      background: var(--white);
+      cursor: pointer;
+      transition: all .2s;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .comp-btn:hover {
+      border-color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    .comp-btn.active {
+      border-color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    .comp-btn .comp-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .ci-low {
+      background: linear-gradient(135deg, #16A34A, #4ADE80);
+    }
+
+    .ci-medium {
+      background: linear-gradient(135deg, #D97706, #FCD34D);
+    }
+
+    .ci-high {
+      background: linear-gradient(135deg, #DC2626, #F87171);
+    }
+
+    .comp-btn .comp-info {
+      flex: 1;
+    }
+
+    .comp-btn .comp-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 2px;
+    }
+
+    .comp-btn .comp-desc {
+      font-size: .75rem;
+      color: var(--subtext);
+      margin: 0;
+    }
+
+    .comp-btn .comp-check {
+      color: var(--blue-main);
+      font-size: 1rem;
+      display: none;
+    }
+
+    .comp-btn.active .comp-check {
+      display: block;
+    }
+
+    /* ── Quality Slider ── */
+    .range-label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .range-custom {
+      width: 100%;
+      height: 5px;
+      accent-color: var(--blue-main);
+      cursor: pointer;
+    }
+
+    /* ── File Size Preview ── */
+    .size-preview {
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .size-box {
+      text-align: center;
+      flex: 1;
+    }
+
+    .size-label {
+      font-size: .72rem;
+      color: var(--subtext);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .size-value {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .size-arrow {
+      color: var(--blue-main);
+      font-size: 1.2rem;
+      padding: 0 8px;
+    }
+
+    .size-saving {
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    /* ── Preview Card ── */
+    .preview-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+    }
+
+    .preview-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 20px;
+    }
+
+    /* ── PDF Preview Area ── */
+    .pdf-preview-area {
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .pdf-icon-large {
+      font-size: 4rem;
+      color: #CBD5E1;
+      margin-bottom: 16px;
+    }
+
+    .pdf-filename {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 4px;
+    }
+
+    .pdf-hint {
+      font-size: .83rem;
+      color: var(--subtext);
+      margin: 0;
+    }
+
+    /* PDF loaded state */
+    .pdf-info-bar {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .pdf-info-bar.show {
+      display: flex;
+    }
+
+    .pdf-info-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #DC2626, #EF4444);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .pdf-info-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 2px;
+    }
+
+    .pdf-info-size {
+      font-size: .78rem;
+      color: var(--subtext);
+      margin: 0;
+    }
+
+    /* ── Compression Stats ── */
+    .stats-row {
+      display: none;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stats-row.show {
+      display: flex;
+    }
+
+    .stat-card {
+      flex: 1;
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: .72rem;
+      color: var(--subtext);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .stat-value {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .stat-value.green {
+      color: var(--green);
+    }
+
+    /* ── Process Button ── */
+    .btn-process {
+      width: 100%;
+      padding: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .btn-process:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(59, 130, 246, .45);
+    }
+
+    /* ── Processing Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 30, 30, .55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 48px 40px 44px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+      transform: scale(.95);
+      transition: transform .3s;
+    }
+
+    .modal-overlay.show .modal-box {
+      transform: scale(1);
+    }
+
+    .spinner-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 5px solid var(--accent-2);
+      border-top-color: var(--blue-main);
+      animation: spin .9s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .modal-title-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 10px;
+    }
+
+    .modal-sub-text {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 24px;
+    }
+
+    .progress-track {
+      background: var(--accent-2);
+      border-radius: 50px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue-main));
+      width: 0%;
+      transition: width .3s ease;
+    }
+
+    /* ── Success Modal ── */
+    .success-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #16A34A, #4ADE80);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 6px 20px rgba(22, 163, 74, .3);
+    }
+
+    .success-circle i {
+      color: #fff;
+      font-size: 2rem;
+    }
+
+    .success-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 8px;
+    }
+
+    .success-file {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 6px;
+    }
+
+    .success-note {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 28px;
+    }
+
+    .success-stats {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .success-stat {
+      flex: 1;
+      background: var(--accent-1);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .success-stat-label {
+      font-size: .72rem;
+      color: var(--subtext);
+      margin-bottom: 4px;
+    }
+
+    .success-stat-value {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .success-stat-value.green {
+      color: var(--green);
+    }
+
+    .btn-download {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-compress-another {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      background: var(--white);
+      color: var(--heading);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: border-color .2s, color .2s;
+      cursor: pointer;
+    }
+
+    .btn-compress-another:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+    }
+
+    .success-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .85rem;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: color .2s;
+    }
+
+    .success-back:hover {
+      color: var(--blue-main);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--white);
+      border-top: 1px solid var(--accent-2);
+      padding: 56px 0 0;
+    }
+
+    .footer-brand-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .footer-tagline {
+      font-size: .88rem;
+      color: var(--subtext);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-col-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      font-size: .88rem;
+      color: var(--subtext);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue-main);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--accent-2);
+      padding: 18px 0;
+      margin-top: 48px;
+    }
+
+    .footer-copy {
+      font-size: .84rem;
+      color: var(--subtext);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+      font-size: .95rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    @media (max-width:767.98px) {
+      .tool-main {
+        padding: 20px 0 48px;
+      }
+
+      .settings-card {
+        margin-bottom: 16px;
+      }
+
+      .modal-box {
+        padding: 36px 24px 32px;
+      }
+
+      .footer {
+        padding: 40px 0 0;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+
+      .stats-row {
+        flex-direction: column;
+      }
+
+      .success-stats {
+        flex-direction: column;
+      }
+    }
+    @media (min-width: 992px) and (max-width: 1199.98px) {
+
+    .size-preview {
+        flex-direction: column;   /* 👈 stack */
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .size-arrow {
+        transform: rotate(90deg); /* 👈 arrow down */
+    }
+
+}
+  </style>
+</head>
+
+<body>
+
+  <!-- ════════════════════════════════
+     NAVBAR
+════════════════════════════════ -->
+  <!-- <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+        <span class="brand-name">Vetri Files</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link" href="/all-tools">Tools</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+          <a href="/login" class="nav-link btn-login">Login</a>
+          <a href="/register" class="nav-link btn-get-started">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav> -->
+  <nav class="navbar navbar-expand-lg">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="/">
+      <div class="brand-icon">
+        <i class="bi bi-file-earmark-text-fill"></i>
+      </div>
+      <span class="brand-name">Vetri Files</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- Move links to RIGHT -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/all-tools">Tools</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Feature">Features</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+<!-- ════════════════════════════════
+     PAGE HEADER
+════════════════════════════════ -->
+  <div class="page-header">
+    <div class="container">
+      <!-- <a href="/file-tools" class="back-link">
+        <i class="bi bi-arrow-left"></i> Back
+      </a> -->
+      <button class="back-link" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Back
+            </button>
+      <h1 class="page-title">Compress PDF</h1>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+     TOOL MAIN
+════════════════════════════════ -->
+  <main class="tool-main">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- ── Settings Panel ── -->
+        <div class="col-12 col-lg-3">
+          <div class="settings-card">
+            <div class="settings-title">
+              <i class="bi bi-gear-fill"></i> Settings
+            </div>
+            
+
+            <!-- Compression Level -->
+            <label class="form-label-custom">Compression Level</label>
+            <div class="compression-btns">
+
+              <div class="comp-btn" onclick="setCompression('low', this)">
+                <div class="comp-icon ci-low">
+                  <i class="bi bi-feather"></i>
+                </div>
+                <div class="comp-info">
+                  <p class="comp-name">Low</p>
+                  <p class="comp-desc">Best quality, less compression</p>
+                </div>
+                <i class="bi bi-check-circle-fill comp-check"></i>
+              </div>
+
+              <div class="comp-btn active" onclick="setCompression('medium', this)">
+                <div class="comp-icon ci-medium">
+                  <i class="bi bi-balance-scale"></i>
+                </div>
+                <div class="comp-info">
+                  <p class="comp-name">Medium</p>
+                  <p class="comp-desc">Balanced quality & size</p>
+                </div>
+                <i class="bi bi-check-circle-fill comp-check"></i>
+              </div>
+
+              <div class="comp-btn" onclick="setCompression('high', this)">
+                <div class="comp-icon ci-high">
+                  <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+                <div class="comp-info">
+                  <p class="comp-name">High</p>
+                  <p class="comp-desc">Smallest size, lower quality</p>
+                </div>
+                <i class="bi bi-check-circle-fill comp-check"></i>
+              </div>
+
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Quality Slider -->
+            <div class="range-label">
+              <span>Quality</span>
+              <span id="qualityVal">70%</span>
+            </div>
+            <input type="range" class="range-custom" id="qualityRange" min="1" max="100" value="70"
+              oninput="updateQuality(this.value)" />
+
+            <!-- File Size Preview -->
+            <div class="size-preview" id="sizePreview" style="display:none">
+              <div class="size-box">
+                <p class="size-label">Original</p>
+                <p class="size-value" id="origSize">—</p>
+              </div>
+              <i class="bi bi-arrow-right size-arrow"></i>
+              <div class="size-box">
+                <p class="size-label">Estimated</p>
+                <p class="size-value" id="estSize">—</p>
+                <p class="size-saving" id="savingPct"></p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Preview Panel ── -->
+        <div class="col-12 col-lg-9">
+          <div class="preview-card">
+            <p class="preview-title">Preview</p>
+
+            <!-- PDF Info Bar -->
+            <div class="pdf-info-bar" id="pdfInfoBar">
+              <div class="pdf-info-icon">
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+              </div>
+              <div>
+                <p class="pdf-info-name" id="pdfInfoName">file.pdf</p>
+                <p class="pdf-info-size" id="pdfInfoSize">—</p>
+              </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="stats-row" id="statsRow">
+              <div class="stat-card">
+                <p class="stat-label">Original Size</p>
+                <p class="stat-value" id="statOrig">—</p>
+              </div>
+              <div class="stat-card">
+                <p class="stat-label">Est. Output</p>
+                <p class="stat-value" id="statEst">—</p>
+              </div>
+              <div class="stat-card">
+                <p class="stat-label">Space Saving</p>
+                <p class="stat-value green" id="statSaving">—</p>
+              </div>
+              <div class="stat-card">
+                <p class="stat-label">Quality</p>
+                <p class="stat-value" id="statQuality">70%</p>
+              </div>
+            </div>
+
+            <!-- Preview Area -->
+            <div class="pdf-preview-area" id="previewArea">
+              <i class="bi bi-file-earmark-zip-fill pdf-icon-large"></i>
+              <p class="pdf-filename" id="previewFilename">No file loaded</p>
+              <p class="pdf-hint">Upload a PDF to see compression preview</p>
+            </div>
+
+            <!-- Process Button -->
+            <button class="btn-process" onclick="startProcessing()">
+              <i class="bi bi-cloud-arrow-down-fill"></i>
+              Process &amp; Download
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ════════════════════════════════
+     PROCESSING MODAL
+════════════════════════════════ -->
+  <div class="modal-overlay" id="processingModal">
+    <div class="modal-box">
+      <div class="spinner-ring"></div>
+      <p class="modal-title-text">Compressing Your PDF</p>
+      <p class="modal-sub-text">Reducing file size while preserving quality...</p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NETWORK ERROR MODAL ── -->
+<div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+            <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+        </div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;"
+            id="netErrTitle">Something went wrong</p>
+        <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;"
+            id="netErrMsg">Please try again.</p>
+        <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            Try Again
+        </button>
+        <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            Upload New File
+        </button>
+    </div>
+</div>
+
+  <!-- ════════════════════════════════
+     SUCCESS MODAL
+════════════════════════════════ -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <a href="/file-tools" class="success-back">
+        <i class="bi bi-arrow-left"></i> Back
+      </a>
+      <div class="success-circle">
+        <i class="bi bi-check-lg"></i>
+      </div>
+      <p class="success-title">PDF Compressed!</p>
+
+      <!-- Compression Stats -->
+      <div class="success-stats">
+        <div class="success-stat">
+          <p class="success-stat-label">Original</p>
+          <p class="success-stat-value" id="successOrig">—</p>
+        </div>
+        <div class="success-stat">
+          <p class="success-stat-label">Compressed</p>
+          <p class="success-stat-value" id="successComp">—</p>
+        </div>
+        <div class="success-stat">
+          <p class="success-stat-label">Saved</p>
+          <p class="success-stat-value green" id="successSaved">—</p>
+        </div>
+      </div>
+
+      <p class="success-file" id="successFileName">file.pdf</p>
+      <p class="success-note">has been compressed successfully</p>
+
+      <button class="btn-download" onclick="downloadFile()">
+        <i class="bi bi-cloud-arrow-down-fill"></i> Download Compressed PDF
+      </button>
+      <button class="btn-compress-another" onclick="compressAnother()">
+        <i class="bi bi-arrow-clockwise"></i> Compress Another PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4 g-lg-5">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+            <span class="footer-brand-name">Vetri Files</span>
+          </div>
+          <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in seconds.
+          </p>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+          <p class="footer-col-title">Product</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools">All Tools</a></li>
+            <li><a href="/Feature">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">All Tools</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools#document-tools">Document Tools</a></li>
+            <li><a href="/all-tools#image-tools">Image Tools</a></li>
+            <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+            <li><a href="/all-tools#video-tools">Video Tools</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">Legal</p>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+        <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+        <div class="social-links mt-3 mt-sm-0">
+          <a href="https://www.instagram.com/vetriitsystems/" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="https://x.com/VTSITPARK" target="_blank" title="GitHub"><i class="bi bi-twitter-x"></i></a>
+          <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" title="Linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/auth.js"></script>        
+  <script src="/js/vetri-file-helper.js"></script>
+ <script>
+    /* ── Globals ── */
+    let currentFile = null;
+    let currentFileBlob = null;
+    let processedBlob = null;
+    let processedName = 'compressed.pdf';
+    let compressionLevel = 'medium';
+
+    /* ── Init ── */
+    // window.addEventListener('DOMContentLoaded', () => {
+    //   const stored = sessionStorage.getItem('vetri_file');
+    //   const dataURL = sessionStorage.getItem('vetri_file_data');
+
+    //   if (!stored) return;
+
+    //   try {
+    //     currentFile = JSON.parse(stored);
+    //     loadFileInfo(currentFile);
+    //   } catch (e) { }
+
+    //   // ✅ Convert Base64 → Blob (ONLY ONCE)
+    //   if (dataURL) {
+    //     fetch(dataURL)
+    //       .then(res => res.blob())
+    //       .then(blob => {
+    //         currentFileBlob = blob;
+    //       });
+    //   }
+    // });
+    window.addEventListener('DOMContentLoaded', () => {
+       // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+  if (!isFromUpload()) {
+    // Show "no file" state — don't load previous file
+    showNoFileState();
+    return;
+  }
+  const stored = sessionStorage.getItem('vetri_file');
+
+  if (!stored) return;
+
+  try {
+    currentFile = JSON.parse(stored);
+    loadFileInfo(currentFile);
+  } catch (e) {}
+
+  // ✅ FIXED: load from IndexedDB OR sessionStorage
+  getFileBlob((blob, meta) => {
+    if (!blob) {
+      alert('Failed to load file');
+      return;
+    }
+
+    currentFileBlob = blob;
+  });
+});
+
+function showNoFileState() {
+  document.getElementById('pdfInfoName').textContent = 'No file loaded';
+  document.getElementById('pdfInfoSize').textContent = '—';
+  // Show a link to go upload
+            document.getElementById('pdfInfoName').innerHTML =
+                '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+}
+
+
+    /* ── Load file info ── */
+    function loadFileInfo(f) {
+      const name = f.name || 'document.pdf';
+      const size = f.size || 0;
+
+      document.getElementById('pdfInfoBar').classList.add('show');
+      document.getElementById('pdfInfoName').textContent = name;
+      document.getElementById('pdfInfoSize').textContent =
+        formatSize(size) + ' • application/pdf';
+
+      document.getElementById('previewFilename').textContent = name;
+      document.getElementById('previewArea')
+        .querySelector('p.pdf-hint').textContent = 'Ready to compress';
+
+      document.getElementById('statsRow').classList.add('show');
+      document.getElementById('statOrig').textContent = formatSize(size);
+      document.getElementById('successOrig').textContent = formatSize(size);
+      document.getElementById('successFileName').textContent = name;
+
+      document.getElementById('sizePreview').style.display = 'flex';
+      document.getElementById('origSize').textContent = formatSize(size);
+
+      updateEstimate(size, 70);
+    }
+
+    /* ── Compression buttons ── */
+    function setCompression(level, btn) {
+      compressionLevel = level;
+
+      document.querySelectorAll('.comp-btn')
+        .forEach(b => b.classList.remove('active'));
+
+      btn.classList.add('active');
+
+      const qualityMap = { low: 85, medium: 70, high: 40 };
+      const q = qualityMap[level];
+
+      document.getElementById('qualityRange').value = q;
+      updateQuality(q);
+    }
+
+    /* ── Slider ── */
+    function updateQuality(val) {
+      document.getElementById('qualityVal').textContent = val + '%';
+      document.getElementById('statQuality').textContent = val + '%';
+
+      if (currentFile) updateEstimate(currentFile.size, val);
+    }
+
+    /* ── Estimate size ── */
+    function updateEstimate(origSize, quality) {
+      const ratio = quality / 100;
+      const estSize = Math.round(origSize * ratio * 0.85);
+      const saving = Math.round((1 - estSize / origSize) * 100);
+
+      document.getElementById('estSize').textContent = formatSize(estSize);
+      document.getElementById('savingPct').textContent = saving + '% saved';
+
+      document.getElementById('statEst').textContent = formatSize(estSize);
+      document.getElementById('statSaving').textContent = saving + '%';
+
+      document.getElementById('successComp').textContent = formatSize(estSize);
+      document.getElementById('successSaved').textContent = saving + '%';
+
+      const name = currentFile ? currentFile.name : 'document.pdf';
+      processedName = 'compressed_' + name;
+    }
+
+    /* ── Format size ── */
+    function formatSize(bytes) {
+      if (!bytes) return '—';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    /* ── START PROCESS ── */
+    function startProcessing() {
+      if (!currentFileBlob) {
+        alert('File not loaded properly. Please upload again.');
+        return;
+      }
+
+      const processingModal = document.getElementById('processingModal');
+      const progressFill = document.getElementById('progressFill');
+
+      processingModal.classList.add('show');
+
+      let progress = 0;
+
+      const interval = setInterval(() => {
+        progress += Math.random() * 20;
+        if (progress >= 95) {
+          progress = 95;
+          clearInterval(interval);
+        }
+        progressFill.style.width = progress + '%';
+      }, 300);
+
+      const quality = document.getElementById('qualityRange').value;
+
+      const formData = new FormData();
+      formData.append('file', currentFileBlob, currentFile.name);
+      formData.append('quality', quality);
+
+      fetch('/api/pdf/compress', {
+        method: 'POST',
+        body: formData
+      })
+        .then(r => {
+          if (!r.ok) throw new Error('Compression failed');
+          return r.blob();
+        })
+        .then(blob => {
+          clearInterval(interval);
+          progressFill.style.width = '100%';
+
+          processedBlob = blob;
+
+          setTimeout(() => {
+            processingModal.classList.remove('show');
+            document.getElementById('successModal').classList.add('show');
+          }, 400);
+        })
+       .catch(err => {
+    clearInterval(interval);
+    processingModal.classList.remove('show');
+    console.error(err);
+
+    if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        showNetworkError(
+            'No Internet Connection',
+            'Your connection was lost while compressing the PDF. Please check your WiFi and try again.'
+        );
+    } else {
+        showNetworkError(
+            'Compression Failed',
+            'Could not compress the PDF. Please try again.'
+        );
+    }
+});
+    }
+
+    /* ── Download ── */
+    function downloadFile() {
+      if (!processedBlob) {
+        alert('No file to download');
+        return;
+      }
+
+      const url = URL.createObjectURL(processedBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = processedName;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    /* ── Reset ── */
+    function compressAnother() {
+      sessionStorage.removeItem('vetri_file');
+      sessionStorage.removeItem('vetri_file_data');
+      window.location.href = '/';
+    }
+     function goBack() {
+            const ref = document.referrer || "";
+
+            if (ref.includes('/all-tools')) {
+                window.location.href = '/all-tools';
+            } else if (ref.includes('/file-tools')) {
+                window.location.href = '/file-tools';
+            } else if (window.history.length > 1) {
+                window.history.back(); // smart fallback
+            } else {
+                window.location.href = '/';
+            }
+        }
+        function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent   = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+  </script>
+
+</body>
+
+</html>

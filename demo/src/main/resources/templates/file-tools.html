@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Choose Tool – Vetri Files</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+   
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue-main: #3B82F6;
+            --heading: #1F2937;
+            --subtext: #4A5565;
+            --accent-1: #F3F4F6;
+            --accent-2: #E5E7EB;
+            --white: #ffffff;
+            --radius-card: 16px;
+            --radius-btn: 50px;
+            --shadow-hover: 0 8px 32px rgba(59, 130, 246, .13);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--heading);
+            background: var(--accent-1);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: var(--white);
+            padding: 14px 0;
+            border-bottom: 1px solid var(--accent-2);
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .brand-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--heading);
+            letter-spacing: -.3px;
+        }
+
+        .navbar-nav .nav-link {
+            font-family: 'Inter', sans-serif;
+            font-size: .95rem;
+            font-weight: 500;
+            color: var(--heading) !important;
+            padding: 6px 14px !important;
+            transition: color .2s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--blue-main) !important;
+        }
+
+        .btn-login {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--blue-main) !important;
+            padding: 6px 14px !important;
+            border-radius: var(--radius-btn);
+            transition: background .2s;
+        }
+
+        .btn-login:hover {
+            background: var(--accent-1);
+        }
+
+        .btn-get-started {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            color: #fff !important;
+            border: none;
+            padding: 10px 24px !important;
+            border-radius: var(--radius-btn);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+            transition: transform .2s, box-shadow .2s;
+            white-space: nowrap;
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, .45);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width:991.98px) {
+            .navbar-collapse {
+                background: var(--white);
+                border-top: 1px solid var(--accent-2);
+                padding: 12px 0 16px;
+                margin-top: 10px;
+            }
+
+            .navbar-nav {
+                align-items: flex-start !important;
+                padding: 0 8px;
+            }
+
+            .btn-login,
+            .btn-get-started {
+                margin: 4px 8px !important;
+            }
+        }
+
+        /* ── Page Header ── */
+        .page-header {
+            background: var(--white);
+            border-bottom: 1px solid var(--accent-2);
+            padding: 20px 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .back-link:hover {
+            color: var(--blue-main);
+        }
+
+        /* ── File Info Card ── */
+        .file-info-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: var(--radius-card);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+
+        .file-icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .fi-pdf {
+            background: linear-gradient(135deg, #DC2626, #EF4444);
+        }
+
+        .fi-image {
+            background: linear-gradient(135deg, #0D9488, #2DD4BF);
+        }
+
+        .fi-audio {
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+        }
+
+        .fi-video {
+            background: linear-gradient(135deg, #DB2777, #F472B6);
+        }
+
+        .fi-doc {
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+        }
+
+        .fi-word {
+            background: linear-gradient(135deg, #4338CA, #8B5CF6);
+        }
+
+        .fi-default {
+            background: linear-gradient(135deg, #4B5563, #9CA3AF);
+        }
+
+        .file-info-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-meta {
+            font-size: .85rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        .btn-change-file {
+            font-size: .85rem;
+            font-weight: 500;
+            color: var(--subtext);
+            border: 1.5px solid var(--accent-2);
+            background: var(--white);
+            padding: 8px 18px;
+            border-radius: var(--radius-btn);
+            transition: border-color .2s, color .2s;
+            white-space: nowrap;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-change-file:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+        }
+
+        /* ── Section heading ── */
+        .tools-question {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 20px;
+        }
+
+        /* ── Tool Action Card ── */
+        .tool-action-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: var(--radius-card);
+            padding: 24px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--heading);
+            height: 100%;
+            transition: box-shadow .25s, transform .25s, border-color .25s;
+        }
+
+        .tool-action-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+            border-color: var(--blue-main);
+            color: var(--heading);
+        }
+
+        .tac-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        /* PDF tools - blues */
+        .tac-blue-1 {
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+        }
+
+        .tac-blue-2 {
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+        }
+
+        .tac-blue-3 {
+            background: linear-gradient(135deg, #DC2626, #EF4444);
+        }
+
+        .tac-blue-4 {
+            background: linear-gradient(135deg, #16A34A, #4ADE80);
+        }
+
+        .tac-blue-5 {
+            background: linear-gradient(135deg, #DC2626, #F97316);
+        }
+
+        .tac-blue-6 {
+            background: linear-gradient(135deg, #7C3AED, #EC4899);
+        }
+
+        /* Image tools - teals */
+        .tac-teal-1 {
+            background: linear-gradient(135deg, #0F766E, #2DD4BF);
+        }
+
+        .tac-teal-2 {
+            background: linear-gradient(135deg, #0D9488, #5EEAD4);
+        }
+
+        .tac-teal-3 {
+            background: linear-gradient(135deg, #0891B2, #67E8F9);
+        }
+
+        .tac-teal-4 {
+            background: linear-gradient(135deg, #059669, #6EE7B7);
+        }
+
+        .tac-teal-5 {
+            background: linear-gradient(135deg, #0369A1, #38BDF8);
+        }
+
+        .tac-teal-6 {
+            background: linear-gradient(135deg, #0F766E, #34D399);
+        }
+
+        /* Audio tools - purples */
+        .tac-purple-1 {
+            background: linear-gradient(135deg, #6D28D9, #A78BFA);
+        }
+
+        .tac-purple-2 {
+            background: linear-gradient(135deg, #7C3AED, #C084FC);
+        }
+
+        .tac-purple-3 {
+            background: linear-gradient(135deg, #5B21B6, #8B5CF6);
+        }
+
+        .tac-purple-4 {
+            background: linear-gradient(135deg, #4C1D95, #7C3AED);
+        }
+
+        /* Video tools - pinks */
+        .tac-pink-1 {
+            background: linear-gradient(135deg, #BE185D, #F472B6);
+        }
+
+        .tac-pink-2 {
+            background: linear-gradient(135deg, #DB2777, #FB7185);
+        }
+
+        .tac-pink-3 {
+            background: linear-gradient(135deg, #9D174D, #EC4899);
+        }
+
+        .tac-pink-4 {
+            background: linear-gradient(135deg, #BE123C, #FB923C);
+        }
+
+        /* word tools-greens */
+        .tac-indigo-1 {
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+        }
+
+        .tac-indigo-2 {
+            background: linear-gradient(135deg, #1E40AF, #6366F1);
+        }
+
+        .tac-indigo-3 {
+            background: linear-gradient(135deg, #4338CA, #8B5CF6);
+        }
+
+
+        .tac-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 6px;
+        }
+
+        .tac-desc {
+            font-size: .85rem;
+            color: var(--subtext);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ── Main content ── */
+        .tools-main {
+            padding: 36px 0 64px;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            background: var(--white);
+            border-top: 1px solid var(--accent-2);
+            padding: 56px 0 0;
+        }
+
+        .footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .footer-tagline {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            font-size: .88rem;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-main);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--accent-2);
+            padding: 18px 0;
+            margin-top: 48px;
+        }
+
+        .footer-copy {
+            font-size: .84rem;
+            color: var(--subtext);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--subtext);
+            font-size: .95rem;
+            text-decoration: none;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        @media (max-width:767.98px) {
+            .tools-main {
+                padding: 24px 0 48px;
+            }
+
+            .file-info-card {
+                flex-wrap: wrap;
+            }
+
+            .btn-change-file {
+                width: 100%;
+                text-align: center;
+            }
+
+            .footer {
+                padding: 40px 0 0;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+    <!-- <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                <span class="brand-name">Vetri Files</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="/all-tools">Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Feature">Features</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+                    <a href="/login" class="nav-link btn-login">Login</a>
+                    <a href="/register" class="nav-link btn-get-started">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav> -->
+    <div id="vetri-navbar"></div>
+
+
+    <!-- ════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════ -->
+    <div class="page-header">
+        <div class="container">
+            <a href="/" class="back-link">
+                <i class="bi bi-arrow-left"></i> Back to Upload
+            </a>
+        </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════ -->
+    <main class="tools-main">
+        <div class="container">
+
+            <!-- File Info Card -->
+            <div class="file-info-card">
+                <div class="file-icon-box fi-pdf" id="fileIconBox">
+                    <i class="bi bi-file-earmark-pdf-fill" id="fileIconEl"></i>
+                </div>
+                <div class="file-info-text">
+                    <p class="file-name" id="fileName">No file selected</p>
+                    <p class="file-meta" id="fileMeta">— • —</p>
+                </div>
+                <a href="/" class="btn-change-file">
+                    <i class="bi bi-arrow-repeat me-1"></i> Change File
+                </a>
+            </div>
+
+            <!-- Tools Question + Grid -->
+            <h2 class="tools-question">What would you like to do?</h2>
+            <div class="row g-3" id="toolsGrid">
+                <!-- Populated by JS based on file type -->
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4 g-lg-5">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <span class="footer-brand-name">Vetri Files</span>
+                    </div>
+                    <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+                        seconds.</p>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+                    <p class="footer-col-title">Product</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools">All Tools</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">All Tools</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Document Tools</a></li>
+                        <li><a href="#">Image Tools</a></li>
+                        <li><a href="#">Audio Tools</a></li>
+                        <li><a href="#">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">Legal</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+                <div class="social-links mt-3 mt-sm-0">
+                    <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/js/auth.js"></script>
+    <script src="/js/vetri-file-helper.js"></script>
+  
+    <script>
+        /* Same IndexedDB as index.html + vetri-file-helper.js */
+        const VETRI_IDB_NAME = 'VetriFilesDB';
+        const VETRI_IDB_STORE = 'files';
+        const VETRI_IDB_KEY = 'current_file';
+
+        /* ══════════════════════════════════════════════════
+           TOOL DEFINITIONS BY FILE CATEGORY
+        ══════════════════════════════════════════════════ */
+        const TOOL_SETS = {
+            pdf: [
+                { icon: 'bi-arrow-left-right', color: 'tac-blue-1', name: 'Compress Format', desc: 'Click to get started', page: '/tool-compress-pdf' },
+                { icon: 'bi-pen-fill', color: 'tac-blue-2', name: 'Add Signature', desc: 'Click to get started', page: '/tool-add-signature' },
+                { icon: 'bi-lock-fill', color: 'tac-blue-3', name: 'Lock PDF', desc: 'Click to get started', page: '/tool-lock-pdf' },
+                { icon: 'bi-unlock-fill', color: 'tac-blue-4', name: 'Unlock PDF', desc: 'Click to get started', page: '/tool-unlock-pdf' },
+                { icon: 'bi-diagram-2-fill', color: 'tac-blue-5', name: 'Split PDF', desc: 'Click to get started', page: '/tool-split-pdf' },
+                { icon: 'bi-intersect', color: 'tac-blue-6', name: 'Merge PDF', desc: 'Click to get started', page: '/tool-merge-pdf' },
+            ],
+            image: [
+                { icon: 'bi-arrow-left-right', color: 'tac-teal-1', name: 'Convert Format', desc: 'Click to get started', page: '/tool-convert-image' },
+                { icon: 'bi-crop', color: 'tac-teal-2', name: 'Crop Image', desc: 'Click to get started', page: '/tool-crop-image' },
+                { icon: 'bi-arrows-fullscreen', color: 'tac-teal-3', name: 'Resize Image', desc: 'Click to get started', page: '/tool-resize-image' },
+                { icon: 'bi-droplet-fill', color: 'tac-teal-4', name: 'Add Watermark', desc: 'Click to get started', page: '/tool-watermark-image' },
+                // { icon: 'bi-intersect', color: 'tac-teal-5', name: 'Merge Images', desc: 'Click to get started', page: '/tool-merge-images' },
+                { icon: 'bi-file-earmark-zip-fill', color: 'tac-teal-6', name: 'Remove Background Image', desc: 'Click to get started', page: '/tool-remove-background' },
+            ],
+            audio: [
+                { icon: 'bi-arrow-left-right', color: 'tac-purple-1', name: 'Compress Audio', desc: 'Click to get started', page: '/tool-compress-audio' },
+                { icon: 'bi-scissors', color: 'tac-purple-2', name: 'Trim Audio', desc: 'Click to get started', page: '/tool-trim-audio' },
+                { icon: 'bi-intersect', color: 'tac-purple-3', name: 'Merge Audio', desc: 'Click to get started', page: '/tool-merge-audio' },
+            ],
+            video: [
+                { icon: 'bi-arrow-left-right', color: 'tac-pink-1', name: 'Compress Video', desc: 'Click to get started', page: '/tool-compress-video' },
+                { icon: 'bi-scissors', color: 'tac-pink-2', name: 'Trim Video', desc: 'Click to get started', page: '/tool-trim-video' },
+                { icon: 'bi-music-note-beamed', color: 'tac-pink-3', name: 'Extract Audio', desc: 'Click to get started', page: '/tool-extract-audio-video' },
+            ],
+            word: [
+                { icon: 'bi-file-earmark-pdf-fill', color: 'tac-indigo-1', name: 'Word to PDF', desc: 'Convert .doc / .docx to PDF', page: '/tool-word-pdf' },
+                { icon: 'bi-file-earmark-code-fill', color: 'tac-indigo-2', name: 'Word to HTML', desc: 'Export document as HTML page', page: '/tool-word-html' },
+                { icon: 'bi-file-earmark-text-fill', color: 'tac-indigo-3', name: 'Extract Text', desc: 'Pull plain text from Word file', page: '/tool-word-text' },
+                //     { icon: 'bi-bar-chart-fill', color: 'tac-indigo-4', name: 'Word Count', desc: 'Words, chars & paragraph statistics', page: '/tool-word-count' },
+                //     { icon: 'bi-info-circle-fill', color: 'tac-indigo-5', name: 'Doc Metadata', desc: 'Author, title, dates & more', page: '/tool-word-meta' },
+                //     { icon: 'bi-intersect', color: 'tac-indigo-1', name: 'Merge Docs', desc: 'Combine multiple Word files into one', page: '/tool-word-merge' },
+            ],
+        };
+
+        function getExtension(fileName) {
+            if (!fileName || typeof fileName !== 'string') return '';
+            const i = fileName.lastIndexOf('.');
+            if (i <= 0 || i === fileName.length - 1) return '';
+            return fileName.slice(i + 1).toLowerCase();
+        }
+
+        function detectCategory(mime, ext) {
+            mime = (mime || '').toLowerCase();
+            ext = (ext || '').toLowerCase();
+
+            if (mime === 'application/pdf' || ext === 'pdf') return 'pdf';
+
+            // Word documents
+            if (
+                mime === 'application/msword' ||
+                mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                mime === 'application/vnd.ms-word' ||
+                ext === 'doc' || ext === 'docx'
+            ) return 'word';
+
+
+            if (mime.startsWith('image/')) return 'image';
+            if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'svgz', 'tiff', 'tif', 'ico', 'avif'].includes(ext)) return 'image';
+
+            if (mime.startsWith('audio/')) return 'audio';
+            if (['mp3', 'wav', 'ogg', 'oga', 'flac', 'aac', 'm4a', 'wma', 'opus', 'weba', 'aiff', 'aif', 'caf', 'mid', 'midi', 'ape', 'dsf', 'dff', 'alac', 'eac3', 'ac3', 'dts', 'amr', 'gsm'].includes(ext)) return 'audio';
+
+            if (mime.startsWith('video/')) return 'video';
+            if (['mp4', 'avi', 'mov', 'mkv', 'wmv', 'flv', 'webm', 'm4v', 'mpeg', 'mpg', '3gp'].includes(ext)) return 'video';
+
+            /* Empty or generic MIME — guess from extension only */
+            if (!mime || mime === 'application/octet-stream') {
+                if (['mp3', 'wav', 'm4a', 'flac', 'aac', 'ogg', 'oga', 'opus', 'weba', 'aiff', 'aif', 'caf', 'wma', 'mid', 'midi'].includes(ext)) return 'audio';
+                if (['mp4', 'mov', 'webm', 'mkv', 'avi', 'm4v', 'mpeg', 'mpg'].includes(ext)) return 'video';
+                if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'].includes(ext)) return 'image';
+                if (ext === 'pdf') return 'pdf';
+            }
+
+            return 'pdf';
+        }
+
+        function getCategoryMeta(cat) {
+            const map = {
+
+                pdf: { iconClass: 'bi-file-earmark-pdf-fill', boxClass: 'fi-pdf', label: 'application/pdf' },
+                image: { iconClass: 'bi-file-earmark-image-fill', boxClass: 'fi-image', label: 'image file' },
+                audio: { iconClass: 'bi-file-earmark-music-fill', boxClass: 'fi-audio', label: 'audio file' },
+                video: { iconClass: 'bi-file-earmark-play-fill', boxClass: 'fi-video', label: 'video file' },
+                word: { iconClass: 'bi-file-earmark-word-fill', boxClass: 'fi-word', label: 'Word document' },
+            };
+            return map[cat] || map.pdf;
+        }
+
+        function formatSize(bytes) {
+            if (bytes == null || bytes === '') return '—';
+            const n = Number(bytes);
+            if (Number.isNaN(n) || n < 0) return '—';
+            if (n < 1024) return n + ' B';
+            if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+            return (n / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function renderTools(category) {
+            const tools = TOOL_SETS[category] || TOOL_SETS.pdf;
+            const grid = document.getElementById('toolsGrid');
+            grid.innerHTML = tools.map(t => `
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="${t.page}" class="tool-action-card" onclick="saveToolFile(event, '${t.page}')">
+          <div class="tac-icon ${t.color}"><i class="bi ${t.icon}"></i></div>
+          <p class="tac-name">${t.name}</p>
+          <p class="tac-desc">${t.desc}</p>
+        </a>
+      </div>
+    `).join('');
+        }
+function saveToolFile(e, page) {
+    sessionStorage.setItem('vetri_tool_page', page);
+    // ✅ Re-set the flag every time user picks a tool from file-tools
+    // This allows Back → pick another tool to work correctly
+    sessionStorage.setItem('vetri_from_upload', 'true');
+}
+
+        function idbGetCurrentUploadRecord() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(VETRI_IDB_NAME, 1);
+                req.onerror = () => reject(req.error || new Error('idb open failed'));
+                req.onsuccess = () => {
+                    const db = req.result;
+                    try {
+                        if (!db.objectStoreNames.contains(VETRI_IDB_STORE)) {
+                            db.close();
+                            resolve(null);
+                            return;
+                        }
+                        const tx = db.transaction(VETRI_IDB_STORE, 'readonly');
+                        const g = tx.objectStore(VETRI_IDB_STORE).get(VETRI_IDB_KEY);
+                        g.onsuccess = () => {
+                            db.close();
+                            resolve(g.result || null);
+                        };
+                        g.onerror = () => {
+                            db.close();
+                            reject(g.error);
+                        };
+                    } catch (err) {
+                        try { db.close(); } catch (e) { /* ignore */ }
+                        reject(err);
+                    }
+                };
+            });
+        }
+
+        function paintFileToolsCard(name, size, mimeForDetect, extFallback) {
+            const ext = extFallback != null ? extFallback : getExtension(name);
+            const mime = (mimeForDetect || '').toLowerCase();
+            const category = detectCategory(mime, ext);
+            const typeLabel = mimeForDetect || (ext ? ext.toUpperCase() : 'unknown');
+            const catMeta = getCategoryMeta(category);
+            document.getElementById('fileName').textContent = name;
+            document.getElementById('fileMeta').textContent = formatSize(size) + ' • ' + typeLabel;
+            document.getElementById('fileIconBox').className = 'file-icon-box ' + catMeta.boxClass;
+            document.getElementById('fileIconEl').className = 'bi ' + catMeta.iconClass;
+            renderTools(category);
+            return category;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const stored = sessionStorage.getItem('vetri_file');
+            const storageType = sessionStorage.getItem('vetri_storage_type');
+
+            let fileName = 'No file selected';
+            let fileMeta = '— • —';
+            let category = 'pdf';
+            let mimeHint = '';
+
+            if (stored) {
+                try {
+                    const f = JSON.parse(stored);
+                    fileName = f.name || 'Unknown file';
+                    mimeHint = f.type || '';
+                    const ext = getExtension(fileName);
+                    category = detectCategory(mimeHint, ext);
+                    const typeLabel = mimeHint || (ext ? ext.toUpperCase() : 'unknown');
+                    fileMeta = formatSize(f.size) + ' • ' + typeLabel;
+                } catch (e) { /* keep defaults */ }
+            }
+
+            document.getElementById('fileName').textContent = fileName;
+            document.getElementById('fileMeta').textContent = fileMeta;
+
+            let meta = getCategoryMeta(category);
+            let iconBox = document.getElementById('fileIconBox');
+            let iconEl = document.getElementById('fileIconEl');
+            iconBox.className = 'file-icon-box ' + meta.boxClass;
+            iconEl.className = 'bi ' + meta.iconClass;
+
+            renderTools(category);
+
+            /* Large files: index.html uses IndexedDB (VetriFilesDB / current_file).
+               Read real File so MIME + tools match audio/video correctly. */
+            if (storageType === 'indexeddb') {
+                idbGetCurrentUploadRecord()
+                    .then((record) => {
+                        if (!record || !record.file) return;
+                        const file = record.file;
+                        const name = file.name || fileName;
+                        const ext = getExtension(name);
+                        const mime = file.type || mimeHint || '';
+                        paintFileToolsCard(name, file.size != null ? file.size : (JSON.parse(stored || '{}').size || 0), mime, ext);
+                    })
+                    .catch(() => { /* keep sessionStorage-based UI */ });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

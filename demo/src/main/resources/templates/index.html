@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vetri Files – Smart File Tools</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue: #3B82F6;
+      --gray-bg: #F3F4F6;
+      --border: #E5E7EB;
+      --text: #1F2937;
+      --sub: #4A5565;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+    }
+
+    h1,
+    h2,
+    h3,
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Navbar ── */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 13px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .brand-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      background: var(--gray-bg);
+      color: var(--blue);
+    }
+
+    /* Hamburger — hidden by default (desktop + tablet) */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: var(--text);
+      cursor: pointer;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Only true mobile gets the hamburger + collapsed links */
+    @media(max-width: 575.98px) {
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 24px;
+        gap: 4px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+        z-index: 998;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        width: 100%;
+        padding: 10px 12px;
+      }
+
+      .nav-inner {
+        position: relative;
+      }
+    }
+
+    /* Tablet — shrink spacing only, links stay visible */
+    @media(max-width: 767.98px) and (min-width: 576px) {
+      .nav-inner {
+        padding: 0 16px;
+        gap: 10px;
+      }
+
+      .brand-name {
+        font-size: 1rem;
+      }
+
+      .nav-links {
+        gap: 2px;
+      }
+
+      .nav-links a {
+        padding: 6px 10px;
+        font-size: .85rem;
+      }
+    }
+
+
+    /* ── Profile button ── */
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gray-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      padding: 5px 14px 5px 5px;
+      cursor: pointer;
+      transition: border-color .2s;
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text);
+      position: relative;
+    }
+
+    .profile-btn:hover {
+      border-color: var(--blue);
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .profile-name {
+      max-width: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ── Dropdown ── */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu-custom {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(30, 58, 138, .12);
+      min-width: 220px;
+      padding: 6px;
+      display: none;
+      z-index: 999;
+    }
+
+    .dropdown-menu-custom.open {
+      display: block;
+    }
+
+    .dropdown-header {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar-lg {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color: #fff;
+      font-size: .9rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .dh-name {
+      font-weight: 700;
+      font-size: .88rem;
+      color: var(--text);
+    }
+
+    .dh-email {
+      font-size: .75rem;
+      color: var(--sub);
+      margin-top: 2px;
+      word-break: break-all;
+    }
+
+    .dropdown-item-custom {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 9px;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 100%;
+      transition: background .15s;
+    }
+
+    .dropdown-item-custom:hover {
+      background: var(--gray-bg);
+    }
+
+    .dropdown-item-custom i {
+      font-size: .95rem;
+      color: var(--sub);
+      width: 18px;
+      text-align: center;
+    }
+
+    .dropdown-item-custom.admin-item {
+      color: #1E3A8A;
+    }
+
+    .dropdown-item-custom.admin-item i {
+      color: #1E3A8A;
+    }
+
+    .dropdown-item-custom.admin-item:hover {
+      background: #EFF6FF;
+    }
+
+    .dropdown-item-custom.logout {
+      color: #DC2626;
+    }
+
+    .dropdown-item-custom.logout i {
+      color: #DC2626;
+    }
+
+    .dropdown-item-custom.logout:hover {
+      background: #FEF2F2;
+    }
+
+    .dropdown-divider-line {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 4px 0;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--gray-bg);
+      padding: 68px 0 52px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6, #06B6D4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+    }
+
+    .hero p {
+      font-size: .98rem;
+      color: var(--sub);
+      max-width: 520px;
+      margin: 16px auto 32px;
+      line-height: 1.7;
+    }
+
+    /* ── Upload card ── */
+    .upload-card {
+      background: linear-gradient(145deg, #e8ecf1, #d5dce8);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 28px 40px;
+      max-width: 720px;
+      margin: 0 auto 24px;
+      cursor: pointer;
+      transition: border-color .3s, box-shadow .3s;
+    }
+
+    .upload-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 32px rgba(59, 130, 246, .15);
+    }
+
+    .upload-card.drag-over {
+      border-color: var(--blue);
+      background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+    }
+
+    .upload-icon {
+      width: 68px;
+      height: 68px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, .4);
+    }
+
+    .upload-icon i {
+      color: #fff;
+      font-size: 1.7rem;
+    }
+
+    .upload-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .upload-sub {
+      font-size: .86rem;
+      color: var(--sub);
+      margin-bottom: 20px;
+    }
+
+    .btn-choose {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color: #fff;
+      border: none;
+      padding: 11px 28px;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: .88rem;
+      cursor: pointer;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    /* ── Pills ── */
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      background: #fff;
+      font-size: .84rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+
+    .pill:hover,
+    .pill.active {
+      border-color: var(--blue);
+      background: #EFF6FF;
+      color: var(--blue-dark);
+    }
+
+    .pill-ic {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .72rem;
+    }
+
+    .p-doc {
+      background: #EFF6FF;
+      color: #1E3A8A;
+    }
+
+    .p-img {
+      background: #F0FDF4;
+      color: #16A34A;
+    }
+
+    .p-aud {
+      background: #FDF4FF;
+      color: #9333EA;
+    }
+
+    .p-vid {
+      background: #FFF1F2;
+      color: #E11D48;
+    }
+
+    /* ── How it works ── */
+    .section {
+      padding: 72px 0 64px;
+    }
+
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .section-sub {
+      font-size: .95rem;
+      color: var(--sub);
+    }
+
+    .step-card {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 24px 28px;
+      height: 100%;
+      position: relative;
+      transition: box-shadow .3s, transform .3s;
+    }
+
+    .step-card:hover {
+      box-shadow: 0 8px 32px rgba(59, 130, 246, .15);
+      transform: translateY(-3px);
+    }
+
+    .step-num {
+      position: absolute;
+      top: -13px;
+      left: 22px;
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .step-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .s-blue {
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+    }
+
+    .s-teal {
+      background: linear-gradient(135deg, #0D9488, #06B6D4);
+    }
+
+    .s-purple {
+      background: linear-gradient(135deg, #7C3AED, #A855F7);
+    }
+
+    .step-card h5 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .step-card p {
+      font-size: .86rem;
+      color: var(--sub);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── Why section ── */
+    .why {
+      background: var(--gray-bg);
+      padding: 72px 0 64px;
+    }
+
+    .feat-card {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 22px;
+      height: 100%;
+      transition: box-shadow .3s, transform .3s;
+    }
+
+    .feat-card:hover {
+      box-shadow: 0 8px 32px rgba(59, 130, 246, .15);
+      transform: translateY(-3px);
+    }
+
+    .feat-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .fi-g {
+      background: linear-gradient(135deg, #16A34A, #4ADE80);
+    }
+
+    .fi-o {
+      background: linear-gradient(135deg, #EA580C, #FB923C);
+    }
+
+    .fi-b {
+      background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+    }
+
+    .fi-p {
+      background: linear-gradient(135deg, #7C3AED, #A855F7);
+    }
+
+    .feat-card h5 {
+      font-size: .98rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .feat-card p {
+      font-size: .84rem;
+      color: var(--sub);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 48px 0 0;
+    }
+
+    .footer-brand {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .footer-tag {
+      font-size: .84rem;
+      color: var(--sub);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .footer-col h6 {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: .84rem;
+      color: var(--sub);
+      text-decoration: none;
+      margin-bottom: 9px;
+      transition: color .2s;
+    }
+
+    .footer-col a:hover {
+      color: var(--blue);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 16px 0;
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy {
+      font-size: .8rem;
+      color: var(--sub);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .social-links a {
+      width: 34px;
+      height: 34px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sub);
+      font-size: .9rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    @media(max-width:768px) {
+      .hero {
+        padding: 48px 0 36px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+        <span class="brand-name">Vetri Files</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="/all-tools">Tools</a>
+        <a href="/Feature">Features</a>
+      </div>
+      <!-- navRight populated by JS below -->
+      <div style="display:flex; align-items:center; gap:6px;">
+        <div id="navRight"></div>
+        <button class="nav-toggle" id="navToggle" onclick="toggleNavLinks()" aria-label="Toggle menu">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="container">
+      <h1>Smart File Tools for<span class="hero-gradient"> Every File Type</span></h1>
+      <p>Upload any file and instantly access powerful tools tailored to your needs. Convert, edit, and enhance in
+        seconds.</p>
+
+      <div class="upload-card" id="uploadCard">
+        <input type="file" id="fileInput" />
+        <div class="upload-icon"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+        <p class="upload-title">Drag &amp; Drop Your File</p>
+        <p class="upload-sub">or click to browse from your device</p>
+        <button class="btn-choose" onclick="document.getElementById('fileInput').click()">Choose File</button>
+      </div>
+
+      <div class="pills">
+        <a href="#" class="pill active"><span class="pill-ic p-doc"><i
+              class="bi bi-file-earmark-text"></i></span>Documents</a>
+        <a href="#" class="pill"><span class="pill-ic p-img"><i class="bi bi-image"></i></span>Images</a>
+        <a href="#" class="pill"><span class="pill-ic p-aud"><i class="bi bi-music-note-beamed"></i></span>Audio</a>
+        <a href="#" class="pill"><span class="pill-ic p-vid"><i class="bi bi-camera-video"></i></span>Video</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-sub">Three simple steps to process any file</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-12 col-md-4">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-icon s-blue"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+            <h5>Upload Your File</h5>
+            <p>Drag and drop or select any file. We support all major formats.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-icon s-teal"><i class="bi bi-magic"></i></div>
+            <h5>Choose Your Tool</h5>
+            <p>Select from smart tool suggestions based on your file type.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-icon s-purple"><i class="bi bi-cloud-arrow-down-fill"></i></div>
+            <h5>Download Result</h5>
+            <p>Process securely and download your result in seconds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHY CHOOSE ── -->
+  <section class="why">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Why Choose Vetri Files?</h2>
+        <p class="section-sub">The smartest way to work with your files</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feat-card">
+            <div class="feat-icon fi-g"><i class="bi bi-shield-fill-check"></i></div>
+            <h5>Secure &amp; Private</h5>
+            <p>End-to-end encryption. Your files are never stored permanently.</p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feat-card">
+            <div class="feat-icon fi-o"><i class="bi bi-lightning-charge-fill"></i></div>
+            <h5>Lightning Fast</h5>
+            <p>Process files in seconds with our optimized infrastructure.</p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feat-card">
+            <div class="feat-icon fi-b"><i class="bi bi-currency-dollar"></i></div>
+            <h5>Free to Use</h5>
+            <p>All tools are completely free with no hidden fees.</p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feat-card">
+            <div class="feat-icon fi-p"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+            <h5>Multi-Format</h5>
+            <p>Images, documents, audio, video — one platform for all.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 col-md-5">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+            <span class="footer-brand">Vetri Files</span>
+          </div>
+          <p class="footer-tag">Smart file tools for everyone.<br>Process, convert, and edit files in seconds.</p>
+        </div>
+        <div class="col-6 col-md-2 offset-md-1 footer-col">
+          <h6>Product</h6>
+          <a href="/all-tools">All Tools</a>
+          <a href="/Feature">Features</a>
+          <a href="#">Pricing</a>
+        </div>
+        <div class="col-6 col-md-2 footer-col">
+          <h6>Tools</h6>
+          <a href="/all-tools">Documents</a>
+          <a href="/all-tools">Images</a>
+          <a href="/all-tools">Audio</a>
+          <a href="/all-tools">Video</a>
+        </div>
+        <div class="col-6 col-md-2 footer-col">
+          <h6>Legal</h6>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 Vetri Files. All rights reserved.</span>
+        <div class="social-links">
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-github"></i></a>
+          <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/vetri-file-helper.js"></script>
+
+  <script>
+    /* ══════════════════════════════════════════
+       NAVBAR — build right side based on login
+    ══════════════════════════════════════════ */
+    (function buildNavRight() {
+      const raw = sessionStorage.getItem('vetri_user')
+        || localStorage.getItem('vetri_user');
+      const user = raw ? JSON.parse(raw) : null;
+      const navRight = document.getElementById('navRight');
+      if (!navRight) return;
+
+      if (user) {
+        /* ── initials from name or email ── */
+        const initials = user.name
+          ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+          : (user.email ? user.email[0].toUpperCase() : 'U');
+
+        const firstName = user.name
+          ? user.name.split(' ')[0]
+          : (user.email || 'Account');
+
+        /* ── admin link — only for ADMIN role ── */
+        const isAdmin = user.role === 'ADMIN'
+          || user.role === 'ROLE_ADMIN';
+
+        const adminHtml = isAdmin ? `
+      <hr class="dropdown-divider-line" />
+      <button class="dropdown-item-custom admin-item"
+              onclick="window.location.href='/admin/dashboard'">
+        <i class="bi bi-shield-fill-check"></i>
+        Admin Panel
+      </button>` : '';
+
+        navRight.innerHTML = `
+      <div class="dropdown">
+        <button class="profile-btn" onclick="toggleDropdown(event)">
+          <div class="avatar">${initials}</div>
+          <span class="profile-name">${firstName}</span>
+          <i class="bi bi-chevron-down"
+             style="font-size:.7rem;color:var(--sub)"></i>
+        </button>
+        <div class="dropdown-menu-custom" id="profileMenu">
+          <div class="dropdown-header">
+            <div class="avatar-lg">${initials}</div>
+            <div>
+              <div class="dh-name">${user.name || user.email || ''}</div>
+              <div class="dh-email">${user.email || ''}</div>
+            </div>
+          </div>
+          ${adminHtml}
+          <hr class="dropdown-divider-line" />
+          <button class="dropdown-item-custom logout"
+                  onclick="logout()">
+            <i class="bi bi-box-arrow-right"></i> Sign Out
+          </button>
+        </div>
+      </div>`;
+
+      } else {
+        /* ── not logged in ── */
+        navRight.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;">
+        <a href="/login"
+           style="font-size:.88rem;font-weight:600;
+                  color:#3B82F6;text-decoration:none;
+                  padding:7px 14px;">Login</a>
+        <a href="/register"
+           style="background:linear-gradient(135deg,#1E3A8A,#3B82F6);
+                  color:#fff;padding:9px 22px;border-radius:50px;
+                  font-weight:600;font-size:.88rem;
+                  text-decoration:none;">Get Started</a>
+      </div>`;
+      }
+    })();
+
+    /* ── Dropdown toggle ── */
+    function toggleDropdown(e) {
+      e.stopPropagation();
+      document.getElementById('profileMenu')
+        .classList.toggle('open');
+    }
+
+    /* ── Close on outside click ── */
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById('profileMenu');
+      if (menu && !e.target.closest('.dropdown')) {
+        menu.classList.remove('open');
+      }
+    });
+
+    /* ── Logout ── */
+    function logout() {
+      fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+        sessionStorage.clear();
+        localStorage.removeItem('vetri_token');
+        localStorage.removeItem('vetri_user');
+        window.location.href = '/login';
+      });
+    }
+
+    /* ══════════════════════════════════════════
+       FILE UPLOAD — NO SIZE LIMIT
+       Video / large files → IndexedDB
+       Others → sessionStorage (base64)
+    ══════════════════════════════════════════ */
+    const card = document.getElementById('uploadCard');
+    const input = document.getElementById('fileInput');
+
+    /* drag & drop */
+    card.addEventListener('dragover', e => {
+      e.preventDefault();
+      card.classList.add('drag-over');
+    });
+    card.addEventListener('dragleave', () => {
+      card.classList.remove('drag-over');
+    });
+    card.addEventListener('drop', e => {
+      e.preventDefault();
+      card.classList.remove('drag-over');
+      const f = e.dataTransfer.files[0];
+      if (f) handleFile(f);
+    });
+
+    /* click to upload */
+    card.addEventListener('click', e => {
+      if (!e.target.closest('.btn-choose')) input.click();
+    });
+    input.addEventListener('change', () => {
+      if (input.files[0]) handleFile(input.files[0]);
+    });
+
+    /* ── Main file handler ── */
+    function handleFile(file) {
+      /* clear previous data */
+      sessionStorage.removeItem('vetri_file');
+      sessionStorage.removeItem('vetri_file_data');
+      sessionStorage.removeItem('vetri_storage_type');
+      sessionStorage.removeItem('vetri_from_upload');
+
+      /* store metadata */
+      sessionStorage.setItem('vetri_file', JSON.stringify({
+        name: file.name,
+        size: file.size,
+        type: file.type
+      }));
+
+      /*
+       * Routing rules (NO size limit):
+       *   video/* OR file > 5 MB  →  IndexedDB (handles large files)
+       *   everything else          →  sessionStorage base64
+       */
+      const USE_INDEXED = file.type.startsWith('video/')
+        || file.size > 5 * 1024 * 1024;
+
+      if (USE_INDEXED) {
+        storeInIndexedDB(file);
+      } else {
+        storeAsBase64(file);
+      }
+    }
+
+    /* ── IndexedDB ── */
+    function storeInIndexedDB(file) {
+      const req = indexedDB.open('VetriFilesDB', 1);
+
+      req.onupgradeneeded = e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('files')) {
+          db.createObjectStore('files', { keyPath: 'id' });
+        }
+      };
+
+      req.onerror = () => {
+        /* fallback */
+        console.warn('IndexedDB unavailable — falling back to base64');
+        storeAsBase64(file);
+      };
+
+      req.onsuccess = e => {
+        const db = e.target.result;
+        const tx = db.transaction('files', 'readwrite');
+        tx.objectStore('files').put({ id: 'current_file', file });
+
+        tx.oncomplete = () => {
+          db.close();
+          sessionStorage.setItem('vetri_storage_type', 'indexeddb');
+          sessionStorage.setItem('vetri_from_upload', 'true');
+          window.location.replace('/file-tools');
+        };
+
+        tx.onerror = () => {
+          db.close();
+          storeAsBase64(file);
+        };
+      };
+    }
+
+    /* ── Base64 / sessionStorage ── */
+    function storeAsBase64(file) {
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        try {
+          sessionStorage.setItem('vetri_file_data', e.target.result);
+          sessionStorage.setItem('vetri_storage_type', 'session');
+          sessionStorage.setItem('vetri_from_upload', 'true');
+        } catch (err) {
+          /* sessionStorage quota exceeded — fall back to IndexedDB */
+          console.warn('sessionStorage full — switching to IndexedDB');
+          storeInIndexedDB(file);
+          return;
+        }
+        window.location.replace('/file-tools');
+      };
+
+      reader.onerror = () => alert('Could not read the file. Please try again.');
+      reader.readAsDataURL(file);
+    }
+
+    /* ── Pills ── */
+    document.querySelectorAll('.pill').forEach(p => {
+      p.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelectorAll('.pill')
+          .forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+      });
+    });
+
+    /* ── Hamburger toggle (mobile only) ── */
+function toggleNavLinks() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+/* Close menu when a link is clicked */
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+/* Close menu if window resizes back to tablet/desktop */
+window.addEventListener('resize', () => {
+  if (window.innerWidth >= 576) {
+    document.getElementById('navLinks').classList.remove('open');
+  }
+});
+  </script>
+  
+
+</body>
+
+</html>

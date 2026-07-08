@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extract Text from Word – Vetri Files</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue-main: #3B82F6;
+      --heading: #1F2937;
+      --subtext: #4A5565;
+      --accent-1: #F3F4F6;
+      --accent-2: #E5E7EB;
+      --white: #ffffff;
+      --radius-card: 16px;
+      --radius-btn: 50px;
+      --tool-from: #0F766E;
+      --tool-to: #2DD4BF;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--heading);
+      background: var(--accent-1);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar {
+      background: var(--white);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--accent-2);
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--heading);
+      letter-spacing: -.3px;
+    }
+
+    .navbar-nav .nav-link {
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--heading) !important;
+      padding: 6px 14px !important;
+      transition: color .2s;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--blue-main) !important;
+    }
+
+    .btn-login {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--blue-main) !important;
+      padding: 6px 14px !important;
+      border-radius: var(--radius-btn);
+      transition: background .2s;
+    }
+
+    .btn-login:hover {
+      background: var(--accent-1);
+    }
+
+    .btn-get-started {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff !important;
+      border: none;
+      padding: 10px 24px !important;
+      border-radius: var(--radius-btn);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+      transition: transform .2s, box-shadow .2s;
+      white-space: nowrap;
+    }
+
+    .btn-get-started:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, .45);
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 4px 8px;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    @media(max-width:991.98px) {
+      .navbar-collapse {
+        background: var(--white);
+        border-top: 1px solid var(--accent-2);
+        padding: 12px 0 16px;
+        margin-top: 10px;
+      }
+
+      .navbar-nav {
+        align-items: flex-start !important;
+        padding: 0 8px;
+      }
+
+      .btn-login,
+      .btn-get-started {
+        margin: 4px 8px !important;
+      }
+    }
+
+    .page-header {
+      background: var(--accent-1);
+      padding: 20px 0 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color .2s;
+      /* 🔥 ADD THESE */
+      background: none;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .back-link:hover {
+      color: var(--blue-main);
+    }
+
+    .page-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    .tool-main {
+      padding: 24px 0 64px;
+    }
+
+    .settings-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+      height: 100%;
+    }
+
+    .settings-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .settings-title i {
+      color: var(--tool-from);
+      font-size: 1.1rem;
+    }
+
+    .form-label-custom {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .select-custom {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--heading);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5565' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+
+    .select-custom:focus {
+      outline: none;
+      border-color: var(--tool-from);
+    }
+
+    .divider-line {
+      border: none;
+      border-top: 1.5px solid var(--accent-2);
+      margin: 20px 0;
+    }
+
+    .preview-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+    }
+
+    .preview-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 20px;
+    }
+
+    .drop-zone {
+      border: 2px dashed var(--accent-2);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      margin-bottom: 20px;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.dragover {
+      border-color: var(--tool-from);
+      background: #F0FDFA;
+    }
+
+    .drop-zone input {
+      display: none;
+    }
+
+    .drop-zone-icon {
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+      display: block;
+      color: var(--tool-from);
+    }
+
+    .drop-zone-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--heading);
+      margin-bottom: 6px;
+    }
+
+    .drop-zone-sub {
+      font-size: .84rem;
+      color: var(--subtext);
+      margin-bottom: 16px;
+    }
+
+    .btn-browse {
+      background: linear-gradient(135deg, var(--tool-from), var(--tool-to));
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: var(--radius-btn);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: .88rem;
+      cursor: pointer;
+    }
+
+    .file-info-strip {
+      display: none;
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .file-info-strip.show {
+      display: flex;
+    }
+
+    .fi-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--tool-from), var(--tool-to));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .fi-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--heading);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 260px;
+    }
+
+    .fi-size {
+      font-size: .78rem;
+      color: var(--subtext);
+    }
+
+    .fi-remove {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: var(--subtext);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: color .2s;
+      flex-shrink: 0;
+    }
+
+    .fi-remove:hover {
+      color: #DC2626;
+    }
+
+    .btn-process {
+      width: 100%;
+      padding: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--tool-from), var(--tool-to));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(15, 118, 110, .3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .btn-process:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(15, 118, 110, .4);
+    }
+
+    .btn-process:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .info-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 50px;
+      padding: 5px 14px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--subtext);
+      margin-bottom: 6px;
+    }
+
+    .form-check-input:checked {
+      background-color: var(--tool-from);
+      border-color: var(--tool-from);
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: none;
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      padding: 14px 20px;
+      margin-bottom: 16px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .stats-bar.show {
+      display: flex;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-val {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--heading);
+    }
+
+    .stat-lbl {
+      font-size: .72rem;
+      color: var(--subtext);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    /* Text preview */
+    .text-preview-box {
+      display: none;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .text-preview-box.show {
+      display: block;
+    }
+
+    .text-preview-header {
+      background: var(--accent-1);
+      border-bottom: 1.5px solid var(--accent-2);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .text-preview-header span {
+      font-size: .84rem;
+      font-weight: 600;
+      color: var(--subtext);
+    }
+
+    .btn-copy {
+      background: none;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      padding: 5px 14px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--subtext);
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy:hover {
+      border-color: var(--tool-from);
+      color: var(--tool-from);
+    }
+
+    .text-preview-area {
+      width: 100%;
+      height: 280px;
+      padding: 18px;
+      font-size: .85rem;
+      font-family: 'Inter', monospace;
+      border: none;
+      background: #fff;
+      color: var(--heading);
+      resize: none;
+      outline: none;
+      line-height: 1.7;
+      overflow: auto;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 30, 30, .55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 48px 40px 44px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+      transform: scale(.95);
+      transition: transform .3s;
+    }
+
+    .modal-overlay.show .modal-box {
+      transform: scale(1);
+    }
+
+    .spinner-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 5px solid var(--accent-2);
+      border-top-color: var(--tool-from);
+      animation: spin .9s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .modal-title-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 10px;
+    }
+
+    .modal-sub-text {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .progress-track {
+      background: var(--accent-2);
+      border-radius: 50px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--tool-from), var(--tool-to));
+      width: 0%;
+      transition: width .3s ease;
+    }
+
+    .success-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #16A34A, #4ADE80);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 6px 20px rgba(22, 163, 74, .3);
+    }
+
+    .success-circle i {
+      color: #fff;
+      font-size: 2rem;
+    }
+
+    .success-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 8px;
+    }
+
+    .success-file {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 6px;
+    }
+
+    .success-note {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 28px;
+    }
+
+    .btn-download {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--tool-from), var(--tool-to));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(15, 118, 110, .3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-convert-another {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      background: var(--white);
+      color: var(--heading);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: border-color .2s, color .2s;
+      cursor: pointer;
+    }
+
+    .btn-convert-another:hover {
+      border-color: var(--tool-from);
+      color: var(--tool-from);
+    }
+
+    .success-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .85rem;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: color .2s;
+    }
+
+    .success-back:hover {
+      color: var(--tool-from);
+    }
+
+    .footer {
+      background: var(--white);
+      border-top: 1px solid var(--accent-2);
+      padding: 56px 0 0;
+    }
+
+    .footer-brand-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .footer-tagline {
+      font-size: .88rem;
+      color: var(--subtext);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-col-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      font-size: .88rem;
+      color: var(--subtext);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue-main);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--accent-2);
+      padding: 18px 0;
+      margin-top: 48px;
+    }
+
+    .footer-copy {
+      font-size: .84rem;
+      color: var(--subtext);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+      font-size: .95rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    @media(max-width:767.98px) {
+      .tool-main {
+        padding: 20px 0 48px;
+      }
+
+      .settings-card {
+        margin-bottom: 16px;
+      }
+
+      .modal-box {
+        padding: 36px 24px 32px;
+      }
+
+      .footer {
+        padding: 40px 0 0;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+
+      .stats-bar {
+        gap: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="/">
+        <div class="brand-icon">
+          <i class="bi bi-file-earmark-text-fill"></i>
+        </div>
+        <span class="brand-name">Vetri Files</span>
+      </a>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse" id="mainNav">
+
+        <!-- Move links to RIGHT -->
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="/all-tools">Tools</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Feature">Features</a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <!-- <a href="/file-tools" class="back-link"><i class="bi bi-arrow-left"></i> Back</a> -->
+      <button class="back-link" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+      <h1 class="page-title">Extract Text from Word</h1>
+    </div>
+  </div>
+
+  <main class="tool-main">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- Settings -->
+        <div class="col-12 col-lg-3">
+          <div class="settings-card">
+            <div class="settings-title"><i class="bi bi-gear-fill"></i> Settings</div>
+
+            <label class="form-label-custom">Output Format</label>
+            <select class="select-custom mb-4" id="outputFormat">
+              <option value="txt">Plain Text (.txt)</option>
+            </select>
+
+            <hr class="divider-line" />
+
+            <label class="form-label-custom mb-3">Options</label>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="chkTrimBlank" checked />
+              <label class="form-check-label" for="chkTrimBlank" style="font-size:.85rem;">Remove blank lines</label>
+            </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="chkStats" checked />
+              <label class="form-check-label" for="chkStats" style="font-size:.85rem;">Show word statistics</label>
+            </div>
+
+            <hr class="divider-line" />
+
+            <p class="form-label-custom mb-2">Supported Files</p>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="info-badge"><i class="bi bi-check-circle-fill text-success"></i> .DOC</span>
+              <span class="info-badge"><i class="bi bi-check-circle-fill text-success"></i> .DOCX</span>
+            </div>
+            <p style="font-size:.78rem;color:var(--subtext);margin-top:14px;line-height:1.6;">
+              Uses Apache POI — extracts all paragraphs, tables and headers from your document.
+            </p>
+          </div>
+        </div>
+
+        <!-- Upload + Preview -->
+        <div class="col-12 col-lg-9">
+          <div class="preview-card">
+            <p class="preview-title">Upload Your Word Document</p>
+
+            <!-- Drop Zone -->
+            <div class="drop-zone" id="dropZone">
+              <input type="file" id="fileInput"
+                accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+              <i class="bi bi-file-earmark-text-fill drop-zone-icon"></i>
+              <p class="drop-zone-title">Drag &amp; Drop your Word file here</p>
+              <p class="drop-zone-sub">Supports .doc and .docx — extracts all text content</p>
+              <button class="btn-browse"
+                onclick="document.getElementById('fileInput').click();event.stopPropagation();">
+                <i class="bi bi-folder2-open me-2"></i>Browse File
+              </button>
+            </div>
+
+            <!-- File info strip -->
+            <div class="file-info-strip" id="fileStrip">
+              <div class="fi-icon"><i class="bi bi-file-earmark-word-fill"></i></div>
+              <div style="min-width:0;">
+                <div class="fi-name" id="stripName">—</div>
+                <div class="fi-size" id="stripSize">—</div>
+              </div>
+              <button class="fi-remove" onclick="removeFile()" title="Remove file"><i
+                  class="bi bi-x-circle-fill"></i></button>
+            </div>
+
+            <!-- Stats bar (shown after extraction) -->
+            <div class="stats-bar" id="statsBar">
+              <div class="stat-item">
+                <div class="stat-val" id="statWords">—</div>
+                <div class="stat-lbl">Words</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-val" id="statChars">—</div>
+                <div class="stat-lbl">Characters</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-val" id="statLines">—</div>
+                <div class="stat-lbl">Lines</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-val" id="statParas">—</div>
+                <div class="stat-lbl">Paragraphs</div>
+              </div>
+            </div>
+
+            <!-- Text Preview (shown after extraction) -->
+            <div class="text-preview-box" id="textPreviewBox">
+              <div class="text-preview-header">
+                <span><i class="bi bi-file-earmark-text me-2"></i>Extracted Text Preview</span>
+                <button class="btn-copy" onclick="copyText()"><i class="bi bi-clipboard"></i> Copy All</button>
+              </div>
+              <textarea class="text-preview-area" id="textPreviewArea" readonly
+                placeholder="Extracted text will appear here..."></textarea>
+            </div>
+
+            <button class="btn-process" id="processBtn" onclick="startExtraction()" disabled>
+              <i class="bi bi-file-earmark-text-fill"></i> Extract Text
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Processing Modal -->
+  <div class="modal-overlay" id="processingModal">
+    <div class="modal-box">
+      <div class="spinner-ring"></div>
+      <p class="modal-title-text">Extracting Text</p>
+      <p class="modal-sub-text">Reading your Word document and pulling all text content...</p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <a href="/file-tools" class="success-back"><i class="bi bi-arrow-left"></i> Back</a>
+      <div class="success-circle"><i class="bi bi-check-lg"></i></div>
+      <p class="success-title">Text Extracted!</p>
+      <p class="success-file" id="successFileName">document.txt</p>
+      <p class="success-note" id="successNote">Extracted successfully</p>
+      <button class="btn-download" id="downloadBtn"><i class="bi bi-cloud-arrow-down-fill"></i> Download .txt
+        File</button>
+      <button class="btn-convert-another" onclick="convertAnother()"><i class="bi bi-arrow-clockwise"></i> Extract from
+        Another File</button>
+    </div>
+  </div>
+
+  <!-- Error Modal -->
+  <div class="modal-overlay" id="errorModal">
+    <div class="modal-box">
+      <div
+        style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#EF4444);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+        <i class="bi bi-exclamation-lg" style="color:#fff;font-size:2rem;"></i>
+      </div>
+      <p class="success-title" style="color:#DC2626;">Extraction Failed</p>
+      <p class="success-file" id="errorMsg">Something went wrong. Please try again.</p>
+      <button class="btn-download"
+        style="background:linear-gradient(135deg,#DC2626,#EF4444);box-shadow:0 4px 18px rgba(220,38,38,.35);"
+        onclick="closeError()">
+        <i class="bi bi-arrow-clockwise"></i> Try Again
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4 g-lg-5">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div><span
+              class="footer-brand-name">Vetri Files</span>
+          </div>
+          <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in seconds.
+          </p>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+          <p class="footer-col-title">Product</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools">All Tools</a></li>
+            <li><a href="/Features">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">API</a></li>
+
+
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">All Tools</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools#document-tools">Document Tools</a></li>
+            <li><a href="/all-tools#image-tools">Image Tools</a></li>
+            <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+            <li><a href="/all-tools#video-tools">Video Tools</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">Legal</p>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR</a></li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+        <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+        <a href="https://twitter.com/VTSITPARK" target="_blank" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+        <a href="https://github.com/Vetri-Technology-Solutions" target="_blank" aria-label="GitHub"><i
+            class="bi bi-github"></i></a>
+        <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" aria-label="LinkedIn"><i
+            class="bi bi-linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/vetri-file-helper.js"></script>
+  <script>
+    let selectedFile = null;
+    let resultBlob = null;
+    let resultName = '';
+    let progressInterval = null;
+    let progressVal = 0;
+
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const processBtn = document.getElementById('processBtn');
+
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault(); dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) bindFile(e.dataTransfer.files[0]);
+    });
+    dropZone.addEventListener('click', e => { if (!e.target.closest('.btn-browse')) fileInput.click(); });
+    fileInput.addEventListener('change', () => { if (fileInput.files[0]) bindFile(fileInput.files[0]); });
+
+    function bindFile(file) {
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (!['doc', 'docx'].includes(ext)) { showError('Please select a .doc or .docx file.'); return; }
+      selectedFile = file;
+      document.getElementById('stripName').textContent = file.name;
+      document.getElementById('stripSize').textContent = formatSize(file.size);
+      document.getElementById('fileStrip').classList.add('show');
+      dropZone.style.display = 'none';
+      document.getElementById('statsBar').classList.remove('show');
+      document.getElementById('textPreviewBox').classList.remove('show');
+      processBtn.disabled = false;
+    }
+
+    function removeFile() {
+      selectedFile = null; resultBlob = null; fileInput.value = '';
+      document.getElementById('fileStrip').classList.remove('show');
+      document.getElementById('statsBar').classList.remove('show');
+      document.getElementById('textPreviewBox').classList.remove('show');
+      dropZone.style.display = '';
+      processBtn.disabled = true;
+    }
+
+    async function startExtraction() {
+      if (!selectedFile) return;
+      showProcessing(); startProgress();
+      try {
+        const fd = new FormData();
+        fd.append('file', selectedFile);
+        const res = await fetch('/api/word/to-text', { method: 'POST', body: fd });
+        if (!res.ok) { const t = await res.text(); throw new Error(t || 'Server error ' + res.status); }
+        resultBlob = await res.blob();
+        resultName = selectedFile.name.replace(/\.(docx?)$/i, '') + '.txt';
+
+        const rawText = await resultBlob.text();
+
+        // Apply trim blank lines option
+        let displayText = rawText;
+        if (document.getElementById('chkTrimBlank').checked) {
+          displayText = rawText.split('\n').filter(l => l.trim() !== '').join('\n');
+          resultBlob = new Blob([displayText], { type: 'text/plain' });
+        }
+
+        // Stats
+        const words = displayText.trim() ? displayText.trim().split(/\s+/).length : 0;
+        const lines = displayText.split('\n').length;
+        const paras = displayText.split(/\n\s*\n/).filter(p => p.trim()).length;
+
+        if (document.getElementById('chkStats').checked) {
+          document.getElementById('statWords').textContent = words.toLocaleString();
+          document.getElementById('statChars').textContent = displayText.length.toLocaleString();
+          document.getElementById('statLines').textContent = lines.toLocaleString();
+          document.getElementById('statParas').textContent = paras.toLocaleString();
+          document.getElementById('statsBar').classList.add('show');
+        }
+
+        document.getElementById('textPreviewArea').value = displayText;
+        document.getElementById('textPreviewBox').classList.add('show');
+
+        stopProgress();
+        setTimeout(() => {
+          hideProcessing();
+          document.getElementById('successFileName').textContent = resultName;
+          document.getElementById('successNote').textContent =
+            words.toLocaleString() + ' words · ' + displayText.length.toLocaleString() + ' characters';
+          document.getElementById('downloadBtn').onclick = downloadResult;
+          document.getElementById('successModal').classList.add('show');
+        }, 400);
+      } catch (err) {
+        stopProgress(); hideProcessing();
+        showError(err.message || 'Extraction failed. Please try again.');
+      }
+    }
+
+    function copyText() {
+      const area = document.getElementById('textPreviewArea');
+      navigator.clipboard.writeText(area.value).then(() => {
+        const btn = document.querySelector('.btn-copy');
+        btn.innerHTML = '<i class="bi bi-clipboard-check"></i> Copied!';
+        setTimeout(() => { btn.innerHTML = '<i class="bi bi-clipboard"></i> Copy All'; }, 2000);
+      });
+    }
+
+    function downloadResult() {
+      if (!resultBlob) return;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(resultBlob);
+      a.download = resultName; a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function convertAnother() {
+      document.getElementById('successModal').classList.remove('show');
+      removeFile(); resultBlob = null; resultName = '';
+    }
+
+    function startProgress() {
+      progressVal = 0;
+      const fill = document.getElementById('progressFill');
+      fill.style.width = '0%';
+      progressInterval = setInterval(() => {
+        if (progressVal < 70) progressVal += 4;
+        else if (progressVal < 90) progressVal += 0.5;
+        fill.style.width = progressVal + '%';
+      }, 100);
+    }
+    function stopProgress() { clearInterval(progressInterval); document.getElementById('progressFill').style.width = '100%'; }
+    function showProcessing() { document.getElementById('processingModal').classList.add('show'); processBtn.disabled = true; }
+    function hideProcessing() { document.getElementById('processingModal').classList.remove('show'); processBtn.disabled = false; }
+    function showError(msg) { document.getElementById('errorMsg').textContent = msg; document.getElementById('errorModal').classList.add('show'); hideProcessing(); }
+    function closeError() { document.getElementById('errorModal').classList.remove('show'); }
+    function formatSize(bytes) {
+      if (!bytes) return '—';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    // Pre-load from file-tools page
+    window.addEventListener('DOMContentLoaded', () => {
+
+      const stored = sessionStorage.getItem('vetri_file');
+      const storedData = sessionStorage.getItem('vetri_file_data');
+      if (!stored || !storedData) return;
+      try {
+        const meta = JSON.parse(stored);
+        const ext = (meta.name || '').split('.').pop().toLowerCase();
+        if (!['doc', 'docx'].includes(ext)) return;
+        const arr = storedData.split(',');
+        const mime = arr[0].match(/:(.*?);/)?.[1] || 'application/octet-stream';
+        const bstr = atob(arr[1]);
+        const u8 = new Uint8Array(bstr.length);
+        for (let i = 0; i < bstr.length; i++) u8[i] = bstr.charCodeAt(i);
+        bindFile(new File([u8], meta.name, { type: mime }));
+      } catch (e) { /* no pre-loaded file */ }
+    });
+    function goBack() {
+      const ref = document.referrer || "";
+
+      if (ref.includes('/all-tools')) {
+        window.location.href = '/all-tools';
+      } else if (ref.includes('/file-tools')) {
+        window.location.href = '/file-tools';
+      } else if (window.history.length > 1) {
+        window.history.back(); // smart fallback
+      } else {
+        window.location.href = '/';
+      }
+    }
+
+  </script>
+</body>
+
+</html>

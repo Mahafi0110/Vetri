@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vetri Files – Smart File Tools for Every File Type</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* ─── CSS Variables ─── */
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue-main: #3B82F6;
+            --heading: #1F2937;
+            --subtext: #4A5565;
+            --accent-1: #F3F4F6;
+            --accent-2: #E5E7EB;
+            --white: #ffffff;
+            --radius-card: 16px;
+            --radius-btn: 50px;
+            --shadow-card: 0 2px 16px rgba(30, 58, 138, .07);
+            --shadow-hover: 0 8px 32px rgba(59, 130, 246, .15);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--heading);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ─── Navbar ─── */
+        .navbar {
+            background: var(--white);
+            padding: 14px 0;
+            border-bottom: 1px solid var(--accent-2);
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-main) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .brand-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--heading);
+            letter-spacing: -0.3px;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: .95rem;
+            font-weight: 500;
+            color: var(--heading) !important;
+            padding: 6px 14px !important;
+            transition: color .2s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--blue-main) !important;
+        }
+
+        .btn-login {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--blue-main) !important;
+            padding: 6px 14px !important;
+            border-radius: var(--radius-btn);
+            transition: background .2s;
+        }
+
+        .btn-login:hover {
+            background: var(--accent-1);
+        }
+
+        .btn-get-started {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-main) 100%);
+            color: #fff !important;
+            border: none;
+            padding: 10px 24px !important;
+            border-radius: var(--radius-btn);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+            transition: transform .2s, box-shadow .2s;
+            white-space: nowrap;
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, .45);
+        }
+
+        /* ─── Profile Button & Dropdown ─── */
+        .btn-profile-toggle {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: var(--radius-btn);
+            padding: 6px 14px 6px 6px;
+            cursor: pointer;
+            transition: border-color .2s, box-shadow .2s;
+            font-family: 'Inter', sans-serif;
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--heading);
+        }
+
+        .btn-profile-toggle:hover {
+            border-color: var(--blue-main);
+            box-shadow: 0 2px 10px rgba(59, 130, 246, .15);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            color: #fff;
+            font-size: .8rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .profile-name {
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .chevron-icon {
+            font-size: .7rem;
+            color: var(--subtext);
+        }
+
+        .profile-menu {
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            box-shadow: 0 16px 48px rgba(30, 58, 138, .12);
+            padding: 8px;
+            min-width: 240px;
+            margin-top: 8px !important;
+        }
+
+        .profile-menu-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 10px 14px;
+            border-bottom: none;
+        }
+
+        .profile-avatar-lg {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .profile-menu-name {
+            font-weight: 700;
+            font-size: .92rem;
+            color: var(--heading);
+        }
+
+        .profile-menu-email {
+            font-size: .78rem;
+            color: var(--subtext);
+            margin-top: 2px;
+        }
+
+        .dropdown-divider {
+            margin: 4px 0;
+            border-color: var(--accent-2);
+        }
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: .88rem;
+            font-weight: 500;
+            color: var(--heading) !important;
+            padding: 10px 12px;
+            border-radius: 10px;
+            transition: background .15s;
+        }
+
+        .profile-item:hover {
+            background: var(--accent-1);
+            color: var(--heading) !important;
+        }
+
+        .profile-item i {
+            font-size: 1rem;
+            width: 18px;
+            text-align: center;
+            color: var(--subtext);
+        }
+
+        .profile-item.text-danger {
+            color: #DC2626 !important;
+        }
+
+        .profile-item.text-danger i {
+            color: #DC2626;
+        }
+
+        .profile-item.text-danger:hover {
+            background: #FEF2F2;
+        }
+
+        /* Welcome Banner (shown when logged in) */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-main) 100%);
+            color: #fff;
+            padding: 14px 0;
+            display: none;
+        }
+
+        .welcome-banner.show {
+            display: block;
+        }
+
+        .welcome-banner-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .welcome-text {
+            font-size: .92rem;
+            font-weight: 500;
+        }
+
+        .welcome-text strong {
+            font-weight: 700;
+        }
+
+        .btn-dismiss {
+            background: rgba(255, 255, 255, .2);
+            border: none;
+            color: #fff;
+            border-radius: 8px;
+            padding: 4px 12px;
+            font-size: .82rem;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .btn-dismiss:hover {
+            background: rgba(255, 255, 255, .35);
+        }
+
+        /* Hamburger */
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width:991.98px) {
+            .navbar-collapse {
+                background: var(--white);
+                border-top: 1px solid var(--accent-2);
+                padding: 12px 0 16px;
+                margin-top: 10px;
+            }
+
+            .navbar-nav {
+                align-items: flex-start !important;
+                padding: 0 8px;
+            }
+
+            .btn-login,
+            .btn-get-started {
+                margin: 4px 8px !important;
+            }
+
+            .btn-profile-toggle {
+                margin: 4px 8px !important;
+            }
+        }
+
+        /* ─── Hero ─── */
+        .hero-section {
+            background: var(--accent-1);
+            padding: 72px 0 56px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            color: var(--heading);
+            line-height: 1.2;
+            margin-bottom: 0;
+        }
+
+        .hero-title-gradient {
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #06B6D4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(.9rem, 2vw, 1.05rem);
+            color: var(--subtext);
+            max-width: 560px;
+            margin: 18px auto 36px;
+            line-height: 1.7;
+        }
+
+        /* ─── Upload Card ─── */
+        .upload-card {
+            background: linear-gradient(145deg, #e8ecf1 0%, #d5dce8 100%);
+            border-radius: var(--radius-card);
+            border: 1.5px solid var(--accent-2);
+            padding: 52px 32px 44px;
+            max-width: 760px;
+            margin: 0 auto 28px;
+            cursor: pointer;
+            transition: border-color .3s, box-shadow .3s;
+            position: relative;
+        }
+
+        .upload-card:hover {
+            border-color: var(--blue-main);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .upload-card.drag-over {
+            border-color: var(--blue-main);
+            background: linear-gradient(145deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .upload-icon-circle {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-main) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, .4);
+            transition: transform .2s;
+        }
+
+        .upload-card:hover .upload-icon-circle {
+            transform: scale(1.05);
+        }
+
+        .upload-icon-circle i {
+            color: #fff;
+            font-size: 1.8rem;
+        }
+
+        .upload-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 6px;
+        }
+
+        .upload-sub {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 24px;
+        }
+
+        .btn-choose-file {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-main) 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: var(--radius-btn);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .btn-choose-file:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, .45);
+            color: #fff;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* ─── Category Pills ─── */
+        .category-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .cat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 20px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: var(--radius-btn);
+            background: var(--white);
+            font-size: .88rem;
+            font-weight: 500;
+            color: var(--heading);
+            cursor: pointer;
+            transition: border-color .2s, box-shadow .2s, background .2s;
+            text-decoration: none;
+        }
+
+        .cat-pill:hover,
+        .cat-pill.active {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+            color: var(--blue-dark);
+            box-shadow: 0 2px 10px rgba(59, 130, 246, .15);
+        }
+
+        .cat-pill .pill-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .78rem;
+        }
+
+        .pill-doc {
+            background: #EFF6FF;
+            color: #1E3A8A;
+        }
+
+        .pill-img {
+            background: #F0FDF4;
+            color: #16A34A;
+        }
+
+        .pill-audio {
+            background: #FDF4FF;
+            color: #9333EA;
+        }
+
+        .pill-video {
+            background: #FFF1F2;
+            color: #E11D48;
+        }
+
+        .pill-arch {
+            background: #FFF7ED;
+            color: #EA580C;
+        }
+
+        /* ─── How It Works ─── */
+        .how-section {
+            padding: 80px 0 72px;
+            background: var(--white);
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 8px;
+        }
+
+        .section-sub {
+            font-size: 1rem;
+            color: var(--subtext);
+            margin-bottom: 0;
+        }
+
+        .step-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: var(--radius-card);
+            padding: 36px 28px 32px;
+            height: 100%;
+            position: relative;
+            transition: box-shadow .3s, transform .3s;
+        }
+
+        .step-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .step-badge {
+            position: absolute;
+            top: -14px;
+            left: 24px;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-main) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: .85rem;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(59, 130, 246, .35);
+        }
+
+        .step-icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .step-icon-box.blue {
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+        }
+
+        .step-icon-box.teal {
+            background: linear-gradient(135deg, #0D9488, #06B6D4);
+            color: #fff;
+        }
+
+        .step-icon-box.purple {
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+            color: #fff;
+        }
+
+        .step-card h5 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            font-size: .9rem;
+            color: var(--subtext);
+            line-height: 1.65;
+            margin-bottom: 0;
+        }
+
+        @media (min-width:992px) {
+            .step-divider {
+                display: block;
+                position: absolute;
+                right: -24px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 44px;
+                height: 2px;
+                background: var(--accent-2);
+                z-index: 1;
+            }
+        }
+
+        /* ─── Why Choose ─── */
+        .why-section {
+            background: var(--accent-1);
+            padding: 80px 0 72px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: var(--radius-card);
+            padding: 32px 24px;
+            height: 100%;
+            transition: box-shadow .3s, transform .3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .fi-green {
+            background: linear-gradient(135deg, #16A34A, #4ADE80);
+        }
+
+        .fi-orange {
+            background: linear-gradient(135deg, #EA580C, #FB923C);
+        }
+
+        .fi-blue {
+            background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+        }
+
+        .fi-purple {
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+        }
+
+        .feature-card h5 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: .88rem;
+            color: var(--subtext);
+            line-height: 1.65;
+            margin-bottom: 0;
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            background: var(--white);
+            border-top: 1px solid var(--accent-2);
+            padding: 56px 0 0;
+        }
+
+        .footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .footer-tagline {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            font-size: .88rem;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-main);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--accent-2);
+            padding: 18px 0;
+            margin-top: 48px;
+        }
+
+        .footer-copy {
+            font-size: .84rem;
+            color: var(--subtext);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--subtext);
+            font-size: .95rem;
+            text-decoration: none;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        @media (max-width:767.98px) {
+            .hero-section {
+                padding: 48px 0 40px;
+            }
+
+            .upload-card {
+                padding: 40px 20px 36px;
+            }
+
+            .how-section,
+            .why-section {
+                padding: 56px 0 48px;
+            }
+
+            .footer {
+                padding: 40px 0 0;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .step-card {
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── Nav Container (rendered by auth.js) ── -->
+    <div id="navbarContainer"></div>
+
+    <!-- ── Welcome Banner ── -->
+    <div class="welcome-banner" id="welcomeBanner">
+        <div class="container">
+            <div class="welcome-banner-inner">
+                <span class="welcome-text" id="welcomeText">👋 Welcome back! You're signed in.</span>
+                <button class="btn-dismiss"
+                    onclick="document.getElementById('welcomeBanner').classList.remove('show')">Dismiss</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Hero / Upload Section ── -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">
+                Smart File Tools for
+                <span class="hero-title-gradient">Every File Type</span>
+            </h1>
+            <p class="hero-subtitle">
+                Upload any file and instantly access powerful tools tailored to your needs.
+                Convert, edit, and enhance your files in seconds.
+            </p>
+
+            <div class="upload-card" id="uploadCard">
+                <input type="file" id="fileInput" multiple />
+                <div class="upload-icon-circle"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+                <p class="upload-title">Drag &amp; Drop Your File</p>
+                <p class="upload-sub">or click to browse from your device</p>
+                <button class="btn btn-choose-file" onclick="document.getElementById('fileInput').click()">Choose
+                    File</button>
+            </div>
+
+            <div class="category-pills">
+                <a href="#" class="cat-pill active">
+                    <span class="pill-icon pill-doc"><i class="bi bi-file-earmark-text"></i></span>Documents
+                </a>
+                <a href="#" class="cat-pill">
+                    <span class="pill-icon pill-img"><i class="bi bi-image"></i></span>Images
+                </a>
+                <a href="#" class="cat-pill">
+                    <span class="pill-icon pill-audio"><i class="bi bi-music-note-beamed"></i></span>Audio
+                </a>
+                <a href="#" class="cat-pill">
+                    <span class="pill-icon pill-video"><i class="bi bi-camera-video"></i></span>Video
+                </a>
+                <a href="#" class="cat-pill">
+                    <span class="pill-icon pill-arch"><i class="bi bi-file-zip"></i></span>Archives
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── How It Works ── -->
+    <section class="how-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-sub">Three simple steps to process any file</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-md-6 col-lg-4 position-relative">
+                    <div class="step-card">
+                        <div class="step-badge">1</div>
+                        <div class="step-icon-box blue"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+                        <h5>Upload Your File</h5>
+                        <p>Drag and drop or select any file from your device. We support all major file formats.</p>
+                    </div>
+                    <div class="step-divider"></div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 position-relative">
+                    <div class="step-card">
+                        <div class="step-badge">2</div>
+                        <div class="step-icon-box teal"><i class="bi bi-magic"></i></div>
+                        <h5>Choose Your Tool</h5>
+                        <p>Select from intelligent tool suggestions based on your file type and needs.</p>
+                    </div>
+                    <div class="step-divider"></div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="step-card">
+                        <div class="step-badge">3</div>
+                        <div class="step-icon-box purple"><i class="bi bi-cloud-arrow-down-fill"></i></div>
+                        <h5>Download Result</h5>
+                        <p>Process your file securely and download the result in seconds. Simple as that!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Why Choose ── -->
+    <section class="why-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Why Choose Vetri Files?</h2>
+                <p class="section-sub">The smartest way to work with your files</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon-box fi-green"><i class="bi bi-shield-fill-check"></i></div>
+                        <h5>Secure &amp; Private</h5>
+                        <p>All files are processed securely with end-to-end encryption. Your privacy is our priority.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon-box fi-orange"><i class="bi bi-lightning-charge-fill"></i></div>
+                        <h5>Lightning Fast</h5>
+                        <p>Process files in seconds with our optimized infrastructure. No waiting, no hassle.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon-box fi-blue"><i class="bi bi-currency-dollar"></i></div>
+                        <h5>Free to Use</h5>
+                        <p>All tools are completely free with no hidden fees. Process unlimited files anytime.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-card">
+                        <div class="feature-icon-box fi-purple"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+                        <h5>Multi-Format Support</h5>
+                        <p>Support for images, documents, audio, video, and more. One platform for all your needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4 g-lg-5">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <span class="footer-brand-name">Vetri Files</span>
+                    </div>
+                    <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+                        seconds.</p>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+                    <p class="footer-col-title">Product</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools">All Tools</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">All Tools</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools">Document Tools</a></li>
+                        <li><a href="/all-tools">Image Tools</a></li>
+                        <li><a href="/all-tools">Audio Tools</a></li>
+                        <li><a href="/all-tools">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">Legal</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+                <div class="social-links mt-3 mt-sm-0">
+                    <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/auth.js"></script>
+    <script>
+        /* ── Render navbar with auth state ── */
+        VetriAuth.renderNavbar('navbarContainer');
+
+        /* ── Welcome banner for newly logged-in users ── */
+        const user = VetriAuth.getUser();
+        if (VetriAuth.isLoggedIn() && user) {
+            const name = user.name ? user.name.split(' ')[0] : user.email;
+            const isNewLogin = sessionStorage.getItem('vetri_just_logged_in');
+            if (isNewLogin) {
+                document.getElementById('welcomeText').innerHTML = `👋 Welcome back, <strong>${name}</strong>! You're signed in.`;
+                document.getElementById('welcomeBanner').classList.add('show');
+                sessionStorage.removeItem('vetri_just_logged_in');
+            }
+        }
+
+        /* ── Drag & Drop ── */
+        const card = document.getElementById('uploadCard');
+        const input = document.getElementById('fileInput');
+        ['dragenter', 'dragover'].forEach(e => card.addEventListener(e, ev => { ev.preventDefault(); card.classList.add('drag-over'); }));
+        ['dragleave', 'drop'].forEach(e => card.addEventListener(e, ev => { ev.preventDefault(); card.classList.remove('drag-over'); }));
+        card.addEventListener('drop', ev => { if (ev.dataTransfer.files.length) handleFiles(ev.dataTransfer.files); });
+        card.addEventListener('click', e => { if (e.target.closest('.btn-choose-file')) return; input.click(); });
+        input.addEventListener('change', () => handleFiles(input.files));
+
+        function handleFiles(files) {
+            if (!files.length) return;
+            const file = files[0];
+            sessionStorage.setItem('vetri_file', JSON.stringify({ name: file.name, size: file.size, type: file.type }));
+            const MAX = 10 * 1024 * 1024;
+            if (file.size > MAX) {
+                storeInIndexedDB(file, () => { sessionStorage.setItem('vetri_storage_type', 'indexeddb'); window.location.href = '/file-tools'; });
+            } else {
+                const r = new FileReader();
+                r.onload = e => { sessionStorage.setItem('vetri_file_data', e.target.result); sessionStorage.setItem('vetri_storage_type', 'session'); window.location.href = '/file-tools'; };
+                r.onerror = () => alert('Failed to read file.');
+                r.readAsDataURL(file);
+            }
+        }
+
+        function storeInIndexedDB(file, cb) {
+            const req = indexedDB.open('VetriFilesDB', 1);
+            req.onupgradeneeded = e => { const db = e.target.result; if (!db.objectStoreNames.contains('files')) db.createObjectStore('files', { keyPath: 'id' }); };
+            req.onsuccess = e => {
+                const db = e.target.result, tx = db.transaction('files', 'readwrite');
+                tx.objectStore('files').put({ id: 'current_file', file });
+                tx.oncomplete = () => { db.close(); cb(); };
+                tx.onerror = () => { const r = new FileReader(); r.onload = ev => { sessionStorage.setItem('vetri_file_data', ev.target.result); sessionStorage.setItem('vetri_storage_type', 'session'); cb(); }; r.readAsDataURL(file); };
+            };
+            req.onerror = () => { const r = new FileReader(); r.onload = ev => { sessionStorage.setItem('vetri_file_data', ev.target.result); sessionStorage.setItem('vetri_storage_type', 'session'); cb(); }; r.readAsDataURL(file); };
+        }
+
+        document.querySelectorAll('.cat-pill').forEach(pill => {
+            pill.addEventListener('click', e => { e.preventDefault(); document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active')); pill.classList.add('active'); });
+        });
+    </script>
+</body>
+
+</html>

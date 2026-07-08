@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convert File Format – Vetri Files</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue-main: #3B82F6;
+      --heading: #1F2937;
+      --subtext: #4A5565;
+      --accent-1: #F3F4F6;
+      --accent-2: #E5E7EB;
+      --white: #ffffff;
+      --radius-card: 16px;
+      --radius-btn: 50px;
+      --green: #16A34A;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--heading);
+      background: var(--accent-1);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--white);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--accent-2);
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--heading);
+      letter-spacing: -.3px;
+    }
+
+    .navbar-nav .nav-link {
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--heading) !important;
+      padding: 6px 14px !important;
+      transition: color .2s;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--blue-main) !important;
+    }
+
+    .btn-login {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--blue-main) !important;
+      padding: 6px 14px !important;
+      border-radius: var(--radius-btn);
+      transition: background .2s;
+    }
+
+    .btn-login:hover {
+      background: var(--accent-1);
+    }
+
+    .btn-get-started {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff !important;
+      border: none;
+      padding: 10px 24px !important;
+      border-radius: var(--radius-btn);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+      transition: transform .2s, box-shadow .2s;
+      white-space: nowrap;
+    }
+
+    .btn-get-started:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, .45);
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 4px 8px;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    @media (max-width:991.98px) {
+      .navbar-collapse {
+        background: var(--white);
+        border-top: 1px solid var(--accent-2);
+        padding: 12px 0 16px;
+        margin-top: 10px;
+      }
+
+      .navbar-nav {
+        align-items: flex-start !important;
+        padding: 0 8px;
+      }
+
+      .btn-login,
+      .btn-get-started {
+        margin: 4px 8px !important;
+      }
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      background: var(--accent-1);
+      padding: 20px 0 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color .2s;
+       /* 🔥 ADD THESE */
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+    }
+
+    .back-link:hover {
+      color: var(--blue-main);
+    }
+
+    .page-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    /* ── Main Layout ── */
+    .tool-main {
+      padding: 24px 0 64px;
+    }
+
+    /* ── Settings Card ── */
+    .settings-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+      height: 100%;
+    }
+
+    .settings-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .settings-title i {
+      color: var(--blue-main);
+      font-size: 1.1rem;
+    }
+
+    .form-label-custom {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .select-custom {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--heading);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5565' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+
+    .select-custom:focus {
+      outline: none;
+      border-color: var(--blue-main);
+    }
+
+    .range-label {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .range-custom {
+      width: 100%;
+      height: 5px;
+      accent-color: var(--blue-main);
+      cursor: pointer;
+    }
+
+    .divider-line {
+      border: none;
+      border-top: 1.5px solid var(--accent-2);
+      margin: 20px 0;
+    }
+
+    /* ── Preview Card ── */
+    .preview-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+    }
+
+    .preview-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 20px;
+    }
+
+    .preview-area {
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .preview-area i {
+      font-size: 3rem;
+      color: #CBD5E1;
+      margin-bottom: 16px;
+    }
+
+    .preview-filename {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 4px;
+    }
+
+    .preview-hint {
+      font-size: .83rem;
+      color: var(--subtext);
+      margin: 0;
+    }
+
+    /* Preview image/pdf shown */
+    .preview-area img {
+      max-width: 100%;
+      max-height: 260px;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    /* ── Process Button ── */
+    .btn-process {
+      width: 100%;
+      padding: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .btn-process:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(59, 130, 246, .45);
+    }
+
+    /* ── PROCESSING MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 30, 30, .55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 48px 40px 44px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+      transform: scale(.95);
+      transition: transform .3s;
+    }
+
+    .modal-overlay.show .modal-box {
+      transform: scale(1);
+    }
+
+    /* Spinner */
+    .spinner-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 5px solid var(--accent-2);
+      border-top-color: var(--blue-main);
+      animation: spin .9s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .modal-title-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 10px;
+    }
+
+    .modal-sub-text {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* Progress bar */
+    .progress-track {
+      background: var(--accent-2);
+      border-radius: 50px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue-main));
+      width: 0%;
+      transition: width .3s ease;
+    }
+
+    /* ── SUCCESS MODAL ── */
+    #successModal .modal-box {
+      padding: 48px 40px 44px;
+    }
+
+    .success-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #16A34A, #4ADE80);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 6px 20px rgba(22, 163, 74, .3);
+    }
+
+    .success-circle i {
+      color: #fff;
+      font-size: 2rem;
+    }
+
+    .success-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 8px;
+    }
+
+    .success-file {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 6px;
+    }
+
+    .success-note {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 28px;
+    }
+
+    .btn-download {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-convert-another {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      background: var(--white);
+      color: var(--heading);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: border-color .2s, color .2s;
+      cursor: pointer;
+    }
+
+    .btn-convert-another:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+    }
+
+    /* Back link in success modal */
+    .success-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .85rem;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: color .2s;
+    }
+
+    .success-back:hover {
+      color: var(--blue-main);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--white);
+      border-top: 1px solid var(--accent-2);
+      padding: 56px 0 0;
+    }
+
+    .footer-brand-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .footer-tagline {
+      font-size: .88rem;
+      color: var(--subtext);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-col-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      font-size: .88rem;
+      color: var(--subtext);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue-main);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--accent-2);
+      padding: 18px 0;
+      margin-top: 48px;
+    }
+
+    .footer-copy {
+      font-size: .84rem;
+      color: var(--subtext);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+      font-size: .95rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    @media (max-width:767.98px) {
+      .tool-main {
+        padding: 20px 0 48px;
+      }
+
+      .settings-card {
+        margin-bottom: 16px;
+      }
+
+      .modal-box {
+        padding: 36px 24px 32px;
+      }
+
+      .footer {
+        padding: 40px 0 0;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+ <nav class="navbar navbar-expand-lg">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="/">
+      <div class="brand-icon">
+        <i class="bi bi-file-earmark-text-fill"></i>
+      </div>
+      <span class="brand-name">Vetri Files</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- Move links to RIGHT -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/all-tools">Tools</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Feature">Features</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+  <!-- ════════════════════════════════
+     PAGE HEADER
+════════════════════════════════ -->
+  <div class="page-header">
+    <div class="container">
+      <!-- <a href="/file-tools" class="back-link">
+        <i class="bi bi-arrow-left"></i> Back
+      </a> -->
+      <button class="back-link" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Back
+            </button>
+      <h1 class="page-title">Convert File Format</h1>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════
+     TOOL MAIN
+════════════════════════════════ -->
+  <main class="tool-main">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- Settings Panel -->
+        <div class="col-12 col-lg-3">
+          <div class="settings-card">
+            <div class="settings-title">
+              <i class="bi bi-gear-fill"></i> Settings
+            </div>
+
+            <label class="form-label-custom">Output Format</label>
+            <select class="select-custom mb-4" id="outputFormat">
+              <option value="jpg">JPG</option>
+              <option value="png">PNG</option>
+              <option value="pdf">PDF</option>
+              <option value="docx">DOCX</option>
+              <option value="txt">TXT</option>
+              <option value="webp">WEBP</option>
+            </select>
+
+            <hr class="divider-line" />
+
+            <div class="range-label">
+              <span>Quality</span>
+              <span id="qualityVal">20%</span>
+            </div>
+            <input type="range" class="range-custom" id="qualityRange" min="1" max="100" value="20"
+              oninput="document.getElementById('qualityVal').textContent = this.value + '%'" />
+          </div>
+        </div>
+
+        <!-- Preview + Process Panel -->
+        <div class="col-12 col-lg-9">
+          <div class="preview-card">
+            <p class="preview-title">Preview</p>
+
+            <!-- Preview Area -->
+            <div class="preview-area" id="previewArea">
+              <i class="bi bi-file-earmark-image" id="previewIcon"></i>
+              <p class="preview-filename" id="previewFilename">No file loaded</p>
+              <p class="preview-hint">Preview will appear here</p>
+            </div>
+
+            <!-- Process Button -->
+            <button class="btn-process" id="processBtn" onclick="startProcessing()">
+              <i class="bi bi-cloud-arrow-down-fill"></i>
+              Process &amp; Download
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+
+  <!-- ════════════════════════════════
+     PROCESSING MODAL
+════════════════════════════════ -->
+  <div class="modal-overlay" id="processingModal">
+    <div class="modal-box">
+      <div class="spinner-ring"></div>
+      <p class="modal-title-text">Processing Your File</p>
+      <p class="modal-sub-text">We're working on it securely. This may take a few moments...</p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════
+     SUCCESS MODAL
+════════════════════════════════ -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <a href="/file-tools" class="success-back">
+        <i class="bi bi-arrow-left"></i> Back
+      </a>
+      <div class="success-circle">
+        <i class="bi bi-check-lg"></i>
+      </div>
+      <p class="success-title">Your File is Ready!</p>
+      <p class="success-file" id="successFileName">file.pdf</p>
+      <p class="success-note">has been processed successfully</p>
+
+      <button class="btn-download" id="downloadBtn" onclick="downloadFile()">
+        <i class="bi bi-cloud-arrow-down-fill"></i> Download File
+      </button>
+      <button class="btn-convert-another" onclick="convertAnother()">
+        <i class="bi bi-arrow-clockwise"></i> Convert Another File
+      </button>
+    </div>
+  </div>
+
+<!-- ── NETWORK ERROR MODAL ── -->
+<div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+            <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+        </div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;"
+            id="netErrTitle">Something went wrong</p>
+        <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;"
+            id="netErrMsg">Please try again.</p>
+        <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            Try Again
+        </button>
+        <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            Upload New File
+        </button>
+    </div>
+</div>
+  <!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4 g-lg-5">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+            <span class="footer-brand-name">Vetri Files</span>
+          </div>
+          <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in seconds.
+          </p>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+          <p class="footer-col-title">Product</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools">All Tools</a></li>
+            <li><a href="/Feature">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">All Tools</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools#document-tools">Document Tools</a></li>
+            <li><a href="/all-tools#image-tools">Image Tools</a></li>
+            <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+            <li><a href="/all-tools#video-tools">Video Tools</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">Legal</p>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+        <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+        <div class="social-links mt-3 mt-sm-0">
+          <a href="https://www.instagram.com/vetriitsystems/" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="https://x.com/VTSITPARK" target="_blank" title="GitHub"><i class="bi bi-twitter-x"></i></a>
+          <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" title="Linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/vetri-file-helper.js"></script>
+
+
+  <script>
+    /* ══════════════════════════════════
+       GLOBALS
+    ══════════════════════════════════ */
+    let processedBlob = null;
+    let processedName = 'output.file';
+    let currentFileMeta = null;
+
+    const CONVERT_CONFIG = {
+      image: {
+        endpoint: '/api/image/convert',
+        formats: ['jpg', 'png', 'webp']
+      },
+      audio: {
+        endpoint: '/api/audio/convert',
+        formats: ['mp3', 'wav', 'ogg', 'aac']
+      },
+      video: {
+        endpoint: '/api/video/convert',
+        formats: ['mp4', 'avi', 'mov', 'webm']
+      },
+      pdf: {
+        endpoint: null,
+        formats: []
+      }
+    };
+
+    function detectCategory(file) {
+      const name = (file?.name || '').toLowerCase();
+      const type = (file?.type || '').toLowerCase();
+      const ext = name.includes('.') ? name.split('.').pop() : '';
+
+      if (type.startsWith('image/') || ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff'].includes(ext)) return 'image';
+      if (type.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma'].includes(ext)) return 'audio';
+      if (type.startsWith('video/') || ['mp4', 'avi', 'mov', 'mkv', 'wmv', 'flv', 'webm', 'm4v'].includes(ext)) return 'video';
+      return 'pdf';
+    }
+
+    function populateFormatOptions(category) {
+      const select = document.getElementById('outputFormat');
+      const formats = CONVERT_CONFIG[category]?.formats || [];
+      if (!formats.length) {
+        select.innerHTML = '<option value="">Not available for this file type</option>';
+        select.disabled = true;
+        return;
+      }
+      select.disabled = false;
+      select.innerHTML = formats.map(fmt => `<option value="${fmt}">${fmt.toUpperCase()}</option>`).join('');
+    }
+
+    /* ══════════════════════════════════
+       INIT — load file from sessionStorage
+    ══════════════════════════════════ */
+    window.addEventListener('DOMContentLoaded', () => {
+      // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+      if (!isFromUpload()) {
+        // Show "no file" state — don't load previous file
+        showNoFileState();
+        return;
+      }
+      const stored = sessionStorage.getItem('vetri_file');
+      if (!stored) return;
+      try {
+        const f = JSON.parse(stored);
+        currentFileMeta = f;
+        const category = detectCategory(f);
+        populateFormatOptions(category);
+        document.getElementById('previewFilename').textContent = f.name || 'Unknown file';
+        document.getElementById('successFileName').textContent = f.name || 'Unknown file';
+
+        // If we have a dataURL, show preview
+        const dataURL = sessionStorage.getItem('vetri_file_data');
+        if (dataURL) {
+          const previewArea = document.getElementById('previewArea');
+          if (f.type && f.type.startsWith('image/')) {
+            previewArea.innerHTML = `<img src="${dataURL}" alt="Preview" />`;
+          } else {
+            document.getElementById('previewIcon').className = 'bi bi-file-earmark-pdf-fill';
+          }
+        }
+      } catch (e) { /* use defaults */ }
+    });
+
+    function showNoFileState() {
+      // This page's "no file" state is the previewArea content
+      document.getElementById('previewFilename').textContent = 'No file loaded';
+      document.getElementById('previewIcon').className = 'bi bi-cloud-upload';
+      const hint = document.querySelector('.preview-hint');
+      if (hint) hint.innerHTML =
+                '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+    }
+
+    /* ══════════════════════════════════
+       PROCESSING FLOW
+       (Simulates API call — replace
+        fetch() below with Spring Boot
+        endpoint when backend is ready)
+    ══════════════════════════════════ */
+    function startProcessing() {
+      const processingModal = document.getElementById('processingModal');
+      const progressFill = document.getElementById('progressFill');
+      const stored = sessionStorage.getItem('vetri_file');
+      const dataURL = sessionStorage.getItem('vetri_file_data');
+      const format = document.getElementById('outputFormat').value;
+      const quality = document.getElementById('qualityRange').value;
+      const fileMeta = stored ? JSON.parse(stored) : null;
+      const category = detectCategory(fileMeta);
+      const endpoint = CONVERT_CONFIG[category]?.endpoint;
+
+      if (!stored || !dataURL) {
+        alert('No file found. Please upload a file first.');
+        window.location.href = '/';
+        return;
+      }
+      if (!endpoint || !format) {
+        alert('Conversion is not available for this file type yet.');
+        return;
+      }
+
+      // Show processing modal
+      processingModal.classList.add('show');
+
+      // Animate progress bar
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 18;
+        if (progress >= 95) { progress = 95; clearInterval(interval); }
+        progressFill.style.width = progress + '%';
+      }, 300);
+
+      //  SPRING BOOT API CALL (uncomment when backend ready)
+      // Convert dataURL to Blob then FormData
+      fetch(dataURL)
+        .then(r => r.blob())
+        .then(blob => {
+          const formData = new FormData();
+          formData.append('file', blob, JSON.parse(stored).name);
+          formData.append('format', format);
+          formData.append('quality', quality);
+          return fetch(endpoint, { method: 'POST', body: formData });
+        })
+        .then(r => {
+          if (!r.ok) throw new Error('Conversion failed');
+          return r.blob();
+        })
+        .then(blob => {
+          clearInterval(interval);
+          progressFill.style.width = '100%';
+          processedBlob = blob;
+          const f = JSON.parse(stored);
+          processedName = f.name.replace(/\.[^.]+$/, '') + '.' + format;
+          document.getElementById('successFileName').textContent = processedName;
+          setTimeout(() => {
+            processingModal.classList.remove('show');
+            document.getElementById('successModal').classList.add('show');
+          }, 400);
+        })
+       .catch(err => {
+    clearInterval(interval);
+    processingModal.classList.remove('show');
+    console.error(err);
+    if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        showNetworkError('No Internet Connection',
+            'Connection lost while converting image. Check your WiFi and try again.');
+    } else {
+        showNetworkError('Conversion Failed',
+            'Could not convert your image. Please try again.');
+    }
+});
+      //  END SPRING BOOT SECTION
+
+      // SIMULATED SUCCESS (remove this when backend is connected)
+      //   setTimeout(() => {
+      //     clearInterval(interval);
+      //     progressFill.style.width = '100%';
+      //     const stored = sessionStorage.getItem('vetri_file');
+      //     const format = document.getElementById('outputFormat').value;
+      //     if (stored) {
+      //       const f = JSON.parse(stored);
+      //       processedName = (f.name || 'output').replace(/\.[^.]+$/, '') + '.' + format;
+      //       document.getElementById('successFileName').textContent = processedName;
+      //     }
+      //     setTimeout(() => {
+      //       processingModal.classList.remove('show');
+      //       document.getElementById('successModal').classList.add('show');
+      //     }, 400);
+      //   }, 2800);
+    }
+
+    /* ══════════════════════════════════
+       DOWNLOAD FILE
+    ══════════════════════════════════ */
+    function downloadFile() {
+      if (processedBlob) {
+        // Real download from backend blob
+        const url = URL.createObjectURL(processedBlob);
+        const a = document.createElement('a');
+        a.href = url; a.download = processedName; a.click();
+        URL.revokeObjectURL(url);
+      } else {
+        // Demo — will be replaced by real download when backend connected
+        alert('Backend not connected yet.\nIn production this will download: ' + processedName);
+      }
+    }
+
+    /* ══════════════════════════════════
+       CONVERT ANOTHER FILE
+    ══════════════════════════════════ */
+    function convertAnother() {
+      document.getElementById('successModal').classList.remove('show');
+      document.getElementById('progressFill').style.width = '0%';
+      processedBlob = null;
+      window.location.href = '/';
+    }
+     function goBack() {
+            const ref = document.referrer || "";
+
+            if (ref.includes('/all-tools')) {
+                window.location.href = '/all-tools';
+            } else if (ref.includes('/file-tools')) {
+                window.location.href = '/file-tools';
+            } else if (window.history.length > 1) {
+                window.history.back(); // smart fallback
+            } else {
+                window.location.href = '/';
+            }
+        }
+        function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent   = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+  </script>
+
+</body>
+
+</html>

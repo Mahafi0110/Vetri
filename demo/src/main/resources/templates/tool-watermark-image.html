@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watermark Images – Vetri Files</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue-main: #3B82F6;
+            --heading: #1F2937;
+            --subtext: #4A5565;
+            --accent-1: #F3F4F6;
+            --accent-2: #E5E7EB;
+            --white: #ffffff;
+            --green: #16A34A;
+            --radius-card: 16px;
+            --radius-btn: 50px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--heading);
+            background: var(--accent-1);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--white);
+            padding: 14px 0;
+            border-bottom: 1px solid var(--accent-2);
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .brand-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .navbar-nav .nav-link {
+            font-size: .95rem;
+            font-weight: 500;
+            color: var(--heading) !important;
+            padding: 6px 14px !important;
+            transition: color .2s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--blue-main) !important;
+        }
+
+        .btn-login {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--blue-main) !important;
+            padding: 6px 14px !important;
+            border-radius: var(--radius-btn);
+        }
+
+        .btn-get-started {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            color: #fff !important;
+            border: none;
+            padding: 10px 24px !important;
+            border-radius: var(--radius-btn);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+            transition: transform .2s;
+            white-space: nowrap;
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width:991.98px) {
+            .navbar-collapse {
+                background: var(--white);
+                border-top: 1px solid var(--accent-2);
+                padding: 12px 0 16px;
+                margin-top: 10px;
+            }
+
+            .navbar-nav {
+                align-items: flex-start !important;
+                padding: 0 8px;
+            }
+
+            .btn-login,
+            .btn-get-started {
+                margin: 4px 8px !important;
+            }
+        }
+
+        /* Page Header */
+        .page-header {
+            background: var(--accent-1);
+            padding: 20px 0 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 6px;
+            transition: color .2s;
+             /* 🔥 ADD THESE */
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: var(--blue-main);
+        }
+
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        /* Tool Main */
+        .tool-main {
+            padding: 24px 0 64px;
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+            height: 100%;
+        }
+
+        .settings-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-title i {
+            color: var(--blue-main);
+        }
+
+        .divider-line {
+            border: none;
+            border-top: 1.5px solid var(--accent-2);
+            margin: 20px 0;
+        }
+
+        .form-label-custom {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .label-hint {
+            font-size: .75rem;
+            color: var(--subtext);
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Upload Drop Zone */
+        .upload-drop-zone {
+            border: 2px dashed var(--accent-2);
+            border-radius: 12px;
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color .2s, background .2s;
+            background: var(--accent-1);
+        }
+
+        .upload-drop-zone:hover,
+        .upload-drop-zone.dragover {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        .upload-drop-zone i {
+            font-size: 1.8rem;
+            color: var(--blue-main);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .upload-drop-zone p {
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin: 0 0 4px;
+        }
+
+        .upload-drop-zone span {
+            font-size: .75rem;
+            color: var(--subtext);
+        }
+
+        /* File list */
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .file-item {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .file-item-thumb {
+            width: 36px;
+            height: 36px;
+            border-radius: 7px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid var(--accent-2);
+        }
+
+        .file-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-item-name {
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-item-size {
+            font-size: .7rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        .file-item-remove {
+            width: 26px;
+            height: 26px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 7px;
+            background: var(--white);
+            color: var(--subtext);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .75rem;
+            flex-shrink: 0;
+            transition: all .2s;
+        }
+
+        .file-item-remove:hover {
+            border-color: #EF4444;
+            color: #EF4444;
+        }
+
+        /* Watermark type buttons */
+        .wm-type-btns {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .wm-type-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            background: var(--white);
+            cursor: pointer;
+            text-align: center;
+            transition: all .2s;
+        }
+
+        .wm-type-btn:hover {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        .wm-type-btn.active {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        .wm-type-btn i {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--blue-main);
+            margin-bottom: 4px;
+        }
+
+        .wm-type-btn span {
+            font-size: .75rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        /* Input */
+        .input-custom {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: .88rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--heading);
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .input-custom:focus {
+            border-color: var(--blue-main);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, .1);
+        }
+
+        /* Color swatch row */
+        .color-swatches {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .color-swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform .15s, border-color .15s;
+            flex-shrink: 0;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.15);
+        }
+
+        .color-swatch.active {
+            border-color: var(--blue-main);
+            transform: scale(1.15);
+        }
+
+        /* Range slider */
+        .range-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .range-wrap input[type=range] {
+            flex: 1;
+            accent-color: var(--blue-main);
+        }
+
+        .range-val {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--blue-dark);
+            min-width: 32px;
+            text-align: right;
+        }
+
+        /* Position grid */
+        .position-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .pos-btn {
+            aspect-ratio: 1;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .7rem;
+            color: var(--subtext);
+            transition: all .2s;
+            font-weight: 600;
+        }
+
+        .pos-btn:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        .pos-btn.active {
+            border-color: var(--blue-main);
+            background: var(--blue-main);
+            color: #fff;
+        }
+
+        /* Hint box */
+        .range-hint-box {
+            background: var(--accent-1);
+            border-radius: 8px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: .75rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        .range-hint-box i {
+            color: var(--blue-main);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* Logo upload */
+        .logo-upload-zone {
+            border: 2px dashed var(--accent-2);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            background: var(--accent-1);
+        }
+
+        .logo-upload-zone:hover {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        .logo-upload-zone i {
+            font-size: 1.3rem;
+            color: var(--blue-main);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .logo-upload-zone p {
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        .logo-upload-zone span {
+            font-size: .72rem;
+            color: var(--subtext);
+        }
+
+        .logo-preview-wrap {
+            margin-top: 10px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            padding: 8px 12px;
+        }
+
+        .logo-preview-wrap img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .logo-preview-name {
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--heading);
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .logo-remove-btn {
+            width: 26px;
+            height: 26px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 7px;
+            background: var(--white);
+            color: var(--subtext);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .75rem;
+            transition: all .2s;
+        }
+
+        .logo-remove-btn:hover {
+            border-color: #EF4444;
+            color: #EF4444;
+        }
+
+        /* Preview Card */
+        .preview-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+        }
+
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        /* Canvas preview area */
+        .canvas-preview-area {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            min-height: 320px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .no-file-state {
+            text-align: center;
+            color: #9CA3AF;
+        }
+
+        .no-file-state i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .no-file-state p {
+            font-size: .95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--subtext);
+        }
+
+        .no-file-state span {
+            font-size: .82rem;
+        }
+
+        /* Image grid */
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 14px;
+            width: 100%;
+        }
+
+        .img-preview-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: box-shadow .2s;
+        }
+
+        .img-preview-card:hover {
+            box-shadow: 0 4px 16px rgba(59, 130, 246, .15);
+            border-color: var(--blue-main);
+        }
+
+        .img-preview-card canvas {
+            width: 100%;
+            display: block;
+        }
+
+        .img-card-footer {
+            padding: 8px 10px;
+        }
+
+        .img-card-name {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0 0 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .img-card-size {
+            font-size: .68rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        /* Process button */
+        .btn-process {
+            width: 100%;
+            padding: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s, box-shadow .2s;
+            cursor: pointer;
+        }
+
+        .btn-process:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(59, 130, 246, .45);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 30, 30, .55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px 40px 44px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+            transform: scale(.95);
+            transition: transform .3s;
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
+        }
+
+        .spinner-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 5px solid var(--accent-2);
+            border-top-color: #3B82F6;
+            animation: spin .9s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .modal-title-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 10px;
+        }
+
+        .modal-sub-text {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 24px;
+        }
+
+        .progress-track {
+            background: var(--accent-2);
+            border-radius: 50px;
+            height: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+            width: 0%;
+            transition: width .3s ease;
+        }
+
+        /* Success */
+        .success-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .85rem;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: color .2s;
+        }
+
+        .success-back:hover {
+            color: var(--blue-main);
+        }
+
+        .success-circle {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, .3);
+        }
+
+        .success-circle i {
+            color: #fff;
+            font-size: 2rem;
+        }
+
+        .success-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 8px;
+        }
+
+        .success-note {
+            font-size: .85rem;
+            color: var(--subtext);
+            margin-bottom: 20px;
+        }
+
+        .wm-summary {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .wm-summary-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: .85rem;
+            color: var(--heading);
+        }
+
+        .wm-summary-item i {
+            color: var(--blue-dark);
+            width: 16px;
+        }
+
+        .wm-summary-item:not(:last-child) {
+            border-bottom: 1px solid var(--accent-2);
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-another {
+            width: 100%;
+            padding: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 600;
+            background: var(--white);
+            color: var(--heading);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: border-color .2s, color .2s;
+        }
+
+        .btn-another:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--white);
+            border-top: 1px solid var(--accent-2);
+            padding: 56px 0 0;
+        }
+
+        .footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .footer-tagline {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            font-size: .88rem;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-main);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--accent-2);
+            padding: 18px 0;
+            margin-top: 48px;
+        }
+
+        .footer-copy {
+            font-size: .84rem;
+            color: var(--subtext);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--subtext);
+            font-size: .95rem;
+            text-decoration: none;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        @media (max-width:767.98px) {
+            .tool-main {
+                padding: 20px 0 48px;
+            }
+
+            .settings-card {
+                margin-bottom: 16px;
+            }
+
+            .modal-box {
+                padding: 36px 24px 32px;
+            }
+
+            .footer {
+                padding: 40px 0 0;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .image-preview-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+
+            <!-- Brand -->
+            <a class="navbar-brand" href="/">
+                <div class="brand-icon">
+                    <i class="bi bi-file-earmark-text-fill"></i>
+                </div>
+                <span class="brand-name">Vetri Files</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Content -->
+            <div class="collapse navbar-collapse" id="mainNav">
+
+                <!-- Move links to RIGHT -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/all-tools">Tools</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Feature">Features</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="container">
+            <!-- <a href="/file-tools" class="back-link"><i class="bi bi-arrow-left"></i> Back</a> -->
+            <button class="back-link" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Back
+            </button>
+            <h1 class="page-title">Watermark Images</h1>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Settings Panel -->
+                <div class="col-12 col-lg-3">
+                    <div class="settings-card">
+                        <div class="settings-title"><i class="bi bi-gear-fill"></i> Settings</div>
+
+                        <!-- Upload -->
+                        <label class="form-label-custom">Images</label>
+                        <div class="upload-drop-zone" id="dropZone"
+                            onclick="document.getElementById('imgInput').click()" ondragover="onDragOver(event)"
+                            ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+                            <i class="bi bi-images"></i>
+                            <p>Click or drag images here</p>
+                            <span>JPG, PNG, WEBP, GIF</span>
+                        </div>
+                        <input type="file" id="imgInput" accept="image/*" multiple style="display:none"
+                            onchange="onFileSelect(event)" />
+                        <div class="file-list" id="fileList"></div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Watermark Type -->
+                        <label class="form-label-custom">Watermark Type</label>
+                        <div class="wm-type-btns">
+                            <div class="wm-type-btn active" id="btnText" onclick="setWmType('text')">
+                                <i class="bi bi-type"></i>
+                                <span>Text</span>
+                            </div>
+                            <div class="wm-type-btn" id="btnLogo" onclick="setWmType('logo')">
+                                <i class="bi bi-image"></i>
+                                <span>Logo</span>
+                            </div>
+                        </div>
+
+                        <!-- Text Watermark -->
+                        <div id="textPanel" style="margin-top:14px">
+                            <label class="form-label-custom">Watermark Text</label>
+                            <input type="text" class="input-custom" id="wmText" value="© Vetri Files"
+                                placeholder="Your watermark text" oninput="refreshPreviews()" />
+
+                            <label class="form-label-custom" style="margin-top:14px">
+                                Font Size
+                            </label>
+                            <div class="range-wrap">
+                                <input type="range" min="10" max="120" value="36" id="fontSize"
+                                    oninput="document.getElementById('fontSizeVal').textContent=this.value+'px'; refreshPreviews()" />
+                                <span class="range-val" id="fontSizeVal">36px</span>
+                            </div>
+
+                            <label class="form-label-custom" style="margin-top:14px">Color</label>
+                            <div class="color-swatches">
+                                <div class="color-swatch active" data-color="#ffffff"
+                                    style="background:#ffffff;border:1.5px solid #E5E7EB"
+                                    onclick="setColor('#ffffff',this)"></div>
+                                <div class="color-swatch" data-color="#000000" style="background:#000000"
+                                    onclick="setColor('#000000',this)"></div>
+                                <div class="color-swatch" data-color="#3B82F6" style="background:#3B82F6"
+                                    onclick="setColor('#3B82F6',this)"></div>
+                                <div class="color-swatch" data-color="#EF4444" style="background:#EF4444"
+                                    onclick="setColor('#EF4444',this)"></div>
+                                <div class="color-swatch" data-color="#F59E0B" style="background:#F59E0B"
+                                    onclick="setColor('#F59E0B',this)"></div>
+                                <div class="color-swatch" data-color="#10B981" style="background:#10B981"
+                                    onclick="setColor('#10B981',this)"></div>
+                                <input type="color" id="customColor" value="#ffffff"
+                                    style="width:28px;height:28px;border-radius:7px;border:1.5px solid var(--accent-2);cursor:pointer;padding:0;"
+                                    oninput="setColor(this.value,null,true)" title="Custom color" />
+                            </div>
+                        </div>
+
+                        <!-- Logo Watermark -->
+                        <div id="logoPanel" style="display:none; margin-top:14px">
+                            <label class="form-label-custom">Logo / Image</label>
+                            <div class="logo-upload-zone" onclick="document.getElementById('logoInput').click()">
+                                <i class="bi bi-cloud-upload"></i>
+                                <p>Upload logo</p>
+                                <span>PNG with transparency recommended</span>
+                            </div>
+                            <input type="file" id="logoInput" accept="image/*" style="display:none"
+                                onchange="onLogoSelect(event)" />
+                            <div class="logo-preview-wrap" id="logoPreviewWrap">
+                                <img id="logoPreviewImg" src="" alt="logo" />
+                                <span class="logo-preview-name" id="logoPreviewName">logo.png</span>
+                                <button class="logo-remove-btn" onclick="removeLogo()"><i class="bi bi-x"></i></button>
+                            </div>
+
+                            <label class="form-label-custom" style="margin-top:14px">Logo Size</label>
+                            <div class="range-wrap">
+                                <input type="range" min="5" max="80" value="25" id="logoSize"
+                                    oninput="document.getElementById('logoSizeVal').textContent=this.value+'%'; refreshPreviews()" />
+                                <span class="range-val" id="logoSizeVal">25%</span>
+                            </div>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Opacity -->
+                        <label class="form-label-custom">Opacity</label>
+                        <div class="range-wrap">
+                            <input type="range" min="5" max="100" value="50" id="wmOpacity"
+                                oninput="document.getElementById('opacityVal').textContent=this.value+'%'; refreshPreviews()" />
+                            <span class="range-val" id="opacityVal">50%</span>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Position -->
+                        <label class="form-label-custom">Position</label>
+                        <div class="position-grid" id="positionGrid">
+                            <div class="pos-btn" data-pos="top-left" onclick="setPos('top-left',this)">TL</div>
+                            <div class="pos-btn" data-pos="top-center" onclick="setPos('top-center',this)">TC</div>
+                            <div class="pos-btn" data-pos="top-right" onclick="setPos('top-right',this)">TR</div>
+                            <div class="pos-btn" data-pos="mid-left" onclick="setPos('mid-left',this)">ML</div>
+                            <div class="pos-btn active" data-pos="center" onclick="setPos('center',this)">C</div>
+                            <div class="pos-btn" data-pos="mid-right" onclick="setPos('mid-right',this)">MR</div>
+                            <div class="pos-btn" data-pos="bot-left" onclick="setPos('bot-left',this)">BL</div>
+                            <div class="pos-btn" data-pos="bot-center" onclick="setPos('bot-center',this)">BC</div>
+                            <div class="pos-btn" data-pos="bot-right" onclick="setPos('bot-right',this)">BR</div>
+                        </div>
+
+                        <div class="range-hint-box" style="margin-top:14px">
+                            <i class="bi bi-info-circle"></i>
+                            <span>All changes reflect live in the preview on the right.</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Preview Panel -->
+                <div class="col-12 col-lg-9">
+                    <div class="preview-card">
+                        <p class="preview-title">Preview</p>
+
+                        <div class="canvas-preview-area" id="previewArea">
+                            <div class="no-file-state" id="noFileState">
+                                <i class="bi bi-images"></i>
+                                <p>No images loaded</p>
+                                <span>Upload images from the settings panel</span>
+                            </div>
+                            <div class="image-preview-grid" id="imageGrid" style="display:none"></div>
+                        </div>
+
+                        <button class="btn-process" onclick="startProcessing()">
+                            <i class="bi bi-shield-check"></i>
+                            Apply Watermark &amp; Download
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- PROCESSING MODAL -->
+    <div class="modal-overlay" id="processingModal">
+        <div class="modal-box">
+            <div class="spinner-ring"></div>
+            <p class="modal-title-text">Applying Watermark</p>
+            <p class="modal-sub-text">Processing your images...</p>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <a href="/file-tools" class="success-back"><i class="bi bi-arrow-left"></i> Back</a>
+            <div class="success-circle"><i class="bi bi-check-lg"></i></div>
+            <p class="success-title">Watermark Applied!</p>
+            <p class="success-note">Your images are ready to download</p>
+            <div class="wm-summary">
+                <div class="wm-summary-item">
+                    <i class="bi bi-images"></i>
+                    <span id="summaryImages">1 image processed</span>
+                </div>
+                <div class="wm-summary-item">
+                    <i class="bi bi-type"></i>
+                    <span id="summaryType">Text watermark</span>
+                </div>
+                <div class="wm-summary-item">
+                    <i class="bi bi-geo-alt"></i>
+                    <span id="summaryPos">Position: Center</span>
+                </div>
+            </div>
+            <button class="btn-download" onclick="downloadAll()">
+                <i class="bi bi-cloud-arrow-down-fill"></i>
+                <span id="downloadBtnLabel">Download Image</span>
+            </button>
+            <button class="btn-another" onclick="doAnother()">
+                <i class="bi bi-arrow-clockwise"></i>
+                Watermark More Images
+            </button>
+        </div>
+    </div>
+
+    <!-- ── NETWORK ERROR MODAL ── -->
+<div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+            <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+        </div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;"
+            id="netErrTitle">Something went wrong</p>
+        <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;"
+            id="netErrMsg">Please try again.</p>
+        <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            Try Again
+        </button>
+        <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            Upload New File
+        </button>
+    </div>
+</div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4 g-lg-5">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <span class="footer-brand-name">Vetri Files</span>
+                    </div>
+                    <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+                        seconds.</p>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+                    <p class="footer-col-title">Product</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools">All Tools</a></li>
+                        <li><a href="/Feature">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">All Tools</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools#document-tools">Document Tools</a></li>
+                        <li><a href="/all-tools#image-tools">Image Tools</a></li>
+                        <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+                        <li><a href="/all-tools#video-tools">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">Legal</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+                <div class="social-links mt-3 mt-sm-0">
+                    <a href="https://twitter.com/VTSITPARK" target="_blank" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="https://github.com/Vetri-Technology-Solutions" target="_blank" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="/js/vetri-file-helper.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        /* ─────────────────────────────────────────
+           STATE
+        ───────────────────────────────────────── */
+        let imageFiles = [];   // { file, name, size, objectURL }
+        let wmType = 'text';
+        let wmColor = '#ffffff';
+        let wmPosition = 'center';
+        let logoImage = null; // HTMLImageElement for logo
+
+        /* ─────────────────────────────────────────
+           DRAG & DROP
+        ───────────────────────────────────────── */
+        function onDragOver(e) {
+            e.preventDefault();
+            document.getElementById('dropZone').classList.add('dragover');
+        }
+        function onDragLeave() {
+            document.getElementById('dropZone').classList.remove('dragover');
+        }
+        function onDrop(e) {
+            e.preventDefault();
+            document.getElementById('dropZone').classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+            addImages(files);
+        }
+        function onFileSelect(e) {
+            addImages(Array.from(e.target.files));
+            e.target.value = '';
+        }
+
+        /* ─────────────────────────────────────────
+           ADD IMAGES
+        ───────────────────────────────────────── */
+        function addImages(files) {
+            files.forEach(f => {
+                if (imageFiles.find(x => x.name === f.name && x.size === f.size)) return;
+                imageFiles.push({ file: f, name: f.name, size: f.size, objectURL: URL.createObjectURL(f) });
+            });
+            renderFileList();
+            renderImageGrid();
+        }
+
+        function removeImage(idx) {
+            URL.revokeObjectURL(imageFiles[idx].objectURL);
+            imageFiles.splice(idx, 1);
+            renderFileList();
+            renderImageGrid();
+        }
+
+        /* ─────────────────────────────────────────
+           FILE LIST (sidebar)
+        ───────────────────────────────────────── */
+        function renderFileList() {
+            const container = document.getElementById('fileList');
+            if (!imageFiles.length) { container.innerHTML = ''; return; }
+            container.innerHTML = imageFiles.map((item, idx) => `
+        <div class="file-item">
+            <img class="file-item-thumb" src="${item.objectURL}" alt="${item.name}" />
+            <div class="file-item-info">
+                <p class="file-item-name">${item.name}</p>
+                <p class="file-item-size">${formatSize(item.size)}</p>
+            </div>
+            <button class="file-item-remove" onclick="removeImage(${idx})"><i class="bi bi-x"></i></button>
+        </div>`).join('');
+        }
+
+        /* ─────────────────────────────────────────
+           IMAGE GRID + CANVAS WATERMARK PREVIEW
+        ───────────────────────────────────────── */
+        function renderImageGrid() {
+            const noState = document.getElementById('noFileState');
+            const grid = document.getElementById('imageGrid');
+
+            if (!imageFiles.length) {
+                noState.style.display = 'block';
+                grid.style.display = 'none';
+                return;
+            }
+            noState.style.display = 'none';
+            grid.style.display = 'grid';
+
+            // Build card skeletons first, then draw each canvas
+            grid.innerHTML = imageFiles.map((item, idx) => `
+        <div class="img-preview-card">
+            <canvas id="canvas_${idx}"></canvas>
+            <div class="img-card-footer">
+                <p class="img-card-name">${item.name}</p>
+                <p class="img-card-size">${formatSize(item.size)}</p>
+            </div>
+        </div>`).join('');
+
+            imageFiles.forEach((item, idx) => drawWatermark(idx));
+        }
+
+        function refreshPreviews() {
+            imageFiles.forEach((_, idx) => drawWatermark(idx));
+        }
+
+        /* ─────────────────────────────────────────
+           CORE CANVAS WATERMARK ENGINE
+        ───────────────────────────────────────── */
+        function drawWatermark(idx) {
+            const canvas = document.getElementById('canvas_' + idx);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const item = imageFiles[idx];
+
+            const img = new Image();
+            img.onload = () => {
+                // Cap preview size
+                const MAX = 600;
+                let w = img.naturalWidth, h = img.naturalHeight;
+                if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+                if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; }
+
+                canvas.width = w;
+                canvas.height = h;
+                ctx.drawImage(img, 0, 0, w, h);
+                applyWatermarkToCtx(ctx, w, h);
+            };
+            img.src = item.objectURL;
+        }
+
+        function applyWatermarkToCtx(ctx, w, h) {
+            const opacity = parseInt(document.getElementById('wmOpacity').value) / 100;
+            ctx.globalAlpha = opacity;
+
+            if (wmType === 'text') {
+                const text = document.getElementById('wmText').value || '© Vetri Files';
+                const fontSize = parseInt(document.getElementById('fontSize').value);
+
+                // Scale font to canvas size if needed
+                const scaledFont = Math.min(fontSize, Math.round(w * 0.15));
+
+                ctx.font = `bold ${scaledFont}px Poppins, sans-serif`;
+                ctx.fillStyle = wmColor;
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'center';
+
+                // Shadow for readability
+                ctx.shadowColor = (wmColor === '#000000') ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.45)';
+                ctx.shadowBlur = 4;
+                ctx.shadowOffsetX = 1;
+                ctx.shadowOffsetY = 1;
+
+                const { x, y } = getPosition(w, h, ctx.measureText(text).width, scaledFont);
+                ctx.fillText(text, x, y);
+
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+
+            } else if (wmType === 'logo' && logoImage) {
+                const pct = parseInt(document.getElementById('logoSize').value) / 100;
+                const lw = Math.round(w * pct);
+                const lh = Math.round(lw * logoImage.naturalHeight / logoImage.naturalWidth);
+                const { x, y } = getPosition(w, h, lw, lh);
+                ctx.drawImage(logoImage, x - lw / 2, y - lh / 2, lw, lh);
+            }
+
+            ctx.globalAlpha = 1;
+        }
+
+        /* ─────────────────────────────────────────
+           POSITION CALCULATOR
+        ───────────────────────────────────────── */
+        function getPosition(canvasW, canvasH, elemW, elemH) {
+            const pad = 20;
+            const positions = {
+                'top-left': { x: pad + elemW / 2, y: pad + elemH / 2 },
+                'top-center': { x: canvasW / 2, y: pad + elemH / 2 },
+                'top-right': { x: canvasW - pad - elemW / 2, y: pad + elemH / 2 },
+                'mid-left': { x: pad + elemW / 2, y: canvasH / 2 },
+                'center': { x: canvasW / 2, y: canvasH / 2 },
+                'mid-right': { x: canvasW - pad - elemW / 2, y: canvasH / 2 },
+                'bot-left': { x: pad + elemW / 2, y: canvasH - pad - elemH / 2 },
+                'bot-center': { x: canvasW / 2, y: canvasH - pad - elemH / 2 },
+                'bot-right': { x: canvasW - pad - elemW / 2, y: canvasH - pad - elemH / 2 },
+            };
+            return positions[wmPosition] || positions['center'];
+        }
+
+        /* ─────────────────────────────────────────
+           SETTINGS CONTROLS
+        ───────────────────────────────────────── */
+        function setWmType(type) {
+            wmType = type;
+            document.getElementById('btnText').classList.toggle('active', type === 'text');
+            document.getElementById('btnLogo').classList.toggle('active', type === 'logo');
+            document.getElementById('textPanel').style.display = type === 'text' ? 'block' : 'none';
+            document.getElementById('logoPanel').style.display = type === 'logo' ? 'block' : 'none';
+            refreshPreviews();
+        }
+
+        function setColor(color, el, fromPicker) {
+            wmColor = color;
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+            if (el) el.classList.add('active');
+            if (!fromPicker) document.getElementById('customColor').value = color;
+            refreshPreviews();
+        }
+
+        function setPos(pos, btn) {
+            wmPosition = pos;
+            document.querySelectorAll('.pos-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            refreshPreviews();
+        }
+
+        function onLogoSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            const img = new Image();
+            img.onload = () => {
+                logoImage = img;
+                document.getElementById('logoPreviewImg').src = url;
+                document.getElementById('logoPreviewName').textContent = file.name;
+                document.getElementById('logoPreviewWrap').style.display = 'flex';
+                refreshPreviews();
+            };
+            img.src = url;
+            e.target.value = '';
+        }
+
+        function removeLogo() {
+            logoImage = null;
+            document.getElementById('logoPreviewWrap').style.display = 'none';
+            document.getElementById('logoPreviewImg').src = '';
+            refreshPreviews();
+        }
+
+        /* ─────────────────────────────────────────
+           PROCESSING & DOWNLOAD
+        ───────────────────────────────────────── */
+        let processedCanvases = [];
+
+        function startProcessing() {
+            if (!imageFiles.length) {
+                alert('Please upload at least one image.');
+                return;
+            }
+            if (wmType === 'logo' && !logoImage) {
+                alert('Please upload a logo image for the logo watermark.');
+                return;
+            }
+
+            // Update success modal summary
+            document.getElementById('summaryImages').textContent = imageFiles.length + ' image' + (imageFiles.length > 1 ? 's' : '') + ' processed';
+            document.getElementById('summaryType').textContent = wmType === 'text'
+                ? 'Text: "' + (document.getElementById('wmText').value || '© Vetri Files') + '"'
+                : 'Logo watermark';
+            document.getElementById('summaryPos').textContent = 'Position: ' + wmPosition.replace('-', ' ');
+            document.getElementById('downloadBtnLabel').textContent =
+                imageFiles.length > 1 ? 'Download All (ZIP)' : 'Download Image';
+
+            const modal = document.getElementById('processingModal');
+            const progressFill = document.getElementById('progressFill');
+            modal.classList.add('show');
+            progressFill.style.width = '0%';
+
+            processedCanvases = [];
+            let done = 0;
+
+            imageFiles.forEach((item, idx) => {
+                const img = new Image();
+                img.onload = () => {
+                    const c = document.createElement('canvas');
+                    c.width = img.naturalWidth;
+                    c.height = img.naturalHeight;
+                    const ctx = c.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    applyWatermarkToCtx(ctx, c.width, c.height);
+                    processedCanvases[idx] = { canvas: c, name: item.name };
+
+                    done++;
+                    progressFill.style.width = Math.round((done / imageFiles.length) * 100) + '%';
+
+                    if (done === imageFiles.length) {
+                        setTimeout(() => {
+                            modal.classList.remove('show');
+                            document.getElementById('successModal').classList.add('show');
+                        }, 400);
+                    }
+                };
+                img.src = item.objectURL;
+            });
+        }
+
+        async function downloadAll() {
+            if (!processedCanvases.length) return;
+
+            if (processedCanvases.length === 1) {
+                // Single image — direct download
+                const { canvas, name } = processedCanvases[0];
+                const ext = getExt(name);
+                const mime = ext === 'png' ? 'image/png' : 'image/jpeg';
+                canvas.toBlob(blob => {
+                    triggerDownload(blob, 'watermarked_' + name);
+                }, mime, 0.92);
+            } else {
+                // Multiple images — ZIP using JSZip
+                const zip = new JSZip();
+                const folder = zip.folder('watermarked_images');
+
+                const promises = processedCanvases.map(({ canvas, name }) => {
+                    return new Promise(resolve => {
+                        const ext = getExt(name);
+                        const mime = ext === 'png' ? 'image/png' : 'image/jpeg';
+                        canvas.toBlob(blob => {
+                            folder.file('watermarked_' + name, blob);
+                            resolve();
+                        }, mime, 0.92);
+                    });
+                });
+
+                await Promise.all(promises);
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                triggerDownload(zipBlob, 'watermarked_images.zip');
+            }
+        }
+
+        function triggerDownload(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 3000);
+        }
+
+        function getExt(name) {
+            return (name.split('.').pop() || 'jpg').toLowerCase();
+        }
+
+        function doAnother() {
+            document.getElementById('successModal').classList.remove('show');
+            imageFiles.forEach(f => URL.revokeObjectURL(f.objectURL));
+            imageFiles = [];
+            processedCanvases = [];
+            document.getElementById('progressFill').style.width = '0%';
+            renderFileList();
+            renderImageGrid();
+        }
+
+        /* ─────────────────────────────────────────
+           UTILS
+        ───────────────────────────────────────── */
+        function formatSize(bytes) {
+            if (!bytes) return '—';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / 1048576).toFixed(2) + ' MB';
+        }
+        function goBack() {
+            const ref = document.referrer || "";
+
+            if (ref.includes('/all-tools')) {
+                window.location.href = '/all-tools';
+            } else if (ref.includes('/file-tools')) {
+                window.location.href = '/file-tools';
+            } else if (window.history.length > 1) {
+                window.history.back(); // smart fallback
+            } else {
+                window.location.href = '/';
+            }
+        }
+        function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent   = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+    </script>
+</body>
+
+</html>

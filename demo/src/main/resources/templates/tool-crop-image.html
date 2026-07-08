@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crop Image – Vetri Files</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue-main: #3B82F6;
+            --heading: #1F2937;
+            --subtext: #4A5565;
+            --accent-1: #F3F4F6;
+            --accent-2: #E5E7EB;
+            --white: #ffffff;
+            --green: #16A34A;
+            --radius-card: 16px;
+            --radius-btn: 50px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--heading);
+            background: var(--accent-1);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: var(--white);
+            padding: 14px 0;
+            border-bottom: 1px solid var(--accent-2);
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .brand-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .navbar-nav .nav-link {
+            font-size: .95rem;
+            font-weight: 500;
+            color: var(--heading) !important;
+            padding: 6px 14px !important;
+            transition: color .2s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--blue-main) !important;
+        }
+
+        .btn-login {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--blue-main) !important;
+            padding: 6px 14px !important;
+            border-radius: var(--radius-btn);
+        }
+
+        .btn-get-started {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            color: #fff !important;
+            border: none;
+            padding: 10px 24px !important;
+            border-radius: var(--radius-btn);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+            transition: transform .2s;
+            white-space: nowrap;
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width:991.98px) {
+            .navbar-collapse {
+                background: var(--white);
+                border-top: 1px solid var(--accent-2);
+                padding: 12px 0 16px;
+                margin-top: 10px;
+            }
+
+            .navbar-nav {
+                align-items: flex-start !important;
+                padding: 0 8px;
+            }
+
+            .btn-login,
+            .btn-get-started {
+                margin: 4px 8px !important;
+            }
+        }
+
+        /* ── Page Header ── */
+        .page-header {
+            background: var(--accent-1);
+            padding: 20px 0 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 6px;
+            transition: color .2s;
+             /* 🔥 ADD THESE */
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: var(--blue-main);
+        }
+
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            background: var(--white);
+            border-top: 1px solid var(--accent-2);
+            padding: 56px 0 0;
+        }
+
+        .footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .footer-tagline {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            font-size: .88rem;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-main);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--accent-2);
+            padding: 18px 0;
+            margin-top: 48px;
+        }
+
+        .footer-copy {
+            font-size: .84rem;
+            color: var(--subtext);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--subtext);
+            font-size: .95rem;
+            text-decoration: none;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        @media (max-width:767.98px) {
+            .tool-main {
+                padding: 20px 0 48px;
+            }
+
+            .settings-card {
+                margin-bottom: 16px;
+            }
+
+            .modal-box {
+                padding: 36px 24px 32px;
+            }
+
+            .footer {
+                padding: 40px 0 0;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .stats-row {
+                flex-direction: column;
+            }
+
+            .success-stats {
+                flex-direction: column;
+            }
+        }
+
+        .tool-main {
+            padding: 24px 0 64px;
+        }
+
+        .page-header {
+            background: var(--accent-1);
+            padding: 20px 0 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 6px;
+            transition: color .2s;
+        }
+
+        .back-link:hover {
+            color: var(--blue-main);
+        }
+
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        /* Settings */
+        .settings-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+            height: 100%;
+        }
+
+        .settings-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-title i {
+            color: var(--blue-main);
+        }
+
+        .divider-line {
+            border: none;
+            border-top: 1.5px solid var(--accent-2);
+            margin: 20px 0;
+        }
+
+        .form-label-custom {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* File info */
+        .file-info-box {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .file-info-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .95rem;
+            flex-shrink: 0;
+        }
+
+        .img-icon {
+            background: linear-gradient(135deg, #0D9488, #2DD4BF);
+        }
+
+        .file-info-name {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .file-info-box div {
+    min-width: 0;
+}
+
+
+        .file-info-size {
+            font-size: .75rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        /* Crop mode buttons */
+        .crop-mode-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .crop-mode-btn {
+            flex: 1;
+            padding: 8px 4px;
+            font-size: .78rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--subtext);
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .crop-mode-btn:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+        }
+
+        .crop-mode-btn.active {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+            color: var(--blue-dark);
+        }
+
+        /* Dimensions grid */
+        .dim-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .dim-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .dim-label {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--subtext);
+        }
+
+        .dim-input {
+            padding: 8px 10px;
+            font-size: .85rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--heading);
+            outline: none;
+            width: 100%;
+            transition: border-color .2s;
+        }
+
+        .dim-input:focus {
+            border-color: var(--blue-main);
+        }
+
+        /* Preset ratios */
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .preset-btn {
+            padding: 8px 4px;
+            font-size: .78rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--subtext);
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        /* Select */
+        .select-custom {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: .9rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--heading);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5565' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            cursor: pointer;
+            transition: border-color .2s;
+            margin-bottom: 12px;
+        }
+
+        .select-custom:focus {
+            outline: none;
+            border-color: var(--blue-main);
+        }
+
+        /* Output size box */
+        .output-size-box {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin-top: 4px;
+        }
+
+        .output-size-box i {
+            color: var(--blue-main);
+        }
+
+        /* Preview card */
+        .preview-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .prev-action-btn {
+            padding: 7px 14px;
+            font-size: .82rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 50px;
+            background: var(--white);
+            color: var(--subtext);
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .prev-action-btn:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+        }
+
+        /* Crop canvas wrapper */
+        .crop-canvas-wrapper {
+            background: #1F2937;
+            border-radius: 12px;
+            min-height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 16px;
+            cursor: crosshair;
+        }
+
+        /* No image state */
+        .no-image-state {
+            text-align: center;
+            color: #6B7280;
+        }
+
+        .no-image-state i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .no-image-state p {
+            font-size: .95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .no-image-state span {
+            font-size: .82rem;
+        }
+
+        /* Crop container */
+        .crop-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .crop-container img {
+            display: block;
+            max-width: 100%;
+            max-height: 360px;
+            object-fit: contain;
+            user-select: none;
+        }
+
+        /* Crop selection box */
+        .crop-selection {
+            position: absolute;
+            border: 2px solid #3B82F6;
+            cursor: move;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, .5);
+        }
+
+        /* Handles */
+        .handle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border: 2px solid #3B82F6;
+            border-radius: 2px;
+            z-index: 10;
+        }
+
+        .handle.nw {
+            top: -6px;
+            left: -6px;
+            cursor: nw-resize;
+        }
+
+        .handle.ne {
+            top: -6px;
+            right: -6px;
+            cursor: ne-resize;
+        }
+
+        .handle.sw {
+            bottom: -6px;
+            left: -6px;
+            cursor: sw-resize;
+        }
+
+        .handle.se {
+            bottom: -6px;
+            right: -6px;
+            cursor: se-resize;
+        }
+
+        /* Rule of thirds grid */
+        .crop-grid {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .grid-line {
+            position: absolute;
+            background: rgba(255, 255, 255, .25);
+        }
+
+        .grid-line.v1 {
+            left: 33.33%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+        }
+
+        .grid-line.v2 {
+            left: 66.66%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+        }
+
+        .grid-line.h1 {
+            top: 33.33%;
+            left: 0;
+            right: 0;
+            height: 1px;
+        }
+
+        .grid-line.h2 {
+            top: 66.66%;
+            left: 0;
+            right: 0;
+            height: 1px;
+        }
+
+        /* Dim label */
+        .crop-dim-label {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, .7);
+            color: #fff;
+            font-size: .72rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* Crop result */
+        .crop-result {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .crop-result-title {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--subtext);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .crop-result canvas {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        /* Process button */
+        .btn-process {
+            width: 100%;
+            padding: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0D9488, #2DD4BF);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(13, 148, 136, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s, box-shadow .2s;
+            cursor: pointer;
+        }
+
+        .btn-process:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(13, 148, 136, .45);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 30, 30, .55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px 40px 44px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+            transform: scale(.95);
+            transition: transform .3s;
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
+        }
+
+        .spinner-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 5px solid var(--accent-2);
+            border-top-color: #0D9488;
+            animation: spin .9s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .modal-title-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 10px;
+        }
+
+        .modal-sub-text {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 24px;
+        }
+
+        .progress-track {
+            background: var(--accent-2);
+            border-radius: 50px;
+            height: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #0D9488, #2DD4BF);
+            width: 0%;
+            transition: width .3s ease;
+        }
+
+        /* Success modal */
+        .success-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .85rem;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: color .2s;
+        }
+
+        .success-back:hover {
+            color: var(--blue-main);
+        }
+
+        .success-circle.green {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0D9488, #2DD4BF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 6px 20px rgba(13, 148, 136, .3);
+        }
+
+        .success-circle.green i {
+            color: #fff;
+            font-size: 2rem;
+        }
+
+        .success-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 8px;
+        }
+
+        .success-file {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 4px;
+        }
+
+        .success-note {
+            font-size: .85rem;
+            color: var(--subtext);
+            margin-bottom: 20px;
+        }
+
+        .crop-info-box {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .crop-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 0;
+            font-size: .85rem;
+            color: var(--heading);
+        }
+
+        .crop-info-item i {
+            color: #0D9488;
+            width: 16px;
+        }
+
+        .crop-info-item:not(:last-child) {
+            border-bottom: 1px solid var(--accent-2);
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0D9488, #2DD4BF);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(13, 148, 136, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-crop-another {
+            width: 100%;
+            padding: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 600;
+            background: var(--white);
+            color: var(--heading);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: border-color .2s, color .2s;
+        }
+
+        .btn-crop-another:hover {
+            border-color: #0D9488;
+            color: #0D9488;
+        }
+
+        @media (max-width:767.98px) {
+            .tool-main {
+                padding: 20px 0 48px;
+            }
+
+            .settings-card {
+                margin-bottom: 16px;
+            }
+
+            .modal-box {
+                padding: 36px 24px 32px;
+            }
+
+            .preview-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+ <nav class="navbar navbar-expand-lg">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="/">
+      <div class="brand-icon">
+        <i class="bi bi-file-earmark-text-fill"></i>
+      </div>
+      <span class="brand-name">Vetri Files</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- Move links to RIGHT -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/all-tools">Tools</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Feature">Features</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+ <!-- ════════════════════════════════
+     PAGE HEADER
+════════════════════════════════ -->
+    <div class="page-header">
+        <div class="container">
+            <!-- <a href="/file-tools" class="back-link">
+                <i class="bi bi-arrow-left"></i> Back
+            </a> -->
+            <button class="back-link" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Back
+            </button>
+            <h1 class="page-title">Crop Image</h1>
+        </div>
+    </div>
+    <!-- ---------------------- -->
+    <!-- MAIN CONTENT -->
+    <!-- ---------------------- -->
+    <main class="tool-main">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- ── Settings Panel ── -->
+                <div class="col-12 col-lg-3">
+                    <div class="settings-card">
+                        <div class="settings-title">
+                            <i class="bi bi-gear-fill"></i> Settings
+                        </div>
+
+                        <!-- File Info -->
+                        <div class="file-info-box" id="fileInfoBox">
+                            <div class="file-info-icon img-icon">
+                                <i class="bi bi-file-earmark-image-fill"></i>
+                            </div>
+                            <div>
+                                <p class="file-info-name" id="fileInfoName">
+                                    No file loaded
+                                </p>
+                                <p class="file-info-size" id="fileInfoSize">—</p>
+                            </div>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Crop Mode -->
+                        <label class="form-label-custom">Crop Mode</label>
+                        <div class="crop-mode-btns">
+                            <button class="crop-mode-btn active" onclick="setCropMode('free', this)">
+                                <i class="bi bi-crop"></i> Free
+                            </button>
+                            <button class="crop-mode-btn" onclick="setCropMode('square', this)">
+                                <i class="bi bi-square"></i> Square
+                            </button>
+                            <!-- <button class="crop-mode-btn" onclick="setCropMode('custom', this)">
+                                <i class="bi bi-aspect-ratio"></i> Custom
+                            </button> -->
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Crop Dimensions -->
+                        <label class="form-label-custom">Crop Position & Size</label>
+                        <div class="dim-grid">
+                            <div class="dim-item">
+                                <label class="dim-label">X (px)</label>
+                                <input type="number" class="dim-input" id="cropX" value="0" min="0"
+                                    oninput="updateCropFromInputs()" />
+                            </div>
+                            <div class="dim-item">
+                                <label class="dim-label">Y (px)</label>
+                                <input type="number" class="dim-input" id="cropY" value="0" min="0"
+                                    oninput="updateCropFromInputs()" />
+                            </div>
+                            <div class="dim-item">
+                                <label class="dim-label">Width (px)</label>
+                                <input type="number" class="dim-input" id="cropW" value="400" min="1"
+                                    oninput="updateCropFromInputs()" />
+                            </div>
+                            <div class="dim-item">
+                                <label class="dim-label">Height (px)</label>
+                                <input type="number" class="dim-input" id="cropH" value="400" min="1"
+                                    oninput="updateCropFromInputs()" />
+                            </div>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Preset Ratios -->
+                        <label class="form-label-custom">Preset Ratios</label>
+                        <div class="preset-grid">
+                            <button class="preset-btn" onclick="applyPreset(1,1)">1:1</button>
+                            <button class="preset-btn" onclick="applyPreset(4,3)">4:3</button>
+                            <button class="preset-btn" onclick="applyPreset(16,9)">16:9</button>
+                            <button class="preset-btn" onclick="applyPreset(3,2)">3:2</button>
+                            <button class="preset-btn" onclick="applyPreset(2,3)">2:3</button>
+                            <button class="preset-btn" onclick="applyPreset(9,16)">9:16</button>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Output Format -->
+                        <label class="form-label-custom">Output Format</label>
+                        <select class="select-custom" id="outputFormat">
+                            <option value="jpg">JPG</option>
+                            <option value="png">PNG</option>
+                            <option value="webp">WEBP</option>
+                        </select>
+
+                        <!-- Output Size Preview -->
+                        <div class="output-size-box" id="outputSizeBox">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                            <span id="outputDimText">400 × 400 px</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ── Preview Panel ── -->
+                <div class="col-12 col-lg-9">
+                    <div class="preview-card">
+
+                        <!-- Preview Header -->
+                        <div class="preview-header">
+                            <p class="preview-title">Preview</p>
+                            <div class="preview-actions">
+                                <button class="prev-action-btn" onclick="resetCrop()" title="Reset crop">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                    Reset
+                                </button>
+                                <button class="prev-action-btn" onclick="rotateImage()" title="Rotate">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                    Rotate
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Crop Canvas Area -->
+                        <div class="crop-canvas-wrapper" id="cropWrapper">
+                            <!-- No image state -->
+                            <div class="no-image-state" id="noImageState">
+                                <i class="bi bi-image"></i>
+                                <p>No image loaded</p>
+                                <span>Upload an image from the home page</span>
+                            </div>
+
+                            <!-- Image + crop overlay -->
+                            <div class="crop-container" id="cropContainer" style="display:none">
+                                <img id="previewImg" src="" alt="Preview" draggable="false" />
+                                <!-- Crop selection box -->
+                                <div class="crop-selection" id="cropSelection" onmousedown="startDrag(event)">
+                                    <!-- Resize handles -->
+                                    <div class="handle nw" onmousedown="startResize(event,'nw')"></div>
+                                    <div class="handle ne" onmousedown="startResize(event,'ne')"></div>
+                                    <div class="handle sw" onmousedown="startResize(event,'sw')"></div>
+                                    <div class="handle se" onmousedown="startResize(event,'se')"></div>
+                                    <!-- Rule of thirds grid -->
+                                    <div class="crop-grid">
+                                        <div class="grid-line v1"></div>
+                                        <div class="grid-line v2"></div>
+                                        <div class="grid-line h1"></div>
+                                        <div class="grid-line h2"></div>
+                                    </div>
+                                    <!-- Dim overlays -->
+                                    <div class="crop-dim-label" id="cropDimLabel">
+                                        400 × 400
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Crop Result Preview -->
+                        <div class="crop-result" id="cropResult" style="display:none">
+                            <p class="crop-result-title">
+                                <i class="bi bi-crop"></i> Crop Preview
+                            </p>
+                            <canvas id="cropCanvas"></canvas>
+                        </div>
+
+                        <!-- Process Button -->
+                        <button class="btn-process" onclick="startProcessing()">
+                            <i class="bi bi-crop"></i>
+                            Crop &amp; Download
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ════════════════════════════════
+     PROCESSING MODAL
+════════════════════════════════ -->
+    <div class="modal-overlay" id="processingModal">
+        <div class="modal-box">
+            <div class="spinner-ring"></div>
+            <p class="modal-title-text">Cropping Your Image</p>
+            <p class="modal-sub-text">
+                Processing your crop selection...
+            </p>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── NETWORK ERROR MODAL ── -->
+<div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+            <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+        </div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;"
+            id="netErrTitle">Something went wrong</p>
+        <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;"
+            id="netErrMsg">Please try again.</p>
+        <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            Try Again
+        </button>
+        <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            Upload New File
+        </button>
+    </div>
+</div>
+
+    <!-- ════════════════════════════════
+     SUCCESS MODAL
+════════════════════════════════ -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <a href="/file-tools" class="success-back">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+            <div class="success-circle green">
+                <i class="bi bi-check-lg"></i>
+            </div>
+            <p class="success-title">Image Cropped!</p>
+            <p class="success-file" id="successFileName">image.jpg</p>
+            <p class="success-note">has been cropped successfully</p>
+
+            <!-- Crop Info -->
+            <div class="crop-info-box">
+                <div class="crop-info-item">
+                    <i class="bi bi-arrows-fullscreen"></i>
+                    <span id="successDimensions">400 × 400 px</span>
+                </div>
+                <div class="crop-info-item">
+                    <i class="bi bi-file-earmark-image"></i>
+                    <span id="successFormat">JPG format</span>
+                </div>
+            </div>
+
+            <button class="btn-download" onclick="downloadFile()">
+                <i class="bi bi-cloud-arrow-down-fill"></i>
+                Download Cropped Image
+            </button>
+            <button class="btn-crop-another" onclick="cropAnother()">
+                <i class="bi bi-arrow-clockwise"></i>
+                Crop Another Image
+            </button>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4 g-lg-5">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <span class="footer-brand-name">Vetri Files</span>
+                    </div>
+                    <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+                        seconds.</p>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+                    <p class="footer-col-title">Product</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools">All Tools</a></li>
+                        <li><a href="/Feature">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">All Tools</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools#document-tools">Document Tools</a></li>
+                        <li><a href="/all-tools#image-tools">Image Tools</a></li>
+                        <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+                        <li><a href="/all-tools#video-tools">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">Legal</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+                <div class="social-links mt-3 mt-sm-0">
+                    <a href="https://www.instagram.com/vetriitsystems/" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="https://x.com/VTSITPARK" target="_blank" title="GitHub"><i class="bi bi-twitter-x"></i></a>
+                    <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" title="Linkedin"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>    
+     <script src="/js/vetri-file-helper.js"></script>    
+    <script>
+        /* ── Globals ── */
+        let currentFile = null;
+        let processedBlob = null;
+        let processedName = 'cropped.jpg';
+        let cropMode = 'free';
+        let rotation = 0;
+        let imgNaturalW = 0;
+        let imgNaturalH = 0;
+        let imgDisplayW = 0;
+        let imgDisplayH = 0;
+
+        /* ── Drag state ── */
+        let isDragging = false;
+        let isResizing = false;
+        let resizeDir = '';
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let cropStartX = 0;
+        let cropStartY = 0;
+        let cropStartW = 0;
+        let cropStartH = 0;
+
+        /* ── Init ── */
+        window.addEventListener('DOMContentLoaded', () => {
+             // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+  if (!isFromUpload()) {
+    // Show "no file" state — don't load previous file
+    showNoFileState();
+    return;
+  }
+            const stored = sessionStorage.getItem('vetri_file');
+            const dataURL = sessionStorage.getItem('vetri_file_data');
+            if (!stored || !dataURL) return;
+            try {
+                currentFile = JSON.parse(stored);
+                loadImage(currentFile, dataURL);
+            } catch (e) { }
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+
+function showNoFileState() {
+  document.getElementById('previewFilename').textContent = 'No file loaded';
+  document.getElementById('previewIcon').className = 'bi bi-cloud-upload';
+  document.querySelector('.preview-hint').innerHTML =
+'<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+}
+
+        /* ── Load image ── */
+        function loadImage(f, dataURL) {
+            document.getElementById('fileInfoName').textContent =
+                f.name || 'image';
+            document.getElementById('fileInfoSize').textContent =
+                formatSize(f.size);
+            document.getElementById('successFileName').textContent =
+                f.name || 'image';
+
+            const img = document.getElementById('previewImg');
+            img.src = dataURL;
+            img.onload = () => {
+                imgNaturalW = img.naturalWidth;
+                imgNaturalH = img.naturalHeight;
+                document.getElementById('noImageState').style.display = 'none';
+                document.getElementById('cropContainer').style.display = 'block';
+
+                setTimeout(() => {
+                    imgDisplayW = img.offsetWidth;
+                    imgDisplayH = img.offsetHeight;
+                    initCropSelection();
+                }, 100);
+            };
+        }
+
+        /* ── Init crop selection ── */
+        function initCropSelection() {
+            const sel = document.getElementById('cropSelection');
+            const w = Math.round(imgDisplayW * 0.6);
+            const h = Math.round(imgDisplayH * 0.6);
+            const x = Math.round((imgDisplayW - w) / 2);
+            const y = Math.round((imgDisplayH - h) / 2);
+
+            sel.style.left = x + 'px';
+            sel.style.top = y + 'px';
+            sel.style.width = w + 'px';
+            sel.style.height = h + 'px';
+
+            updateInputsFromCrop(x, y, w, h);
+            updateCropPreview();
+        }
+
+        /* ── Update inputs from crop box ── */
+        function updateInputsFromCrop(x, y, w, h) {
+            const scaleX = imgNaturalW / imgDisplayW;
+            const scaleY = imgNaturalH / imgDisplayH;
+            document.getElementById('cropX').value = Math.round(x * scaleX);
+            document.getElementById('cropY').value = Math.round(y * scaleY);
+            document.getElementById('cropW').value = Math.round(w * scaleX);
+            document.getElementById('cropH').value = Math.round(h * scaleY);
+            document.getElementById('outputDimText').textContent =
+                Math.round(w * scaleX) + ' × ' + Math.round(h * scaleY) + ' px';
+            document.getElementById('cropDimLabel').textContent =
+                Math.round(w * scaleX) + ' × ' + Math.round(h * scaleY);
+            document.getElementById('successDimensions').textContent =
+                Math.round(w * scaleX) + ' × ' + Math.round(h * scaleY) + ' px';
+        }
+
+        /* ── Update crop box from inputs ── */
+        function updateCropFromInputs() {
+            const scaleX = imgNaturalW / imgDisplayW;
+            const scaleY = imgNaturalH / imgDisplayH;
+            const x = parseInt(document.getElementById('cropX').value) / scaleX;
+            const y = parseInt(document.getElementById('cropY').value) / scaleY;
+            const w = parseInt(document.getElementById('cropW').value) / scaleX;
+            const h = parseInt(document.getElementById('cropH').value) / scaleY;
+            const sel = document.getElementById('cropSelection');
+            sel.style.left = x + 'px';
+            sel.style.top = y + 'px';
+            sel.style.width = w + 'px';
+            sel.style.height = h + 'px';
+            document.getElementById('outputDimText').textContent =
+                document.getElementById('cropW').value + ' × ' +
+                document.getElementById('cropH').value + ' px';
+            document.getElementById('cropDimLabel').textContent =
+                document.getElementById('cropW').value + ' × ' +
+                document.getElementById('cropH').value;
+            updateCropPreview();
+        }
+
+        /* ── Drag to move crop box ── */
+        function startDrag(e) {
+            if (e.target.classList.contains('handle')) return;
+            e.preventDefault();
+            isDragging = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            const sel = document.getElementById('cropSelection');
+            cropStartX = parseInt(sel.style.left);
+            cropStartY = parseInt(sel.style.top);
+        }
+
+        /* ── Resize from handles ── */
+        function startResize(e, dir) {
+            e.preventDefault();
+            e.stopPropagation();
+            isResizing = true;
+            resizeDir = dir;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            const sel = document.getElementById('cropSelection');
+            cropStartX = parseInt(sel.style.left);
+            cropStartY = parseInt(sel.style.top);
+            cropStartW = parseInt(sel.style.width);
+            cropStartH = parseInt(sel.style.height);
+        }
+
+        /* ── Mouse move ── */
+        function onMouseMove(e) {
+            if (!isDragging && !isResizing) return;
+            const sel = document.getElementById('cropSelection');
+            const dx = e.clientX - dragStartX;
+            const dy = e.clientY - dragStartY;
+
+            if (isDragging) {
+                let nx = cropStartX + dx;
+                let ny = cropStartY + dy;
+                const w = parseInt(sel.style.width);
+                const h = parseInt(sel.style.height);
+                nx = Math.max(0, Math.min(nx, imgDisplayW - w));
+                ny = Math.max(0, Math.min(ny, imgDisplayH - h));
+                sel.style.left = nx + 'px';
+                sel.style.top = ny + 'px';
+                updateInputsFromCrop(nx, ny, w, h);
+            }
+
+            if (isResizing) {
+                let nx = cropStartX, ny = cropStartY;
+                let nw = cropStartW, nh = cropStartH;
+
+                if (resizeDir.includes('e')) nw = Math.max(20, cropStartW + dx);
+                if (resizeDir.includes('s')) nh = Math.max(20, cropStartH + dy);
+                if (resizeDir.includes('w')) {
+                    nw = Math.max(20, cropStartW - dx);
+                    nx = cropStartX + (cropStartW - nw);
+                }
+                if (resizeDir.includes('n')) {
+                    nh = Math.max(20, cropStartH - dy);
+                    ny = cropStartY + (cropStartH - nh);
+                }
+
+                // Square mode
+                if (cropMode === 'square') {
+                    const size = Math.max(nw, nh);
+                    nw = size; nh = size;
+                }
+
+                sel.style.left = nx + 'px';
+                sel.style.top = ny + 'px';
+                sel.style.width = nw + 'px';
+                sel.style.height = nh + 'px';
+                updateInputsFromCrop(nx, ny, nw, nh);
+            }
+
+            updateCropPreview();
+        }
+
+        /* ── Mouse up ── */
+        function onMouseUp() {
+            isDragging = false;
+            isResizing = false;
+            updateCropPreview();
+        }
+
+        /* ── Live crop preview ── */
+        function updateCropPreview() {
+            const img = document.getElementById('previewImg');
+            if (!img.src || img.src === window.location.href) return;
+
+            const sel = document.getElementById('cropSelection');
+            const sx = parseInt(sel.style.left) * (imgNaturalW / imgDisplayW);
+            const sy = parseInt(sel.style.top) * (imgNaturalH / imgDisplayH);
+            const sw = parseInt(sel.style.width) * (imgNaturalW / imgDisplayW);
+            const sh = parseInt(sel.style.height) * (imgNaturalH / imgDisplayH);
+
+            const canvas = document.getElementById('cropCanvas');
+            const ctx = canvas.getContext('2d');
+            const maxW = 300;
+            const scale = Math.min(maxW / sw, 150 / sh);
+            canvas.width = Math.round(sw * scale);
+            canvas.height = Math.round(sh * scale);
+            ctx.drawImage(img, sx, sy, sw, sh,
+                0, 0, canvas.width, canvas.height);
+
+            document.getElementById('cropResult').style.display = 'block';
+        }
+
+        /* ── Crop mode ── */
+        function setCropMode(mode, btn) {
+            cropMode = mode;
+            document.querySelectorAll('.crop-mode-btn')
+                .forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (mode === 'square') {
+                const sel = document.getElementById('cropSelection');
+                const size = parseInt(sel.style.width);
+                sel.style.height = size + 'px';
+                updateInputsFromCrop(
+                    parseInt(sel.style.left),
+                    parseInt(sel.style.top),
+                    size, size
+                );
+            }
+        }
+
+        /* ── Apply preset ratio ── */
+        function applyPreset(rw, rh) {
+            const baseW = Math.round(imgDisplayW * 0.6);
+            const baseH = Math.round(baseW * rh / rw);
+            const x = Math.round((imgDisplayW - baseW) / 2);
+            const y = Math.round((imgDisplayH - baseH) / 2);
+            const sel = document.getElementById('cropSelection');
+            sel.style.left = x + 'px';
+            sel.style.top = y + 'px';
+            sel.style.width = baseW + 'px';
+            sel.style.height = Math.min(baseH, imgDisplayH) + 'px';
+            updateInputsFromCrop(x, y, baseW, Math.min(baseH, imgDisplayH));
+            updateCropPreview();
+        }
+
+        /* ── Reset crop ── */
+        function resetCrop() {
+            initCropSelection();
+        }
+
+        /* ── Rotate image ── */
+        function rotateImage() {
+            rotation = (rotation + 90) % 360;
+            document.getElementById('previewImg').style.transform =
+                'rotate(' + rotation + 'deg)';
+        }
+
+        /* ── Format size ── */
+        function formatSize(bytes) {
+            if (!bytes) return '—';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024)
+                return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        /* ── Start Processing ── */
+        function startProcessing() {
+            if (!currentFile) {
+                alert('No image found. Please upload from home page.');
+                window.location.href = '/';
+                return;
+            }
+
+            const x = document.getElementById('cropX').value;
+            const y = document.getElementById('cropY').value;
+            const w = document.getElementById('cropW').value;
+            const h = document.getElementById('cropH').value;
+            const format = document.getElementById('outputFormat').value;
+// show modal
+            const processingModal =
+                document.getElementById('processingModal');
+            const progressFill =
+                document.getElementById('progressFill');
+            processingModal.classList.add('show');
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 20;
+                if (progress >= 95) {
+                    progress = 95; clearInterval(interval);
+                }
+                progressFill.style.width = progress + '%';
+            }, 300);
+
+            const dataURL = sessionStorage.getItem('vetri_file_data');
+            if (!dataURL) {
+                clearInterval(interval);
+                processingModal.classList.remove('show');
+                alert('File data not found. Please upload again.');
+                window.location.href = '/';
+                return;
+            }
+
+            // ── SPRING BOOT API ──
+            fetch(dataURL)
+                .then(r => r.blob())
+                .then(blob => {
+                    const formData = new FormData();
+                    formData.append('file', blob, currentFile.name);
+                    formData.append('x', x);
+                    formData.append('y', y);
+                    formData.append('width', w);
+                    formData.append('height', h);
+                    return fetch('/api/image/crop', {
+                        method: 'POST', body: formData
+                    });
+                })
+                .then(r => {
+                    if (!r.ok) throw new Error('Crop failed');
+                    return r.blob();
+                })
+                .then(blob => {
+                    clearInterval(interval);
+                    progressFill.style.width = '100%';
+                    processedBlob = blob;
+                    processedName = 'cropped_' + currentFile.name
+                        .replace(/\.[^.]+$/, '') + '.' + format;
+                    document.getElementById('successFormat').textContent =
+                        format.toUpperCase() + ' format';
+                    setTimeout(() => {
+                        processingModal.classList.remove('show');
+                        document.getElementById('successModal')
+                            .classList.add('show');
+                    }, 400);
+                })
+              .catch(err => {
+    clearInterval(interval);
+    processingModal.classList.remove('show');
+    console.error(err);
+    if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        showNetworkError('No Internet Connection',
+            'Connection lost while cropping image. Check your WiFi and try again.');
+    } else {
+        showNetworkError('Crop Failed',
+            'Could not crop your image. Please try again.');
+    }
+});
+
+        }
+
+        /* ── Download ── */
+        function downloadFile() {
+            if (processedBlob) {
+                const url = URL.createObjectURL(processedBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = processedName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        /* ── Crop Another ── */
+        function cropAnother() {
+            document.getElementById('successModal')
+                .classList.remove('show');
+            document.getElementById('progressFill').style.width = '0%';
+            window.location.href = '/';
+        }
+         function goBack() {
+            const ref = document.referrer || "";
+
+            if (ref.includes('/all-tools')) {
+                window.location.href = '/all-tools';
+            } else if (ref.includes('/file-tools')) {
+                window.location.href = '/file-tools';
+            } else if (window.history.length > 1) {
+                window.history.back(); // smart fallback
+            } else {
+                window.location.href = '/';
+            }
+        }
+        function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent   = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+    </script>
+</body>
+
+</html>

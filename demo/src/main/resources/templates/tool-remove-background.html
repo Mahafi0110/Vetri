@@ -1,0 +1,2147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Remove Background – Vetri Files</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue-main: #3B82F6;
+            --heading: #1F2937;
+            --subtext: #4A5565;
+            --accent-1: #F3F4F6;
+            --accent-2: #E5E7EB;
+            --white: #ffffff;
+            --teal: #0D9488;
+            --teal-l: #2DD4BF;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--heading);
+            background: var(--accent-1);
+            overflow-x: hidden
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: var(--white);
+            padding: 14px 0;
+            border-bottom: 1px solid var(--accent-2);
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05)
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.2rem
+        }
+
+        .brand-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--heading)
+        }
+
+        .navbar-nav .nav-link {
+            font-size: .95rem;
+            font-weight: 500;
+            color: var(--heading) !important;
+            padding: 6px 14px !important;
+            transition: color .2s
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--blue-main) !important
+        }
+
+        .btn-login {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--blue-main) !important;
+            padding: 6px 14px !important;
+            border-radius: 50px
+        }
+
+        .btn-get-started {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            color: #fff !important;
+            border: none;
+            padding: 10px 24px !important;
+            border-radius: 50px;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+            transition: transform .2s;
+            white-space: nowrap
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-1px)
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")
+        }
+
+        @media(max-width:991.98px) {
+            .navbar-collapse {
+                background: var(--white);
+                border-top: 1px solid var(--accent-2);
+                padding: 12px 0 16px;
+                margin-top: 10px
+            }
+
+            .navbar-nav {
+                align-items: flex-start !important;
+                padding: 0 8px
+            }
+
+            .btn-login,
+            .btn-get-started {
+                margin: 4px 8px !important
+            }
+        }
+
+        /* ── Page header ── */
+        .page-header {
+            background: var(--accent-1);
+            padding: 20px 0 24px
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 6px;
+            transition: color .2s;
+            /* 🔥 ADD THESE */
+            background: none;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: var(--blue-main)
+        }
+
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin: 0
+        }
+
+        .tool-main {
+            padding: 24px 0 64px
+        }
+
+        /* ── Mode toggle ── */
+        .mode-wrap {
+            display: flex;
+            background: var(--accent-2);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--subtext);
+            cursor: pointer;
+            transition: all .25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px
+        }
+
+        .mode-btn.active {
+            background: var(--white);
+            color: var(--blue-dark);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .1)
+        }
+
+        /* ── Mode pill ── */
+        .mode-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: .75rem;
+            font-weight: 600
+        }
+
+        .mode-pill.auto {
+            background: #EFF6FF;
+            color: var(--blue-dark)
+        }
+
+        .mode-pill.brush {
+            background: #F0FDF4;
+            color: #166534
+        }
+
+        /* ── Settings card ── */
+        .settings-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 24px 20px;
+            height: 100%
+        }
+
+        .settings-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .settings-title i {
+            color: var(--blue-main)
+        }
+
+        .divider {
+            border: none;
+            border-top: 1.5px solid var(--accent-2);
+            margin: 16px 0
+        }
+
+        .lbl {
+            font-size: .83rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin-bottom: 8px;
+            display: block
+        }
+
+        /* ── Panel show/hide ── */
+        .panel {
+            display: none
+        }
+
+        .panel.show {
+            display: block
+        }
+
+        /* ── File info ── */
+        .file-box {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px
+        }
+
+        .file-box>div {
+            min-width: 0
+        }
+
+        .file-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .95rem;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--teal), var(--teal-l))
+        }
+
+        .file-name {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .file-size {
+            font-size: .75rem;
+            color: var(--subtext);
+            margin: 0
+        }
+
+        /* ── BG options ── */
+        .bg-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px
+        }
+
+        .bg-opt {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: .82rem;
+            font-weight: 500;
+            color: var(--heading);
+            transition: all .2s;
+            user-select: none
+        }
+
+        .bg-opt:hover {
+            border-color: var(--blue-main);
+            background: #EFF6FF
+        }
+
+        .bg-opt.active {
+            border-color: var(--blue-main);
+            background: #EFF6FF
+        }
+
+        .swatch {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .sw-transparent {
+            background: repeating-conic-gradient(#CBD5E1 0% 25%, #fff 0% 50%) 0 0/10px 10px;
+            color: #9CA3AF;
+            font-size: .6rem
+        }
+
+        .sw-white {
+            background: #fff;
+            border: 1.5px solid var(--accent-2)
+        }
+
+        .sw-black {
+            background: #111827
+        }
+
+        .sw-color {
+            background: #3B82F6
+        }
+
+        .bg-check {
+            color: var(--blue-main);
+            margin-left: auto;
+            display: none;
+            font-size: .85rem
+        }
+
+        .bg-opt.active .bg-check {
+            display: block
+        }
+
+        /* ── Color picker ── */
+        .color-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px
+        }
+
+        .color-row input[type="color"] {
+            width: 40px;
+            height: 34px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 2px
+        }
+
+        .color-row span {
+            font-size: .83rem;
+            font-weight: 600;
+            color: var(--heading)
+        }
+
+        /* ── Select ── */
+        .sel {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: .88rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--heading);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5565' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            cursor: pointer;
+            transition: border-color .2s
+        }
+
+        .sel:focus {
+            outline: none;
+            border-color: var(--blue-main)
+        }
+
+        /* ── Button group ── */
+        .tog-row {
+            display: flex;
+            gap: 6px
+        }
+
+        .tog-btn {
+            flex: 1;
+            padding: 9px 4px;
+            font-size: .77rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--subtext);
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px
+        }
+
+        .tog-btn:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main)
+        }
+
+        .tog-btn.active {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+            color: var(--blue-dark)
+        }
+
+        /* ── Range ── */
+        .range-row {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .range-row input[type="range"] {
+            flex: 1;
+            accent-color: var(--teal)
+        }
+
+        .range-val {
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--blue-dark);
+            min-width: 36px;
+            text-align: right
+        }
+
+        /* ── Undo ── */
+        .btn-undo {
+            width: 100%;
+            padding: 9px;
+            font-family: 'Inter', sans-serif;
+            font-size: .85rem;
+            font-weight: 600;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--subtext);
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px
+        }
+
+        .btn-undo:hover:not(:disabled) {
+            border-color: var(--blue-main);
+            color: var(--blue-main)
+        }
+
+        .btn-undo:disabled {
+            opacity: .4;
+            cursor: not-allowed
+        }
+
+        /* ── Preview card ── */
+        .preview-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 24px 20px
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .preview-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0
+        }
+
+        /* ── Tabs ── */
+        .tab-bar {
+            display: flex;
+            background: var(--accent-1);
+            border-radius: 10px;
+            padding: 3px;
+            gap: 2px
+        }
+
+        .tab-btn {
+            padding: 7px 16px;
+            font-size: .8rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--subtext);
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .tab-btn.active {
+            background: var(--white);
+            color: var(--heading);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .08)
+        }
+
+        .tab-btn:disabled {
+            opacity: .35;
+            cursor: default
+        }
+
+        /* ── Preview area — checkerboard shows transparency ── */
+        .preview-area {
+            background: repeating-conic-gradient(#E5E7EB 0% 25%, #F9FAFB 0% 50%) 0 0/20px 20px;
+            border-radius: 12px;
+            min-height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            overflow: hidden;
+            position: relative
+        }
+
+        /* ── View panels ── */
+        .view {
+            display: none;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            min-height: 328px
+        }
+
+        .view.show {
+            display: flex
+        }
+
+        .prev-img {
+            max-width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 8px
+        }
+
+        /* Result wrapper — bg colour applied here */
+        .result-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 16px;
+            border-radius: 8px;
+            min-height: 296px;
+            transition: background .3s
+        }
+
+        /* ── Compare ── */
+        .cmp-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            padding: 16px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+
+        .cmp-side {
+            flex: 1;
+            min-width: 140px;
+            text-align: center
+        }
+
+        .cmp-lbl {
+            font-size: .75rem;
+            font-weight: 700;
+            color: var(--subtext);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: .04em
+        }
+
+        .cmp-img {
+            max-width: 100%;
+            max-height: 260px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1.5px solid var(--accent-2)
+        }
+
+        .cmp-result-wrap {
+            display: inline-block;
+            border-radius: 8px;
+            border: 1.5px solid var(--accent-2);
+            background: repeating-conic-gradient(#E5E7EB 0% 25%, #F9FAFB 0% 50%) 0 0/16px 16px;
+            transition: background .3s
+        }
+
+        .cmp-divider {
+            color: var(--blue-main);
+            font-size: 1.4rem;
+            flex-shrink: 0
+        }
+
+        /* ── Brush canvas ── */
+        .brush-wrap {
+            width: 100%;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            overflow: auto;
+            min-height: 360px
+        }
+
+        .brush-canvas {
+            cursor: crosshair;
+            max-width: 100%;
+            height: auto;
+            display: block
+        }
+
+        /* ── No file ── */
+        .no-file {
+            text-align: center;
+            color: #9CA3AF;
+            padding: 24px
+        }
+
+        .no-file i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px
+        }
+
+        .no-file p {
+            font-size: .95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--subtext)
+        }
+
+        .no-file span {
+            font-size: .82rem
+        }
+
+        /* ── Status bar ── */
+        .status-bar {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 13px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            transition: all .3s
+        }
+
+        .status-bar.done {
+            background: #F0FDF4;
+            border-color: #BBF7D0
+        }
+
+        .status-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-l));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .9rem;
+            flex-shrink: 0
+        }
+
+        .status-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .86rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0 0 2px
+        }
+
+        .status-sub {
+            font-size: .74rem;
+            color: var(--subtext);
+            margin: 0
+        }
+
+        .status-badge {
+            margin-left: auto;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: .72rem;
+            font-weight: 600;
+            background: var(--accent-2);
+            color: var(--subtext);
+            white-space: nowrap
+        }
+
+        .status-badge.done {
+            background: #DCFCE7;
+            color: #16A34A
+        }
+
+        /* ── Process button ── */
+        .btn-process {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--teal), var(--teal-l));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(13, 148, 136, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s, box-shadow .2s;
+            cursor: pointer
+        }
+
+        .btn-process:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(13, 148, 136, .45)
+        }
+
+        /* ── Modals ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 30, 30, .55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 44px 36px 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+            transform: scale(.95);
+            transition: transform .3s
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1)
+        }
+
+        .spinner-ring {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 5px solid var(--accent-2);
+            border-top-color: var(--teal);
+            animation: spin .9s linear infinite;
+            margin: 0 auto 22px
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .modal-h {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 10px
+        }
+
+        .modal-s {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-bottom: 22px
+        }
+
+        .prog-track {
+            background: var(--accent-2);
+            border-radius: 50px;
+            height: 6px;
+            overflow: hidden
+        }
+
+        .prog-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--teal), var(--teal-l));
+            width: 0%;
+            transition: width .3s ease
+        }
+
+        /* ── Success modal ── */
+        .suc-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .85rem;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 18px;
+            transition: color .2s
+        }
+
+        .suc-back:hover {
+            color: var(--blue-main)
+        }
+
+        .suc-circle {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-l));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            box-shadow: 0 6px 20px rgba(13, 148, 136, .3)
+        }
+
+        .suc-circle i {
+            color: #fff;
+            font-size: 1.9rem
+        }
+
+        .suc-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 6px
+        }
+
+        .suc-file {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-bottom: 4px;
+            word-break: break-all
+        }
+
+        .suc-note {
+            font-size: .83rem;
+            color: var(--subtext);
+            margin-bottom: 18px
+        }
+
+        .suc-summary {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 13px 16px;
+            margin-bottom: 18px;
+            text-align: left
+        }
+
+        .suc-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: .83rem;
+            color: var(--heading)
+        }
+
+        .suc-row i {
+            color: var(--teal);
+            width: 16px;
+            flex-shrink: 0
+        }
+
+        .suc-row:not(:last-child) {
+            border-bottom: 1px solid var(--accent-2)
+        }
+
+        .btn-dl {
+            width: 100%;
+            padding: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--teal), var(--teal-l));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(13, 148, 136, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s;
+            cursor: pointer;
+            margin-bottom: 10px
+        }
+
+        .btn-dl:hover {
+            transform: translateY(-2px)
+        }
+
+        .btn-again {
+            width: 100%;
+            padding: 13px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: var(--white);
+            color: var(--heading);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: border-color .2s, color .2s
+        }
+
+        .btn-again:hover {
+            border-color: var(--teal);
+            color: var(--teal)
+        }
+
+        /* ── Footer ── */
+        .footer {
+            background: var(--white);
+            border-top: 1px solid var(--accent-2);
+            padding: 56px 0 0
+        }
+
+        .footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading)
+        }
+
+        .footer-tagline {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.6
+        }
+
+        .footer-col-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0
+        }
+
+        .footer-links li {
+            margin-bottom: 10px
+        }
+
+        .footer-links a {
+            font-size: .88rem;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color .2s
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-main)
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--accent-2);
+            padding: 18px 0;
+            margin-top: 48px
+        }
+
+        .footer-copy {
+            font-size: .84rem;
+            color: var(--subtext)
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: border-color .2s, color .2s, background .2s
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF
+        }
+
+        @media(max-width:767.98px) {
+            .tool-main {
+                padding: 20px 0 48px
+            }
+
+            .settings-card {
+                margin-bottom: 16px
+            }
+
+            .modal-box {
+                padding: 34px 22px 30px
+            }
+
+            .cmp-wrap {
+                flex-direction: column
+            }
+
+            .preview-header {
+                flex-direction: column;
+                align-items: flex-start
+            }
+
+            .footer {
+                padding: 40px 0 0
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center
+            }
+
+            .social-links {
+                justify-content: center
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+
+            <!-- Brand -->
+            <a class="navbar-brand" href="/">
+                <div class="brand-icon">
+                    <i class="bi bi-file-earmark-text-fill"></i>
+                </div>
+                <span class="brand-name">Vetri Files</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Content -->
+            <div class="collapse navbar-collapse" id="mainNav">
+
+                <!-- Move links to RIGHT -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/all-tools">Tools</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Feature">Features</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <div class="page-header">
+        <div class="container">
+            <!-- <a href="/file-tools" class="back-link"><i class="bi bi-arrow-left"></i> Back</a> -->
+            <button class="back-link" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Back
+            </button>
+            <h1 class="page-title">Remove Background</h1>
+        </div>
+    </div>
+
+    <main class="tool-main">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- ══════════ SETTINGS ══════════ -->
+                <div class="col-12 col-lg-3">
+                    <div class="settings-card">
+                        <div class="settings-title"><i class="bi bi-gear-fill"></i> Settings</div>
+
+                        <!-- File info -->
+                        <div class="file-box">
+                            <div class="file-icon"><i class="bi bi-file-earmark-image-fill"></i></div>
+                            <div>
+                                <p class="file-name" id="fileName">No file loaded</p>
+                                <p class="file-size" id="fileSize">—</p>
+                            </div>
+                        </div>
+
+                        <!-- Mode toggle -->
+                        <label class="lbl">Removal Mode</label>
+                        <div class="mode-wrap">
+                            <button class="mode-btn active" id="modeAutoBtn" onclick="switchMode('auto')">
+                                <i class="bi bi-stars"></i> Auto AI
+                            </button>
+                            <button class="mode-btn" id="modeBrushBtn" onclick="switchMode('brush')">
+                                <i class="bi bi-brush-fill"></i> Manual Brush
+                            </button>
+                        </div>
+
+                        <hr class="divider" />
+
+                        <!-- ── AUTO panel ── -->
+                        <div class="panel show" id="panelAuto">
+
+                            <label class="lbl">Edge Refinement</label>
+                            <div class="tog-row" id="refRow">
+                                <button class="tog-btn" onclick="pickRef('smooth',this)">Smooth</button>
+                                <button class="tog-btn active" onclick="pickRef('balanced',this)">Balanced</button>
+                                <button class="tog-btn" onclick="pickRef('sharp',this)">Sharp</button>
+                            </div>
+
+                            <hr class="divider" />
+
+                            <label class="lbl">Background</label>
+                            <div class="bg-list" id="bgListAuto">
+                                <div class="bg-opt active" onclick="pickBg('auto','transparent',this)">
+                                    <div class="swatch sw-transparent"><i class="bi bi-slash-circle"></i></div>
+                                    <span>Transparent</span><i class="bi bi-check-circle-fill bg-check"></i>
+                                </div>
+                                <div class="bg-opt" onclick="pickBg('auto','white',this)">
+                                    <div class="swatch sw-white"></div><span>White</span>
+                                    <i class="bi bi-check-circle-fill bg-check"></i>
+                                </div>
+                                <div class="bg-opt" onclick="pickBg('auto','black',this)">
+                                    <div class="swatch sw-black"></div><span>Black</span>
+                                    <i class="bi bi-check-circle-fill bg-check"></i>
+                                </div>
+                                <div class="bg-opt" onclick="pickBg('auto','color',this)">
+                                    <div class="swatch sw-color" id="swAutoColor"></div>
+                                    <span>Custom Color</span><i class="bi bi-check-circle-fill bg-check"></i>
+                                </div>
+                            </div>
+                            <div id="pickAutoColor" style="display:none">
+                                <div class="color-row">
+                                    <input type="color" id="autoColorInput" value="#3B82F6"
+                                        oninput="setColor('auto',this.value)" />
+                                    <span id="autoColorHex">#3B82F6</span>
+                                </div>
+                            </div>
+
+                            <hr class="divider" />
+
+                            <label class="lbl">Output Format</label>
+                            <select class="sel" id="autoFormat">
+                                <option value="png">PNG (transparency)</option>
+                                <option value="jpg">JPG</option>
+                                <option value="webp">WEBP</option>
+                            </select>
+                        </div>
+
+                        <!-- ── BRUSH panel ── -->
+                        <div class="panel" id="panelBrush">
+
+                            <label class="lbl">Brush Tool</label>
+                            <div class="tog-row">
+                                <button class="tog-btn active" id="btnRemove" onclick="pickBrushTool('remove',this)">
+                                    <i class="bi bi-eraser-fill"></i> Remove
+                                </button>
+                                <button class="tog-btn" id="btnRestore" onclick="pickBrushTool('restore',this)">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Restore
+                                </button>
+                            </div>
+
+                            <hr class="divider" />
+
+                            <label class="lbl">Brush Size</label>
+                            <div class="range-row">
+                                <input type="range" id="brushSizeRange" min="5" max="80" value="20"
+                                    oninput="setBrushSize(this.value)" />
+                                <span class="range-val" id="brushSizeLbl">20px</span>
+                            </div>
+
+                            <hr class="divider" />
+
+                            <button class="btn-undo" id="undoBtn" onclick="doUndo()" disabled>
+                                <i class="bi bi-arrow-counterclockwise"></i> Undo Last Stroke
+                            </button>
+
+                            <hr class="divider" />
+
+                            <label class="lbl">Background Color</label>
+                            <div class="bg-list" id="bgListBrush">
+                                <div class="bg-opt active" onclick="pickBg('brush','transparent',this)">
+                                    <div class="swatch sw-transparent"><i class="bi bi-slash-circle"></i></div>
+                                    <span>Transparent</span><i class="bi bi-check-circle-fill bg-check"></i>
+                                </div>
+                                <div class="bg-opt" onclick="pickBg('brush','white',this)">
+                                    <div class="swatch sw-white"></div><span>White</span>
+                                    <i class="bi bi-check-circle-fill bg-check"></i>
+                                </div>
+                                <div class="bg-opt" onclick="pickBg('brush','black',this)">
+                                    <div class="swatch sw-black"></div><span>Black</span>
+                                    <i class="bi bi-check-circle-fill bg-check"></i>
+                                </div>
+                                <div class="bg-opt" onclick="pickBg('brush','color',this)">
+                                    <div class="swatch sw-color" id="swBrushColor"></div>
+                                    <span>Custom Color</span><i class="bi bi-check-circle-fill bg-check"></i>
+                                </div>
+                            </div>
+                            <div id="pickBrushColor" style="display:none">
+                                <div class="color-row">
+                                    <input type="color" id="brushColorInput" value="#3B82F6"
+                                        oninput="setColor('brush',this.value)" />
+                                    <span id="brushColorHex">#3B82F6</span>
+                                </div>
+                            </div>
+
+                            <hr class="divider" />
+
+                            <label class="lbl">Output Format</label>
+                            <select class="sel" id="brushFormat">
+                                <option value="png">PNG (transparency)</option>
+                                <option value="jpg">JPG</option>
+                                <option value="webp">WEBP</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ══════════ PREVIEW ══════════ -->
+                <div class="col-12 col-lg-9">
+                    <div class="preview-card">
+
+                        <div class="preview-header">
+                            <div style="display:flex;align-items:center;gap:10px">
+                                <p class="preview-title">Preview</p>
+                                <span class="mode-pill auto" id="modePill"><i class="bi bi-stars"></i> Auto AI</span>
+                            </div>
+                            <!-- Tabs — auto mode only -->
+                            <div class="tab-bar" id="tabBar">
+                                <button class="tab-btn active" id="tabOrig"
+                                    onclick="goTab('orig',this)">Original</button>
+                                <button class="tab-btn" id="tabResult" onclick="goTab('result',this)"
+                                    disabled>Result</button>
+                                <button class="tab-btn" id="tabCompare" onclick="goTab('compare',this)"
+                                    disabled>Compare</button>
+                            </div>
+                        </div>
+
+                        <div class="preview-area" id="previewArea">
+
+                            <!-- No file -->
+                            <div class="no-file" id="noFile">
+                                <i class="bi bi-image"></i>
+                                <p>No image loaded</p>
+                                <span>Upload an image from the home page</span>
+                            </div>
+
+                            <!-- ORIGINAL tab -->
+                            <div class="view" id="viewOrig">
+                                <img id="origImg" src="" alt="Original" class="prev-img" />
+                            </div>
+
+                            <!-- RESULT tab -->
+                            <div class="view" id="viewResult">
+                                <div class="result-wrap" id="resultWrap">
+                                    <!-- canvas drawn here after API responds -->
+                                    <canvas id="resultCanvas" class="prev-img"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- COMPARE tab -->
+                            <div class="view" id="viewCompare">
+                                <div class="cmp-wrap">
+                                    <div class="cmp-side">
+                                        <p class="cmp-lbl">Original</p>
+                                        <img id="cmpOrigImg" src="" alt="" class="cmp-img" />
+                                    </div>
+                                    <div class="cmp-divider"><i class="bi bi-arrow-left-right"></i></div>
+                                    <div class="cmp-side">
+                                        <p class="cmp-lbl">Result</p>
+                                        <!-- bg colour wrapper for compare result -->
+                                        <div class="cmp-result-wrap" id="cmpResultWrap">
+                                            <canvas id="cmpCanvas" class="prev-img"
+                                                style="border-radius:6px;display:block"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BRUSH canvas -->
+                            <div class="brush-wrap" id="brushWrap">
+                                <canvas id="brushCanvas" class="brush-canvas"></canvas>
+                            </div>
+
+                        </div>
+
+                        <!-- Status bar -->
+                        <div class="status-bar" id="statusBar">
+                            <div class="status-icon"><i class="bi bi-stars" id="statusIco"></i></div>
+                            <div>
+                                <p class="status-title" id="statusTitle">Ready to process</p>
+                                <p class="status-sub" id="statusSub">Click Remove Background to start</p>
+                            </div>
+                            <span class="status-badge" id="statusBadge">Ready</span>
+                        </div>
+
+                        <button class="btn-process" onclick="handleProcess()">
+                            <i class="bi bi-stars" id="procIco"></i>
+                            <span id="procLbl">Remove Background &amp; Download</span>
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- PROCESSING MODAL -->
+    <div class="modal-overlay" id="procModal">
+        <div class="modal-box">
+            <div class="spinner-ring"></div>
+            <p class="modal-h" id="procH">Removing Background</p>
+            <p class="modal-s" id="procS">AI is processing your image…</p>
+            <div class="prog-track">
+                <div class="prog-fill" id="progFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="sucModal">
+        <div class="modal-box">
+            <a href="/file-tools" class="suc-back"><i class="bi bi-arrow-left"></i> Back to Tools</a>
+            <div class="suc-circle"><i class="bi bi-check-lg"></i></div>
+            <p class="suc-title" id="sucTitle">Background Removed!</p>
+            <p class="suc-file" id="sucFile">image.png</p>
+            <p class="suc-note" id="sucNote">Background removed successfully</p>
+            <div class="suc-summary">
+                <div class="suc-row"><i class="bi bi-file-earmark-image-fill"></i><span id="sucFormat">PNG format</span>
+                </div>
+                <div class="suc-row"><i class="bi bi-layers-fill"></i><span id="sucBg">Transparent</span></div>
+                <div class="suc-row"><i class="bi bi-gear-fill"></i><span id="sucMode">Auto AI removal</span></div>
+            </div>
+            <button class="btn-dl" onclick="doDownload()">
+                <i class="bi bi-cloud-arrow-down-fill"></i> Download Image
+            </button>
+            <button class="btn-again" onclick="doAgain()">
+                <i class="bi bi-arrow-clockwise"></i> Process Another Image
+            </button>
+        </div>
+    </div>
+
+    <!-- ── NETWORK ERROR MODAL ── -->
+    <div class="modal-overlay" id="networkErrorModal">
+        <div class="modal-box" style="text-align:center;">
+            <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+                <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+            </div>
+            <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;" id="netErrTitle">Something went wrong</p>
+            <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;" id="netErrMsg">Please try
+                again.</p>
+            <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+                Try Again
+            </button>
+            <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+                Upload New File
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4 g-lg-5">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <span class="footer-brand-name">Vetri Files</span>
+                    </div>
+                    <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+                        seconds.</p>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+                    <p class="footer-col-title">Product</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools">All Tools</a></li>
+                        <li><a href="/Feature">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">All Tools</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools#document-tools">Document Tools</a></li>
+                        <li><a href="/all-tools#image-tools">Image Tools</a></li>
+                        <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+                        <li><a href="/all-tools#video-tools">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">Legal</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+                <div class="social-links mt-3 mt-sm-0">
+                    <a href="https://www.instagram.com/vetriitsystems/" target="_blank" title="Instagram"><i
+                            class="bi bi-instagram"></i></a>
+                    <a href="https://x.com/VTSITPARK" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank"
+                        title="Linkedin"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/vetri-file-helper.js"></script>
+    <script>
+        /* ═══════════════════════════════════════════════════
+           STATE — single source of truth
+        ═══════════════════════════════════════════════════ */
+        var S = {
+            mode: 'auto',          // 'auto' | 'brush'
+            file: null,            // parsed sessionStorage vetri_file object
+            finalBlob: null,            // blob ready to download
+            finalName: 'no-bg.png',
+            apiImg: null,            // Image element loaded from API blob — kept for tab redraws
+
+            /* auto settings */
+            aRef: 'balanced',
+            aBg: 'transparent',
+            aColor: '#3B82F6',
+
+            /* brush settings */
+            bTool: 'remove',
+            bSize: 20,
+            bBg: 'transparent',
+            bColor: '#3B82F6',
+
+            /* brush canvas state */
+            bCanvas: null,
+            bCtx: null,
+            origImgEl: null,
+            drawing: false,
+            history: [],
+            hIdx: -1,
+
+            /* current active tab in auto mode */
+            tab: 'orig',
+
+            /* progress interval handle */
+            timer: null
+        };
+
+        /* ═══════════════════════════════════════════════════
+           INIT
+        ═══════════════════════════════════════════════════ */
+        window.addEventListener('DOMContentLoaded', function () {
+            if (!isFromUpload()) return;   // stays on "no file" default state
+
+            var stored = sessionStorage.getItem('vetri_file');
+            if (!stored) return;
+            try { S.file = JSON.parse(stored); } catch (e) { return; }
+
+            getFileDataURL(function (dataURL) {
+                if (!dataURL) return;
+                setupFile(S.file, dataURL);
+            });
+        });
+
+        function setupFile(f, dataURL) {
+            document.getElementById('fileName').textContent = f.name || 'image';
+            document.getElementById('fileSize').textContent = fmtSize(f.size);
+            S.finalName = baseName(f.name) + '_no_bg.png';
+
+            /* set original images for auto tabs */
+            document.getElementById('origImg').src = dataURL;
+            document.getElementById('cmpOrigImg').src = dataURL;
+
+            /* set up brush canvas */
+            S.origImgEl = new Image();
+            S.origImgEl.onload = function () {
+                S.bCanvas = document.getElementById('brushCanvas');
+                S.bCtx = S.bCanvas.getContext('2d');
+                S.bCanvas.width = S.origImgEl.naturalWidth;
+                S.bCanvas.height = S.origImgEl.naturalHeight;
+                S.bCtx.drawImage(S.origImgEl, 0, 0);
+                pushHist();
+                attachBrushEvents();
+            };
+            S.origImgEl.src = dataURL;
+
+            /* show original tab */
+            document.getElementById('noFile').style.display = 'none';
+            showView('viewOrig');
+            S.tab = 'orig';
+        }
+
+        /* ═══════════════════════════════════════════════════
+           MODE SWITCHER
+        ═══════════════════════════════════════════════════ */
+        function switchMode(m) {
+            S.mode = m;
+            document.getElementById('modeAutoBtn').classList.toggle('active', m === 'auto');
+            document.getElementById('modeBrushBtn').classList.toggle('active', m === 'brush');
+            document.getElementById('panelAuto').classList.toggle('show', m === 'auto');
+            document.getElementById('panelBrush').classList.toggle('show', m === 'brush');
+
+            var pill = document.getElementById('modePill');
+            var tabBar = document.getElementById('tabBar');
+            var bWrap = document.getElementById('brushWrap');
+
+            if (m === 'auto') {
+                pill.className = 'mode-pill auto';
+                pill.innerHTML = '<i class="bi bi-stars"></i> Auto AI';
+                tabBar.style.display = 'flex';
+                bWrap.style.display = 'none';
+                /* show original if file loaded */
+                hideAllViews();
+                if (S.file) { showView('viewOrig'); S.tab = 'orig'; }
+                else document.getElementById('noFile').style.display = 'flex';
+                /* reset tab buttons */
+                setTabActive('tabOrig');
+                document.getElementById('procIco').className = 'bi bi-stars';
+                document.getElementById('procLbl').innerHTML = 'Remove Background &amp; Download';
+                document.getElementById('statusIco').className = 'bi bi-stars';
+                setStatus('Ready to process', 'Click Remove Background to start', false);
+            } else {
+                pill.className = 'mode-pill brush';
+                pill.innerHTML = '<i class="bi bi-brush-fill"></i> Manual Brush';
+                tabBar.style.display = 'none';
+                hideAllViews();
+                if (S.file) bWrap.style.display = 'flex';
+                else document.getElementById('noFile').style.display = 'flex';
+                document.getElementById('procIco').className = 'bi bi-brush-fill';
+                document.getElementById('procLbl').innerHTML = 'Apply Brush &amp; Download';
+                document.getElementById('statusIco').className = 'bi bi-brush';
+                setStatus('Ready to edit', 'Paint over areas to erase or restore', false);
+            }
+            resetStatusBadge();
+        }
+
+        /* ═══════════════════════════════════════════════════
+           TABS (auto mode)
+        ═══════════════════════════════════════════════════ */
+        function goTab(tab, btn) {
+            S.tab = tab;
+            setTabActive(btn.id);
+            hideAllViews();
+
+            if (tab === 'orig') {
+                showView('viewOrig');
+            } else if (tab === 'result') {
+                showView('viewResult');
+                applyResultBg();          // paint bg colour on result wrapper
+            } else {
+                showView('viewCompare');
+                applyCompareBg();         // paint bg colour on compare result wrapper
+            }
+        }
+
+        function setTabActive(btnId) {
+            ['tabOrig', 'tabResult', 'tabCompare'].forEach(function (id) {
+                document.getElementById(id).classList.remove('active');
+            });
+            document.getElementById(btnId).classList.add('active');
+        }
+
+        /* ═══════════════════════════════════════════════════
+           VIEW HELPERS
+        ═══════════════════════════════════════════════════ */
+        function hideAllViews() {
+            ['viewOrig', 'viewResult', 'viewCompare'].forEach(function (id) {
+                document.getElementById(id).classList.remove('show');
+            });
+            document.getElementById('brushWrap').style.display = 'none';
+            document.getElementById('noFile').style.display = 'none';
+        }
+
+        function showView(id) {
+            document.getElementById(id).classList.add('show');
+        }
+
+        /* ═══════════════════════════════════════════════════
+           BACKGROUND COLOUR HELPERS
+           These update the live preview wrappers and the download composite.
+        ═══════════════════════════════════════════════════ */
+        function bgCssValue(bgOpt, customColor) {
+            if (bgOpt === 'white') return '#ffffff';
+            if (bgOpt === 'black') return '#111827';
+            if (bgOpt === 'color') return customColor;
+            /* transparent → checkerboard so user can see alpha */
+            return 'repeating-conic-gradient(#E5E7EB 0% 25%,#F9FAFB 0% 50%) 0 0/20px 20px';
+        }
+
+        function applyResultBg() {
+            document.getElementById('resultWrap').style.background = bgCssValue(S.aBg, S.aColor);
+        }
+
+        function applyCompareBg() {
+            /* compare result wrapper: same bg as result */
+            var css = bgCssValue(S.aBg, S.aColor);
+            document.getElementById('cmpResultWrap').style.background = css;
+        }
+
+        /* Render stored apiImg into a canvas element (clears first) */
+        function drawApiImgToCanvas(canvasId) {
+            if (!S.apiImg) return;
+            var c = document.getElementById(canvasId);
+            c.width = S.apiImg.naturalWidth;
+            c.height = S.apiImg.naturalHeight;
+            var ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+            ctx.drawImage(S.apiImg, 0, 0);
+        }
+
+        /* ═══════════════════════════════════════════════════
+           SETTINGS HANDLERS
+        ═══════════════════════════════════════════════════ */
+        function pickRef(v, btn) {
+            S.aRef = v;
+            document.querySelectorAll('#refRow .tog-btn').forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+        }
+
+        function pickBg(panel, opt, el) {
+            var listId = panel === 'auto' ? 'bgListAuto' : 'bgListBrush';
+            var pickId = panel === 'auto' ? 'pickAutoColor' : 'pickBrushColor';
+            document.querySelectorAll('#' + listId + ' .bg-opt').forEach(function (b) { b.classList.remove('active'); });
+            el.classList.add('active');
+            document.getElementById(pickId).style.display = (opt === 'color') ? 'block' : 'none';
+
+            if (panel === 'auto') {
+                S.aBg = opt;
+                /* live update preview wrappers if result already exists */
+                if (S.apiImg) { applyResultBg(); applyCompareBg(); }
+            } else {
+                S.bBg = opt;
+            }
+        }
+
+        function setColor(panel, color) {
+            if (panel === 'auto') {
+                S.aColor = color;
+                document.getElementById('swAutoColor').style.background = color;
+                document.getElementById('autoColorHex').textContent = color;
+                if (S.apiImg) { applyResultBg(); applyCompareBg(); }
+            } else {
+                S.bColor = color;
+                document.getElementById('swBrushColor').style.background = color;
+                document.getElementById('brushColorHex').textContent = color;
+            }
+        }
+
+        function pickBrushTool(tool, btn) {
+            S.bTool = tool;
+            document.getElementById('btnRemove').classList.toggle('active', tool === 'remove');
+            document.getElementById('btnRestore').classList.toggle('active', tool === 'restore');
+        }
+
+        function setBrushSize(v) {
+            S.bSize = parseInt(v);
+            document.getElementById('brushSizeLbl').textContent = v + 'px';
+        }
+
+        /* ═══════════════════════════════════════════════════
+           BRUSH HISTORY
+        ═══════════════════════════════════════════════════ */
+        function pushHist() {
+            if (!S.bCtx) return;
+            if (S.hIdx < S.history.length - 1) S.history = S.history.slice(0, S.hIdx + 1);
+            S.history.push(S.bCtx.getImageData(0, 0, S.bCanvas.width, S.bCanvas.height));
+            S.hIdx = S.history.length - 1;
+            document.getElementById('undoBtn').disabled = S.hIdx <= 0;
+        }
+
+        function doUndo() {
+            if (S.hIdx > 0) {
+                S.hIdx--;
+                S.bCtx.putImageData(S.history[S.hIdx], 0, 0);
+            }
+            document.getElementById('undoBtn').disabled = S.hIdx <= 0;
+        }
+
+        /* ═══════════════════════════════════════════════════
+           BRUSH PAINTING
+        ═══════════════════════════════════════════════════ */
+        function attachBrushEvents() {
+            S.bCanvas.addEventListener('mousedown', function (e) { S.drawing = true; pushHist(); paint(e); });
+            S.bCanvas.addEventListener('mousemove', function (e) { if (S.drawing) paint(e); });
+            S.bCanvas.addEventListener('mouseup', function () { S.drawing = false; });
+            S.bCanvas.addEventListener('mouseleave', function () { S.drawing = false; });
+            S.bCanvas.addEventListener('touchstart', function (e) { e.preventDefault(); S.drawing = true; pushHist(); paint(e.touches[0]); }, { passive: false });
+            S.bCanvas.addEventListener('touchmove', function (e) { e.preventDefault(); if (S.drawing) paint(e.touches[0]); }, { passive: false });
+            S.bCanvas.addEventListener('touchend', function () { S.drawing = false; });
+        }
+
+        function paint(e) {
+            var rect = S.bCanvas.getBoundingClientRect();
+            var x = (e.clientX - rect.left) * (S.bCanvas.width / rect.width);
+            var y = (e.clientY - rect.top) * (S.bCanvas.height / rect.height);
+
+            if (S.bTool === 'remove') {
+                S.bCtx.save();
+                S.bCtx.globalCompositeOperation = 'destination-out';
+                S.bCtx.beginPath();
+                S.bCtx.arc(x, y, S.bSize, 0, Math.PI * 2);
+                S.bCtx.fill();
+                S.bCtx.restore();
+            } else {
+                /* restore: clip a circle, redraw from original */
+                S.bCtx.save();
+                S.bCtx.globalCompositeOperation = 'source-over';
+                S.bCtx.beginPath();
+                S.bCtx.arc(x, y, S.bSize, 0, Math.PI * 2);
+                S.bCtx.clip();
+                S.bCtx.drawImage(S.origImgEl, 0, 0);
+                S.bCtx.restore();
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════
+           PROCESS BUTTON
+        ═══════════════════════════════════════════════════ */
+        function handleProcess() {
+            if (!S.file) {
+                alert('No image found. Please upload from the home page.');
+                window.location.href = '/';
+                return;
+            }
+            if (S.mode === 'auto') runAuto();
+            else runBrush();
+        }
+
+        /* ═══════════════════════════════════════════════════
+           AUTO — API CALL
+        ═══════════════════════════════════════════════════ */
+        function runAuto() {
+            var fmt = document.getElementById('autoFormat').value;
+            S.finalName = baseName(S.file.name) + '_no_bg.' + fmt;
+
+            /* fill success modal summary */
+            var bgLbl = { transparent: 'Transparent', white: 'White background', black: 'Black background', color: 'Custom color: ' + S.aColor };
+            document.getElementById('sucFile').textContent = S.finalName;
+            document.getElementById('sucFormat').textContent = fmt.toUpperCase() + ' format';
+            document.getElementById('sucBg').textContent = bgLbl[S.aBg] || 'Transparent';
+            document.getElementById('sucMode').textContent = 'Auto AI removal';
+
+            startModal('Removing Background', 'AI is analysing and processing your image…');
+
+            getFileBlob(function (blob, meta) {
+                var fd = new FormData();
+                fd.append('file', blob, meta.name);
+                fd.append('bgOption', S.aBg);
+                fd.append('bgColor', S.aBg === 'color' ? S.aColor : '#ffffff');
+                // fd.append('bgColor', S.aColor);
+                fd.append('refinement', S.aRef);
+                fd.append('format', fmt);
+
+                fetch('/api/image/remove-background', { method: 'POST', body: fd })
+                    .then(function (r) {
+                        if (!r.ok) return r.text().then(function (t) { throw new Error(t || 'Server error ' + r.status); });
+                        return r.blob();
+                    })
+                    .then(function (apiBlob) {
+                        fillProg();
+
+                        /* Step 1 — decode the API blob into an Image element */
+                        var blobUrl = URL.createObjectURL(apiBlob);
+                        var img = new Image();
+
+                        img.onerror = function () {
+                            URL.revokeObjectURL(blobUrl);
+                            stopModal();
+                            alert('Could not decode the image returned by the server.');
+                        };
+
+                        img.onload = function () {
+                            URL.revokeObjectURL(blobUrl);
+                            S.apiImg = img;   /* store so compare tab can redraw later */
+
+                            /* Step 2 — draw the transparent result into BOTH preview canvases */
+                            drawApiImgToCanvas('resultCanvas');
+                            drawApiImgToCanvas('cmpCanvas');
+
+                            /* Step 3 — apply chosen background to preview wrappers */
+                            applyResultBg();
+                            applyCompareBg();
+
+                            /* Step 4 — build the FINAL download blob (with bg composited in) */
+                            buildFinalBlob(img, S.aBg, S.aColor, fmt, function (composited) {
+                                S.finalBlob = composited;
+
+                                stopModal();
+
+                                /* enable Result & Compare tabs */
+                                document.getElementById('tabResult').disabled = false;
+                                document.getElementById('tabCompare').disabled = false;
+
+                                /* auto-switch to Result tab */
+                                goTab('result', document.getElementById('tabResult'));
+
+                                setStatus('Background Removed!', 'Download your result below', true);
+                                setTimeout(showSucModal, 350);
+                            });
+                        };
+
+                        img.src = blobUrl;
+                    })
+                    // ✅ CORRECT — uses this file's variable names
+                    .catch(function (err) {
+                        stopModal();  // ✅ this file's modal close function
+                        console.error(err);
+                        if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+                            showNetworkError(
+                                'No Internet Connection',
+                                'Connection lost while removing background. Check your WiFi and try again.'
+                            );
+                        } else {
+                            showNetworkError(
+                                'Processing Failed',
+                                'Could not remove background from your image. Please try again.'
+                            );
+                        }
+                    });
+            });
+        }
+
+        /*
+         * buildFinalBlob
+         * Creates a canvas, optionally fills a background colour, draws
+         * the transparent result on top, and exports as the chosen format.
+         * Works correctly for: transparent PNG, white/black/custom JPG/PNG/WEBP.
+         */
+        function buildFinalBlob(img, bgOpt, customColor, fmt, cb) {
+            var mime = (fmt === 'jpg') ? 'image/jpeg' : ('image/' + fmt);
+            var fc = document.createElement('canvas');
+            fc.width = img.naturalWidth;
+            fc.height = img.naturalHeight;
+            var ctx = fc.getContext('2d');
+
+            /* fill background for non-transparent options */
+            if (bgOpt === 'white') { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, fc.width, fc.height); }
+            else if (bgOpt === 'black') { ctx.fillStyle = '#111827'; ctx.fillRect(0, 0, fc.width, fc.height); }
+            else if (bgOpt === 'color') { ctx.fillStyle = customColor; ctx.fillRect(0, 0, fc.width, fc.height); }
+            /* transparent: canvas stays clear — alpha preserved */
+
+            ctx.drawImage(img, 0, 0);
+            fc.toBlob(function (b) { cb(b); }, mime, 0.95);
+        }
+
+        /* ═══════════════════════════════════════════════════
+           BRUSH — EXPORT
+        ═══════════════════════════════════════════════════ */
+        function runBrush() {
+            if (!S.bCanvas) { alert('No image loaded.'); return; }
+
+            var fmt = document.getElementById('brushFormat').value;
+            var mime = (fmt === 'jpg') ? 'image/jpeg' : ('image/' + fmt);
+            S.finalName = baseName(S.file.name) + '_edited.' + fmt;
+
+            var bgLbl = { transparent: 'Transparent', white: 'White background', black: 'Black background', color: 'Custom color: ' + S.bColor };
+            document.getElementById('sucFile').textContent = S.finalName;
+            document.getElementById('sucFormat').textContent = fmt.toUpperCase() + ' format';
+            document.getElementById('sucBg').textContent = bgLbl[S.bBg] || 'Transparent';
+            document.getElementById('sucMode').textContent = 'Manual brush editing';
+
+            startModal('Applying Brush Edits', 'Compositing image with selected background…');
+
+            /* use setTimeout so modal renders before heavy canvas work */
+            setTimeout(function () {
+                fillProg();
+
+                var exportCanvas = S.bCanvas;
+
+                if (S.bBg !== 'transparent') {
+                    /* composite: paint bg then draw masked brush canvas on top */
+                    exportCanvas = document.createElement('canvas');
+                    exportCanvas.width = S.bCanvas.width;
+                    exportCanvas.height = S.bCanvas.height;
+                    var ec = exportCanvas.getContext('2d');
+                    ec.fillStyle = (S.bBg === 'white') ? '#ffffff' : (S.bBg === 'black') ? '#111827' : S.bColor;
+                    ec.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+                    ec.drawImage(S.bCanvas, 0, 0);
+                }
+
+                exportCanvas.toBlob(function (b) {
+                    S.finalBlob = b;
+                    stopModal();
+                    setStatus('Brush Applied!', 'Download your edited image', true);
+                    setTimeout(showSucModal, 300);
+                }, mime, 0.95);
+
+            }, 600);
+        }
+
+        /* ═══════════════════════════════════════════════════
+           DOWNLOAD
+        ═══════════════════════════════════════════════════ */
+        function doDownload() {
+            if (!S.finalBlob) { alert('Nothing to download yet.'); return; }
+            var url = URL.createObjectURL(S.finalBlob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = S.finalName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+        }
+
+        function doAgain() {
+            document.getElementById('sucModal').classList.remove('show');
+            window.location.href = '/';
+        }
+
+        /* ═══════════════════════════════════════════════════
+           MODAL HELPERS
+        ═══════════════════════════════════════════════════ */
+        function startModal(h, s) {
+            document.getElementById('procH').textContent = h;
+            document.getElementById('procS').textContent = s;
+            document.getElementById('progFill').style.width = '0%';
+            document.getElementById('procModal').classList.add('show');
+            var p = 0;
+            S.timer = setInterval(function () {
+                p += Math.random() * 12;
+                if (p >= 90) { p = 90; clearInterval(S.timer); }
+                document.getElementById('progFill').style.width = p + '%';
+            }, 280);
+        }
+
+        function fillProg() {
+            clearInterval(S.timer);
+            document.getElementById('progFill').style.width = '100%';
+        }
+
+        function stopModal() {
+            clearInterval(S.timer);
+            document.getElementById('procModal').classList.remove('show');
+        }
+
+        function showSucModal() {
+            document.getElementById('sucTitle').textContent = (S.mode === 'auto') ? 'Background Removed!' : 'Brush Applied!';
+            document.getElementById('sucNote').textContent = (S.mode === 'auto') ? 'Background removed successfully.' : 'Brush edits applied successfully.';
+            document.getElementById('sucModal').classList.add('show');
+        }
+
+        /* ═══════════════════════════════════════════════════
+           STATUS BAR
+        ═══════════════════════════════════════════════════ */
+        function setStatus(title, sub, done) {
+            document.getElementById('statusTitle').textContent = title;
+            document.getElementById('statusSub').textContent = sub;
+            document.getElementById('statusBar').classList.toggle('done', done);
+            document.getElementById('statusBadge').textContent = done ? 'Done' : 'Ready';
+            document.getElementById('statusBadge').classList.toggle('done', done);
+        }
+
+        function resetStatusBadge() {
+            document.getElementById('statusBar').classList.remove('done');
+            document.getElementById('statusBadge').textContent = 'Ready';
+            document.getElementById('statusBadge').classList.remove('done');
+        }
+
+        /* ═══════════════════════════════════════════════════
+           UTILITIES
+        ═══════════════════════════════════════════════════ */
+        function baseName(name) {
+            return (name || 'image').replace(/\.[^.]+$/, '');
+        }
+
+        function fmtSize(b) {
+            if (!b) return '—';
+            if (b < 1024) return b + ' B';
+            if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+            return (b / 1048576).toFixed(2) + ' MB';
+        }
+        function goBack() {
+            const ref = document.referrer || "";
+
+            if (ref.includes('/all-tools')) {
+                window.location.href = '/all-tools';
+            } else if (ref.includes('/file-tools')) {
+                window.location.href = '/file-tools';
+            } else if (window.history.length > 1) {
+                window.history.back(); // smart fallback
+            } else {
+                window.location.href = '/';
+            }
+        }
+        function showNetworkError(title, message) {
+            document.getElementById('netErrTitle').textContent = title;
+            document.getElementById('netErrMsg').textContent = message;
+            document.getElementById('networkErrorModal').classList.add('show');
+        }
+
+        // ✅ CORRECT
+        function closeNetworkError() {
+            document.getElementById('networkErrorModal').classList.remove('show');
+            document.getElementById('progFill').style.width = '0%'; // ✅ correct id
+        }
+    </script>
+</body>
+
+</html>

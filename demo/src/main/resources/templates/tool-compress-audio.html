@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compress Audio – Vetri Files</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue-main: #3B82F6;
+      --heading: #1F2937;
+      --subtext: #4A5565;
+      --accent-1: #F3F4F6;
+      --accent-2: #E5E7EB;
+      --white: #ffffff;
+      --green: #16A34A;
+      --radius-card: 16px;
+      --radius-btn: 50px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--heading);
+      background: var(--accent-1);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--white);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--accent-2);
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .navbar-nav .nav-link {
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--heading) !important;
+      padding: 6px 14px !important;
+      transition: color .2s;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--blue-main) !important;
+    }
+
+    .btn-login {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--blue-main) !important;
+      padding: 6px 14px !important;
+      border-radius: var(--radius-btn);
+    }
+
+    .btn-get-started {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+      color: #fff !important;
+      border: none;
+      padding: 10px 24px !important;
+      border-radius: var(--radius-btn);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+      transition: transform .2s;
+      white-space: nowrap;
+    }
+
+    .btn-get-started:hover {
+      transform: translateY(-1px);
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 4px 8px;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    @media (max-width:991.98px) {
+      .navbar-collapse {
+        background: var(--white);
+        border-top: 1px solid var(--accent-2);
+        padding: 12px 0 16px;
+        margin-top: 10px;
+      }
+
+      .navbar-nav {
+        align-items: flex-start !important;
+        padding: 0 8px;
+      }
+
+      .btn-login,
+      .btn-get-started {
+        margin: 4px 8px !important;
+      }
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      background: var(--accent-1);
+      padding: 20px 0 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color .2s;
+
+      /* 🔥 ADD THESE */
+      background: none;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .back-link:hover {
+      color: var(--blue-main);
+    }
+
+    .page-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--white);
+      border-top: 1px solid var(--accent-2);
+      padding: 56px 0 0;
+    }
+
+    .footer-brand-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .footer-tagline {
+      font-size: .88rem;
+      color: var(--subtext);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-col-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      font-size: .88rem;
+      color: var(--subtext);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue-main);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--accent-2);
+      padding: 18px 0;
+      margin-top: 48px;
+    }
+
+    .footer-copy {
+      font-size: .84rem;
+      color: var(--subtext);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+      font-size: .95rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    @media (max-width:767.98px) {
+      .tool-main {
+        padding: 20px 0 48px;
+      }
+
+      .settings-card {
+        margin-bottom: 16px;
+      }
+
+      .modal-box {
+        padding: 36px 24px 32px;
+      }
+
+      .footer {
+        padding: 40px 0 0;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+
+      .stats-row {
+        flex-direction: column;
+      }
+
+      .success-stats {
+        flex-direction: column;
+      }
+    }
+
+    .tool-main {
+      padding: 24px 0 64px;
+    }
+
+    .page-header {
+      background: var(--accent-1);
+      padding: 20px 0 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color .2s;
+    }
+
+    .back-link:hover {
+      color: var(--blue-main);
+    }
+
+    .page-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    /* Settings */
+    .settings-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 16px;
+      padding: 28px 24px;
+      height: 100%;
+    }
+
+    .settings-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .settings-title i {
+      color: #7C3AED;
+    }
+
+    .divider-line {
+      border: none;
+      border-top: 1.5px solid var(--accent-2);
+      margin: 20px 0;
+    }
+
+    .form-label-custom {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* File info */
+    .file-info-box {
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .file-info-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: .95rem;
+      flex-shrink: 0;
+    }
+
+    .audio-icon {
+      background: linear-gradient(135deg, #7C3AED, #A855F7);
+    }
+
+    .file-info-name {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .file-info-box div {
+      min-width: 0;
+    }
+
+
+    .file-info-size {
+      font-size: .75rem;
+      color: var(--subtext);
+      margin: 0;
+    }
+
+    /* Compression levels */
+    .comp-levels {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .comp-level-btn {
+      padding: 11px 12px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      background: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all .2s;
+    }
+
+    .comp-level-btn:hover {
+      border-color: #7C3AED;
+      background: #F5F3FF;
+    }
+
+    .comp-level-btn.active {
+      border-color: #7C3AED;
+      background: #F5F3FF;
+    }
+
+    .level-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: .85rem;
+      flex-shrink: 0;
+    }
+
+    .green-icon {
+      background: linear-gradient(135deg, #16A34A, #4ADE80);
+    }
+
+    .orange-icon {
+      background: linear-gradient(135deg, #D97706, #FCD34D);
+    }
+
+    .red-icon {
+      background: linear-gradient(135deg, #DC2626, #F87171);
+    }
+
+    .level-name {
+      font-size: .83rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin: 0 0 1px;
+    }
+
+    .level-desc {
+      font-size: .72rem;
+      color: var(--subtext);
+      margin: 0;
+    }
+
+    .level-check {
+      color: #7C3AED;
+      margin-left: auto;
+      display: none;
+      font-size: .9rem;
+    }
+
+    .comp-level-btn.active .level-check {
+      display: block;
+    }
+
+    /* Bitrate */
+    .bitrate-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .range-custom {
+      flex: 1;
+      height: 5px;
+      accent-color: #7C3AED;
+      cursor: pointer;
+    }
+
+    .bitrate-val {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--heading);
+      white-space: nowrap;
+      min-width: 60px;
+    }
+
+    .bitrate-marks {
+      display: flex;
+      justify-content: space-between;
+      font-size: .68rem;
+      color: var(--subtext);
+      margin-bottom: 0;
+    }
+
+    /* Select */
+    .select-custom {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--heading);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5565' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+      transition: border-color .2s;
+      margin-bottom: 0;
+    }
+
+    .select-custom:focus {
+      outline: none;
+      border-color: #7C3AED;
+    }
+
+    /* Preview card */
+    .preview-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+
+    .preview-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 16px;
+    }
+
+    /* Audio player card */
+    .audio-player-card {
+      background: #1F2937;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 16px;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* No audio state */
+    .no-audio-state {
+      text-align: center;
+      color: #6B7280;
+    }
+
+    .no-audio-state i {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 12px;
+      color: #4B5563;
+    }
+
+    .no-audio-state p {
+      font-size: .95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #9CA3AF;
+    }
+
+    .no-audio-state span {
+      font-size: .82rem;
+      color: #6B7280;
+    }
+
+    /* Player UI */
+    .player-ui {
+      width: 100%;
+    }
+
+    /* Waveform */
+    .waveform-wrap {
+      position: relative;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    #waveformCanvas {
+      display: block;
+      width: 100%;
+      height: 80px;
+    }
+
+    .playback-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      background: #7C3AED;
+      transition: left .1s linear;
+      pointer-events: none;
+    }
+
+    /* Controls */
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .ctrl-btn {
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, .1);
+      border: none;
+      border-radius: 8px;
+      color: #D1D5DB;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      transition: background .2s;
+      flex-shrink: 0;
+    }
+
+    .ctrl-btn:hover {
+      background: rgba(255, 255, 255, .2);
+    }
+
+    .play-btn {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #7C3AED, #A855F7);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: transform .2s, box-shadow .2s;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, .4);
+    }
+
+    .play-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(124, 58, 237, .5);
+    }
+
+    .time-display {
+      font-size: .82rem;
+      font-weight: 600;
+      color: #D1D5DB;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+
+    .time-sep {
+      margin: 0 3px;
+      color: #6B7280;
+    }
+
+    .volume-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+    }
+
+    .vol-icon {
+      color: #9CA3AF;
+      font-size: .9rem;
+    }
+
+    .vol-range {
+      width: 70px;
+      height: 3px;
+      accent-color: #7C3AED;
+      cursor: pointer;
+    }
+
+    /* Progress bar */
+    .audio-progress-wrap {
+      cursor: pointer;
+      padding: 6px 0;
+    }
+
+    .audio-progress-track {
+      height: 4px;
+      background: rgba(255, 255, 255, .15);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .audio-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #7C3AED, #A855F7);
+      border-radius: 4px;
+      width: 0%;
+      transition: width .1s linear;
+    }
+
+    /* Size compare */
+    .size-compare-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .size-box {
+      flex: 1;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .size-box.highlight {
+      background: #F5F3FF;
+      border: 1.5px solid #DDD6FE;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .size-label {
+      font-size: .7rem;
+      color: var(--subtext);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .size-value {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    .size-value.blue {
+      color: #7C3AED;
+    }
+
+    .size-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #7C3AED;
+      font-size: .9rem;
+      flex-shrink: 0;
+    }
+
+    .saving-pct {
+      font-size: .72rem;
+      font-weight: 700;
+      color: #16A34A;
+      white-space: nowrap;
+    }
+
+    /* Process button */
+    .btn-process {
+      width: 100%;
+      padding: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7C3AED, #A855F7);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(124, 58, 237, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .btn-process:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(124, 58, 237, .45);
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 30, 30, .55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 48px 40px 44px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+      transform: scale(.95);
+      transition: transform .3s;
+    }
+
+    .modal-overlay.show .modal-box {
+      transform: scale(1);
+    }
+
+    .spinner-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 5px solid var(--accent-2);
+      border-top-color: #7C3AED;
+      animation: spin .9s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .modal-title-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 10px;
+    }
+
+    .modal-sub-text {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 24px;
+    }
+
+    .progress-track {
+      background: var(--accent-2);
+      border-radius: 50px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #7C3AED, #A855F7);
+      width: 0%;
+      transition: width .3s ease;
+    }
+
+    /* Success */
+    .success-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .85rem;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: color .2s;
+    }
+
+    .success-back:hover {
+      color: #7C3AED;
+    }
+
+    .success-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7C3AED, #A855F7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 6px 20px rgba(124, 58, 237, .3);
+    }
+
+    .success-circle i {
+      color: #fff;
+      font-size: 2rem;
+    }
+
+    .success-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 8px;
+    }
+
+    .success-file {
+      font-size: .9rem;
+      color: var(--subtext);
+      margin-bottom: 4px;
+    }
+
+    .success-note {
+      font-size: .85rem;
+      color: var(--subtext);
+      margin-bottom: 20px;
+    }
+
+    .audio-summary {
+      background: var(--accent-1);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .audio-summary-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: .85rem;
+      color: var(--heading);
+    }
+
+    .audio-summary-item i {
+      color: #7C3AED;
+      width: 16px;
+    }
+
+    .audio-summary-item:not(:last-child) {
+      border-bottom: 1px solid var(--accent-2);
+    }
+
+    .btn-download {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7C3AED, #A855F7);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(124, 58, 237, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-another {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      background: var(--white);
+      color: var(--heading);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+
+    .btn-another:hover {
+      border-color: #7C3AED;
+      color: #7C3AED;
+    }
+
+    @media (max-width:767.98px) {
+      .tool-main {
+        padding: 20px 0 48px;
+      }
+
+      .settings-card {
+        margin-bottom: 16px;
+      }
+
+      .modal-box {
+        padding: 36px 24px 32px;
+      }
+
+      .size-compare-row {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .vol-range {
+        width: 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ════════════════════════════════
+     NAVBAR
+════════════════════════════════ -->
+  <!-- <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+        <span class="brand-name">Vetri Files</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link" href="/all-tools">Tools</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+          <a href="/login" class="nav-link btn-login">Login</a>
+          <a href="/register" class="nav-link btn-get-started">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav> -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="/">
+        <div class="brand-icon">
+          <i class="bi bi-file-earmark-text-fill"></i>
+        </div>
+        <span class="brand-name">Vetri Files</span>
+      </a>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse" id="mainNav">
+
+        <!-- Move links to RIGHT -->
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="/all-tools">Tools</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Feature">Features</a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+  <!-- ════════════════════════════════
+     PAGE HEADER
+════════════════════════════════ -->
+  <div class="page-header">
+    <div class="container">
+      <!-- <a href="/file-tools" class="back-link">
+        <i class="bi bi-arrow-left"></i> Back
+      </a> -->
+      <button class="back-link" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+      <h1 class="page-title">Compress Audio</h1>
+    </div>
+  </div>
+  <!-- MAIN CONTENT -->
+  <main class="tool-main">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- ── Settings Panel ── -->
+        <div class="col-12 col-lg-3">
+          <div class="settings-card">
+            <div class="settings-title">
+              <i class="bi bi-gear-fill"></i> Settings
+            </div>
+
+            <!-- File Info -->
+            <div class="file-info-box">
+              <div class="file-info-icon audio-icon">
+                <i class="bi bi-file-earmark-music-fill"></i>
+              </div>
+              <div>
+                <p class="file-info-name" id="fileInfoName">
+                  No file loaded
+                </p>
+                <p class="file-info-size" id="fileInfoSize">—</p>
+              </div>
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Compression Level -->
+            <label class="form-label-custom">
+              Compression Level
+            </label>
+            <div class="comp-levels">
+
+              <div class="comp-level-btn" onclick="setLevel('low', this)">
+                <div class="level-icon green-icon">
+                  <i class="bi bi-music-note"></i>
+                </div>
+                <div class="level-info">
+                  <p class="level-name">Low</p>
+                  <p class="level-desc">320 kbps · Best quality</p>
+                </div>
+                <i class="bi bi-check-circle-fill level-check"></i>
+              </div>
+
+              <div class="comp-level-btn active" onclick="setLevel('medium', this)">
+                <div class="level-icon orange-icon">
+                  <i class="bi bi-music-note-beamed"></i>
+                </div>
+                <div class="level-info">
+                  <p class="level-name">Medium</p>
+                  <p class="level-desc">128 kbps · Balanced</p>
+                </div>
+                <i class="bi bi-check-circle-fill level-check"></i>
+              </div>
+
+              <div class="comp-level-btn" onclick="setLevel('high', this)">
+                <div class="level-icon red-icon">
+                  <i class="bi bi-file-earmark-zip"></i>
+                </div>
+                <div class="level-info">
+                  <p class="level-name">High</p>
+                  <p class="level-desc">64 kbps · Smallest</p>
+                </div>
+                <i class="bi bi-check-circle-fill level-check"></i>
+              </div>
+
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Bitrate Custom -->
+            <label class="form-label-custom">
+              Custom Bitrate
+            </label>
+            <div class="bitrate-row">
+              <input type="range" class="range-custom" id="bitrateRange" min="32" max="320" value="128" step="32"
+                oninput="updateBitrate(this.value)" />
+              <span class="bitrate-val" id="bitrateVal">
+                128 kbps
+              </span>
+            </div>
+            <div class="bitrate-marks">
+              <span>32</span>
+              <span>128</span>
+              <span>256</span>
+              <span>320</span>
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Output Format -->
+            <label class="form-label-custom">Output Format</label>
+            <select class="select-custom" id="outputFormat">
+              <option value="mp3">MP3</option>
+              <option value="aac">AAC</option>
+              <option value="ogg">OGG</option>
+              <option value="m4a">M4A</option>
+            </select>
+
+            <hr class="divider-line" />
+
+            <!-- Sample Rate -->
+            <label class="form-label-custom">Sample Rate</label>
+            <select class="select-custom" id="sampleRate">
+              <option value="44100">44100 Hz (CD Quality)</option>
+              <option value="22050">22050 Hz (FM Quality)</option>
+              <option value="16000">16000 Hz (Voice)</option>
+              <option value="8000">8000 Hz (Telephone)</option>
+            </select>
+
+          </div>
+        </div>
+
+        <!-- ── Preview Panel ── -->
+        <div class="col-12 col-lg-9">
+          <div class="preview-card">
+            <p class="preview-title">Preview</p>
+
+            <!-- Audio Player -->
+            <div class="audio-player-card" id="audioPlayerCard">
+
+              <!-- No file state -->
+              <div class="no-audio-state" id="noAudioState">
+                <i class="bi bi-music-note-beamed"></i>
+                <p>No audio file loaded</p>
+                <span>Upload an audio file from the home page</span>
+              </div>
+
+              <!-- Player UI -->
+              <div class="player-ui" id="playerUI" style="display:none">
+
+                <!-- Waveform visualization -->
+                <div class="waveform-wrap">
+                  <canvas id="waveformCanvas" width="600" height="80">
+                  </canvas>
+                  <!-- Playback line -->
+                  <div class="playback-line" id="playbackLine">
+                  </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="player-controls">
+                  <button class="ctrl-btn" onclick="seekAudio(-5)" title="Rewind 5s">
+                    <i class="bi bi-skip-backward-fill"></i>
+                  </button>
+                  <button class="play-btn" id="playBtn" onclick="togglePlay()">
+                    <i class="bi bi-play-fill" id="playIcon"></i>
+                  </button>
+                  <button class="ctrl-btn" onclick="seekAudio(5)" title="Forward 5s">
+                    <i class="bi bi-skip-forward-fill"></i>
+                  </button>
+                  <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span class="time-sep">/</span>
+                    <span id="totalTime">0:00</span>
+                  </div>
+                  <div class="volume-wrap">
+                    <i class="bi bi-volume-up-fill vol-icon"></i>
+                    <input type="range" class="vol-range" id="volumeRange" min="0" max="1" step="0.1" value="1"
+                      oninput="setVolume(this.value)" />
+                  </div>
+                </div>
+
+                <!-- Progress bar -->
+                <div class="audio-progress-wrap" onclick="seekByClick(event)">
+                  <div class="audio-progress-track">
+                    <div class="audio-progress-fill" id="audioProgressFill">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Hidden audio element -->
+                <audio id="audioEl" preload="metadata"></audio>
+
+              </div>
+            </div>
+
+            <!-- File Size Preview -->
+            <div class="size-compare-row" id="sizeCompareRow" style="display:none">
+              <div class="size-box">
+                <p class="size-label">Original Size</p>
+                <p class="size-value" id="origSize">—</p>
+              </div>
+              <div class="size-arrow">
+                <i class="bi bi-arrow-right"></i>
+                <span id="savingPct" class="saving-pct">~50% smaller</span>
+              </div>
+              <div class="size-box highlight">
+                <p class="size-label">Estimated Output</p>
+                <p class="size-value blue" id="estSize">—</p>
+              </div>
+              <div class="size-box">
+                <p class="size-label">Bitrate</p>
+                <p class="size-value" id="infobitrate">128 kbps</p>
+              </div>
+            </div>
+
+            <!-- Process Button -->
+            <button class="btn-process" onclick="startProcessing()">
+              <i class="bi bi-file-earmark-zip-fill"></i>
+              Compress &amp; Download
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- PROCESSING MODAL -->
+  <div class="modal-overlay" id="processingModal">
+    <div class="modal-box">
+      <div class="spinner-ring"></div>
+      <p class="modal-title-text">Compressing Audio</p>
+      <p class="modal-sub-text">
+        Reducing file size while preserving quality...
+      </p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <a href="/file-tools" class="success-back">
+        <i class="bi bi-arrow-left"></i> Back
+      </a>
+      <div class="success-circle">
+        <i class="bi bi-check-lg"></i>
+      </div>
+      <p class="success-title">Audio Compressed!</p>
+      <p class="success-file" id="successFileName">audio.mp3</p>
+      <p class="success-note">
+        has been compressed successfully
+      </p>
+      <div class="audio-summary">
+        <div class="audio-summary-item">
+          <i class="bi bi-music-note-beamed"></i>
+          <span id="summaryBitrate">128 kbps</span>
+        </div>
+        <div class="audio-summary-item">
+          <i class="bi bi-file-earmark-music"></i>
+          <span id="summaryFormat">MP3 format</span>
+        </div>
+        <div class="audio-summary-item">
+          <i class="bi bi-arrow-down-circle-fill"></i>
+          <span id="summarySaving">~50% smaller</span>
+        </div>
+      </div>
+      <button class="btn-download" onclick="downloadFile()">
+        <i class="bi bi-cloud-arrow-down-fill"></i>
+        Download Compressed Audio
+      </button>
+      <button class="btn-another" onclick="compressAnother()">
+        <i class="bi bi-arrow-clockwise"></i>
+        Compress Another Audio
+      </button>
+    </div>
+  </div>
+  <!-- ── NETWORK ERROR MODAL ── -->
+<div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+            <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+        </div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;"
+            id="netErrTitle">Something went wrong</p>
+        <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;"
+            id="netErrMsg">Please try again.</p>
+        <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            Try Again
+        </button>
+        <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            Upload New File
+        </button>
+    </div>
+</div>
+
+  <!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4 g-lg-5">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+            <span class="footer-brand-name">Vetri Files</span>
+          </div>
+          <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+            seconds.</p>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+          <p class="footer-col-title">Product</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools">All Tools</a></li>
+            <li><a href="/Feature">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">All Tools</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools#document-tools">Document Tools</a></li>
+            <li><a href="/all-tools#image-tools">Image Tools</a></li>
+            <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+            <li><a href="/all-tools#video-tools">Video Tools</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">Legal</p>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+        <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+        <div class="social-links mt-3 mt-sm-0">
+          <a href="https://www.instagram.com/vetriitsystems/" target="_blank" title="Instagram"><i
+              class="bi bi-instagram"></i></a>
+          <a href="https://x.com/VTSITPARK" target="_blank" title="GitHub"><i class="bi bi-twitter-x"></i></a>
+          <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" title="Linkedin"><i
+              class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/vetri-file-helper.js"></script>
+  <script>
+    let currentFile = null;
+    let processedBlob = null;
+    let processedName = 'compressed.mp3';
+    let bitrate = 128;
+    let audioEl = null;
+    let isPlaying = false;
+    let animFrame = null;
+
+    const levelMap = {
+      low: 320,
+      medium: 128,
+      high: 64
+    };
+
+    /* ── Init — sessionStorage (small) or IndexedDB (large) via helper ── */
+    window.addEventListener('DOMContentLoaded', () => {
+      // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+      if (!isFromUpload()) {
+        // Show "no file" state — don't load previous file
+        showNoFileState();
+        return;
+      }
+      const stored = sessionStorage.getItem('vetri_file');
+      if (!stored) return;
+      try {
+        currentFile = JSON.parse(stored);
+      } catch (e) { return; }
+
+      getFileObjectURL(function (url) {
+        if (!url) {
+          const hint = document.querySelector('#noAudioState span');
+          if (hint) {
+            hint.textContent =
+              'File data missing. Upload again from the home page (large files use browser storage).';
+          }
+          return;
+        }
+        loadAudio(currentFile, url);
+      });
+    });
+    function showNoFileState() {
+      // Show the empty state UI — each tool already has this
+      // e.g. for compress-audio:
+      document.getElementById('noAudioState').style.display = 'block';
+      document.getElementById('playerUI').style.display = 'none';
+      document.getElementById('fileInfoName').textContent = 'No file loaded';
+      document.getElementById('fileInfoSize').textContent = '—';
+      // Add a button to go back and upload
+      // Show a link to go upload
+      document.getElementById('fileInfoName').innerHTML =
+        '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+    }
+
+    /* ── Load audio ── */
+    function loadAudio(f, dataURL) {
+      document.getElementById('fileInfoName').textContent =
+        f.name || 'audio';
+      document.getElementById('fileInfoSize').textContent =
+        formatSize(f.size);
+      document.getElementById('successFileName').textContent =
+        f.name || 'audio.mp3';
+      processedName = 'compressed_' + (f.name || 'audio.mp3');
+
+      document.getElementById('noAudioState').style.display =
+        'none';
+      document.getElementById('playerUI').style.display = 'block';
+      document.getElementById('sizeCompareRow').style.display =
+        'flex';
+
+      // Load audio
+      audioEl = document.getElementById('audioEl');
+      audioEl.src = dataURL;
+      audioEl.addEventListener('loadedmetadata', () => {
+        document.getElementById('totalTime').textContent =
+          formatTime(audioEl.duration);
+        drawWaveform();
+      });
+      audioEl.addEventListener('timeupdate', updateProgress);
+      audioEl.addEventListener('ended', () => {
+        isPlaying = false;
+        document.getElementById('playIcon').className =
+          'bi bi-play-fill';
+        cancelAnimationFrame(animFrame);
+      });
+
+      // Size estimate
+      document.getElementById('origSize').textContent =
+        formatSize(f.size);
+      updateEstimate(f.size, 128);
+    }
+
+    /* ── Draw waveform ── */
+    function drawWaveform() {
+      const canvas = document.getElementById('waveformCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const bars = 80;
+      const barW = W / bars - 1;
+
+      for (let i = 0; i < bars; i++) {
+        const h = Math.random() * (H * 0.7) + (H * 0.1);
+        const x = i * (barW + 1);
+        const y = (H - h) / 2;
+        ctx.fillStyle = 'rgba(168,85,247,0.6)';
+        ctx.beginPath();
+        ctx.roundRect(x, y, barW, h, 2);
+        ctx.fill();
+      }
+    }
+
+    /* ── Play / Pause ── */
+    function togglePlay() {
+      if (!audioEl) return;
+      if (isPlaying) {
+        audioEl.pause();
+        isPlaying = false;
+        document.getElementById('playIcon').className =
+          'bi bi-play-fill';
+        cancelAnimationFrame(animFrame);
+      } else {
+        audioEl.play();
+        isPlaying = true;
+        document.getElementById('playIcon').className =
+          'bi bi-pause-fill';
+        animatePlayback();
+      }
+    }
+
+    /* ── Animate playback line ── */
+    function animatePlayback() {
+      if (!isPlaying) return;
+      const canvas = document.getElementById('waveformCanvas');
+      const pct = audioEl.currentTime / (audioEl.duration || 1);
+      document.getElementById('playbackLine').style.left =
+        (pct * canvas.offsetWidth) + 'px';
+      animFrame = requestAnimationFrame(animatePlayback);
+    }
+
+    /* ── Update progress bar ── */
+    function updateProgress() {
+      if (!audioEl) return;
+      const pct = (audioEl.currentTime / (audioEl.duration || 1)) * 100;
+      document.getElementById('audioProgressFill').style.width =
+        pct + '%';
+      document.getElementById('currentTime').textContent =
+        formatTime(audioEl.currentTime);
+    }
+
+    /* ── Seek ── */
+    function seekAudio(sec) {
+      if (!audioEl) return;
+      audioEl.currentTime =
+        Math.max(0, Math.min(
+          audioEl.currentTime + sec, audioEl.duration
+        ));
+    }
+
+    function seekByClick(e) {
+      if (!audioEl) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pct = (e.clientX - rect.left) / rect.width;
+      audioEl.currentTime = pct * audioEl.duration;
+    }
+
+    /* ── Volume ── */
+    function setVolume(val) {
+      if (audioEl) audioEl.volume = val;
+    }
+
+    /* ── Compression level ── */
+    function setLevel(level, btn) {
+      document.querySelectorAll('.comp-level-btn')
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      bitrate = levelMap[level];
+      document.getElementById('bitrateRange').value = bitrate;
+      document.getElementById('bitrateVal').textContent =
+        bitrate + ' kbps';
+      document.getElementById('infobitrate').textContent =
+        bitrate + ' kbps';
+      if (currentFile) updateEstimate(currentFile.size, bitrate);
+    }
+
+    /* ── Bitrate slider ── */
+    function updateBitrate(val) {
+      bitrate = parseInt(val);
+      document.getElementById('bitrateVal').textContent =
+        val + ' kbps';
+      document.getElementById('infobitrate').textContent =
+        val + ' kbps';
+      if (currentFile) updateEstimate(currentFile.size, bitrate);
+    }
+
+    /* ── Estimate output size ── */
+    function updateEstimate(origSize, br) {
+      const ratio = br / 320;
+      const estSize = Math.round(origSize * ratio * 0.9);
+      const saving = Math.round((1 - estSize / origSize) * 100);
+      document.getElementById('estSize').textContent =
+        formatSize(estSize);
+      document.getElementById('savingPct').textContent =
+        '~' + saving + '% smaller';
+      document.getElementById('summarySaving').textContent =
+        '~' + saving + '% smaller';
+    }
+
+    /* ── Format time ── */
+    function formatTime(secs) {
+      if (isNaN(secs)) return '0:00';
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    /* ── Format size ── */
+    function formatSize(bytes) {
+      if (!bytes) return '—';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024)
+        return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    /* ── Start Processing ── */
+    function startProcessing() {
+      if (!currentFile) {
+        alert('No audio file found. Please upload from home page.');
+        window.location.href = '/';
+        return;
+      }
+
+      const format =
+        document.getElementById('outputFormat').value;
+      const sampleRate =
+        document.getElementById('sampleRate').value;
+
+      document.getElementById('summaryBitrate').textContent =
+        bitrate + ' kbps';
+      document.getElementById('summaryFormat').textContent =
+        format.toUpperCase() + ' format';
+      processedName = 'compressed_' +
+        (currentFile.name || 'audio').replace(/\.[^.]+$/, '')
+        + '.' + format;
+
+      const processingModal =
+        document.getElementById('processingModal');
+      const progressFill =
+        document.getElementById('progressFill');
+
+      if (audioEl && isPlaying) {
+        audioEl.pause();
+        isPlaying = false;
+        document.getElementById('playIcon').className =
+          'bi bi-play-fill';
+      }
+
+      processingModal.classList.add('show');
+
+      getFileBlob(function (file, meta) {
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += Math.random() * 15;
+          if (progress >= 95) {
+            progress = 95;
+            clearInterval(interval);
+          }
+          progressFill.style.width = progress + '%';
+        }, 350);
+
+        const formData = new FormData();
+        formData.append('file', file, meta.name);
+        formData.append('bitrate', bitrate);
+        formData.append('format', format);
+        formData.append('sampleRate', sampleRate);
+        fetch('/api/audio/compress', {
+          method: 'POST',
+          body: formData
+        })
+          .then(r => {
+            if (!r.ok) throw new Error('Compression failed');
+            return r.blob();
+          })
+          .then(blob => {
+            clearInterval(interval);
+            progressFill.style.width = '100%';
+            processedBlob = blob;
+            setTimeout(() => {
+              processingModal.classList.remove('show');
+              document.getElementById('successModal')
+                .classList.add('show');
+            }, 400);
+          })
+        // ✅ Replace with this
+.catch(err => {
+    clearInterval(interval);
+    processingModal.classList.remove('show');
+
+    if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        showNetworkError(
+            'No Internet Connection',
+            'Your connection was lost while compressing. Please check your WiFi and try again.'
+        );
+    } else if (err.message === 'too_large') {
+        showNetworkError(
+            'File Too Large',
+            'Your audio file is too large to process. Please try a smaller file.'
+        );
+    } else {
+        showNetworkError(
+            'Something Went Wrong',
+            'Could not compress your audio. Please try again.'
+        );
+    }
+});
+      });
+    }
+
+    /* ── Download ── */
+    function downloadFile() {
+      if (processedBlob) {
+        const url = URL.createObjectURL(processedBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = processedName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    /* ── Compress Another ── */
+    function compressAnother() {
+      document.getElementById('successModal')
+        .classList.remove('show');
+      document.getElementById('progressFill').style.width = '0%';
+      if (audioEl) { audioEl.pause(); audioEl.src = ''; }
+      window.location.href = '/';
+    }
+    function goBack() {
+      const ref = document.referrer || "";
+
+      if (ref.includes('/all-tools')) {
+        window.location.href = '/all-tools';
+      } else if (ref.includes('/file-tools')) {
+        window.location.href = '/file-tools';
+      } else if (window.history.length > 1) {
+        window.history.back(); // smart fallback
+      } else {
+        window.location.href = '/';
+      }
+    }
+    function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent   = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+  </script>
+</body>
+
+</html>

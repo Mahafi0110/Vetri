@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Users – Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark: #1E3A8A; --blue: #3B82F6;
+      --heading: #1F2937; --sub: #4A5565;
+      --bg: #F3F4F6; --border: #E5E7EB;
+      --sidebar-w: 260px; --sidebar-bg: #0F172A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--heading); }
+    h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+
+    /* Sidebar */
+    .sidebar { position: fixed; top:0; left:0; bottom:0; width: var(--sidebar-w); background: var(--sidebar-bg); display: flex; flex-direction: column; z-index: 1000; }
+    .sidebar-brand { display: flex; align-items: center; gap: 12px; padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,.08); text-decoration: none; }
+    .sidebar-brand-icon { width: 40px; height: 40px; background: linear-gradient(135deg,#1E3A8A,#3B82F6); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .sidebar-brand-icon i { color: #fff; font-size: 1.1rem; }
+    .sidebar-brand-name { font-family: 'Poppins', sans-serif; font-size: .95rem; font-weight: 700; color: #fff; display: block; }
+    .sidebar-brand-sub { font-size: .7rem; color: #64748B; display: block; }
+    .sidebar-nav { flex: 1; padding: 16px 12px; }
+    .sidebar-section-label { font-size: .65rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: .08em; padding: 12px 8px 6px; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: #94A3B8; font-size: .875rem; font-weight: 500; margin-bottom: 2px; transition: all .2s; }
+    .sidebar-link i { font-size: 1rem; width: 18px; text-align: center; }
+    .sidebar-link:hover { background: rgba(255,255,255,.07); color: #fff; }
+    .sidebar-link.active { background: rgba(59,130,246,.2); color: #60A5FA; }
+    .sidebar-footer { padding: 16px 12px; border-top: 1px solid rgba(255,255,255,.08); }
+    .admin-profile { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; }
+    .admin-avatar { width: 36px; height: 36px; background: linear-gradient(135deg,#1E3A8A,#3B82F6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .8rem; font-weight: 700; }
+    .admin-name { font-size: .82rem; font-weight: 600; color: #fff; display: block; }
+    .admin-role { font-size: .7rem; color: #64748B; display: block; }
+    .admin-logout { margin-left: auto; color: #64748B; font-size: .9rem; cursor: pointer; border: none; background: none; }
+    .admin-logout:hover { color: #EF4444; }
+
+    /* Main */
+    .main-content { margin-left: var(--sidebar-w); min-height: 100vh; }
+    .top-header { background: #fff; border-bottom: 1px solid var(--border); padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; }
+    .top-header h1 { font-size: 1.2rem; font-weight: 700; }
+    .top-header p { font-size: .8rem; color: var(--sub); }
+    .page-body { padding: 28px; }
+
+    /* Search bar */
+    .search-bar { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; display: flex; gap: 12px; align-items: center; }
+    .search-input-wrap { position: relative; flex: 1; }
+    .search-input-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--sub); }
+    .search-input { width: 100%; padding: 9px 14px 9px 38px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .88rem; outline: none; }
+    .search-input:focus { border-color: var(--blue); }
+    .filter-select { padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .85rem; background: #fff; cursor: pointer; }
+
+    /* Table card */
+    .table-card { background: #fff; border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .table-header { padding: 18px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .table-header h3 { font-size: .95rem; font-weight: 700; }
+    .table-count { font-size: .78rem; font-weight: 600; color: var(--sub); background: var(--bg); border: 1.5px solid var(--border); border-radius: 50px; padding: 3px 10px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: 10px 20px; font-size: .72rem; font-weight: 700; color: var(--sub); text-transform: uppercase; letter-spacing: .06em; background: var(--bg); border-bottom: 1px solid var(--border); text-align: left; }
+    td { padding: 13px 20px; font-size: .85rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg); }
+    .user-cell { display: flex; align-items: center; gap: 10px; }
+    .user-avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,#1E3A8A,#3B82F6); display: flex; align-items: center; justify-content: center; color: #fff; font-size: .72rem; font-weight: 700; flex-shrink: 0; }
+    .user-name-text { font-weight: 600; }
+    .role-badge { display: inline-flex; padding: 3px 10px; border-radius: 50px; font-size: .72rem; font-weight: 600; }
+    .role-admin { background: #EFF6FF; color: #1E3A8A; }
+    .role-user  { background: #F3F4F6; color: #4A5565; }
+    .status-dot { display: inline-flex; align-items: center; gap: 6px; font-size: .82rem; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .dot-active   { background: #16A34A; }
+    .dot-inactive { background: #DC2626; }
+    .action-btn { width: 30px; height: 30px; border: 1.5px solid var(--border); border-radius: 8px; background: #fff; color: var(--sub); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; }
+    .action-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .action-btn.danger:hover { border-color: #DC2626; color: #DC2626; }
+
+    @media (max-width: 991.98px) {
+      .sidebar { transform: translateX(-100%); }
+      .main-content { margin-left: 0; }
+      .page-body { padding: 16px; }
+      table { font-size: .8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <a class="sidebar-brand" href="/">
+    <div class="sidebar-brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+    <div>
+      <span class="sidebar-brand-name">Vetri Files</span>
+      <span class="sidebar-brand-sub">Admin Panel</span>
+    </div>
+  </a>
+  <nav class="sidebar-nav">
+    <p class="sidebar-section-label">Main</p>
+    <a href="/admin/dashboard" class="sidebar-link"><i class="bi bi-grid-fill"></i> Dashboard</a>
+    <a href="/admin/users" class="sidebar-link active"><i class="bi bi-people-fill"></i> Users</a>
+    <a href="/admin/logs" class="sidebar-link"><i class="bi bi-clock-history"></i> Activity Logs</a>
+    <a href="/admin/visitors" class="sidebar-link"><i class="bi bi-eye-fill"></i> Visitors Logs</a>
+    
+    <p class="sidebar-section-label">Settings</p>
+    <a href="/admin/settings" class="sidebar-link"><i class="bi bi-gear-fill"></i> Settings</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="admin-profile">
+      <div class="admin-avatar" id="adminAvatar">A</div>
+      <div>
+        <span class="admin-name" id="adminName">Admin</span>
+        <span class="admin-role">Super Admin</span>
+      </div>
+      <button class="admin-logout" onclick="logout()"><i class="bi bi-box-arrow-right"></i></button>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+  <div class="top-header">
+    <div>
+      <h1>Users</h1>
+      <p>Manage registered users</p>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <!-- Search/Filter -->
+    <div class="search-bar">
+      <div class="search-input-wrap">
+        <i class="bi bi-search"></i>
+        <input type="text" class="search-input" id="searchInput"
+               placeholder="Search by name or email..."
+               oninput="filterUsers()" />
+      </div>
+      <select class="filter-select" id="roleFilter" onchange="filterUsers()">
+        <option value="">All Roles</option>
+        <option value="ADMIN">Admin</option>
+        <option value="USER">User</option>
+      </select>
+    </div>
+
+    <!-- Users Table -->
+    <div class="table-card">
+      <div class="table-header">
+        <h3>All Users</h3>
+        <span class="table-count" id="userCount">— users</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Role</th>
+              <th>Joined</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersBody">
+            <tr>
+              <td colspan="5" style="text-align:center;color:var(--sub);padding:32px">
+                <div class="spinner-border spinner-border-sm text-primary me-2"></div>
+                Loading users...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let allUsers = [];
+
+window.addEventListener('DOMContentLoaded', () => {
+  const user = JSON.parse(sessionStorage.getItem('vetri_user') || '{}');
+  const name = user.name || 'Admin';
+  document.getElementById('adminName').textContent = name;
+  document.getElementById('adminAvatar').textContent =
+    name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+
+  loadUsers();
+});
+
+function loadUsers() {
+  fetch('/api/admin/users')
+    .then(r => r.json())
+    .then(data => {
+      allUsers = data.users || data || [];
+      renderUsers(allUsers);
+    })
+    .catch(() => {
+      document.getElementById('usersBody').innerHTML =
+        `<tr><td colspan="5" style="text-align:center;color:var(--sub);padding:32px">
+          Could not load users.
+        </td></tr>`;
+    });
+}
+
+function renderUsers(users) {
+  const tbody = document.getElementById('usersBody');
+  document.getElementById('userCount').textContent = users.length + ' users';
+
+  if (!users.length) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--sub);padding:32px">No users found</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = users.map(u => {
+    const name = (u.firstName || '') + ' ' + (u.lastName || '');
+    const initials = name.trim().split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2) || 'U';
+    const joined = u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—';
+    const roleClass = u.role === 'ADMIN' ? 'role-admin' : 'role-user';
+    const statusDot = u.active ? 'dot-active' : 'dot-inactive';
+    const statusText = u.active ? 'Active' : 'Inactive';
+
+    return `
+      <tr>
+        <td>
+          <div class="user-cell">
+            <div class="user-avatar-sm">${initials}</div>
+            <div>
+              <div class="user-name-text">${name.trim() || '—'}</div>
+              <div style="font-size:.78rem;color:var(--sub)">${u.email}</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="role-badge ${roleClass}">${u.role}</span></td>
+        <td>${joined}</td>
+        <td><span class="status-dot"><span class="dot ${statusDot}"></span>${statusText}</span></td>
+        <td>
+          <button class="action-btn" title="Toggle status" onclick="toggleStatus(${u.id})">
+            <i class="bi bi-toggle2-${u.active ? 'on' : 'off'}"></i>
+          </button>
+          <button class="action-btn danger" title="Delete" onclick="deleteUser(${u.id})">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function filterUsers() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const role = document.getElementById('roleFilter').value;
+
+  const filtered = allUsers.filter(u => {
+    const name = ((u.firstName || '') + ' ' + (u.lastName || '')).toLowerCase();
+    const matchesSearch = name.includes(search) || (u.email || '').toLowerCase().includes(search);
+    const matchesRole = !role || u.role === role;
+    return matchesSearch && matchesRole;
+  });
+
+  renderUsers(filtered);
+}
+
+function toggleStatus(userId) {
+  fetch(`/api/admin/users/${userId}/toggle-status`, { method: 'POST' })
+    .then(() => loadUsers())
+    .catch(() => alert('Failed to update status'));
+}
+
+function deleteUser(userId) {
+  if (!confirm('Delete this user permanently?')) return;
+  fetch(`/api/admin/users/${userId}`, { method: 'DELETE' })
+    .then(() => loadUsers())
+    .catch(() => alert('Failed to delete user'));
+}
+
+function logout() {
+  sessionStorage.clear();
+  window.location.href = '/login';
+}
+</script>
+
+</body>
+</html>

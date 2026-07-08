@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Split PDF – Vetri Files</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue-main: #3B82F6;
+            --heading: #1F2937;
+            --subtext: #4A5565;
+            --accent-1: #F3F4F6;
+            --accent-2: #E5E7EB;
+            --white: #ffffff;
+            --green: #16A34A;
+            --radius-card: 16px;
+            --radius-btn: 50px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--heading);
+            background: var(--accent-1);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: var(--white);
+            padding: 14px 0;
+            border-bottom: 1px solid var(--accent-2);
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .brand-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .navbar-nav .nav-link {
+            font-size: .95rem;
+            font-weight: 500;
+            color: var(--heading) !important;
+            padding: 6px 14px !important;
+            transition: color .2s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--blue-main) !important;
+        }
+
+        .btn-login {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--blue-main) !important;
+            padding: 6px 14px !important;
+            border-radius: var(--radius-btn);
+        }
+
+        .btn-get-started {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            color: #fff !important;
+            border: none;
+            padding: 10px 24px !important;
+            border-radius: var(--radius-btn);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+            transition: transform .2s;
+            white-space: nowrap;
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width:991.98px) {
+            .navbar-collapse {
+                background: var(--white);
+                border-top: 1px solid var(--accent-2);
+                padding: 12px 0 16px;
+                margin-top: 10px;
+            }
+
+            .navbar-nav {
+                align-items: flex-start !important;
+                padding: 0 8px;
+            }
+
+            .btn-login,
+            .btn-get-started {
+                margin: 4px 8px !important;
+            }
+        }
+
+        /* ── Page Header ── */
+        .page-header {
+            background: var(--accent-1);
+            padding: 20px 0 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 6px;
+            transition: color .2s;
+             /* 🔥 ADD THESE */
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: var(--blue-main);
+        }
+
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            background: var(--white);
+            border-top: 1px solid var(--accent-2);
+            padding: 56px 0 0;
+        }
+
+        .footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .footer-tagline {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            font-size: .88rem;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-main);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--accent-2);
+            padding: 18px 0;
+            margin-top: 48px;
+        }
+
+        .footer-copy {
+            font-size: .84rem;
+            color: var(--subtext);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--subtext);
+            font-size: .95rem;
+            text-decoration: none;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        @media (max-width:767.98px) {
+            .tool-main {
+                padding: 20px 0 48px;
+            }
+
+            .settings-card {
+                margin-bottom: 16px;
+            }
+
+            .modal-box {
+                padding: 36px 24px 32px;
+            }
+
+            .footer {
+                padding: 40px 0 0;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .stats-row {
+                flex-direction: column;
+            }
+
+            .success-stats {
+                flex-direction: column;
+            }
+        }
+
+        .tool-main {
+            padding: 24px 0 64px;
+        }
+
+        .page-header {
+            background: var(--accent-1);
+            padding: 20px 0 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 6px;
+            transition: color .2s;
+        }
+
+        .back-link:hover {
+            color: var(--blue-main);
+        }
+
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        /* Settings */
+        .settings-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+            height: 100%;
+        }
+
+        .settings-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-title i {
+            color: var(--blue-main);
+        }
+
+        .divider-line {
+            border: none;
+            border-top: 1.5px solid var(--accent-2);
+            margin: 20px 0;
+        }
+
+        .form-label-custom {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .label-hint {
+            font-size: .75rem;
+            color: var(--subtext);
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* File info */
+        .file-info-box {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .file-info-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #DC2626, #EF4444);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .95rem;
+            flex-shrink: 0;
+        }
+
+        .file-info-name {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .file-info-box div {
+            min-width: 0;
+        }
+
+
+        .file-info-size {
+            font-size: .75rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        /* Split mode buttons */
+        .split-mode-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .split-mode-btn {
+            padding: 12px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            background: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all .2s;
+        }
+
+        .split-mode-btn:hover {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        .split-mode-btn.active {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        .split-mode-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .9rem;
+            flex-shrink: 0;
+        }
+
+        .split-mode-name {
+            font-size: .85rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0 0 2px;
+        }
+
+        .split-mode-desc {
+            font-size: .75rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        .split-check {
+            color: var(--blue-main);
+            margin-left: auto;
+            display: none;
+            font-size: 1rem;
+        }
+
+        .split-mode-btn.active .split-check {
+            display: block;
+        }
+
+        /* Input */
+        .input-custom {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: .9rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            background: var(--white);
+            color: var(--heading);
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .input-custom:focus {
+            border-color: var(--blue-main);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, .1);
+        }
+
+        /* Range hint */
+        .range-hint-box {
+            background: var(--accent-1);
+            border-radius: 8px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: .75rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        .range-hint-box i {
+            color: var(--blue-main);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* Counter */
+        .counter-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            width: 100%;
+            /* take full container width */
+            box-sizing: border-box;
+        }
+
+        .counter-btn {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--heading);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all .2s;
+            flex-shrink: 0;
+
+        }
+
+        .counter-btn:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+        }
+
+        .counter-input {
+            flex: 1 1 auto;
+            /* take remaining space, shrink if needed */
+            min-width: 0;
+            /* critical to prevent input forcing overflow */
+            padding: 6px 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            outline: none;
+            color: var(--heading);
+            transition: border-color 0.2s;
+        }
+
+        .counter-input:focus {
+            border-color: var(--blue-main);
+        }
+
+        .counter-label {
+            font-size: .8rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        /* Preview card */
+        .preview-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+        }
+
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        /* PDF info bar */
+        .pdf-info-bar {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .pdf-info-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #DC2626, #EF4444);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .pdf-info-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0 0 2px;
+        }
+
+        .pdf-info-size {
+            font-size: .78rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        /* Split preview area */
+        .split-preview-area {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            min-height: 300px;
+            padding: 24px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .no-file-state {
+            text-align: center;
+            color: #9CA3AF;
+        }
+
+        .no-file-state i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .no-file-state p {
+            font-size: .95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--subtext);
+        }
+
+        .no-file-state span {
+            font-size: .82rem;
+        }
+
+        /* Split result */
+        .split-result-title {
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        .split-pages-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .split-page-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            min-width: 90px;
+            transition: box-shadow .2s;
+        }
+
+        .split-page-card:hover {
+            box-shadow: 0 4px 16px rgba(59, 130, 246, .12);
+            border-color: var(--blue-main);
+        }
+
+        .split-page-card .page-icon {
+            width: 44px;
+            height: 56px;
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+        }
+
+        .split-page-card .page-icon i {
+            color: #DC2626;
+            font-size: 1.2rem;
+        }
+
+        .split-page-card .page-label {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        .split-page-card .page-badge {
+            display: inline-block;
+            background: #EFF6FF;
+            color: var(--blue-dark);
+            font-size: .68rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 50px;
+            margin-top: 4px;
+        }
+
+        /* Process button */
+        .btn-process {
+            width: 100%;
+            padding: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s, box-shadow .2s;
+            cursor: pointer;
+        }
+
+        .btn-process:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(59, 130, 246, .45);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 30, 30, .55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px 40px 44px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+            transform: scale(.95);
+            transition: transform .3s;
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
+        }
+
+        .spinner-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 5px solid var(--accent-2);
+            border-top-color: #3B82F6;
+            animation: spin .9s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .modal-title-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 10px;
+        }
+
+        .modal-sub-text {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 24px;
+        }
+
+        .progress-track {
+            background: var(--accent-2);
+            border-radius: 50px;
+            height: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+            width: 0%;
+            transition: width .3s ease;
+        }
+
+        /* Success */
+        .success-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .85rem;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: color .2s;
+        }
+
+        .success-back:hover {
+            color: var(--blue-main);
+        }
+
+        .success-circle {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, .3);
+        }
+
+        .success-circle i {
+            color: #fff;
+            font-size: 2rem;
+        }
+
+        .success-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 8px;
+        }
+
+        .success-file {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 4px;
+        }
+
+        .success-note {
+            font-size: .85rem;
+            color: var(--subtext);
+            margin-bottom: 20px;
+        }
+
+        .split-summary {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .split-summary-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: .85rem;
+            color: var(--heading);
+        }
+
+        .split-summary-item i {
+            color: var(--blue-dark);
+            width: 16px;
+        }
+
+        .split-summary-item:not(:last-child) {
+            border-bottom: 1px solid var(--accent-2);
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-split-another {
+            width: 100%;
+            padding: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 600;
+            background: var(--white);
+            color: var(--heading);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: border-color .2s, color .2s;
+        }
+
+        .btn-split-another:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+        }
+
+        @media (max-width:767.98px) {
+            .tool-main {
+                padding: 20px 0 48px;
+            }
+
+            .settings-card {
+                margin-bottom: 16px;
+            }
+
+            .modal-box {
+                padding: 36px 24px 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="/">
+      <div class="brand-icon">
+        <i class="bi bi-file-earmark-text-fill"></i>
+      </div>
+      <span class="brand-name">Vetri Files</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- Move links to RIGHT -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/all-tools">Tools</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Feature">Features</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+    <!-- ════════════════════════════════
+     PAGE HEADER
+════════════════════════════════ -->
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="container">
+            <!-- <a href="/file-tools" class="back-link">
+                <i class="bi bi-arrow-left"></i> Back
+            </a> -->
+            <button class="back-link" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Back
+            </button>
+            <h1 class="page-title">Split PDF</h1>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="tool-main">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- ── Settings Panel ── -->
+                <div class="col-12 col-lg-3">
+                    <div class="settings-card">
+                        <div class="settings-title">
+                            <i class="bi bi-gear-fill"></i> Settings
+                        </div>
+
+                        <!-- File Info -->
+                        <div class="file-info-box">
+                            <div class="file-info-icon">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div>
+                                <p class="file-info-name" id="fileInfoName">
+                                    No file loaded
+                                </p>
+                                <p class="file-info-size" id="fileInfoSize">—</p>
+                            </div>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Split Mode -->
+                        <label class="form-label-custom">Split Mode</label>
+                        <div class="split-mode-btns">
+
+                            <div class="split-mode-btn active" onclick="setSplitMode('range', this)">
+                                <div class="split-mode-icon">
+                                    <i class="bi bi-list-ol"></i>
+                                </div>
+                                <div>
+                                    <p class="split-mode-name">Page Range</p>
+                                    <p class="split-mode-desc">
+                                        Extract specific pages
+                                    </p>
+                                </div>
+                                <i class="bi bi-check-circle-fill split-check"></i>
+                            </div>
+
+                            <div class="split-mode-btn" onclick="setSplitMode('every', this)">
+                                <div class="split-mode-icon">
+                                    <i class="bi bi-scissors"></i>
+                                </div>
+                                <div>
+                                    <p class="split-mode-name">Split Every</p>
+                                    <p class="split-mode-desc">
+                                        Split every N pages
+                                    </p>
+                                </div>
+                                <i class="bi bi-check-circle-fill split-check"></i>
+                            </div>
+
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Page Range Input -->
+                        <div id="rangePanel">
+                            <label class="form-label-custom">
+                                Page Range
+                                <span class="label-hint">
+                                    E.g. 1-5, 8, 10-12
+                                </span>
+                            </label>
+                            <input type="text" class="input-custom" id="pageRange" placeholder="1-5, 8, 10-12"
+                                oninput="updatePreview()" />
+                            <div class="range-hint-box">
+                                <i class="bi bi-info-circle"></i>
+                                <span>
+                                    Use commas to separate ranges.
+                                    Example: 1-3, 5, 7-9
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Every N Pages -->
+                        <div id="everyPanel" style="display:none">
+                            <label class="form-label-custom">
+                                Split Every
+                            </label>
+                            <div class="counter-wrap">
+                                <button class="counter-btn" onclick="changeEvery(-1)">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <input type="number" class="counter-input" id="everyN" value="1" min="1"
+                                    oninput="updatePreview()" />
+                                <button class="counter-btn" onclick="changeEvery(1)">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                            <p class="counter-label">pages per file</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ── Preview Panel ── -->
+                <div class="col-12 col-lg-9">
+                    <div class="preview-card">
+                        <p class="preview-title">Preview</p>
+
+                        <!-- File Info Bar -->
+                        <div class="pdf-info-bar" id="pdfInfoBar" style="display:none">
+                            <div class="pdf-info-icon">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div class="pdf-info-text">
+                                <p class="pdf-info-name" id="pdfInfoName">
+                                    file.pdf
+                                </p>
+                                <p class="pdf-info-size" id="pdfInfoMeta">—</p>
+                            </div>
+                        </div>
+
+                        <!-- Split Preview -->
+                        <div class="split-preview-area" id="splitPreviewArea">
+
+                            <!-- No file state -->
+                            <div class="no-file-state" id="noFileState">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                                <p>No PDF loaded</p>
+                                <span>Upload a PDF from the home page</span>
+                            </div>
+
+                            <!-- Split result preview -->
+                            <div id="splitResultArea" style="display:none">
+                                <p class="split-result-title" id="splitResultTitle">
+                                    Split Result
+                                </p>
+                                <div class="split-pages-grid" id="splitPagesGrid">
+                                    <!-- Generated by JS -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Process Button -->
+                        <button class="btn-process" onclick="startProcessing()">
+                            <i class="bi bi-scissors"></i>
+                            Split &amp; Download
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- PROCESSING MODAL -->
+    <div class="modal-overlay" id="processingModal">
+        <div class="modal-box">
+            <div class="spinner-ring"></div>
+            <p class="modal-title-text">Splitting Your PDF</p>
+            <p class="modal-sub-text">
+                Extracting pages and creating your file...
+            </p>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <a href="/file-tools" class="success-back">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+            <div class="success-circle">
+                <i class="bi bi-check-lg"></i>
+            </div>
+            <p class="success-title">PDF Split!</p>
+            <p class="success-file" id="successFileName">file.pdf</p>
+            <p class="success-note">
+                has been split successfully
+            </p>
+            <div class="split-summary">
+                <div class="split-summary-item">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                    <span id="summaryPages">Pages extracted</span>
+                </div>
+                <div class="split-summary-item">
+                    <i class="bi bi-scissors"></i>
+                    <span id="summaryMode">Page range split</span>
+                </div>
+            </div>
+            <button class="btn-download" onclick="downloadFile()">
+                <i class="bi bi-cloud-arrow-down-fill"></i>
+                Download Split PDF
+            </button>
+            <button class="btn-split-another" onclick="splitAnother()">
+                <i class="bi bi-arrow-clockwise"></i>
+                Split Another PDF
+            </button>
+        </div>
+    </div>
+
+<!-- ── NETWORK ERROR MODAL ── -->
+<div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+            <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+        </div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;"
+            id="netErrTitle">Something went wrong</p>
+        <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;"
+            id="netErrMsg">Please try again.</p>
+        <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            Try Again
+        </button>
+        <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            Upload New File
+        </button>
+    </div>
+</div>
+
+    <!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4 g-lg-5">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <span class="footer-brand-name">Vetri Files</span>
+                    </div>
+                    <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+                        seconds.</p>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+                    <p class="footer-col-title">Product</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools">All Tools</a></li>
+                        <li><a href="/Feature">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">All Tools</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools#document-tools">Document Tools</a></li>
+                        <li><a href="/all-tools#image-tools">Image Tools</a></li>
+                        <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+                        <li><a href="/all-tools#video-tools">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">Legal</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+                <div class="social-links mt-3 mt-sm-0">
+                    <a href="https://twitter.com/VTSITPARK" target="_blank" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="https://github.com/Vetri-Technology-Solutions" target="_blank" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script> 
+     <script src="/js/vetri-file-helper.js"></script>       
+    <script>
+        let currentFile = null;
+        let processedBlob = null;
+        let processedName = 'split.pdf';
+        let splitMode = 'range';
+
+        /* ── Init ── */
+        window.addEventListener('DOMContentLoaded', () => {
+             // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+  if (!isFromUpload()) {
+    // Show "no file" state — don't load previous file
+    showNoFileState();
+    return;
+  }
+            const stored = sessionStorage.getItem('vetri_file');
+            if (!stored) return;
+            try {
+                currentFile = JSON.parse(stored);
+                document.getElementById('fileInfoName').textContent =
+                    currentFile.name || 'document.pdf';
+                document.getElementById('fileInfoSize').textContent =
+                    formatSize(currentFile.size) + ' • PDF';
+                document.getElementById('pdfInfoName').textContent =
+                    currentFile.name || 'document.pdf';
+                document.getElementById('pdfInfoMeta').textContent =
+                    formatSize(currentFile.size) + ' • PDF';
+                document.getElementById('successFileName').textContent =
+                    currentFile.name || 'document.pdf';
+                document.getElementById('pdfInfoBar').style.display =
+                    'flex';
+                processedName =
+                    'split_' + (currentFile.name || 'document.pdf');
+                updatePreview();
+            } catch (e) { }
+        });
+
+function showNoFileState() {
+  document.getElementById('fileInfoName').textContent = 'No file loaded';
+  document.getElementById('fileInfoSize').textContent = '—';
+  // Show a link to go upload
+  document.getElementById('fileInfoName').innerHTML =
+'<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+   
+}
+        /* ── Split mode ── */
+        function setSplitMode(mode, btn) {
+            splitMode = mode;
+            document.querySelectorAll('.split-mode-btn')
+                .forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('rangePanel').style.display =
+                mode === 'range' ? 'block' : 'none';
+            document.getElementById('everyPanel').style.display =
+                mode === 'every' ? 'block' : 'none';
+            updatePreview();
+        }
+
+        /* ── Counter ── */
+        function changeEvery(delta) {
+            const input = document.getElementById('everyN');
+            const val = Math.max(1, parseInt(input.value) + delta);
+            input.value = val;
+            updatePreview();
+        }
+
+        /* ── Update preview ── */
+        function updatePreview() {
+            if (!currentFile) return;
+
+            const grid = document.getElementById('splitPagesGrid');
+            const result = document.getElementById('splitResultArea');
+            const title = document.getElementById('splitResultTitle');
+            document.getElementById('noFileState').style.display =
+                'none';
+            result.style.display = 'block';
+            grid.innerHTML = '';
+
+            if (splitMode === 'range') {
+                const rangeStr =
+                    document.getElementById('pageRange').value.trim();
+                if (!rangeStr) {
+                    title.textContent = 'Enter a page range to preview';
+                    return;
+                }
+
+                const pages = parsePageRange(rangeStr);
+                if (pages.length === 0) {
+                    title.textContent = 'Invalid page range';
+                    return;
+                }
+
+                title.textContent =
+                    pages.length + ' page(s) will be extracted';
+
+                pages.forEach(p => {
+                    grid.innerHTML += `
+          <div class="split-page-card">
+            <div class="page-icon">
+              <i class="bi bi-file-earmark-pdf-fill"></i>
+            </div>
+            <p class="page-label">Page ${p}</p>
+            <span class="page-badge">PDF</span>
+          </div>`;
+                });
+
+            } else {
+                const n = parseInt(document.getElementById('everyN').value) || 1;
+                title.textContent =
+                    'PDF will be split every ' + n + ' page(s)';
+                for (let i = 1; i <= Math.min(4, 4); i++) {
+                    grid.innerHTML += `
+          <div class="split-page-card">
+            <div class="page-icon">
+              <i class="bi bi-file-earmark-pdf-fill"></i>
+            </div>
+            <p class="page-label">Part ${i}</p>
+            <span class="page-badge">${n}pg</span>
+          </div>`;
+                }
+                grid.innerHTML +=
+                    `<div class="split-page-card">
+          <div class="page-icon">
+            <i class="bi bi-three-dots" style="font-size:.8rem"></i>
+          </div>
+          <p class="page-label">More</p>
+          <span class="page-badge">PDF</span>
+        </div>`;
+            }
+        }
+
+        /* ── Parse page range ── */
+        function parsePageRange(str) {
+            const pages = [];
+            const parts = str.split(',');
+            parts.forEach(part => {
+                part = part.trim();
+                if (part.includes('-')) {
+                    const [start, end] = part.split('-').map(Number);
+                    for (let i = start; i <= end; i++) {
+                        if (!pages.includes(i)) pages.push(i);
+                    }
+                } else {
+                    const n = parseInt(part);
+                    if (!isNaN(n) && !pages.includes(n)) pages.push(n);
+                }
+            });
+            return pages.sort((a, b) => a - b);
+        }
+
+        /* ── Format size ── */
+        function formatSize(bytes) {
+            if (!bytes) return '—';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024)
+                return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        /* ── Start Processing ── */
+        function startProcessing() {
+            if (!currentFile) {
+                alert('No PDF found. Please upload from home page.');
+                window.location.href = '/';
+                return;
+            }
+
+            if (splitMode === 'range') {
+                const rangeStr =
+                    document.getElementById('pageRange').value.trim();
+                if (!rangeStr) {
+                    alert('Please enter a page range first!');
+                    document.getElementById('pageRange').focus();
+                    return;
+                }
+            }
+
+            const processingModal =
+                document.getElementById('processingModal');
+            const progressFill =
+                document.getElementById('progressFill');
+            processingModal.classList.add('show');
+
+            // Update summary
+            if (splitMode === 'range') {
+                const pages = parsePageRange(
+                    document.getElementById('pageRange').value
+                );
+                document.getElementById('summaryPages').textContent =
+                    pages.length + ' page(s) extracted';
+                document.getElementById('summaryMode').textContent =
+                    'Page range: ' +
+                    document.getElementById('pageRange').value;
+            } else {
+                const n = document.getElementById('everyN').value;
+                document.getElementById('summaryPages').textContent =
+                    'Split every ' + n + ' page(s)';
+                document.getElementById('summaryMode').textContent =
+                    'Auto split mode (ZIP download)';
+            }
+
+            getFileBlob(function (file, meta) {
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 20;
+                    if (progress >= 95) {
+                        progress = 95;
+                        clearInterval(interval);
+                    }
+                    progressFill.style.width = progress + '%';
+                }, 300);
+
+                const formData = new FormData();
+                formData.append('file', file, meta.name);
+                formData.append('mode', splitMode);
+                if (splitMode === 'range') {
+                    formData.append('pageRange',
+                        document.getElementById('pageRange').value.trim());
+                } else {
+                    formData.append('everyN',
+                        document.getElementById('everyN').value || '1');
+                }
+
+                fetch('/api/pdf/split', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(r => {
+                        if (!r.ok) throw new Error('Split failed');
+                        return r.blob();
+                    })
+                    .then(blob => {
+                        clearInterval(interval);
+                        progressFill.style.width = '100%';
+                        processedBlob = blob;
+                        processedName = splitMode === 'every'
+                            ? 'split_parts.zip'
+                            : ('split_' + (meta.name || 'document.pdf'));
+                        setTimeout(() => {
+                            processingModal.classList.remove('show');
+                            document.getElementById('successModal')
+                                .classList.add('show');
+                        }, 400);
+                    })
+                    .catch(err => {
+    clearInterval(interval);
+    processingModal.classList.remove('show');
+    console.error(err);
+    if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        showNetworkError('No Internet Connection',
+            'Connection lost while splitting PDF. Check your WiFi and try again.');
+    } else {
+        showNetworkError('Processing Failed',
+            'Could not split your PDF. Please try again.');
+    }
+});
+            });
+        }
+
+        /* ── Download ── */
+        function downloadFile() {
+            if (processedBlob) {
+                const url = URL.createObjectURL(processedBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = processedName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        /* ── Split Another ── */
+        function splitAnother() {
+            document.getElementById('successModal')
+                .classList.remove('show');
+            document.getElementById('progressFill').style.width = '0%';
+            window.location.href = '/';
+        }
+         function goBack() {
+            const ref = document.referrer || "";
+
+            if (ref.includes('/all-tools')) {
+                window.location.href = '/all-tools';
+            } else if (ref.includes('/file-tools')) {
+                window.location.href = '/file-tools';
+            } else if (window.history.length > 1) {
+                window.history.back(); // smart fallback
+            } else {
+                window.location.href = '/';
+            }
+        }
+        function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent   = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+    </script>
+</body>
+
+</html>

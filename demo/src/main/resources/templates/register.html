@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register – Vetri Files</title>
+  <script src="/js/auth.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue: #3B82F6;
+      --gray-bg: #F3F4F6;
+      --border: #E5E7EB;
+      --text: #1F2937;
+      --sub: #4A5565;
+      --red: #DC2626;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gray-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-login {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--blue);
+      text-decoration: none;
+      padding: 8px 18px;
+      border: 1.5px solid var(--blue);
+      border-radius: 50px;
+      transition: background .2s;
+    }
+
+    .nav-login:hover {
+      background: #EFF6FF;
+    }
+
+    .page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 8px 32px rgba(30, 58, 138, .08);
+    }
+
+    .card-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .card-logo-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-logo-icon i {
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .card-logo-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: .88rem;
+      color: var(--sub);
+      margin-bottom: 28px;
+    }
+
+    label {
+      font-size: .83rem;
+      font-weight: 600;
+      color: var(--text);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .name-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9CA3AF;
+      font-size: .95rem;
+      pointer-events: none;
+    }
+
+    input[type=email],
+    input[type=password],
+    input[type=text] {
+      width: 100%;
+      padding: 12px 12px 12px 40px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s;
+      background: #fff;
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, .1);
+    }
+
+    input.err {
+      border-color: var(--red);
+    }
+
+    .eye-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #9CA3AF;
+      cursor: pointer;
+      font-size: .95rem;
+    }
+
+    .eye-btn:hover {
+      color: var(--blue);
+    }
+
+    .field-err {
+      font-size: .76rem;
+      color: var(--red);
+      margin-top: -10px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    /* Password strength */
+    .strength-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 3px;
+      margin-top: -10px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .strength-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width .3s, background .3s;
+      width: 0;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-bottom: 20px;
+      font-size: .82rem;
+      color: var(--sub);
+    }
+
+    .terms input {
+      accent-color: var(--blue);
+      width: 15px;
+      height: 15px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .terms a {
+      color: var(--blue);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: opacity .2s;
+    }
+
+    .btn-submit:hover {
+      opacity: .9;
+    }
+
+    .btn-submit:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      font-size: .78rem;
+      color: #9CA3AF;
+    }
+
+    .btn-google {
+      width: 100%;
+      padding: 11px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .2s;
+      margin-bottom: 16px;
+    }
+
+    .btn-google:hover {
+      border-color: var(--blue);
+    }
+
+    .switch {
+      text-align: center;
+      font-size: .85rem;
+      color: var(--sub);
+    }
+
+    .switch a {
+      font-weight: 700;
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .alert {
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: .83rem;
+      margin-bottom: 18px;
+      display: none;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .alert.show {
+      display: flex;
+    }
+
+    .alert-err {
+      background: #FEF2F2;
+      border: 1.5px solid #FECACA;
+      color: var(--red);
+    }
+
+    .alert-ok {
+      background: #F0FDF4;
+      border: 1.5px solid #BBF7D0;
+      color: #16A34A;
+    }
+
+    @media(max-width:480px) {
+      .card {
+        padding: 28px 18px;
+      }
+
+      .name-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a class="brand" href="/login">
+      <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+      <span class="brand-name">Vetri Files</span>
+    </a>
+    <a href="/login" class="nav-login">Login</a>
+  </nav>
+
+  <div class="page">
+    <div class="card">
+
+      <div class="card-logo">
+        <div class="card-logo-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+        <span class="card-logo-name">Vetri Files</span>
+      </div>
+
+      <h1>Create account</h1>
+      <p class="subtitle">Join Vetri Files and start processing files instantly</p>
+
+      <div class="alert alert-err" id="errAlert">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        <span id="errMsg">Something went wrong.</span>
+      </div>
+      <div class="alert alert-ok" id="okAlert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>Account created! Redirecting...</span>
+      </div>
+
+      <form id="registerForm" novalidate>
+
+        <!-- First & Last name -->
+        <div class="name-row">
+          <div>
+            <label for="firstName">First name</label>
+            <div class="input-wrap">
+              <i class="bi bi-person input-icon"></i>
+              <input type="text" id="firstName" placeholder="John" autocomplete="given-name" />
+            </div>
+            <p class="field-err" id="firstErr">First name required.</p>
+          </div>
+          <div>
+            <label for="lastName">Last name</label>
+            <div class="input-wrap">
+              <i class="bi bi-person input-icon"></i>
+              <input type="text" id="lastName" placeholder="Doe" autocomplete="family-name" />
+            </div>
+            <p class="field-err" id="lastErr">Last name required.</p>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <label for="email">Email address</label>
+        <div class="input-wrap">
+          <i class="bi bi-envelope input-icon"></i>
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <p class="field-err" id="emailErr">Please enter a valid email.</p>
+
+        <!-- Password -->
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <i class="bi bi-lock input-icon"></i>
+          <input type="password" id="password" placeholder="Min. 8 characters" autocomplete="new-password"
+            oninput="strengthCheck(this.value)" />
+          <button type="button" class="eye-btn" onclick="togglePw('password','eyeIcon')">
+            <i class="bi bi-eye" id="eyeIcon"></i>
+          </button>
+        </div>
+        <div class="strength-bar">
+          <div class="strength-fill" id="strengthFill"></div>
+        </div>
+        <p class="field-err" id="pwErr">Password must be at least 8 characters.</p>
+
+        <!-- Terms -->
+        <div class="terms">
+          <input type="checkbox" id="terms" />
+          <label for="terms" style="font-weight:400">
+            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+          </label>
+        </div>
+        <p class="field-err" id="termsErr" style="margin-top:-16px;margin-bottom:14px;">Please accept the terms.</p>
+
+        <button type="submit" class="btn-submit" id="regBtn">Create Account</button>
+      </form>
+
+      <!-- <div class="divider"><span>or sign up with</span></div>
+
+      <a href="https://www.google.com" class="btn-google">
+        <svg width="18" height="18" viewBox="0 0 48 48">
+          <path fill="#FFC107"
+            d="M43.6 20H24v8h11.3C33.8 33.6 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-8 20-20 0-1.3-.2-2.7-.4-4z" />
+          <path fill="#FF3D00"
+            d="M6.3 14.7l6.6 4.8C14.5 15.1 18.9 12 24 12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34.1 6.5 29.3 4 24 4c-7.7 0-14.4 4.2-17.7 10.7z" />
+          <path fill="#4CAF50"
+            d="M24 44c5.2 0 9.9-1.9 13.5-5l-6.2-5.2C29.5 35.5 26.9 36 24 36c-5.3 0-9.8-3.4-11.4-8.1l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+          <path fill="#1976D2"
+            d="M43.6 20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.5l6.2 5.2C41 35.5 44 30.2 44 24c0-1.3-.2-2.7-.4-4z" />
+        </svg>
+        Continue with Google
+      </a> -->
+
+      <p class="switch">Already have an account? <a href="/login">Sign in</a></p>
+    </div>
+  </div>
+  <script>
+    function togglePw(inputId, iconId) {
+  const inp = document.getElementById(inputId);
+  const ico = document.getElementById(iconId);
+  if (inp.type === 'password') { inp.type = 'text'; ico.className = 'bi bi-eye-slash'; }
+  else { inp.type = 'password'; ico.className = 'bi bi-eye'; }
+}
+
+function strengthCheck(val) {
+  const fill = document.getElementById('strengthFill');
+  if (!val) { fill.style.width = '0'; return; }
+  let s = 0;
+  if (val.length >= 8) s++;
+  if (val.length >= 12) s++;
+  if (/[A-Z]/.test(val)) s++;
+  if (/[0-9]/.test(val)) s++;
+  if (/[^A-Za-z0-9]/.test(val)) s++;
+  const colors = ['#DC2626', '#EA580C', '#D97706', '#16A34A', '#15803D'];
+  fill.style.width = (s * 20) + '%';
+  fill.style.background = colors[s - 1] || colors[0];
+}
+document.getElementById('registerForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  // 1. Grab clean, raw values directly from the input fields
+  const firstNameVal = document.getElementById('firstName').value.trim();
+  const lastNameVal  = document.getElementById('lastName').value.trim();
+  const emailVal     = document.getElementById('email').value.trim();
+  const passwordVal  = document.getElementById('password').value;
+  const termsChecked = document.getElementById('terms').checked;
+
+  // 2. Reset UI validation states safely using element nodes
+  const fnEl = document.getElementById('firstName');
+  const lnEl = document.getElementById('lastName');
+  const emEl = document.getElementById('email');
+  const pwEl = document.getElementById('password');
+
+  [fnEl, lnEl, emEl, pwEl].forEach(el => el.classList.remove('err'));
+  ['firstErr', 'lastErr', 'emailErr', 'pwErr', 'termsErr'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('errAlert').classList.remove('show');
+  document.getElementById('okAlert').classList.remove('show');
+
+  // 3. Frontend validation checks
+  let ok = true;
+  if (!firstNameVal) { fnEl.classList.add('err'); document.getElementById('firstErr').style.display = 'block'; ok = false; }
+  if (!lastNameVal) { lnEl.classList.add('err'); document.getElementById('lastErr').style.display = 'block'; ok = false; }
+  if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { emEl.classList.add('err'); document.getElementById('emailErr').style.display = 'block'; ok = false; }
+  if (!passwordVal || passwordVal.length < 8) { pwEl.classList.add('err'); document.getElementById('pwErr').style.display = 'block'; ok = false; }
+  if (!termsChecked) { document.getElementById('termsErr').style.display = 'block'; ok = false; }
+  if (!ok) return;
+
+  // 4. Update submission button state
+  const btn = document.getElementById('regBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating account...';
+
+  try {
+    // 5. Submit payload matching your exact RegisterRequest DTO string mapping fields
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: firstNameVal,
+        lastName: lastNameVal,
+        email: emailVal,
+        password: passwordVal
+      })
+    });
+    
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Registration failed. Please try again.');
+
+    // 6. Map the fresh fields down to your UI token session structures
+    const userProfile = {
+      name: (data.data.firstName + ' ' + data.data.lastName).trim(),
+      email: data.data.email,
+      role: data.data.role || 'USER'
+    };
+
+    sessionStorage.setItem('vetri_user', JSON.stringify(userProfile));
+    if (data.data.token) sessionStorage.setItem('vetri_token', data.data.token);
+
+    localStorage.removeItem('vetri_user');
+    localStorage.removeItem('vetri_token');
+
+    document.getElementById('okAlert').classList.add('show');
+    setTimeout(() => window.location.href = '/', 900);
+
+  } catch (err) {
+    btn.disabled = false; 
+    btn.innerHTML = 'Create Account';
+    document.getElementById('errMsg').textContent = err.message;
+    document.getElementById('errAlert').classList.add('show');
+  }
+});
+
+
+
+  </script>
+
+  <!-- <script>
+    function togglePw(inputId, iconId) {
+      const inp = document.getElementById(inputId);
+      const ico = document.getElementById(iconId);
+      if (inp.type === 'password') { inp.type = 'text'; ico.className = 'bi bi-eye-slash'; }
+      else { inp.type = 'password'; ico.className = 'bi bi-eye'; }
+    }
+
+    function strengthCheck(val) {
+      const fill = document.getElementById('strengthFill');
+      if (!val) { fill.style.width = '0'; return; }
+      let s = 0;
+      if (val.length >= 8) s++;
+      if (val.length >= 12) s++;
+      if (/[A-Z]/.test(val)) s++;
+      if (/[0-9]/.test(val)) s++;
+      if (/[^A-Za-z0-9]/.test(val)) s++;
+      const colors = ['#DC2626', '#EA580C', '#D97706', '#16A34A', '#15803D'];
+      fill.style.width = (s * 20) + '%';
+      fill.style.background = colors[s - 1] || colors[0];
+    }
+
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const fn = document.getElementById('firstName');
+      const ln = document.getElementById('lastName');
+      const em = document.getElementById('email');
+      const pw = document.getElementById('password');
+      const tc = document.getElementById('terms');
+
+      // Reset
+      [fn, ln, em, pw].forEach(el => el.classList.remove('err'));
+      ['firstErr', 'lastErr', 'emailErr', 'pwErr', 'termsErr'].forEach(id => document.getElementById(id).style.display = 'none');
+      document.getElementById('errAlert').classList.remove('show');
+      document.getElementById('okAlert').classList.remove('show');
+
+      // Validate
+      let ok = true;
+      if (!fn.value.trim()) { fn.classList.add('err'); document.getElementById('firstErr').style.display = 'block'; ok = false; }
+      if (!ln.value.trim()) { ln.classList.add('err'); document.getElementById('lastErr').style.display = 'block'; ok = false; }
+      if (!em.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value)) { em.classList.add('err'); document.getElementById('emailErr').style.display = 'block'; ok = false; }
+      if (!pw.value || pw.value.length < 8) { pw.classList.add('err'); document.getElementById('pwErr').style.display = 'block'; ok = false; }
+      if (!tc.checked) { document.getElementById('termsErr').style.display = 'block'; ok = false; }
+      if (!ok) return;
+
+      const btn = document.getElementById('regBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating account...';
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: fn.value.trim(),
+            lastName: ln.value.trim(),
+            email: em.value.trim(),
+            password: pw.value
+          })
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.message || 'Registration failed. Please try again.');
+
+        // Save user info for navbar
+        sessionStorage.setItem('vetri_user', JSON.stringify({
+          name: data.data.firstName + ' ' + data.data.lastName,
+          email: data.data.email
+        }));
+
+        document.getElementById('okAlert').classList.add('show');
+        setTimeout(() => window.location.href = '/', 900);
+
+      } catch (err) {
+        btn.disabled = false; btn.innerHTML = 'Create Account';
+        document.getElementById('errMsg').textContent = err.message;
+        document.getElementById('errAlert').classList.add('show');
+      }
+    });
+
+    ['firstName', 'lastName', 'email', 'password'].forEach(id => {
+      document.getElementById(id).addEventListener('input', function () {
+        this.classList.remove('err');
+        document.getElementById('errAlert').classList.remove('show');
+      });
+    });
+  </script> -->
+</body>
+
+</html>

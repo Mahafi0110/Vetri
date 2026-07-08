@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Tools – Vetri Files</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+
+  <style>
+    /* ─── CSS Variables ─────────────────────────────────── */
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue-main: #3B82F6;
+      --heading: #1F2937;
+      --subtext: #4A5565;
+      --accent-1: #F3F4F6;
+      --accent-2: #E5E7EB;
+      --white: #ffffff;
+      --radius-card: 16px;
+      --radius-btn: 50px;
+      --shadow-hover: 0 8px 32px rgba(59, 130, 246, .13);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--heading);
+      background: var(--accent-1);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    .brand-name {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ─── Navbar ────────────────────────────────────────── */
+    .navbar {
+      background: var(--white);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--accent-2);
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-main) 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--heading);
+      letter-spacing: -.3px;
+    }
+
+    .navbar-nav .nav-link {
+      font-family: 'Inter', sans-serif;
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--heading) !important;
+      padding: 6px 14px !important;
+      transition: color .2s;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: var(--blue-main) !important;
+    }
+
+    .btn-login {
+      font-family: 'Inter', sans-serif;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--blue-main) !important;
+      padding: 6px 14px !important;
+      border-radius: var(--radius-btn);
+      transition: background .2s;
+    }
+
+    .btn-login:hover {
+      background: var(--accent-1);
+    }
+
+    .btn-get-started {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-main) 100%);
+      color: #fff !important;
+      border: none;
+      padding: 10px 24px !important;
+      border-radius: var(--radius-btn);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+      transition: transform .2s, box-shadow .2s;
+      white-space: nowrap;
+    }
+
+    .btn-get-started:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, .45);
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 4px 8px;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    @media (max-width: 991.98px) {
+      .navbar-collapse {
+        background: var(--white);
+        border-top: 1px solid var(--accent-2);
+        padding: 12px 0 16px;
+        margin-top: 10px;
+      }
+
+      .navbar-nav {
+        align-items: flex-start !important;
+        padding: 0 8px;
+      }
+
+      .btn-login,
+      .btn-get-started {
+        margin: 4px 8px !important;
+      }
+    }
+
+    /* ─── Page Header ───────────────────────────────────── */
+    .page-header {
+      background: var(--accent-1);
+      padding: 32px 0 28px;
+      border-bottom: 1px solid var(--accent-2);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--subtext);
+      text-decoration: none;
+      margin-bottom: 18px;
+      transition: color .2s;
+    }
+
+    .back-link:hover {
+      color: var(--blue-main);
+    }
+
+    .back-link i {
+      font-size: 1rem;
+    }
+
+    .page-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 6px;
+    }
+
+    .page-subtitle {
+      font-size: 1rem;
+      color: var(--subtext);
+      margin: 0;
+    }
+
+    /* ─── Main Content ──────────────────────────────────── */
+    .tools-main {
+      padding: 48px 0 64px;
+    }
+
+    /* ─── Category Section ──────────────────────────────── */
+    .category-section {
+      margin-bottom: 52px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .category-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .ci-blue {
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+    }
+
+    .ci-teal {
+      background: linear-gradient(135deg, #0D9488, #06B6D4);
+    }
+
+    .ci-purple {
+      background: linear-gradient(135deg, #7C3AED, #A855F7);
+    }
+
+    .ci-pink {
+      background: linear-gradient(135deg, #DB2777, #F472B6);
+    }
+
+    .category-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin: 0;
+    }
+
+    /* ─── Tool Card ─────────────────────────────────────── */
+    .tool-card {
+      background: var(--white);
+      border: 1.5px solid var(--accent-2);
+      border-radius: var(--radius-card);
+      padding: 20px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: var(--heading);
+      height: 100%;
+      transition: box-shadow .25s, transform .25s, border-color .25s;
+    }
+
+    .tool-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-3px);
+      border-color: var(--blue-main);
+      color: var(--heading);
+    }
+
+    .tool-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* Document tool icons — blue shades */
+    .ti-blue-1 {
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+    }
+
+    .ti-blue-2 {
+      background: linear-gradient(135deg, #1D4ED8, #60A5FA);
+    }
+
+    .ti-blue-3 {
+      background: linear-gradient(135deg, #2563EB, #93C5FD);
+    }
+
+    /* Image tool icons — teal shades */
+    .ti-teal-1 {
+      background: linear-gradient(135deg, #0F766E, #2DD4BF);
+    }
+
+    .ti-teal-2 {
+      background: linear-gradient(135deg, #0D9488, #5EEAD4);
+    }
+
+    .ti-teal-3 {
+      background: linear-gradient(135deg, #14B8A6, #99F6E4);
+    }
+
+    /* Audio tool icons — purple shades */
+    .ti-purple-1 {
+      background: linear-gradient(135deg, #6D28D9, #A78BFA);
+    }
+
+    .ti-purple-2 {
+      background: linear-gradient(135deg, #7C3AED, #C4B5FD);
+    }
+
+    .ti-purple-3 {
+      background: linear-gradient(135deg, #8B5CF6, #DDD6FE);
+    }
+
+    /* Video tool icons — pink shades */
+    .ti-pink-1 {
+      background: linear-gradient(135deg, #BE185D, #F472B6);
+    }
+
+    .ti-pink-2 {
+      background: linear-gradient(135deg, #DB2777, #FBCFE8);
+    }
+
+    .ti-pink-3 {
+      background: linear-gradient(135deg, #EC4899, #FDE68A);
+    }
+
+    .tool-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tool-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: .97rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tool-desc {
+      font-size: .82rem;
+      color: var(--subtext);
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ─── Footer ────────────────────────────────────────── */
+    .footer {
+      background: var(--white);
+      border-top: 1px solid var(--accent-2);
+      padding: 56px 0 0;
+    }
+
+    .footer-brand-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .footer-tagline {
+      font-size: .88rem;
+      color: var(--subtext);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-col-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      font-size: .88rem;
+      color: var(--subtext);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue-main);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--accent-2);
+      padding: 18px 0;
+      margin-top: 48px;
+    }
+
+    .footer-copy {
+      font-size: .84rem;
+      color: var(--subtext);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtext);
+      font-size: .95rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--blue-main);
+      color: var(--blue-main);
+      background: #EFF6FF;
+    }
+
+    @media (max-width: 767.98px) {
+      .tools-main {
+        padding: 32px 0 48px;
+      }
+
+      .category-section {
+        margin-bottom: 36px;
+      }
+
+      .footer {
+        padding: 40px 0 0;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+    }
+
+    nav {
+      background: #fff;
+      border-bottom: 1px solid var(--border, #E5E7EB);
+      padding: 13px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon i {
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .brand-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1F2937;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: #1F2937;
+      text-decoration: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: #F3F4F6;
+      color: #3B82F6;
+    }
+
+    /* Hamburger — hidden by default */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: #1F2937;
+      cursor: pointer;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    /* True mobile only */
+    @media(max-width: 575.98px) {
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid var(--accent-2);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 24px;
+        gap: 4px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+        z-index: 998;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        width: 100%;
+        padding: 10px 12px;
+      }
+
+      .nav-inner {
+        position: relative;
+      }
+    }
+
+    /* Tablet — shrink spacing only, links stay visible */
+    @media(max-width: 767.98px) and (min-width: 576px) {
+      .nav-inner {
+        padding: 0 16px;
+        gap: 10px;
+      }
+
+      .nav-links {
+        gap: 2px;
+      }
+
+      .nav-links a {
+        padding: 6px 10px;
+        font-size: .85rem;
+      }
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #F3F4F6;
+      border: 1.5px solid #E5E7EB;
+      border-radius: 50px;
+      padding: 5px 14px 5px 5px;
+      cursor: pointer;
+      transition: border-color .2s;
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      color: #1F2937;
+    }
+
+    .profile-btn:hover {
+      border-color: #3B82F6;
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .profile-name {
+      max-width: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu-custom {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: #fff;
+      border: 1.5px solid #E5E7EB;
+      border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(30, 58, 138, .12);
+      min-width: 220px;
+      padding: 6px;
+      display: none;
+      z-index: 999;
+    }
+
+    .dropdown-menu-custom.open {
+      display: block;
+    }
+
+    .dropdown-header {
+      padding: 12px;
+      border-bottom: 1px solid #E5E7EB;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar-lg {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+      color: #fff;
+      font-size: .9rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      flex-shrink: 0;
+    }
+
+    .dh-name {
+      font-weight: 700;
+      font-size: .88rem;
+      color: #1F2937;
+    }
+
+    .dh-email {
+      font-size: .75rem;
+      color: #4A5565;
+      margin-top: 2px;
+      word-break: break-all;
+    }
+
+    .dropdown-item-custom {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 9px;
+      font-size: .85rem;
+      font-weight: 500;
+      color: #1F2937;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 100%;
+      transition: background .15s;
+    }
+
+    .dropdown-item-custom:hover {
+      background: #F3F4F6;
+    }
+
+    .dropdown-item-custom.logout {
+      color: #DC2626;
+    }
+
+    .dropdown-item-custom.logout:hover {
+      background: #FEF2F2;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════════════ -->
+  <!-- <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+        <span class="brand-name">Vetri Files</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link active" href="/all-tools">Tools</a></li>
+          <li class="nav-item"><a class="nav-link" href="/Feature">Features</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+          <a href="/login" class="nav-link btn-login">Login</a>
+          <a href="/register" class="nav-link btn-get-started">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>  -->
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+        <span class="brand-name">Vetri Files</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="/all-tools" class="active">Tools</a>
+        <a href="/Feature">Features</a>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <div id="navRight"></div>
+        <button class="nav-toggle" id="navToggle" onclick="toggleNavLinks()" aria-label="Toggle menu">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <!-- ═══════════════════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════════════════ -->
+  <div class="page-header">
+    <div class="container">
+      <button class="back-link" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to Home
+      </button>
+      <h1 class="page-title">All Tools</h1>
+      <p class="page-subtitle">Explore our complete collection of file tools</p>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     TOOLS MAIN
+════════════════════════════════════════════════════════ -->
+  <main class="tools-main">
+    <div class="container">
+
+      <!-- ── DOCUMENT TOOLS ───────────────────────────────── -->
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon ci-blue">
+            <i class="bi bi-file-earmark-text-fill"></i>
+          </div>
+          <h2 class="category-title">Document Tools</h2>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-compress-pdf" class="tool-card">
+              <div class="tool-icon ti-blue-1"><i class="bi bi-arrow-left-right"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Compress PDF</p>
+                <p class="tool-desc">Reduce file size</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-add-signature" class="tool-card">
+              <div class="tool-icon ti-blue-2"><i class="bi bi-pen-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Add Signature</p>
+                <p class="tool-desc">Digitally sign documents</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-lock-pdf" class="tool-card">
+              <div class="tool-icon ti-blue-3"><i class="bi bi-lock-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Lock PDF</p>
+                <p class="tool-desc">Protect with password</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-unlock-pdf" class="tool-card">
+              <div class="tool-icon ti-blue-1"><i class="bi bi-unlock-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Unlock PDF</p>
+                <p class="tool-desc">Remove password protection</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-merge-pdf" class="tool-card">
+              <div class="tool-icon ti-blue-2"><i class="bi bi-intersect"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Merge PDFs</p>
+                <p class="tool-desc">Combine multiple PDFs</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-split-pdf" class="tool-card">
+              <div class="tool-icon ti-blue-3"><i class="bi bi-file-earmark-zip-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Split PDF</p>
+                <p class="tool-desc">Divide PDF into individual pages</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-word-pdf" class="tool-card">
+              <div class="tool-icon ti-blue-3"><i class="bi bi-file-earmark-zip-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Word to PDF</p>
+                <p class="tool-desc">Convert Word documents to PDF format</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-word-html" class="tool-card">
+              <div class="tool-icon ti-blue-3"><i class="bi bi-file-earmark-zip-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Word to HTML</p>
+                <p class="tool-desc">Convert Word documents to HTML format</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-word-text" class="tool-card">
+              <div class="tool-icon ti-blue-3"><i class="bi bi-file-earmark-zip-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Extract Text</p>
+                <p class="tool-desc">Pull Plain text from scanned documents</p>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- ── IMAGE TOOLS ──────────────────────────────────── -->
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon ci-teal">
+            <i class="bi bi-image-fill"></i>
+          </div>
+          <h2 class="category-title">Image Tools</h2>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-convert-image" class="tool-card">
+              <div class="tool-icon ti-teal-1"><i class="bi bi-arrow-left-right"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Convert Image</p>
+                <p class="tool-desc">Change image format</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-crop-image" class="tool-card">
+              <div class="tool-icon ti-teal-2"><i class="bi bi-crop"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Crop Image</p>
+                <p class="tool-desc">Crop to custom size</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-resize-image" class="tool-card">
+              <div class="tool-icon ti-teal-3"><i class="bi bi-arrows-fullscreen"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Resize Image</p>
+                <p class="tool-desc">Change dimensions</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-watermark-image" class="tool-card">
+              <div class="tool-icon ti-teal-1"><i class="bi bi-droplet-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Add Watermark</p>
+                <p class="tool-desc">Protect your images</p>
+              </div>
+            </a>
+          </div>
+          <!-- <div class="col-12 col-md-6 col-lg-4">
+          <a href="/tool-merge-images" class="tool-card">
+            <div class="tool-icon ti-teal-2"><i class="bi bi-intersect"></i></div>
+            <div class="tool-info">
+              <p class="tool-name">Merge Images</p>
+              <p class="tool-desc">Combine multiple images</p>
+            </div>
+          </a>
+        </div> -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-compress-image" class="tool-card">
+              <div class="tool-icon ti-teal-3"><i class="bi bi-file-earmark-zip-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Remove Background</p>
+                <p class="tool-desc">Remove background from images</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ── AUDIO TOOLS ──────────────────────────────────── -->
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon ci-purple">
+            <i class="bi bi-music-note-beamed"></i>
+          </div>
+          <h2 class="category-title">Audio Tools</h2>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-compress-audio" class="tool-card">
+              <div class="tool-icon ti-purple-1"><i class="bi bi-arrow-left-right"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Compress Audio</p>
+                <p class="tool-desc">Reduce audio file size</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-trim-audio" class="tool-card">
+              <div class="tool-icon ti-purple-2"><i class="bi bi-scissors"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Trim Audio</p>
+                <p class="tool-desc">Cut audio clips</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-merge-audio" class="tool-card">
+              <div class="tool-icon ti-purple-3"><i class="bi bi-intersect"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Merge Audio</p>
+                <p class="tool-desc">Combine audio files</p>
+              </div>
+            </a>
+          </div>
+          <!-- <div class="col-12 col-md-6 col-lg-4">
+          <a href="/tool-extract-audio" class="tool-card">
+            <div class="tool-icon ti-purple-1"><i class="bi bi-music-note-list"></i></div>
+            <div class="tool-info">
+              <p class="tool-name">Extract Audio</p>
+              <p class="tool-desc">Get audio from video</p>
+            </div>
+          </a>
+        </div> -->
+        </div>
+      </div>
+
+
+      <!-- ── VIDEO TOOLS ──────────────────────────────────── -->
+      <div class="category-section mb-0">
+        <div class="category-header">
+          <div class="category-icon ci-pink">
+            <i class="bi bi-camera-video-fill"></i>
+          </div>
+          <h2 class="category-title">Video Tools</h2>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-compress-video" class="tool-card">
+              <div class="tool-icon ti-pink-1"><i class="bi bi-arrow-left-right"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Compress Video</p>
+                <p class="tool-desc">Reduce video file size</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-trim-video" class="tool-card">
+              <div class="tool-icon ti-pink-2"><i class="bi bi-scissors"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Trim Video</p>
+                <p class="tool-desc">Cut video clips</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-extract-audio-video" class="tool-card">
+              <div class="tool-icon ti-pink-3"><i class="bi bi-music-note-beamed"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Extract Audio</p>
+                <p class="tool-desc">Get audio from video</p>
+              </div>
+            </a>
+          </div>
+          <!-- <div class="col-12 col-md-6 col-lg-4">
+          <a href="/tool-merge-videos" class="tool-card">
+            <div class="tool-icon ti-pink-1"><i class="bi bi-intersect"></i></div>
+            <div class="tool-info">
+              <p class="tool-name">Merge Videos</p>
+              <p class="tool-desc">Combine video files</p>
+            </div>
+          </a>
+        </div> -->
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4 g-lg-5">
+
+        <!-- Brand -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+            <span class="footer-brand-name">Vetri Files</span>
+          </div>
+          <p class="footer-tagline">
+            Smart file tools for everyone.<br>
+            Process, convert, and edit your files in seconds.
+          </p>
+        </div>
+
+        <!-- Product -->
+        <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+          <p class="footer-col-title">Product</p>
+          <ul class="footer-links">
+            <li><a href="/all-tools">All Tools</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">API</a></li>
+          </ul>
+        </div>
+
+        <!-- All Tools -->
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">All Tools</p>
+          <ul class="footer-links">
+            <li><a href="#document-tools">Document Tools</a></li>
+            <li><a href="#image-tools">Image Tools</a></li>
+            <li><a href="#audio-tools">Audio Tools</a></li>
+            <li><a href="#video-tools">Video Tools</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div class="col-6 col-md-3 col-lg-2">
+          <p class="footer-col-title">Legal</p>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+        <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+        <div class="social-links mt-3 mt-sm-0">
+          <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/vetri-file-helper.js"></script>
+  <script>
+    /* ── USER NAVBAR — same as index.html ── */
+    (function () {
+      const raw = sessionStorage.getItem('vetri_user');
+      const user = raw ? JSON.parse(raw) : null;
+      const navRight = document.getElementById('navRight');
+
+      if (user) {
+        const initials = user.name
+          ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+          : (user.email ? user.email[0].toUpperCase() : 'U');
+        const firstName = user.name ? user.name.split(' ')[0] : user.email;
+
+        navRight.innerHTML = `
+      <div class="dropdown">
+        <button class="profile-btn" onclick="toggleDropdown()">
+          <div class="avatar">${initials}</div>
+          <span class="profile-name">${firstName}</span>
+          <i class="bi bi-chevron-down" style="font-size:.7rem;color:#4A5565"></i>
+        </button>
+        <div class="dropdown-menu-custom" id="profileMenu">
+          <div class="dropdown-header">
+            <div class="avatar-lg">${initials}</div>
+            <div>
+              <div class="dh-name">${user.name || ''}</div>
+              <div class="dh-email">${user.email || ''}</div>
+            </div>
+          </div>
+          <button class="dropdown-item-custom logout" onclick="logout()">
+            <i class="bi bi-box-arrow-right"></i> Sign Out
+          </button>
+        </div>
+      </div>`;
+      } else {
+        navRight.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;">
+        <a href="/login" style="font-size:.88rem;font-weight:600;color:#3B82F6;text-decoration:none;padding:7px 14px;">Login</a>
+        <a href="/register" style="background:linear-gradient(135deg,#1E3A8A,#3B82F6);color:#fff;padding:9px 22px;border-radius:50px;font-weight:600;font-size:.88rem;text-decoration:none;">Get Started</a>
+      </div>`;
+      }
+    })();
+
+    function toggleDropdown() {
+      document.getElementById('profileMenu').classList.toggle('open');
+    }
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById('profileMenu');
+      if (menu && !e.target.closest('.dropdown')) menu.classList.remove('open');
+    });
+    function logout() {
+      fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+        sessionStorage.removeItem('vetri_user');
+        window.location.href = '/login';
+      });
+    }
+    function goBack() {
+      const ref = document.referrer;
+      if (ref.includes('/all-tools')) {
+        window.location.replace('/all-tools');
+      } else if (ref.includes('/file-tools')) {
+        window.location.replace('/file-tools');
+      } else {
+        window.location.replace('/');
+      }
+    }
+
+    /* ── Hamburger toggle (mobile only) ── */
+function toggleNavLinks() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+window.addEventListener('resize', () => {
+  if (window.innerWidth >= 576) {
+    document.getElementById('navLinks').classList.remove('open');
+  }
+});
+  </script>
+
+</body>
+
+</html>

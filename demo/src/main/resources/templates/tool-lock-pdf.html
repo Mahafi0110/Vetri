@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lock PDF – Vetri Files</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue-main: #3B82F6;
+            --heading: #1F2937;
+            --subtext: #4A5565;
+            --accent-1: #F3F4F6;
+            --accent-2: #E5E7EB;
+            --white: #ffffff;
+            --green: #16A34A;
+            --radius-card: 16px;
+            --radius-btn: 50px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--heading);
+            background: var(--accent-1);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: var(--white);
+            padding: 14px 0;
+            border-bottom: 1px solid var(--accent-2);
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon i {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .brand-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .navbar-nav .nav-link {
+            font-size: .95rem;
+            font-weight: 500;
+            color: var(--heading) !important;
+            padding: 6px 14px !important;
+            transition: color .2s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--blue-main) !important;
+        }
+
+        .btn-login {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--blue-main) !important;
+            padding: 6px 14px !important;
+            border-radius: var(--radius-btn);
+        }
+
+        .btn-get-started {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+            color: #fff !important;
+            border: none;
+            padding: 10px 24px !important;
+            border-radius: var(--radius-btn);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
+            transition: transform .2s;
+            white-space: nowrap;
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width:991.98px) {
+            .navbar-collapse {
+                background: var(--white);
+                border-top: 1px solid var(--accent-2);
+                padding: 12px 0 16px;
+                margin-top: 10px;
+            }
+
+            .navbar-nav {
+                align-items: flex-start !important;
+                padding: 0 8px;
+            }
+
+            .btn-login,
+            .btn-get-started {
+                margin: 4px 8px !important;
+            }
+        }
+
+        /* ── Page Header ── */
+        .page-header {
+            background: var(--accent-1);
+            padding: 20px 0 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 6px;
+            transition: color .2s;
+             /* 🔥 ADD THESE */
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: var(--blue-main);
+        }
+
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            background: var(--white);
+            border-top: 1px solid var(--accent-2);
+            padding: 56px 0 0;
+        }
+
+        .footer-brand-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+        }
+
+        .footer-tagline {
+            font-size: .88rem;
+            color: var(--subtext);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-col-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            font-size: .88rem;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-main);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--accent-2);
+            padding: 18px 0;
+            margin-top: 48px;
+        }
+
+        .footer-copy {
+            font-size: .84rem;
+            color: var(--subtext);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--subtext);
+            font-size: .95rem;
+            text-decoration: none;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        @media (max-width:767.98px) {
+            .tool-main {
+                padding: 20px 0 48px;
+            }
+
+            .settings-card {
+                margin-bottom: 16px;
+            }
+
+            .modal-box {
+                padding: 36px 24px 32px;
+            }
+
+            .footer {
+                padding: 40px 0 0;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .stats-row {
+                flex-direction: column;
+            }
+
+            .success-stats {
+                flex-direction: column;
+            }
+        }
+
+        /* ── Tool Layout ── */
+        .tool-main {
+            padding: 24px 0 64px;
+        }
+
+        .page-header {
+            background: var(--accent-1);
+            padding: 20px 0 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 6px;
+            transition: color .2s;
+        }
+
+        .back-link:hover {
+            color: var(--blue-main);
+        }
+
+        .page-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--heading);
+            margin: 0;
+        }
+
+        /* ── Settings Card ── */
+        .settings-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+            height: 100%;
+        }
+
+        .settings-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-title i {
+            color: var(--blue-main);
+        }
+
+        .divider-line {
+            border: none;
+            border-top: 1.5px solid var(--accent-2);
+            margin: 20px 0;
+        }
+
+        .form-label-custom {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .label-hint {
+            font-size: .75rem;
+            color: var(--subtext);
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* ── File Info Box ── */
+        .file-info-box {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .file-info-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #DC2626, #EF4444);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .95rem;
+            flex-shrink: 0;
+        }
+
+        .file-info-name {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .file-info-box div {
+            min-width: 0;
+        }
+
+
+        .file-info-size {
+            font-size: .75rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        /* ── Input ── */
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        .input-custom {
+            width: 100%;
+            padding: 12px 42px;
+            font-size: .88rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            background: var(--white);
+            color: var(--heading);
+            transition: border-color .2s, box-shadow .2s;
+            outline: none;
+        }
+
+        .input-custom:focus {
+            border-color: var(--blue-main);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, .1);
+        }
+
+        .btn-toggle-pw {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            padding: 0;
+            color: #9CA3AF;
+            font-size: .95rem;
+            cursor: pointer;
+            transition: color .2s;
+        }
+
+        .btn-toggle-pw:hover {
+            color: var(--blue-main);
+        }
+
+        /* ── Permissions ── */
+        .permission-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .perm-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: border-color .2s, background .2s;
+        }
+
+        .perm-item:hover {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+        }
+
+        .perm-item input[type="checkbox"] {
+            accent-color: var(--blue-main);
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        .perm-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--accent-1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--subtext);
+            font-size: .8rem;
+        }
+
+        .perm-label {
+            font-size: .83rem;
+            font-weight: 500;
+            color: var(--heading);
+        }
+
+        /* ── Encryption Buttons ── */
+        .enc-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .enc-btn {
+            flex: 1;
+            padding: 10px;
+            font-size: .82rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid var(--accent-2);
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--subtext);
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .enc-btn:hover {
+            border-color: var(--blue-main);
+            color: var(--blue-main);
+        }
+
+        .enc-btn.active {
+            border-color: var(--blue-main);
+            background: #EFF6FF;
+            color: var(--blue-dark);
+        }
+
+        /* ── Preview Card ── */
+        .preview-card {
+            background: var(--white);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 16px;
+            padding: 28px 24px;
+        }
+
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 16px;
+        }
+
+        /* ── Lock Status Bar ── */
+        .lock-status-bar {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+            transition: all .3s;
+        }
+
+        .lock-status-bar.locked {
+            background: #F0FDF4;
+            border-color: #BBF7D0;
+        }
+
+        .lock-status-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: all .3s;
+        }
+
+        .lock-status-icon.unlocked {
+            background: #FEF2F2;
+            color: #DC2626;
+        }
+
+        .lock-status-icon.locked {
+            background: #F0FDF4;
+            color: #16A34A;
+        }
+
+        .lock-status-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 0 0 2px;
+        }
+
+        .lock-status-sub {
+            font-size: .78rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        .lock-status-badge {
+            margin-left: auto;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: .75rem;
+            font-weight: 600;
+            background: #FEE2E2;
+            color: #DC2626;
+            white-space: nowrap;
+            transition: all .3s;
+        }
+
+        .lock-status-badge.locked {
+            background: #DCFCE7;
+            color: #16A34A;
+        }
+
+        /* ── PDF Preview Area ── */
+        .pdf-preview-area {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            margin-bottom: 16px;
+            transition: all .3s;
+        }
+
+        .pdf-preview-area.locked {
+            background: #F0FDF4;
+            border-color: #BBF7D0;
+        }
+
+        /* ── Lock Visual ── */
+        .lock-visual {
+            text-align: center;
+        }
+
+        .lock-icon-big {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 16px;
+            transition: all .4s;
+        }
+
+        .lock-icon-big.unlocked {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            color: #DC2626;
+        }
+
+        .lock-icon-big.locked {
+            background: linear-gradient(135deg, #DCFCE7, #BBF7D0);
+            color: #16A34A;
+        }
+
+        .lock-visual-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin-bottom: 6px;
+        }
+
+        .lock-visual-sub {
+            font-size: .85rem;
+            color: var(--subtext);
+            margin: 0;
+        }
+
+        /* ── Password Strength ── */
+        .pw-strength-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .pw-strength-item {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .pw-strength-label {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--subtext);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .pw-strength-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .pw-strength-bar span {
+            flex: 1;
+            height: 4px;
+            border-radius: 4px;
+            background: var(--accent-2);
+            transition: background .3s;
+        }
+
+        .pw-strength-text {
+            font-size: .72rem;
+            color: var(--subtext);
+        }
+
+        /* ── Process Button ── */
+        .btn-process {
+            width: 100%;
+            padding: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s, box-shadow .2s;
+            cursor: pointer;
+        }
+
+        .btn-process:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(59, 130, 246, .45);
+        }
+
+        /* ── Modals ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 30, 30, .55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px 40px 44px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .18);
+            transform: scale(.95);
+            transition: transform .3s;
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
+        }
+
+        .spinner-ring {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 5px solid var(--accent-2);
+            border-top-color: #3B82F6;
+            animation: spin .9s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .modal-title-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 10px;
+        }
+
+        .modal-sub-text {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 24px;
+        }
+
+        .progress-track {
+            background: var(--accent-2);
+            border-radius: 50px;
+            height: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+            width: 0%;
+            transition: width .3s ease;
+        }
+
+        /* ── Success Modal ── */
+        .success-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .85rem;
+            color: var(--subtext);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: color .2s;
+        }
+
+        .success-back:hover {
+            color: var(--blue-main);
+        }
+
+        .success-circle {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, .3);
+        }
+
+        .success-circle i {
+            color: #fff;
+            font-size: 2rem;
+        }
+
+        .success-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--heading);
+            margin-bottom: 8px;
+        }
+
+        .success-file {
+            font-size: .9rem;
+            color: var(--subtext);
+            margin-bottom: 4px;
+        }
+
+        .success-note {
+            font-size: .85rem;
+            color: var(--subtext);
+            margin-bottom: 20px;
+        }
+
+        /* ── Lock Summary ── */
+        .lock-summary {
+            background: var(--accent-1);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .lock-summary-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: .85rem;
+            color: var(--heading);
+        }
+
+        .lock-summary-item i {
+            color: #1E3A8A;
+            font-size: .95rem;
+            width: 16px;
+        }
+
+        .lock-summary-item:not(:last-child) {
+            border-bottom: 1px solid var(--accent-2);
+        }
+
+        /* ── Download / Another Buttons ── */
+        .btn-download {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(59, 130, 246, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform .2s;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-lock-another {
+            width: 100%;
+            padding: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 600;
+            background: var(--white);
+            color: var(--heading);
+            border: 1.5px solid var(--accent-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: border-color .2s, color .2s;
+        }
+
+        .btn-lock-another:hover {
+            border-color: #3B82F6;
+            color: #3B82F6;
+        }
+
+        @media (max-width:767.98px) {
+            .tool-main {
+                padding: 20px 0 48px;
+            }
+
+            .settings-card {
+                margin-bottom: 16px;
+            }
+
+            .pw-strength-row {
+                flex-direction: column;
+            }
+
+            .modal-box {
+                padding: 36px 24px 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="/">
+      <div class="brand-icon">
+        <i class="bi bi-file-earmark-text-fill"></i>
+      </div>
+      <span class="brand-name">Vetri Files</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- Move links to RIGHT -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/all-tools">Tools</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Feature">Features</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+    <!-- ════════════════════════════════
+     PAGE HEADER
+════════════════════════════════ -->
+    <div class="page-header">
+        <div class="container">
+            <!-- <a href="/file-tools" class="back-link">
+                <i class="bi bi-arrow-left"></i> Back
+            </a> -->
+            <button class="back-link" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Back
+            </button>
+            <h1 class="page-title">Lock PDF</h1>
+        </div>
+    </div>
+    <!-- --------------------------- -->
+    <!-- MAIN CONTENT -->
+    <!-- --------------------------------- -->
+    <main class="tool-main">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- ── Settings Panel ── -->
+                <div class="col-12 col-lg-3">
+                    <div class="settings-card">
+                        <div class="settings-title">
+                            <i class="bi bi-gear-fill"></i> Settings
+                        </div>
+
+                        <!-- File Info -->
+                        <div class="file-info-box" id="fileInfoBox">
+                            <div class="file-info-icon">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div class="file-info-text">
+                                <p class="file-info-name" id="fileInfoName">
+                                    No file loaded
+                                </p>
+                                <p class="file-info-size" id="fileInfoSize">—</p>
+                            </div>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Owner Password -->
+                        <label class="form-label-custom">
+                            Owner Password
+                            <span class="label-hint">
+                                (Full access password)
+                            </span>
+                        </label>
+                        <div class="input-wrap mb-3">
+                            <i class="bi bi-lock-fill input-icon"></i>
+                            <input type="password" class="input-custom" id="ownerPassword"
+                                placeholder="Set owner password" />
+                            <button type="button" class="btn-toggle-pw" onclick="togglePw('ownerPassword',this)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+
+                        <!-- User Password -->
+                        <label class="form-label-custom">
+                            User Password
+                            <span class="label-hint">
+                                (Open/view password)
+                            </span>
+                        </label>
+                        <div class="input-wrap mb-3">
+                            <i class="bi bi-lock input-icon"></i>
+                            <input type="password" class="input-custom" id="userPassword"
+                                placeholder="Set user password" />
+                            <button type="button" class="btn-toggle-pw" onclick="togglePw('userPassword',this)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Permissions -->
+                        <label class="form-label-custom">Permissions</label>
+                        <div class="permission-list">
+
+                            <label class="perm-item">
+                                <input type="checkbox" id="permPrint" checked />
+                                <span class="perm-icon">
+                                    <i class="bi bi-printer-fill"></i>
+                                </span>
+                                <span class="perm-label">Allow Printing</span>
+                            </label>
+
+                            <label class="perm-item">
+                                <input type="checkbox" id="permCopy" />
+                                <span class="perm-icon">
+                                    <i class="bi bi-clipboard-fill"></i>
+                                </span>
+                                <span class="perm-label">Allow Copying</span>
+                            </label>
+
+                            <label class="perm-item">
+                                <input type="checkbox" id="permModify" />
+                                <span class="perm-icon">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </span>
+                                <span class="perm-label">Allow Modifying</span>
+                            </label>
+
+                            <label class="perm-item">
+                                <input type="checkbox" id="permAnnotate" checked />
+                                <span class="perm-icon">
+                                    <i class="bi bi-chat-square-fill"></i>
+                                </span>
+                                <span class="perm-label">Allow Annotations</span>
+                            </label>
+
+                        </div>
+
+                        <hr class="divider-line" />
+
+                        <!-- Encryption Level -->
+                        <label class="form-label-custom">Encryption Level</label>
+                        <div class="enc-btns">
+                            <button class="enc-btn active" onclick="setEncryption('128', this)">
+                                128-bit RC4
+                            </button>
+                            <button class="enc-btn" onclick="setEncryption('256', this)">
+                                256-bit AES
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ── Preview Panel ── -->
+                <div class="col-12 col-lg-9">
+                    <div class="preview-card">
+                        <p class="preview-title">Preview</p>
+
+                        <!-- Lock Status Bar -->
+                        <div class="lock-status-bar" id="lockStatusBar">
+                            <div class="lock-status-icon unlocked">
+                                <i class="bi bi-unlock-fill"></i>
+                            </div>
+                            <div class="lock-status-text">
+                                <p class="lock-status-title" id="lockStatusTitle">
+                                    PDF is Unlocked
+                                </p>
+                                <p class="lock-status-sub" id="lockStatusSub">
+                                    Set passwords above to lock this PDF
+                                </p>
+                            </div>
+                            <div class="lock-status-badge" id="lockBadge">
+                                Unprotected
+                            </div>
+                        </div>
+
+                        <!-- PDF Preview Area -->
+                        <div class="pdf-preview-area" id="previewArea">
+                            <div class="lock-visual" id="lockVisual">
+                                <div class="lock-icon-big unlocked" id="lockIconBig">
+                                    <i class="bi bi-unlock-fill"></i>
+                                </div>
+                                <p class="lock-visual-title" id="lockVisualTitle">
+                                    PDF Ready to Lock
+                                </p>
+                                <p class="lock-visual-sub" id="lockVisualSub">
+                                    Enter passwords in the settings panel
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Password Strength -->
+                        <div class="pw-strength-row" id="pwStrengthRow">
+                            <div class="pw-strength-item">
+                                <span class="pw-strength-label">
+                                    Owner Password Strength
+                                </span>
+                                <div class="pw-strength-bar">
+                                    <span id="os1"></span>
+                                    <span id="os2"></span>
+                                    <span id="os3"></span>
+                                    <span id="os4"></span>
+                                </div>
+                                <span class="pw-strength-text" id="ownerStrengthText">
+                                </span>
+                            </div>
+                            <div class="pw-strength-item">
+                                <span class="pw-strength-label">
+                                    User Password Strength
+                                </span>
+                                <div class="pw-strength-bar">
+                                    <span id="us1"></span>
+                                    <span id="us2"></span>
+                                    <span id="us3"></span>
+                                    <span id="us4"></span>
+                                </div>
+                                <span class="pw-strength-text" id="userStrengthText">
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Process Button -->
+                        <button class="btn-process" id="processBtn" onclick="startProcessing()">
+                            <i class="bi bi-lock-fill"></i>
+                            Lock PDF &amp; Download
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ════════════════════════════════
+     PROCESSING MODAL
+════════════════════════════════ -->
+    <div class="modal-overlay" id="processingModal">
+        <div class="modal-box">
+            <div class="spinner-ring"></div>
+            <p class="modal-title-text">Locking Your PDF</p>
+            <p class="modal-sub-text">
+                Applying password protection securely...
+            </p>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════
+     SUCCESS MODAL
+════════════════════════════════ -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <a href="/file-tools" class="success-back">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+            <div class="success-circle">
+                <i class="bi bi-lock-fill"></i>
+            </div>
+            <p class="success-title">PDF Locked!</p>
+            <p class="success-file" id="successFileName">file.pdf</p>
+            <p class="success-note">
+                has been password protected successfully
+            </p>
+
+            <!-- Lock Summary -->
+            <div class="lock-summary">
+                <div class="lock-summary-item">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <span id="summaryEncryption">128-bit RC4 Encryption</span>
+                </div>
+                <div class="lock-summary-item">
+                    <i class="bi bi-key-fill"></i>
+                    <span id="summaryPasswords">
+                        Owner + User passwords set
+                    </span>
+                </div>
+                <div class="lock-summary-item">
+                    <i class="bi bi-printer-fill"></i>
+                    <span id="summaryPermissions">
+                        Printing allowed
+                    </span>
+                </div>
+            </div>
+
+            <button class="btn-download" onclick="downloadFile()">
+                <i class="bi bi-cloud-arrow-down-fill"></i>
+                Download Locked PDF
+            </button>
+            <button class="btn-lock-another" onclick="lockAnother()">
+                <i class="bi bi-arrow-clockwise"></i>
+                Lock Another PDF
+            </button>
+        </div>
+    </div>
+    <!-- ── NETWORK ERROR MODAL ── -->
+<div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+            <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+        </div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;"
+            id="netErrTitle">Something went wrong</p>
+        <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;"
+            id="netErrMsg">Please try again.</p>
+        <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#7C3AED,#A855F7);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            Try Again
+        </button>
+        <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            Upload New File
+        </button>
+    </div>
+</div>
+
+    <!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4 g-lg-5">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        <span class="footer-brand-name">Vetri Files</span>
+                    </div>
+                    <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
+                        seconds.</p>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
+                    <p class="footer-col-title">Product</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools">All Tools</a></li>
+                        <li><a href="/Feature">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">All Tools</p>
+                    <ul class="footer-links">
+                        <li><a href="/all-tools#document-tools">Document Tools</a></li>
+                        <li><a href="/all-tools#image-tools">Image Tools</a></li>
+                        <li><a href="/all-tools#audio-tools">Audio Tools</a></li>
+                        <li><a href="/all-tools#video-tools">Video Tools</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <p class="footer-col-title">Legal</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
+                <div class="social-links mt-3 mt-sm-0">
+                    <a href="https://www.instagram.com/vetriitsystems/" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="https://x.com/VTSITPARK" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="https://www.linkedin.com/company/vetri-technology-solutions/" target="_blank" title="Linkedin"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/vetri-file-helper.js"></script>
+    <!-- <script>
+        /* ── Globals ── */
+        let currentFile = null;
+        let processedBlob = null;
+        let processedName = 'locked.pdf';
+        let encryptionLevel = '128';
+
+        /* ── Init ── */
+        window.addEventListener('DOMContentLoaded', () => {
+            // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+            if (!isFromUpload()) {
+                // Show "no file" state — don't load previous file
+                showNoFileState();
+                return;
+            }
+            const stored = sessionStorage.getItem('vetri_file');
+            if (!stored) return;
+            try {
+                currentFile = JSON.parse(stored);
+                loadFileInfo(currentFile);
+            } catch (e) { }
+
+            // Password listeners
+            document.getElementById('ownerPassword')
+                .addEventListener('input', function () {
+                    checkStrength(this.value, 'o');
+                    updateLockStatus();
+                });
+            document.getElementById('userPassword')
+                .addEventListener('input', function () {
+                    checkStrength(this.value, 'u');
+                    updateLockStatus();
+                });
+        });
+
+        function showNoFileState() {
+            document.getElementById('fileInfoName').textContent = 'No file loaded';
+            document.getElementById('fileInfoSize').textContent = '—';
+            // Show a link to go upload
+            document.getElementById('fileInfoName').innerHTML =
+'<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+               
+        }
+        /* ── Load file info ── */
+        function loadFileInfo(f) {
+            document.getElementById('fileInfoName').textContent =
+                f.name || 'document.pdf';
+            document.getElementById('fileInfoSize').textContent =
+                formatSize(f.size) + ' • PDF';
+            document.getElementById('lockVisualTitle').textContent =
+                f.name || 'document.pdf';
+            document.getElementById('successFileName').textContent =
+                f.name || 'document.pdf';
+            processedName = 'locked_' + (f.name || 'document.pdf');
+        }
+
+        /* ── Toggle password visibility ── */
+        function togglePw(id, btn) {
+            const inp = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                inp.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+
+        /* ── Password strength ── */
+        function checkStrength(val, prefix) {
+            const bars = [1, 2, 3, 4].map(i =>
+                document.getElementById(prefix + 's' + i)
+            );
+            const label = document.getElementById(
+                prefix === 'o' ? 'ownerStrengthText' : 'userStrengthText'
+            );
+            const colors = { 1: '#DC2626', 2: '#F97316', 3: '#EAB308', 4: '#16A34A' };
+            const labels = { 1: 'Weak', 2: 'Fair', 3: 'Good', 4: 'Strong' };
+
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+            if (/\d/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            bars.forEach((b, i) => {
+                b.style.background = i < score
+                    ? colors[score] : 'var(--accent-2)';
+            });
+            label.textContent = val ? (labels[score] || '') : '';
+            label.style.color = colors[score] || 'var(--subtext)';
+        }
+
+        /* ── Update lock status visually ── */
+        function updateLockStatus() {
+            const ownerPw = document.getElementById('ownerPassword').value;
+            const userPw = document.getElementById('userPassword').value;
+            const hasPassword = ownerPw.length > 0 || userPw.length > 0;
+
+            const statusBar = document.getElementById('lockStatusBar');
+            const statusIcon = document.querySelector('.lock-status-icon');
+            const statusTitle = document.getElementById('lockStatusTitle');
+            const statusSub = document.getElementById('lockStatusSub');
+            const badge = document.getElementById('lockBadge');
+            const previewArea = document.getElementById('previewArea');
+            const lockIconBig = document.getElementById('lockIconBig');
+            const lockTitle = document.getElementById('lockVisualTitle');
+            const lockSub = document.getElementById('lockVisualSub');
+
+            if (hasPassword) {
+                statusBar.classList.add('locked');
+                statusIcon.className = 'lock-status-icon locked';
+                statusIcon.innerHTML = '<i class="bi bi-lock-fill"></i>';
+                statusTitle.textContent = 'PDF Will Be Locked';
+                statusSub.textContent =
+                    'Password protection will be applied';
+                badge.textContent = 'Protected';
+                badge.classList.add('locked');
+                previewArea.classList.add('locked');
+                lockIconBig.className = 'lock-icon-big locked';
+                lockIconBig.innerHTML = '<i class="bi bi-lock-fill"></i>';
+                lockSub.textContent =
+                    'Password protection ready to apply';
+            } else {
+                statusBar.classList.remove('locked');
+                statusIcon.className = 'lock-status-icon unlocked';
+                statusIcon.innerHTML = '<i class="bi bi-unlock-fill"></i>';
+                statusTitle.textContent = 'PDF is Unlocked';
+                statusSub.textContent =
+                    'Set passwords above to lock this PDF';
+                badge.textContent = 'Unprotected';
+                badge.classList.remove('locked');
+                previewArea.classList.remove('locked');
+                lockIconBig.className = 'lock-icon-big unlocked';
+                lockIconBig.innerHTML =
+                    '<i class="bi bi-unlock-fill"></i>';
+                lockSub.textContent =
+                    'Enter passwords in the settings panel';
+            }
+        }
+
+        /* ── Set Encryption ── */
+        function setEncryption(level, btn) {
+            encryptionLevel = level;
+            document.querySelectorAll('.enc-btn')
+                .forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        /* ── Format size ── */
+        function formatSize(bytes) {
+            if (!bytes) return '—';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024)
+                return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        /* ── Start Processing ── */
+        function startProcessing() {
+            const ownerPw = document.getElementById('ownerPassword').value;
+            const userPw = document.getElementById('userPassword').value;
+
+            if (!ownerPw && !userPw) {
+                alert('Please enter at least one password to lock the PDF.');
+                document.getElementById('ownerPassword').focus();
+                return;
+            }
+            if (!currentFile) {
+                alert('No file found. Please upload a PDF first.');
+                window.location.href = '/';
+                return;
+            }
+
+            // Update summary
+            document.getElementById('summaryEncryption').textContent =
+                encryptionLevel + '-bit ' +
+                (encryptionLevel === '128' ? 'RC4' : 'AES') +
+                ' Encryption';
+            document.getElementById('summaryPasswords').textContent =
+                ownerPw && userPw ? 'Owner + User passwords set'
+                    : ownerPw ? 'Owner password set'
+                        : 'User password set';
+
+            const perms = [];
+            if (document.getElementById('permPrint').checked)
+                perms.push('Printing');
+            if (document.getElementById('permCopy').checked)
+                perms.push('Copying');
+            if (document.getElementById('permModify').checked)
+                perms.push('Modifying');
+            document.getElementById('summaryPermissions').textContent =
+                perms.length > 0
+                    ? perms.join(', ') + ' allowed'
+                    : 'No permissions granted';
+
+            const processingModal =
+                document.getElementById('processingModal');
+            const progressFill =
+                document.getElementById('progressFill');
+            processingModal.classList.add('show');
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 20;
+                if (progress >= 95) {
+                    progress = 95;
+                    clearInterval(interval);
+                }
+                progressFill.style.width = progress + '%';
+            }, 300);
+
+            // SPRING BOOT API (uncomment when ready) ──
+            const dataURL = sessionStorage.getItem('vetri_file_data');
+            fetch(dataURL)
+                .then(r => r.blob())
+                .then(blob => {
+                    const formData = new FormData();
+                    formData.append('file', blob, currentFile.name);
+                    formData.append('password', ownerPw || userPw);
+                    return fetch('/api/pdf/lock', {
+                        method: 'POST', body: formData
+                    });
+                })
+                .then(r => {
+                    if (!r.ok) throw new Error('Lock failed');
+                    return r.blob();
+                })
+                .then(blob => {
+                    clearInterval(interval);
+                    progressFill.style.width = '100%';
+                    processedBlob = blob;
+                    setTimeout(() => {
+                        processingModal.classList.remove('show');
+                        document.getElementById('successModal')
+                            .classList.add('show');
+                    }, 400);
+                })
+                .catch(err => {
+                    clearInterval(interval);
+                    processingModal.classList.remove('show');
+                    alert('Failed to lock PDF: ' + err.message);
+                });
+            //  END API SECTION
+
+            // Simulated
+            setTimeout(() => {
+                clearInterval(interval);
+                progressFill.style.width = '100%';
+                setTimeout(() => {
+                    processingModal.classList.remove('show');
+                    document.getElementById('successModal')
+                        .classList.add('show');
+                }, 400);
+            }, 2000);
+        }
+
+        /* ── Download ── */
+        function downloadFile() {
+            if (processedBlob) {
+                const url = URL.createObjectURL(processedBlob);
+                const a = document.createElement('a');
+                a.href = url; a.download = processedName; a.click();
+                URL.revokeObjectURL(url);
+            } else {
+                alert('Demo: Will download ' + processedName +
+                    ' when backend is connected.');
+            }
+        }
+
+        /* ── Lock Another ── */
+        function lockAnother() {
+            document.getElementById('successModal')
+                .classList.remove('show');
+            document.getElementById('progressFill').style.width = '0%';
+            window.location.href = '/';
+        }
+         function goBack() {
+            const ref = document.referrer || "";
+
+            if (ref.includes('/all-tools')) {
+                window.location.href = '/all-tools';
+            } else if (ref.includes('/file-tools')) {
+                window.location.href = '/file-tools';
+            } else if (window.history.length > 1) {
+                window.history.back(); // smart fallback
+            } else {
+                window.location.href = '/';
+            }
+        }
+    </script> -->
+<script>
+    let currentFile   = null;
+let processedBlob = null;
+let processedName = 'locked.pdf';
+let encryptionLevel = '128';
+
+const PASSWORD_RULES = {
+    minLength: 8,
+    requireUppercase: true,
+    requireLowercase: true,
+    requireNumber: true,
+    requireSpecial: true
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+ // ✅ Check if came through proper upload flow
+    if (!isFromUpload()) {
+        showNoFileState();
+        return;
+    }
+    const stored = sessionStorage.getItem('vetri_file');
+    if (!stored) {
+        showNoFileState();
+        return;
+    }
+    try {
+        currentFile = JSON.parse(stored);
+        loadFileInfo(currentFile);
+    } catch (e) {
+        showNoFileState();
+        return;
+    }
+
+    document.getElementById('ownerPassword')
+        .addEventListener('input', function () {
+            checkStrength(this.value, 'o');
+            updateLockStatus();
+        });
+    document.getElementById('userPassword')
+        .addEventListener('input', function () {
+            checkStrength(this.value, 'u');
+            updateLockStatus();
+        });
+});
+
+function showNoFileState() {
+    // ✅ Clear any old file data so it doesn't bleed into next visit
+    sessionStorage.removeItem('vetri_storage_type');
+
+    // Show upload link
+    const nameEl = document.getElementById('fileInfoName');
+    const sizeEl = document.getElementById('fileInfoSize');
+    if (nameEl) nameEl.innerHTML =
+        '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;">⇦ Upload a file first</a>';
+    if (sizeEl) sizeEl.textContent = '—';
+}
+
+function loadFileInfo(f) {
+    document.getElementById('fileInfoName').textContent = f.name || 'document.pdf';
+    document.getElementById('fileInfoSize').textContent = formatSize(f.size) + ' • PDF';
+    document.getElementById('lockVisualTitle').textContent = f.name || 'document.pdf';
+    document.getElementById('successFileName').textContent = f.name || 'document.pdf';
+    processedName = 'locked_' + (f.name || 'document.pdf');
+}
+
+function togglePw(id, btn) {
+    const inp  = document.getElementById(id);
+    const icon = btn.querySelector('i');
+    if (inp.type === 'password') {
+        inp.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        inp.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+
+function validatePassword(val) {
+    const errors = [];
+    if (val.length < PASSWORD_RULES.minLength)
+        errors.push('At least ' + PASSWORD_RULES.minLength + ' characters');
+    if (PASSWORD_RULES.requireUppercase && !/[A-Z]/.test(val))
+        errors.push('At least one uppercase letter (A-Z)');
+    if (PASSWORD_RULES.requireLowercase && !/[a-z]/.test(val))
+        errors.push('At least one lowercase letter (a-z)');
+    if (PASSWORD_RULES.requireNumber && !/\d/.test(val))
+        errors.push('At least one number (0-9)');
+    if (PASSWORD_RULES.requireSpecial && !/[^A-Za-z0-9]/.test(val))
+        errors.push('At least one special character (!@#$%^&*)');
+    return errors;
+}
+
+function checkStrength(val, prefix) {
+    const bars  = [1,2,3,4].map(i => document.getElementById(prefix + 's' + i));
+    const label = document.getElementById(
+        prefix === 'o' ? 'ownerStrengthText' : 'userStrengthText');
+    const colors = { 1:'#DC2626', 2:'#F97316', 3:'#EAB308', 4:'#16A34A' };
+    const labels = { 0:'', 1:'Weak — not accepted', 2:'Fair — not accepted', 3:'Good', 4:'Strong' };
+
+    let score = 0;
+    if (val.length >= PASSWORD_RULES.minLength) score++;
+    if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+    if (/\d/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+
+    bars.forEach((b, i) => {
+        b.style.background = i < score ? (colors[score] || '#16A34A') : 'var(--accent-2)';
+    });
+    label.textContent  = val ? (labels[score] || '') : '';
+    label.style.color  = colors[score] || 'var(--subtext)';
+}
+
+function updateLockStatus() {
+    const ownerPw   = document.getElementById('ownerPassword').value;
+    const userPw    = document.getElementById('userPassword').value;
+    const hasPassword = ownerPw.length > 0 || userPw.length > 0;
+
+    const statusBar   = document.getElementById('lockStatusBar');
+    const statusIcon  = document.querySelector('.lock-status-icon');
+    const statusTitle = document.getElementById('lockStatusTitle');
+    const statusSub   = document.getElementById('lockStatusSub');
+    const badge       = document.getElementById('lockBadge');
+    const previewArea = document.getElementById('previewArea');
+    const lockIconBig = document.getElementById('lockIconBig');
+    const lockSub     = document.getElementById('lockVisualSub');
+
+    if (hasPassword) {
+        statusBar.classList.add('locked');
+        statusIcon.className = 'lock-status-icon locked';
+        statusIcon.innerHTML = '<i class="bi bi-lock-fill"></i>';
+        statusTitle.textContent = 'PDF Will Be Locked';
+        statusSub.textContent   = 'Password protection will be applied';
+        badge.textContent       = 'Protected';
+        badge.classList.add('locked');
+        previewArea.classList.add('locked');
+        lockIconBig.className = 'lock-icon-big locked';
+        lockIconBig.innerHTML = '<i class="bi bi-lock-fill"></i>';
+        lockSub.textContent   = 'Password protection ready to apply';
+    } else {
+        statusBar.classList.remove('locked');
+        statusIcon.className = 'lock-status-icon unlocked';
+        statusIcon.innerHTML = '<i class="bi bi-unlock-fill"></i>';
+        statusTitle.textContent = 'PDF is Unlocked';
+        statusSub.textContent   = 'Set passwords above to lock this PDF';
+        badge.textContent       = 'Unprotected';
+        badge.classList.remove('locked');
+        previewArea.classList.remove('locked');
+        lockIconBig.className = 'lock-icon-big unlocked';
+        lockIconBig.innerHTML = '<i class="bi bi-unlock-fill"></i>';
+        lockSub.textContent   = 'Enter passwords in the settings panel';
+    }
+}
+
+function setEncryption(level, btn) {
+    encryptionLevel = level;
+    document.querySelectorAll('.enc-btn')
+        .forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+function formatSize(bytes) {
+    if (!bytes) return '—';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+function startProcessing() {
+    const ownerPw = document.getElementById('ownerPassword').value;
+    const userPw  = document.getElementById('userPassword').value;
+
+    // ── Validation 1: at least one password ──
+    if (!ownerPw && !userPw) {
+        alert('Please enter at least one password to lock the PDF.');
+        document.getElementById('ownerPassword').focus();
+        return;
+    }
+
+    // ── Validation 2: owner password strength ──
+    if (ownerPw) {
+        const errors = validatePassword(ownerPw);
+        if (errors.length > 0) {
+            alert('Owner Password is too weak:\n• ' + errors.join('\n• '));
+            document.getElementById('ownerPassword').focus();
+            return;
+        }
+    }
+
+    // ── Validation 3: user password strength ──
+    if (userPw) {
+        const errors = validatePassword(userPw);
+        if (errors.length > 0) {
+            alert('User Password is too weak:\n• ' + errors.join('\n• '));
+            document.getElementById('userPassword').focus();
+            return;
+        }
+    }
+
+    // ── Validation 4: owner required for permissions ──
+    if (!ownerPw && userPw) {
+        alert(
+            'Owner Password is required to enforce permissions.\n\n' +
+            '• Owner Password = controls Print, Copy, Modify permissions\n' +
+            '• User Password = only allows opening/viewing the PDF\n\n' +
+            'Please set an Owner Password to apply permission restrictions.'
+        );
+        document.getElementById('ownerPassword').focus();
+        return;
+    }
+
+    if (!currentFile) {
+        alert('No file found. Please upload a PDF first.');
+        window.location.href = '/';
+        return;
+    }
+
+    // ── Collect permissions ──
+    const permPrint    = document.getElementById('permPrint').checked;
+    const permCopy     = document.getElementById('permCopy').checked;
+    const permModify   = document.getElementById('permModify').checked;
+    const permAnnotate = document.getElementById('permAnnotate').checked;
+
+    // ── Update summary ──
+    document.getElementById('summaryEncryption').textContent =
+        encryptionLevel + '-bit ' + (encryptionLevel === '128' ? 'RC4' : 'AES') + ' Encryption';
+
+    document.getElementById('summaryPasswords').textContent =
+        ownerPw && userPw ? 'Owner + User passwords set'
+        : ownerPw ? 'Owner password set (controls permissions)'
+        : 'User password set (open only)';
+
+    const perms = [];
+    if (permPrint)    perms.push('Printing');
+    if (permCopy)     perms.push('Copying');
+    if (permModify)   perms.push('Modifying');
+    if (permAnnotate) perms.push('Annotations');
+    document.getElementById('summaryPermissions').textContent =
+        perms.length > 0 ? perms.join(', ') + ' allowed' : 'No permissions granted';
+
+    const processingModal = document.getElementById('processingModal');
+    const progressFill    = document.getElementById('progressFill');
+    processingModal.classList.add('show');
+
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 20;
+        if (progress >= 95) { progress = 95; clearInterval(interval); }
+        progressFill.style.width = progress + '%';
+    }, 300);
+
+    // ── Use getFileBlob — works for ALL file sizes ──
+    getFileBlob(function(file, meta) {
+        const formData = new FormData();
+        formData.append('file',            file, meta.name);
+        formData.append('ownerPassword',   ownerPw);
+        formData.append('userPassword',    userPw);
+        formData.append('encryptionLevel', encryptionLevel);
+        formData.append('allowPrint',      permPrint    ? 'true' : 'false');
+        formData.append('allowCopy',       permCopy     ? 'true' : 'false');
+        formData.append('allowModify',     permModify   ? 'true' : 'false');
+        formData.append('allowAnnotate',   permAnnotate ? 'true' : 'false');
+
+        fetch('/api/pdf/lock', { method: 'POST', body: formData })
+            .then(r => {
+                if (!r.ok) throw new Error('Lock failed — server error');
+                return r.blob();
+            })
+            .then(blob => {
+                clearInterval(interval);
+                progressFill.style.width = '100%';
+                processedBlob = blob;
+                setTimeout(() => {
+                    processingModal.classList.remove('show');
+                    document.getElementById('successModal').classList.add('show');
+                }, 400);
+            })
+            .catch(err => {
+                clearInterval(interval);
+                processingModal.classList.remove('show');
+                console.error(err);
+                if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+                    showNetworkError('No Internet Connection',
+                        'Connection lost while locking PDF. Check your WiFi and try again.');
+                } else {
+                    showNetworkError('Processing Failed',
+                        'Could not lock your PDF. Please try again.');
+                }
+            });
+    });
+}
+
+function downloadFile() {
+    if (processedBlob) {
+        const url = URL.createObjectURL(processedBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = processedName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+}
+
+function lockAnother() {
+    document.getElementById('successModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+    window.location.href = '/';
+}
+
+function goBack() {
+    if (window.history.length > 1) window.history.back();
+    else window.location.href = '/file-tools';
+}
+function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent   = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+</script>
+</body>
+
+</html>

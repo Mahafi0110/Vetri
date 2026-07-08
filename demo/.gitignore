@@ -1,0 +1,58 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+# ── Secrets (never push these) ──
+.env
+*.env
+application-local.properties
+# ── H2 Database files (never push these) ──
+data/
+*.mv.db
+*.trace.db
+/backups/
+*.sql
+
+# Logs
+logs/
+*.log
+
+# OS files
+Thumbs.db
+
+# Node (if using frontend)
+node_modules/
+.expo/
+dist/
+
+# Mac
+.DS_Store
