@@ -24,6 +24,16 @@ public class WordService {
 
     private static final String SOFFICE_PATH = detectSofficePath();
 
+    /**
+     * Exposes the already-resolved LibreOffice path so other services
+     * (e.g. PdfService's PDF→Word conversion) can reuse the exact same
+     * detection instead of re-implementing it — keeps both directions
+     * of the conversion pointed at the same soffice binary.
+     */
+    public static String getSofficePath() {
+        return SOFFICE_PATH;
+    }
+
     // ─────────────────────────────────────────────────────────────────────────
     //  LibreOffice path auto-detection
     // ─────────────────────────────────────────────────────────────────────────

@@ -74,9 +74,9 @@ public class PageController {
         return "file-tools";
     }
 
-    @GetMapping("/Feature")
+    @GetMapping("/feature")
     public String feature() {
-        return "Feature";
+        return "feature";
     }
 
     @GetMapping("/login")
@@ -88,7 +88,18 @@ public class PageController {
     public String register() {
         return "register";
     }
-
+     @GetMapping("/privacy")
+    public String privacy() {
+        return "privacy";
+    }
+    @GetMapping("/terms")
+    public String terms() {
+        return "terms";
+    }
+@GetMapping("/cookie")
+    public String cookie() {
+        return "cookie";
+    }
     @GetMapping("/forgot-password")
     public String forgotPassword() {
         return "forgot-password";
@@ -163,6 +174,11 @@ public class PageController {
     @GetMapping("/tool-unlock-pdf")
     public String toolUnlockPdf() {
         return "tool-unlock-pdf";
+    }
+
+     @GetMapping("/tool-pdf-word")
+    public String toolPdfWord() {
+        return "tool-pdf-word";
     }
 
     // ══════════════════════════════════════════

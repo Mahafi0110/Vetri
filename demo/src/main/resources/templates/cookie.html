@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookie Policy – Vetri Files</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <script src="/js/vetri-file-helper.js"></script>
+    <!-- Shared navbar + footer styles (was duplicated per page before) -->
+    <link href="/css/common-nav-footer.css" rel="stylesheet" />
+    <style>
+        :root {
+            --blue-dark: #1E3A8A;
+            --blue: #3B82F6;
+            --gray-bg: #F3F4F6;
+            --border: #E5E7EB;
+            --text: #1F2937;
+            --sub: #4A5565;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: #fff;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hero {
+            background: var(--gray-bg);
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #EFF6FF;
+            border: 1.5px solid #BFDBFE;
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--blue-dark);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.9rem, 4vw, 2.9rem);
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--sub);
+            max-width: 540px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .policy-content {
+            color: var(--text);
+            line-height: 1.8;
+            font-size: .98rem;
+        }
+
+        .policy-content h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .policy-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .policy-content p {
+            margin-bottom: 20px;
+            color: var(--sub);
+        }
+
+        .policy-content ul {
+            margin-bottom: 24px;
+            padding-left: 24px;
+            color: var(--sub);
+        }
+
+        .policy-content li {
+            margin-bottom: 10px;
+        }
+
+        .policy-content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F3F4F6;
+            border: 1.5px solid #E5E7EB;
+            border-radius: 50px;
+            padding: 5px 14px 5px 5px;
+            cursor: pointer;
+            transition: border-color .2s;
+            font-family: 'Inter', sans-serif;
+            font-size: .85rem;
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .profile-btn:hover {
+            border-color: #3B82F6;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            font-size: .75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .profile-name {
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu-custom {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: #fff;
+            border: 1.5px solid #E5E7EB;
+            border-radius: 14px;
+            box-shadow: 0 12px 40px rgba(30, 58, 138, .12);
+            min-width: 220px;
+            padding: 6px;
+            display: none;
+            z-index: 999;
+        }
+
+        .dropdown-menu-custom.open {
+            display: block;
+        }
+
+        .dropdown-header {
+            padding: 12px;
+            border-bottom: 1px solid #E5E7EB;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar-lg {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+            color: #fff;
+            font-size: .9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            flex-shrink: 0;
+        }
+
+        .dh-name {
+            font-weight: 700;
+            font-size: .88rem;
+            color: #1F2937;
+        }
+
+        .dh-email {
+            font-size: .75rem;
+            color: #4A5565;
+            margin-top: 2px;
+            word-break: break-all;
+        }
+
+        .dropdown-item-custom {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 9px;
+            font-size: .85rem;
+            font-weight: 500;
+            color: #1F2937;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+            transition: background .15s;
+        }
+
+        .dropdown-item-custom:hover {
+            background: #F3F4F6;
+        }
+
+        .dropdown-item-custom.logout {
+            color: #DC2626;
+        }
+
+        .dropdown-item-custom.logout:hover {
+            background: #FEF2F2;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <nav>
+        <div class="nav-inner">
+            <a class="brand" href="/">
+                <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                <span class="brand-name">Vetri Files</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/all-tools">Tools</a>
+                <a href="/features">Features</a>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+                <div class="nav-right" id="navRight"></div>
+                <button class="nav-toggle" id="navToggle" onclick="toggleNavLinks()" aria-label="Toggle menu">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+        </div>
+    </nav> -->
+     <!-- ── NAVBAR (shared fragment) ── -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge"><i class="bi bi-cookie"></i> Cookie Policy</div>
+            <h1>Our <span class="hero-gradient">Cookie Policy</span></h1>
+            <p>Learn how Vetri Files uses cookies and similar technologies to improve your experience and keep our services reliable.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8 policy-content">
+                    <h3>1. What Are Cookies?</h3>
+                    <p>Cookies are small text files stored on your device when you visit a website. They help websites remember your preferences, improve performance, and provide a smoother browsing experience.</p>
+
+                    <h3>2. How We Use Cookies</h3>
+                    <p>Vetri Files uses cookies for the following purposes:</p>
+                    <ul>
+                        <li><strong>Session Management:</strong> To keep you logged in and remember your active session while you use our tools.</li>
+                        <li><strong>Preferences:</strong> To remember language, display choices, and recent interactions.</li>
+                        <li><strong>Performance & Security:</strong> To help us monitor website reliability, detect errors, and protect our services.</li>
+                    </ul>
+
+                    <h3>3. Types of Cookies We Use</h3>
+                    <ul>
+                        <li><strong>Essential Cookies:</strong> Required for core website functionality such as login and form submission.</li>
+                        <li><strong>Functional Cookies:</strong> Help provide a more personalized experience based on your activity.</li>
+                        <li><strong>Analytics Cookies:</strong> Allow us to understand how visitors use the platform so we can improve it.</li>
+                    </ul>
+
+                    <h3>4. Your Choices</h3>
+                    <p>You can manage or disable cookies through your browser settings. Please note that disabling essential cookies may affect the availability of some features on Vetri Files.</p>
+
+                    <h3>5. Third-Party Cookies</h3>
+                    <p>We do not use third-party advertising cookies. Any third-party tools used for analytics or support are selected carefully and used only where necessary.</p>
+
+                    <h3>6. Updates to This Policy</h3>
+                    <p>We may update this Cookie Policy from time to time. Any changes will be reflected on this page with an updated date.</p>
+
+                
+            </div>
+        </div>
+    </section>
+
+   <!-- ── FOOTER (shared fragment) ── -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+       <!-- Shared navbar/footer behavior (login state, dropdown, hamburger, logout) -->
+    <script src="/js/common-nav.js"></script>
+    <script>
+        (function () {
+            const raw = sessionStorage.getItem('vetri_user');
+            const user = raw ? JSON.parse(raw) : null;
+            const navRight = document.getElementById('navRight');
+
+            if (user) {
+                const initials = user.name
+                    ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+                    : (user.email ? user.email[0].toUpperCase() : 'U');
+                const firstName = user.name ? user.name.split(' ')[0] : user.email;
+
+                navRight.innerHTML = `
+      <div class="dropdown">
+        <button class="profile-btn" onclick="toggleDropdown()">
+          <div class="avatar">${initials}</div>
+          <span class="profile-name">${firstName}</span>
+          <i class="bi bi-chevron-down" style="font-size:.7rem;color:#4A5565"></i>
+        </button>
+        <div class="dropdown-menu-custom" id="profileMenu">
+          <div class="dropdown-header">
+            <div class="avatar-lg">${initials}</div>
+            <div>
+              <div class="dh-name">${user.name || ''}</div>
+              <div class="dh-email">${user.email || ''}</div>
+            </div>
+          </div>
+          <button class="dropdown-item-custom logout" onclick="logout()">
+            <i class="bi bi-box-arrow-right"></i> Sign Out
+          </button>
+        </div>
+      </div>`;
+            } else {
+                navRight.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;">
+        <a href="/login" style="font-size:.88rem;font-weight:600;color:#3B82F6;text-decoration:none;padding:7px 14px;">Login</a>
+        <a href="/register" style="background:linear-gradient(135deg,#1E3A8A,#3B82F6);color:#fff;padding:9px 22px;border-radius:50px;font-weight:600;font-size:.88rem;text-decoration:none;">Get Started</a>
+      </div>`;
+            }
+        })();
+
+        function toggleDropdown() {
+            document.getElementById('profileMenu').classList.toggle('open');
+        }
+        document.addEventListener('click', function (e) {
+            const menu = document.getElementById('profileMenu');
+            if (menu && !e.target.closest('.dropdown')) menu.classList.remove('open');
+        });
+        function logout() {
+            fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+                sessionStorage.removeItem('vetri_user');
+                window.location.href = '/login';
+            });
+        }
+
+        function toggleNavLinks() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('open');
+            });
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 576) {
+                document.getElementById('navLinks').classList.remove('open');
+            }
+        });
+    </script>
+</body>
+
+</html>

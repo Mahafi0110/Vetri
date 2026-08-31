@@ -2,9 +2,22 @@
 <html lang="en">
 
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-N6DBC8P6');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Choose Tool – Vetri Files</title>
+    <title>File Conversion Tools - Secure & Easy | Vetri Files</title>
+    <meta name="description"
+        content="Choose from Vetri Files' advanced tools for secure file conversion, PDF editing, image conversion, audio tools, and video processing in one platform." />
+    <link rel="canonical" href="https://www.vetrifiles.com/file-tools" />
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -14,7 +27,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet" />
-   
+    <!-- Shared navbar + footer styles (was duplicated per page before) -->
+    <link href="/css/common-nav-footer.css" rel="stylesheet" />
+
     <style>
         :root {
             --blue-dark: #1E3A8A;
@@ -50,124 +65,6 @@
         .brand-name {
             font-family: 'Poppins', sans-serif;
         }
-
-        /* ── Navbar ── */
-        .navbar {
-            background: var(--white);
-            padding: 14px 0;
-            border-bottom: 1px solid var(--accent-2);
-            position: sticky;
-            top: 0;
-            z-index: 1050;
-            box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .brand-icon i {
-            color: #fff;
-            font-size: 1.2rem;
-        }
-
-        .brand-name {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--heading);
-            letter-spacing: -.3px;
-        }
-
-        .navbar-nav .nav-link {
-            font-family: 'Inter', sans-serif;
-            font-size: .95rem;
-            font-weight: 500;
-            color: var(--heading) !important;
-            padding: 6px 14px !important;
-            transition: color .2s;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: var(--blue-main) !important;
-        }
-
-        .btn-login {
-            font-size: .9rem;
-            font-weight: 500;
-            color: var(--blue-main) !important;
-            padding: 6px 14px !important;
-            border-radius: var(--radius-btn);
-            transition: background .2s;
-        }
-
-        .btn-login:hover {
-            background: var(--accent-1);
-        }
-
-        .btn-get-started {
-            font-family: 'Poppins', sans-serif;
-            font-size: .9rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
-            color: #fff !important;
-            border: none;
-            padding: 10px 24px !important;
-            border-radius: var(--radius-btn);
-            box-shadow: 0 4px 14px rgba(59, 130, 246, .35);
-            transition: transform .2s, box-shadow .2s;
-            white-space: nowrap;
-        }
-
-        .btn-get-started:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, .45);
-        }
-
-        .navbar-toggler {
-            border: none;
-            padding: 4px 8px;
-        }
-
-        .navbar-toggler:focus {
-            box-shadow: none;
-        }
-
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231F2937' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-
-        @media (max-width:991.98px) {
-            .navbar-collapse {
-                background: var(--white);
-                border-top: 1px solid var(--accent-2);
-                padding: 12px 0 16px;
-                margin-top: 10px;
-            }
-
-            .navbar-nav {
-                align-items: flex-start !important;
-                padding: 0 8px;
-            }
-
-            .btn-login,
-            .btn-get-started {
-                margin: 4px 8px !important;
-            }
-        }
-
         /* ── Page Header ── */
         .page-header {
             background: var(--white);
@@ -443,91 +340,6 @@
             padding: 36px 0 64px;
         }
 
-        /* ── Footer ── */
-        .footer {
-            background: var(--white);
-            border-top: 1px solid var(--accent-2);
-            padding: 56px 0 0;
-        }
-
-        .footer-brand-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--heading);
-        }
-
-        .footer-tagline {
-            font-size: .88rem;
-            color: var(--subtext);
-            margin-top: 10px;
-            line-height: 1.6;
-        }
-
-        .footer-col-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: .95rem;
-            font-weight: 700;
-            color: var(--heading);
-            margin-bottom: 16px;
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            font-size: .88rem;
-            color: var(--subtext);
-            text-decoration: none;
-            transition: color .2s;
-        }
-
-        .footer-links a:hover {
-            color: var(--blue-main);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--accent-2);
-            padding: 18px 0;
-            margin-top: 48px;
-        }
-
-        .footer-copy {
-            font-size: .84rem;
-            color: var(--subtext);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 10px;
-        }
-
-        .social-links a {
-            width: 36px;
-            height: 36px;
-            border: 1.5px solid var(--accent-2);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--subtext);
-            font-size: .95rem;
-            text-decoration: none;
-            transition: border-color .2s, color .2s, background .2s;
-        }
-
-        .social-links a:hover {
-            border-color: var(--blue-main);
-            color: var(--blue-main);
-            background: #EFF6FF;
-        }
-
         @media (max-width:767.98px) {
             .tools-main {
                 padding: 24px 0 48px;
@@ -541,25 +353,16 @@
                 width: 100%;
                 text-align: center;
             }
-
-            .footer {
-                padding: 40px 0 0;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 14px;
-                text-align: center;
-            }
-
-            .social-links {
-                justify-content: center;
-            }
         }
     </style>
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6DBC8P6" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
 
     <!-- ════════════════════════════════════════
      NAVBAR
@@ -586,8 +389,9 @@
             </div>
         </div>
     </nav> -->
-    <div id="vetri-navbar"></div>
-
+    <!-- <div id="vetri-navbar"></div> -->
+    <!-- ── NAVBAR (shared fragment) ── -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <!-- ════════════════════════════════════════
      PAGE HEADER
@@ -630,65 +434,15 @@
         </div>
     </main>
 
-
-    <!-- ════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════ -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row g-4 g-lg-5">
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
-                        <span class="footer-brand-name">Vetri Files</span>
-                    </div>
-                    <p class="footer-tagline">Smart file tools for everyone.<br>Process, convert, and edit your files in
-                        seconds.</p>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2 offset-lg-2">
-                    <p class="footer-col-title">Product</p>
-                    <ul class="footer-links">
-                        <li><a href="/all-tools">All Tools</a></li>
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">API</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <p class="footer-col-title">All Tools</p>
-                    <ul class="footer-links">
-                        <li><a href="#">Document Tools</a></li>
-                        <li><a href="#">Image Tools</a></li>
-                        <li><a href="#">Audio Tools</a></li>
-                        <li><a href="#">Video Tools</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <p class="footer-col-title">Legal</p>
-                    <ul class="footer-links">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                        <li><a href="#">GDPR</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom d-flex flex-column flex-sm-row align-items-center justify-content-between">
-                <p class="footer-copy mb-0">© 2026 Vetri Files. All rights reserved.</p>
-                <div class="social-links mt-3 mt-sm-0">
-                    <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- ── FOOTER (shared fragment) ── -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="/js/auth.js"></script>
+    <script src="/js/auth.js"></script>
     <script src="/js/vetri-file-helper.js"></script>
-  
+    <!-- Shared navbar/footer behavior (login state, dropdown, hamburger, logout) -->
+    <script src="/js/common-nav.js"></script>
     <script>
         /* Same IndexedDB as index.html + vetri-file-helper.js */
         const VETRI_IDB_NAME = 'VetriFilesDB';
@@ -706,6 +460,7 @@
                 { icon: 'bi-unlock-fill', color: 'tac-blue-4', name: 'Unlock PDF', desc: 'Click to get started', page: '/tool-unlock-pdf' },
                 { icon: 'bi-diagram-2-fill', color: 'tac-blue-5', name: 'Split PDF', desc: 'Click to get started', page: '/tool-split-pdf' },
                 { icon: 'bi-intersect', color: 'tac-blue-6', name: 'Merge PDF', desc: 'Click to get started', page: '/tool-merge-pdf' },
+                { icon: 'bi-file-earmark-word-fill', color: 'tac-indigo-1', name: 'PDF to Word', desc: 'Click to get started', page: '/tool-pdf-word' },
             ],
             image: [
                 { icon: 'bi-arrow-left-right', color: 'tac-teal-1', name: 'Convert Format', desc: 'Click to get started', page: '/tool-convert-image' },
@@ -729,9 +484,6 @@
                 { icon: 'bi-file-earmark-pdf-fill', color: 'tac-indigo-1', name: 'Word to PDF', desc: 'Convert .doc / .docx to PDF', page: '/tool-word-pdf' },
                 { icon: 'bi-file-earmark-code-fill', color: 'tac-indigo-2', name: 'Word to HTML', desc: 'Export document as HTML page', page: '/tool-word-html' },
                 { icon: 'bi-file-earmark-text-fill', color: 'tac-indigo-3', name: 'Extract Text', desc: 'Pull plain text from Word file', page: '/tool-word-text' },
-                //     { icon: 'bi-bar-chart-fill', color: 'tac-indigo-4', name: 'Word Count', desc: 'Words, chars & paragraph statistics', page: '/tool-word-count' },
-                //     { icon: 'bi-info-circle-fill', color: 'tac-indigo-5', name: 'Doc Metadata', desc: 'Author, title, dates & more', page: '/tool-word-meta' },
-                //     { icon: 'bi-intersect', color: 'tac-indigo-1', name: 'Merge Docs', desc: 'Combine multiple Word files into one', page: '/tool-word-merge' },
             ],
         };
 
@@ -811,12 +563,12 @@
       </div>
     `).join('');
         }
-function saveToolFile(e, page) {
-    sessionStorage.setItem('vetri_tool_page', page);
-    // ✅ Re-set the flag every time user picks a tool from file-tools
-    // This allows Back → pick another tool to work correctly
-    sessionStorage.setItem('vetri_from_upload', 'true');
-}
+        function saveToolFile(e, page) {
+            sessionStorage.setItem('vetri_tool_page', page);
+            // ✅ Re-set the flag every time user picks a tool from file-tools
+            // This allows Back → pick another tool to work correctly
+            sessionStorage.setItem('vetri_from_upload', 'true');
+        }
 
         function idbGetCurrentUploadRecord() {
             return new Promise((resolve, reject) => {

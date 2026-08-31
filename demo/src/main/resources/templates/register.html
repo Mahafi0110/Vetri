@@ -2,9 +2,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-N6DBC8P6');</script>
+  <!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register – Vetri Files</title>
+  <title>Register – Create Your Secure File Account | Vetri Files</title>
+  <meta name="description"
+    content="Create your Vetri Files account to access secure file converter tools for PDF, image, audio, and video processing with fast online performance." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://www.vetrifiles.com/register" />
+
   <script src="/js/auth.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
@@ -386,6 +401,11 @@
 </head>
 
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6DBC8P6" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
 
   <nav>
     <a class="brand" href="/login">
@@ -493,99 +513,99 @@
   </div>
   <script>
     function togglePw(inputId, iconId) {
-  const inp = document.getElementById(inputId);
-  const ico = document.getElementById(iconId);
-  if (inp.type === 'password') { inp.type = 'text'; ico.className = 'bi bi-eye-slash'; }
-  else { inp.type = 'password'; ico.className = 'bi bi-eye'; }
-}
+      const inp = document.getElementById(inputId);
+      const ico = document.getElementById(iconId);
+      if (inp.type === 'password') { inp.type = 'text'; ico.className = 'bi bi-eye-slash'; }
+      else { inp.type = 'password'; ico.className = 'bi bi-eye'; }
+    }
 
-function strengthCheck(val) {
-  const fill = document.getElementById('strengthFill');
-  if (!val) { fill.style.width = '0'; return; }
-  let s = 0;
-  if (val.length >= 8) s++;
-  if (val.length >= 12) s++;
-  if (/[A-Z]/.test(val)) s++;
-  if (/[0-9]/.test(val)) s++;
-  if (/[^A-Za-z0-9]/.test(val)) s++;
-  const colors = ['#DC2626', '#EA580C', '#D97706', '#16A34A', '#15803D'];
-  fill.style.width = (s * 20) + '%';
-  fill.style.background = colors[s - 1] || colors[0];
-}
-document.getElementById('registerForm').addEventListener('submit', async function (e) {
-  e.preventDefault();
+    function strengthCheck(val) {
+      const fill = document.getElementById('strengthFill');
+      if (!val) { fill.style.width = '0'; return; }
+      let s = 0;
+      if (val.length >= 8) s++;
+      if (val.length >= 12) s++;
+      if (/[A-Z]/.test(val)) s++;
+      if (/[0-9]/.test(val)) s++;
+      if (/[^A-Za-z0-9]/.test(val)) s++;
+      const colors = ['#DC2626', '#EA580C', '#D97706', '#16A34A', '#15803D'];
+      fill.style.width = (s * 20) + '%';
+      fill.style.background = colors[s - 1] || colors[0];
+    }
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-  // 1. Grab clean, raw values directly from the input fields
-  const firstNameVal = document.getElementById('firstName').value.trim();
-  const lastNameVal  = document.getElementById('lastName').value.trim();
-  const emailVal     = document.getElementById('email').value.trim();
-  const passwordVal  = document.getElementById('password').value;
-  const termsChecked = document.getElementById('terms').checked;
+      // 1. Grab clean, raw values directly from the input fields
+      const firstNameVal = document.getElementById('firstName').value.trim();
+      const lastNameVal = document.getElementById('lastName').value.trim();
+      const emailVal = document.getElementById('email').value.trim();
+      const passwordVal = document.getElementById('password').value;
+      const termsChecked = document.getElementById('terms').checked;
 
-  // 2. Reset UI validation states safely using element nodes
-  const fnEl = document.getElementById('firstName');
-  const lnEl = document.getElementById('lastName');
-  const emEl = document.getElementById('email');
-  const pwEl = document.getElementById('password');
+      // 2. Reset UI validation states safely using element nodes
+      const fnEl = document.getElementById('firstName');
+      const lnEl = document.getElementById('lastName');
+      const emEl = document.getElementById('email');
+      const pwEl = document.getElementById('password');
 
-  [fnEl, lnEl, emEl, pwEl].forEach(el => el.classList.remove('err'));
-  ['firstErr', 'lastErr', 'emailErr', 'pwErr', 'termsErr'].forEach(id => document.getElementById(id).style.display = 'none');
-  document.getElementById('errAlert').classList.remove('show');
-  document.getElementById('okAlert').classList.remove('show');
+      [fnEl, lnEl, emEl, pwEl].forEach(el => el.classList.remove('err'));
+      ['firstErr', 'lastErr', 'emailErr', 'pwErr', 'termsErr'].forEach(id => document.getElementById(id).style.display = 'none');
+      document.getElementById('errAlert').classList.remove('show');
+      document.getElementById('okAlert').classList.remove('show');
 
-  // 3. Frontend validation checks
-  let ok = true;
-  if (!firstNameVal) { fnEl.classList.add('err'); document.getElementById('firstErr').style.display = 'block'; ok = false; }
-  if (!lastNameVal) { lnEl.classList.add('err'); document.getElementById('lastErr').style.display = 'block'; ok = false; }
-  if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { emEl.classList.add('err'); document.getElementById('emailErr').style.display = 'block'; ok = false; }
-  if (!passwordVal || passwordVal.length < 8) { pwEl.classList.add('err'); document.getElementById('pwErr').style.display = 'block'; ok = false; }
-  if (!termsChecked) { document.getElementById('termsErr').style.display = 'block'; ok = false; }
-  if (!ok) return;
+      // 3. Frontend validation checks
+      let ok = true;
+      if (!firstNameVal) { fnEl.classList.add('err'); document.getElementById('firstErr').style.display = 'block'; ok = false; }
+      if (!lastNameVal) { lnEl.classList.add('err'); document.getElementById('lastErr').style.display = 'block'; ok = false; }
+      if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { emEl.classList.add('err'); document.getElementById('emailErr').style.display = 'block'; ok = false; }
+      if (!passwordVal || passwordVal.length < 8) { pwEl.classList.add('err'); document.getElementById('pwErr').style.display = 'block'; ok = false; }
+      if (!termsChecked) { document.getElementById('termsErr').style.display = 'block'; ok = false; }
+      if (!ok) return;
 
-  // 4. Update submission button state
-  const btn = document.getElementById('regBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating account...';
+      // 4. Update submission button state
+      const btn = document.getElementById('regBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating account...';
 
-  try {
-    // 5. Submit payload matching your exact RegisterRequest DTO string mapping fields
-    const res = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstName: firstNameVal,
-        lastName: lastNameVal,
-        email: emailVal,
-        password: passwordVal
-      })
+      try {
+        // 5. Submit payload matching your exact RegisterRequest DTO string mapping fields
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: firstNameVal,
+            lastName: lastNameVal,
+            email: emailVal,
+            password: passwordVal
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Registration failed. Please try again.');
+
+        // 6. Map the fresh fields down to your UI token session structures
+        const userProfile = {
+          name: (data.data.firstName + ' ' + data.data.lastName).trim(),
+          email: data.data.email,
+          role: data.data.role || 'USER'
+        };
+
+        sessionStorage.setItem('vetri_user', JSON.stringify(userProfile));
+        if (data.data.token) sessionStorage.setItem('vetri_token', data.data.token);
+
+        localStorage.removeItem('vetri_user');
+        localStorage.removeItem('vetri_token');
+
+        document.getElementById('okAlert').classList.add('show');
+        setTimeout(() => window.location.href = '/', 900);
+
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = 'Create Account';
+        document.getElementById('errMsg').textContent = err.message;
+        document.getElementById('errAlert').classList.add('show');
+      }
     });
-    
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Registration failed. Please try again.');
-
-    // 6. Map the fresh fields down to your UI token session structures
-    const userProfile = {
-      name: (data.data.firstName + ' ' + data.data.lastName).trim(),
-      email: data.data.email,
-      role: data.data.role || 'USER'
-    };
-
-    sessionStorage.setItem('vetri_user', JSON.stringify(userProfile));
-    if (data.data.token) sessionStorage.setItem('vetri_token', data.data.token);
-
-    localStorage.removeItem('vetri_user');
-    localStorage.removeItem('vetri_token');
-
-    document.getElementById('okAlert').classList.add('show');
-    setTimeout(() => window.location.href = '/', 900);
-
-  } catch (err) {
-    btn.disabled = false; 
-    btn.innerHTML = 'Create Account';
-    document.getElementById('errMsg').textContent = err.message;
-    document.getElementById('errAlert').classList.add('show');
-  }
-});
 
 
 

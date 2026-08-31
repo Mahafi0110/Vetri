@@ -1,0 +1,36 @@
+<!--
+  fragments/navbar.html
+  Single source of truth for the site navbar.
+  Include in any page's <body> with:
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  Requires (on every page that includes this):
+    <link rel="stylesheet" href="/css/common-nav-footer.css" />
+    ...body, near the bottom...
+    <script src="/js/auth.js"></script>        (builds #navRight — you already have this)
+    <script src="/js/common-nav.js"></script>  (mobile hamburger only)
+
+  Fixes applied vs the old hardcoded copies:
+    - "Features" link now always points to /feature (lowercase) —
+      the capital-F version was sending users to the login page.
+-->
+<div th:fragment="navbar" xmlns:th="http://www.thymeleaf.org">
+    <nav>
+        <div class="nav-inner">
+            <a class="brand" href="/">
+                <div class="brand-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                <span class="brand-name">Vetri Files</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/all-tools">Tools</a>
+                <a href="/feature">Features</a>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+                <div id="navRight"></div>
+                <button class="nav-toggle" id="navToggle" onclick="toggleNavLinks()" aria-label="Toggle menu">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+</div>

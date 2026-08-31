@@ -11,6 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +29,7 @@ public class SecurityConfig {
             throws Exception {
         http
             .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
 
                 // ── Static files ──
@@ -35,7 +41,7 @@ public class SecurityConfig {
                 // ── Public pages ──
                 .requestMatchers(
                     "/", "/index", "/login", "/register",
-                    "/forgot-password", "/reset-password",
+                    "/forgot-password", "/reset-password","/privacy","/terms","/cookie",
                     "/all-tools", "/file-tools",
                     "/Feature", "/tool-**"
                 ).permitAll()
@@ -51,7 +57,6 @@ public class SecurityConfig {
                 ).permitAll()
 
                 // ── Admin — permit all, check role manually ──
-                // We handle role check in PageController
                 .requestMatchers(
                     "/admin/**",
                     "/api/admin/**"
@@ -92,5 +97,23 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(
+            "http://localhost:8081",   // Expo web preview
+            "http://localhost:19006",
+            "https://obstinate-spilt-brick.ngrok-free.dev"
+               // Expo web preview (alt port, older SDKs)
+        ));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

@@ -1,0 +1,255 @@
+/* ============================================================
+   common-nav-footer.css
+   Shared styles for the navbar + footer fragments.
+   Self-contained (hardcoded colors) so it renders identically
+   regardless of what :root variables a given page defines.
+   Link this on every page that includes navbar.html / footer.html:
+     <link rel="stylesheet" href="/css/common-nav-footer.css" />
+   ============================================================ */
+
+/* ── Navbar ── */
+nav {
+    background: #fff;
+    border-bottom: 1px solid #E5E7EB;
+    padding: 13px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+}
+
+.nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-icon i {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.brand-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1F2937;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-links a {
+    font-family: 'Inter', sans-serif;
+    font-size: .9rem;
+    font-weight: 500;
+    color: #1F2937;
+    text-decoration: none;
+    padding: 7px 12px;
+    border-radius: 8px;
+    transition: background .2s;
+    white-space: nowrap;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: #F3F4F6;
+    color: #3B82F6;
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: #1F2937;
+    cursor: pointer;
+    padding: 6px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 575.98px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #E5E7EB;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 24px;
+        gap: 4px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+        z-index: 998;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a {
+        width: 100%;
+        padding: 10px 12px;
+    }
+
+    .nav-inner {
+        position: relative;
+    }
+}
+
+@media (max-width: 767.98px) and (min-width: 576px) {
+    .nav-inner {
+        padding: 0 16px;
+        gap: 10px;
+    }
+
+    .brand-name {
+        font-size: 1rem;
+    }
+
+    .nav-links {
+        gap: 2px;
+    }
+
+    .nav-links a {
+        padding: 6px 10px;
+        font-size: .85rem;
+    }
+}
+
+/* NOTE: profile button / dropdown / avatar styles are intentionally
+   NOT here — auth.js (VetriAuth) injects its own "vf-*" prefixed
+   styles at runtime when it builds #navRight and #vetri-navbar.
+   Adding duplicate rules here would just be dead weight. */
+
+/* ── Footer ── */
+.footer {
+    background: #fff;
+    border-top: 1px solid #E5E7EB;
+    padding: 56px 0 0;
+}
+
+.footer-brand-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1F2937;
+}
+
+.footer-tagline {
+    font-size: .88rem;
+    color: #4A5565;
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+.footer-col-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: .95rem;
+    font-weight: 700;
+    color: #1F2937;
+    margin-bottom: 16px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    font-size: .88rem;
+    color: #4A5565;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.footer-links a:hover {
+    color: #3B82F6;
+}
+
+.footer-bottom {
+    border-top: 1px solid #E5E7EB;
+    padding: 18px 0;
+    margin-top: 48px;
+}
+
+.footer-copy {
+    font-size: .84rem;
+    color: #4A5565;
+}
+
+.social-links {
+    display: flex;
+    gap: 10px;
+}
+
+.social-links a {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4A5565;
+    font-size: .95rem;
+    text-decoration: none;
+    transition: border-color .2s, color .2s, background .2s;
+}
+
+.social-links a:hover {
+    border-color: #3B82F6;
+    color: #3B82F6;
+    background: #EFF6FF;
+}
+
+@media (max-width: 767.98px) {
+    .footer {
+        padding: 40px 0 0;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+}

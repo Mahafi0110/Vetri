@@ -63,27 +63,44 @@ public class ImageService {
     }
 
     // ── CONVERT IMAGE ────────────────────────────────────────────────────────
-    public byte[] convertImage(MultipartFile file, String format) throws IOException {
-        if (format.equalsIgnoreCase("webp")) format = "png"; // Java ImageIO has no WebP encoder
+ public byte[] convertImage(MultipartFile file, String format, float quality) throws IOException {
+    if (format.equalsIgnoreCase("webp")) format = "png"; // Java ImageIO has no WebP encoder
 
-        BufferedImage image = ImageIO.read(file.getInputStream());
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    BufferedImage image = ImageIO.read(file.getInputStream());
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        // JPG cannot store transparency — flatten to white
-        if (format.equalsIgnoreCase("jpg") || format.equalsIgnoreCase("jpeg")) {
-            BufferedImage rgb = new BufferedImage(
-                    image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-            Graphics2D g = rgb.createGraphics();
-            g.setColor(Color.WHITE);
-            g.fillRect(0, 0, rgb.getWidth(), rgb.getHeight());
-            g.drawImage(image, 0, 0, null);
-            g.dispose();
-            image = rgb;
+    if (format.equalsIgnoreCase("jpg") || format.equalsIgnoreCase("jpeg")) {
+        BufferedImage rgb = new BufferedImage(
+                image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = rgb.createGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, rgb.getWidth(), rgb.getHeight());
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        image = rgb;
+
+        // ✅ JPG supports real quality control via ImageWriteParam
+        javax.imageio.ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+        javax.imageio.ImageWriteParam param = writer.getDefaultWriteParam();
+        param.setCompressionMode(javax.imageio.ImageWriteParam.MODE_EXPLICIT);
+        param.setCompressionQuality(Math.max(0f, Math.min(quality, 1f)));
+
+        try (javax.imageio.stream.ImageOutputStream ios = ImageIO.createImageOutputStream(baos)) {
+            writer.setOutput(ios);
+            writer.write(null, new javax.imageio.IIOImage(image, null, null), param);
         }
-
+        writer.dispose();
+    } else if (format.equalsIgnoreCase("png")) {
+        // ✅ PNG is lossless — there's no "quality" in the JPG sense, but we
+        // can approximate lower "quality" as smaller output by downscaling.
+        // Otherwise, PNG output is identical regardless of quality slider.
+        ImageIO.write(image, "PNG", baos);
+    } else {
         ImageIO.write(image, format.toUpperCase(), baos);
-        return baos.toByteArray();
     }
+
+    return baos.toByteArray();
+}
 
     // ── ADD WATERMARK ────────────────────────────────────────────────────────
     public byte[] addWatermark(MultipartFile file, String text) throws IOException {

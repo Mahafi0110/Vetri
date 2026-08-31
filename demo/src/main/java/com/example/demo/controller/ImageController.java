@@ -78,23 +78,23 @@ public class ImageController {
     }
 
     // ── CONVERT ──────────────────────────────────────────────────────────────
-    @PostMapping("/convert")
-    public ResponseEntity<StreamingResponseBody> convertImage(
-            @RequestParam("file")   MultipartFile file,
-            @RequestParam("format") String format)
-            throws Exception {
-        try {
-            byte[] result = imageService.convertImage(file, format);
-            log("Convert Image", file, "success"); // ← ADD
-            String outputName = file.getOriginalFilename()
-                    .replaceAll("\\.[^.]+$", "") + "." + format;
-            return buildStreamResponse(result,
-                    "converted_" + outputName, "image/" + format);
-        } catch (Exception e) {
-            log("Convert Image", file, "failed"); // ← ADD
-            throw e;
-        }
+@PostMapping("/convert")
+public ResponseEntity<StreamingResponseBody> convertImage(
+        @RequestParam("file")   MultipartFile file,
+        @RequestParam("format") String format,
+        @RequestParam(value = "quality", defaultValue = "0.9") float quality)
+        throws Exception {
+    try {
+        byte[] result = imageService.convertImage(file, format, quality);
+        log("Convert Image", file, "success");
+        String outputName = file.getOriginalFilename()
+                .replaceAll("\\.[^.]+$", "") + "." + format;
+        return buildStreamResponse(result, "converted_" + outputName, "image/" + format);
+    } catch (Exception e) {
+        log("Convert Image", file, "failed");
+        throw e;
     }
+}
 
     // ── WATERMARK ────────────────────────────────────────────────────────────
     @PostMapping("/watermark")
