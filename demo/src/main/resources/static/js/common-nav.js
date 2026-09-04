@@ -30,3 +30,17 @@ window.addEventListener('resize', () => {
         if (links) links.classList.remove('open');
     }
 });
+/* ============================================================
+   tool-sections.js
+   Handles the FAQ accordion toggle for every .faq-item on the
+   page. Works for any number of FAQ blocks without extra setup.
+
+   Include on every tool page, anywhere after the FAQ HTML:
+     <script src="/js/tool-sections.js"></script>
+   ============================================================ */
+
+document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.closest('.faq-item').classList.toggle('open');
+    });
+});

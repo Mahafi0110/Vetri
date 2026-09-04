@@ -253,3 +253,168 @@ nav {
         justify-content: center;
     }
 }
+/* ============================================================
+   tool-sections.css
+   Shared styles for the "How It Works" timeline and FAQ
+   accordion sections used on every tool page (below the tool
+   card, before the footer).
+
+   Depends on these CSS variables already defined in each tool
+   page's own <style> block:
+     --blue-dark, --blue-main, --heading, --subtext,
+     --accent-1, --accent-2, --white
+
+   Link this on every tool page:
+     <link href="/css/tool-sections.css" rel="stylesheet" />
+   ============================================================ */
+
+/* ── Shared section wrapper ── */
+.section {
+    padding: 64px 0;
+}
+
+.section-badge {
+    display: inline-block;
+    background: #EFF6FF;
+    color: var(--blue-dark);
+    font-size: .78rem;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 50px;
+    margin-bottom: 14px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 800;
+    color: var(--heading);
+    margin-bottom: 10px;
+}
+
+.section-sub {
+    font-size: .92rem;
+    color: var(--subtext);
+    line-height: 1.7;
+}
+
+/* ── How It Works (timeline) ── */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.tl-item {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 28px;
+    position: relative;
+}
+
+.tl-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 44px;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent-2);
+}
+
+.tl-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue-dark), var(--blue-main));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: .9rem;
+    flex-shrink: 0;
+}
+
+.tl-content h5 {
+    font-family: 'Poppins', sans-serif;
+    font-size: .98rem;
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 6px;
+    margin-top: 8px;
+}
+
+.tl-content p {
+    font-size: .86rem;
+    color: var(--subtext);
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ── FAQ accordion ── */
+.faq-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: var(--white);
+    border: 1.5px solid var(--accent-2);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--heading);
+}
+
+.faq-question i {
+    flex-shrink: 0;
+    color: var(--blue-main);
+    transition: transform .25s;
+}
+
+.faq-item.open .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s ease;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 300px;
+}
+
+.faq-answer-inner {
+    padding: 0 20px 18px;
+    font-size: .87rem;
+    color: var(--subtext);
+    line-height: 1.65;
+}
+
+@media (max-width: 767.98px) {
+    .section {
+        padding: 44px 0;
+    }
+}
