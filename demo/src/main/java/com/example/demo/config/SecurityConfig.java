@@ -43,7 +43,7 @@ public class SecurityConfig {
                     "/", "/index", "/login", "/register",
                     "/forgot-password", "/reset-password","/privacy","/terms","/cookie",
                     "/all-tools", "/file-tools",
-                    "/Feature", "/tool-**"
+                    "/feature", "/tool-**"
                 ).permitAll()
 
                 // ── Public APIs ──
