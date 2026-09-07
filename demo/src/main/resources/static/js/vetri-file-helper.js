@@ -206,3 +206,12 @@ function formatSize(bytes) {
   if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
   return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
 }
+window.addEventListener('beforeunload', function (e) {
+  // Only trigger if a file is currently loaded
+  if (currentFile || currentFileBlob || sessionStorage.getItem('vetri_file')) {
+    // Standard practice to trigger the browser's native confirmation dialog
+    e.preventDefault();
+    e.returnValue = 'Your progress or uploaded file may be lost if you leave or refresh the page.';
+    return e.returnValue;
+  }
+});

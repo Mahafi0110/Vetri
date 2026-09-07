@@ -6,7 +6,9 @@
    Link this on every page that includes navbar.html / footer.html:
      <link rel="stylesheet" href="/css/common-nav-footer.css" />
    ============================================================ */
-
+html {
+  scroll-behavior: smooth;
+}
 /* ── Navbar ── */
 nav {
     background: #fff;

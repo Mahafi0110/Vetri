@@ -443,7 +443,7 @@
     <script src="/js/vetri-file-helper.js"></script>
     <!-- Shared navbar/footer behavior (login state, dropdown, hamburger, logout) -->
     <script src="/js/common-nav.js"></script>
-    <script>
+    <!-- <script>
         /* Same IndexedDB as index.html + vetri-file-helper.js */
         const VETRI_IDB_NAME = 'VetriFilesDB';
         const VETRI_IDB_STORE = 'files';
@@ -485,6 +485,7 @@
                 { icon: 'bi-file-earmark-code-fill', color: 'tac-indigo-2', name: 'Word to HTML', desc: 'Export document as HTML page', page: '/tool-word-html' },
                 { icon: 'bi-file-earmark-text-fill', color: 'tac-indigo-3', name: 'Extract Text', desc: 'Pull plain text from Word file', page: '/tool-word-text' },
             ],
+            unsupported: [] // Empty list for bad formats
         };
 
         function getExtension(fileName) {
@@ -526,7 +527,9 @@
                 if (ext === 'pdf') return 'pdf';
             }
 
-            return 'pdf';
+            // return 'pdf';
+            /* ❌ Any other extension like .xlsx, .xls, .sql, .xml, etc. falls here as unsupported */
+            return 'unsupported';
         }
 
         function getCategoryMeta(cat) {
@@ -661,8 +664,230 @@
                     .catch(() => { /* keep sessionStorage-based UI */ });
             }
         });
-    </script>
+    </script> -->
+<script>
+        /* Same IndexedDB as index.html + vetri-file-helper.js */
+        const VETRI_IDB_NAME = 'VetriFilesDB';
+        const VETRI_IDB_STORE = 'files';
+        const VETRI_IDB_KEY = 'current_file';
 
+        /* ══════════════════════════════════════════════════
+           TOOL DEFINITIONS BY FILE CATEGORY
+        ══════════════════════════════════════════════════ */
+        const TOOL_SETS = {
+            pdf: [
+                { icon: 'bi-arrow-left-right', color: 'tac-blue-1', name: 'Compress Format', desc: 'Click to get started', page: '/tool-compress-pdf' },
+                { icon: 'bi-pen-fill', color: 'tac-blue-2', name: 'Add Signature', desc: 'Click to get started', page: '/tool-add-signature' },
+                { icon: 'bi-lock-fill', color: 'tac-blue-3', name: 'Lock PDF', desc: 'Click to get started', page: '/tool-lock-pdf' },
+                { icon: 'bi-unlock-fill', color: 'tac-blue-4', name: 'Unlock PDF', desc: 'Click to get started', page: '/tool-unlock-pdf' },
+                { icon: 'bi-diagram-2-fill', color: 'tac-blue-5', name: 'Split PDF', desc: 'Click to get started', page: '/tool-split-pdf' },
+                { icon: 'bi-intersect', color: 'tac-blue-6', name: 'Merge PDF', desc: 'Click to get started', page: '/tool-merge-pdf' },
+                { icon: 'bi-file-earmark-word-fill', color: 'tac-indigo-1', name: 'PDF to Word', desc: 'Click to get started', page: '/tool-pdf-word' },
+            ],
+            image: [
+                { icon: 'bi-arrow-left-right', color: 'tac-teal-1', name: 'Convert Format', desc: 'Click to get started', page: '/tool-convert-image' },
+                { icon: 'bi-crop', color: 'tac-teal-2', name: 'Crop Image', desc: 'Click to get started', page: '/tool-crop-image' },
+                { icon: 'bi-arrows-fullscreen', color: 'tac-teal-3', name: 'Resize Image', desc: 'Click to get started', page: '/tool-resize-image' },
+                { icon: 'bi-droplet-fill', color: 'tac-teal-4', name: 'Add Watermark', desc: 'Click to get started', page: '/tool-watermark-image' },
+                { icon: 'bi-file-earmark-zip-fill', color: 'tac-teal-6', name: 'Remove Background Image', desc: 'Click to get started', page: '/tool-remove-background' },
+            ],
+            audio: [
+                { icon: 'bi-arrow-left-right', color: 'tac-purple-1', name: 'Compress Audio', desc: 'Click to get started', page: '/tool-compress-audio' },
+                { icon: 'bi-scissors', color: 'tac-purple-2', name: 'Trim Audio', desc: 'Click to get started', page: '/tool-trim-audio' },
+                { icon: 'bi-intersect', color: 'tac-purple-3', name: 'Merge Audio', desc: 'Click to get started', page: '/tool-merge-audio' },
+            ],
+            video: [
+                { icon: 'bi-arrow-left-right', color: 'tac-pink-1', name: 'Compress Video', desc: 'Click to get started', page: '/tool-compress-video' },
+                { icon: 'bi-scissors', color: 'tac-pink-2', name: 'Trim Video', desc: 'Click to get started', page: '/tool-trim-video' },
+                { icon: 'bi-music-note-beamed', color: 'tac-pink-3', name: 'Extract Audio', desc: 'Click to get started', page: '/tool-extract-audio-video' },
+            ],
+            word: [
+                { icon: 'bi-file-earmark-pdf-fill', color: 'tac-indigo-1', name: 'Word to PDF', desc: 'Convert .doc / .docx to PDF', page: '/tool-word-pdf' },
+                { icon: 'bi-file-earmark-code-fill', color: 'tac-indigo-2', name: 'Word to HTML', desc: 'Export document as HTML page', page: '/tool-word-html' },
+                { icon: 'bi-file-earmark-text-fill', color: 'tac-indigo-3', name: 'Extract Text', desc: 'Pull plain text from Word file', page: '/tool-word-text' },
+            ],
+            unsupported: [] // Empty list for unsupported formats
+        };
+
+        function getExtension(fileName) {
+            if (!fileName || typeof fileName !== 'string') return '';
+            const i = fileName.lastIndexOf('.');
+            if (i <= 0 || i === fileName.length - 1) return '';
+            return fileName.slice(i + 1).toLowerCase();
+        }
+
+        function detectCategory(mime, ext) {
+            mime = (mime || '').toLowerCase();
+            ext = (ext || '').toLowerCase();
+
+            if (mime === 'application/pdf' || ext === 'pdf') return 'pdf';
+
+            // Word documents
+            if (
+                mime === 'application/msword' ||
+                mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                mime === 'application/vnd.ms-word' ||
+                ext === 'doc' || ext === 'docx'
+            ) return 'word';
+
+            if (mime.startsWith('image/')) return 'image';
+            if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'svgz', 'tiff', 'tif', 'ico', 'avif'].includes(ext)) return 'image';
+
+            if (mime.startsWith('audio/')) return 'audio';
+            if (['mp3', 'wav', 'ogg', 'oga', 'flac', 'aac', 'm4a', 'wma', 'opus', 'weba', 'aiff', 'aif', 'caf', 'mid', 'midi', 'ape', 'dsf', 'dff', 'alac', 'eac3', 'ac3', 'dts', 'amr', 'gsm'].includes(ext)) return 'audio';
+
+            if (mime.startsWith('video/')) return 'video';
+            if (['mp4', 'avi', 'mov', 'mkv', 'wmv', 'flv', 'webm', 'm4v', 'mpeg', 'mpg', '3gp'].includes(ext)) return 'video';
+
+            /* ❌ Any unwanted extension like .xlsx, .xls, .sql, .xml, etc. is routed here as unsupported */
+            return 'unsupported';
+        }
+
+        function getCategoryMeta(cat) {
+            const map = {
+                pdf: { iconClass: 'bi-file-earmark-pdf-fill', boxClass: 'fi-pdf', label: 'application/pdf' },
+                image: { iconClass: 'bi-file-earmark-image-fill', boxClass: 'fi-image', label: 'image file' },
+                audio: { iconClass: 'bi-file-earmark-music-fill', boxClass: 'fi-audio', label: 'audio file' },
+                video: { iconClass: 'bi-file-earmark-play-fill', boxClass: 'fi-video', label: 'video file' },
+                word: { iconClass: 'bi-file-earmark-word-fill', boxClass: 'fi-word', label: 'Word document' },
+                unsupported: { iconClass: 'bi-exclamation-triangle-fill', boxClass: 'fi-default', label: 'unsupported file format' }
+            };
+            return map[cat] || map.unsupported;
+        }
+
+        function formatSize(bytes) {
+            if (bytes == null || bytes === '') return '—';
+            const n = Number(bytes);
+            if (Number.isNaN(n) || n < 0) return '—';
+            if (n < 1024) return n + ' B';
+            if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+            return (n / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function renderTools(category) {
+            const tools = TOOL_SETS[category] || [];
+            const grid = document.getElementById('toolsGrid');
+
+            if (category === 'unsupported' || tools.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-danger p-4 text-center rounded-4 border-0 shadow-sm" style="background: #FEF2F2; color: #991B1B;">
+                            <i class="bi bi-exclamation-octagon-fill fs-1 mb-2 d-block"></i>
+                            <h4 class="fw-bold mb-1">Unsupported File Format</h4>
+                            <p class="mb-3">This file type cannot be processed by Vetri Files. Please upload a valid PDF, document, image, audio, or video file.</p>
+                            <a href="/" class="btn btn-danger rounded-pill px-4 fw-semibold text-white">Upload a Different File</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = tools.map(t => `
+              <div class="col-12 col-sm-6 col-lg-4">
+                <a href="${t.page}" class="tool-action-card" onclick="saveToolFile(event, '${t.page}')">
+                  <div class="tac-icon ${t.color}"><i class="bi ${t.icon}"></i></div>
+                  <p class="tac-name">${t.name}</p>
+                  <p class="tac-desc">${t.desc}</p>
+                </a>
+              </div>
+            `).join('');
+        }
+
+        function saveToolFile(e, page) {
+            sessionStorage.setItem('vetri_tool_page', page);
+            sessionStorage.setItem('vetri_from_upload', 'true');
+        }
+
+        function idbGetCurrentUploadRecord() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(VETRI_IDB_NAME, 1);
+                req.onerror = () => reject(req.error || new Error('idb open failed'));
+                req.onsuccess = () => {
+                    const db = req.result;
+                    try {
+                        if (!db.objectStoreNames.contains(VETRI_IDB_STORE)) {
+                            db.close();
+                            resolve(null);
+                            return;
+                        }
+                        const tx = db.transaction(VETRI_IDB_STORE, 'readonly');
+                        const g = tx.objectStore(VETRI_IDB_STORE).get(VETRI_IDB_KEY);
+                        g.onsuccess = () => {
+                            db.close();
+                            resolve(g.result || null);
+                        };
+                        g.onerror = () => {
+                            db.close();
+                            reject(g.error);
+                        };
+                    } catch (err) {
+                        try { db.close(); } catch (e) { /* ignore */ }
+                        reject(err);
+                    }
+                };
+            });
+        }
+
+        function paintFileToolsCard(name, size, mimeForDetect, extFallback) {
+            const ext = extFallback != null ? extFallback : getExtension(name);
+            const mime = (mimeForDetect || '').toLowerCase();
+            const category = detectCategory(mime, ext);
+            const typeLabel = mimeForDetect || (ext ? ext.toUpperCase() : 'unknown');
+            const catMeta = getCategoryMeta(category);
+            document.getElementById('fileName').textContent = name;
+            document.getElementById('fileMeta').textContent = formatSize(size) + ' • ' + typeLabel;
+            document.getElementById('fileIconBox').className = 'file-icon-box ' + catMeta.boxClass;
+            document.getElementById('fileIconEl').className = 'bi ' + catMeta.iconClass;
+            renderTools(category);
+            return category;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const stored = sessionStorage.getItem('vetri_file');
+            const storageType = sessionStorage.getItem('vetri_storage_type');
+
+            let fileName = 'No file selected';
+            let fileMeta = '— • —';
+            let category = 'pdf';
+            let mimeHint = '';
+
+            if (stored) {
+                try {
+                    const f = JSON.parse(stored);
+                    fileName = f.name || 'Unknown file';
+                    mimeHint = f.type || '';
+                    const ext = getExtension(fileName);
+                    category = detectCategory(mimeHint, ext);
+                    const typeLabel = mimeHint || (ext ? ext.toUpperCase() : 'unknown');
+                    fileMeta = formatSize(f.size) + ' • ' + typeLabel;
+                } catch (e) { /* keep defaults */ }
+            }
+
+            document.getElementById('fileName').textContent = fileName;
+            document.getElementById('fileMeta').textContent = fileMeta;
+
+            let meta = getCategoryMeta(category);
+            let iconBox = document.getElementById('fileIconBox');
+            let iconEl = document.getElementById('fileIconEl');
+            iconBox.className = 'file-icon-box ' + meta.boxClass;
+            iconEl.className = 'bi ' + meta.iconClass;
+
+            renderTools(category);
+
+            if (storageType === 'indexeddb') {
+                idbGetCurrentUploadRecord()
+                    .then((record) => {
+                        if (!record || !record.file) return;
+                        const file = record.file;
+                        const name = file.name || fileName;
+                        const ext = getExtension(name);
+                        const mime = file.type || mimeHint || '';
+                        paintFileToolsCard(name, file.size != null ? file.size : (JSON.parse(stored || '{}').size || 0), mime, ext);
+                    })
+                    .catch(() => { /* keep sessionStorage-based UI */ });
+            }
+        });
+    </script>
 </body>
 
 </html>
