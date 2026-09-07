@@ -75,6 +75,7 @@
         .brand-name {
             font-family: 'Poppins', sans-serif;
         }
+
         /* ── Page Header ── */
         .page-header {
             background: var(--accent-1);
@@ -110,6 +111,7 @@
             color: var(--heading);
             margin: 0;
         }
+
         @media (max-width:767.98px) {
             .tool-main {
                 padding: 20px 0 48px;
@@ -122,6 +124,7 @@
             .modal-box {
                 padding: 36px 24px 32px;
             }
+
             .stats-row {
                 flex-direction: column;
             }
@@ -530,6 +533,33 @@
             right: -6px;
             cursor: se-resize;
         }
+        .handle.n {
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: n-resize;
+}
+
+.handle.s {
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: s-resize;
+}
+
+.handle.w {
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: w-resize;
+}
+
+.handle.e {
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: e-resize;
+}
 
         /* Rule of thirds grid */
         .crop-grid {
@@ -1029,6 +1059,11 @@
                                     <div class="handle ne" onmousedown="startResize(event,'ne')"></div>
                                     <div class="handle sw" onmousedown="startResize(event,'sw')"></div>
                                     <div class="handle se" onmousedown="startResize(event,'se')"></div>
+                                    <!-- new edge handles -->
+                                    <div class="handle n" onmousedown="startResize(event,'n')"></div>
+                                    <div class="handle s" onmousedown="startResize(event,'s')"></div>
+                                    <div class="handle w" onmousedown="startResize(event,'w')"></div>
+                                    <div class="handle e" onmousedown="startResize(event,'e')"></div>
                                     <!-- Rule of thirds grid -->
                                     <div class="crop-grid">
                                         <div class="grid-line v1"></div>
@@ -1064,6 +1099,173 @@
             </div>
         </div>
     </main>
+    <!-- ── How it works ── -->
+    <section class="section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-12 col-lg-5">
+                    <span class="section-badge">How It Works</span>
+                    <h2 class="section-title">Crop Image - How to Crop an Image Online Without Losing Quality?</h2>
+                </div>
+                <div class="col-12 col-lg-7">
+                    <div class="timeline">
+                        <div class="tl-item">
+                            <div class="tl-dot">1</div>
+                            <div class="tl-content">
+                                <h5>Upload the image you want to crop.</h5>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">2</div>
+                            <div class="tl-content">
+                                <h5>Select the desired crop area or enter custom dimensions.</h5>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">3</div>
+                            <div class="tl-content">
+                                <h5>Adjust the crop if needed.</h5>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">4</div>
+                            <div class="tl-content">
+                                <h5>Click Crop Image.</h5>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">5</div>
+                            <div class="tl-content">
+                                <h5>Download the cropped image.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--gray-bg);">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-badge">FAQ</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-wrap">
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is Vetri Files Crop Image?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Vetri Files Crop Image is an online tool that helps users remove
+                            unwanted areas from supported images.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What does cropping an image mean?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Cropping removes selected outer portions of an image while keeping
+                            the required visual area.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I crop an image online?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Upload the image, select the required area, use the available crop
+                            options, and save the resulting image.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Why should I crop an image?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Cropping can remove unwanted areas and focus attention on the most
+                            important part of an image.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is the difference between cropping and resizing?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Cropping removes parts of an image, while resizing changes the
+                            overall dimensions of the image.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        When should I crop an image?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Use image cropping when unnecessary areas need to be removed from
+                            an image.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I crop images for different content requirements?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Cropping can help prepare supported images by focusing on a
+                            specific visual area.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Who can use an online crop tool?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Designers, photographers, businesses, content creators, and
+                            general users can use image cropping tools.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can cropping help improve image composition?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Removing unnecessary visual areas can help focus attention on
+                            the main subject.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is Crop Image available on Vetri Files?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Crop Image is part of the image tools available through Vetri
+                            Files.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <!-- ════════════════════════════════
      PROCESSING MODAL
@@ -1204,11 +1406,26 @@
             document.addEventListener('mouseup', onMouseUp);
         });
 
+        // function showNoFileState() {
+        //     document.getElementById('previewFilename').textContent = 'No file loaded';
+        //     document.getElementById('previewIcon').className = 'bi bi-cloud-upload';
+        //     document.querySelector('.preview-hint').innerHTML =
+        //         '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+        // }
         function showNoFileState() {
-            document.getElementById('previewFilename').textContent = 'No file loaded';
-            document.getElementById('previewIcon').className = 'bi bi-cloud-upload';
-            document.querySelector('.preview-hint').innerHTML =
-                '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+            // Clear out stored files if accessed directly without an upload
+            sessionStorage.removeItem('vetri_file');
+            sessionStorage.removeItem('vetri_file_data');
+
+            // ✅ Show only "Upload a file first" link in the info box
+            document.getElementById('fileInfoName').innerHTML =
+                '<a href="/" style="color:#0D9488;text-decoration:none;font-weight:700;">Upload a file first</a>';
+            document.getElementById('fileInfoSize').textContent = '—';
+
+            // Reset preview state for empty load
+            document.getElementById('noImageState').style.display = 'block';
+            document.getElementById('cropContainer').style.display = 'none';
+            document.getElementById('cropResult').style.display = 'none';
         }
 
         /* ── Load image ── */
