@@ -206,12 +206,31 @@ function formatSize(bytes) {
   if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
   return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
 }
+/* ════════════════════════════════════════════
+   UNLOAD WARNING & DOWNLOAD HOOK
+════════════════════════════════════════════ */
 window.addEventListener('beforeunload', function (e) {
-  // Only trigger if a file is currently loaded
-  if (currentFile || currentFileBlob || sessionStorage.getItem('vetri_file')) {
-    // Standard practice to trigger the browser's native confirmation dialog
+  // 🚫 Exclude safe pages
+  const path = window.location.pathname.toLowerCase();
+  if (
+    path === '/' || 
+    path === '/index' || 
+    path === '/file-tools' || 
+    path === '/all-tools' || 
+    path === '/feature' || 
+    path === '/features'
+  ) {
+    return;
+  }
+
+  // Only trigger on an actual page refresh / exit if a file is loaded
+  if ((typeof currentFile !== 'undefined' && currentFile) || 
+      (typeof currentFileBlob !== 'undefined' && currentFileBlob) || 
+      sessionStorage.getItem('vetri_file')) {
+    
+    const message = 'Your progress or uploaded file may be lost if you leave or refresh the page.';
     e.preventDefault();
-    e.returnValue = 'Your progress or uploaded file may be lost if you leave or refresh the page.';
-    return e.returnValue;
+    e.returnValue = message;
+    return message;
   }
 });

@@ -527,17 +527,28 @@
         }
 
         /* Canvas preview area */
+     /* Canvas preview area */
         .canvas-preview-area {
             background: var(--accent-1);
             border: 1.5px solid var(--accent-2);
             border-radius: 12px;
-            min-height: 320px;
+            min-height: 380px;
             padding: 20px;
             margin-bottom: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Image grid cards */
+       .img-preview-card canvas {
+            width: 100%;
+            height: 180px; /* Fixed preview display height for uniform grid sizing */
+            object-fit: contain;
+            display: block;
+            background: repeating-conic-gradient(#E5E7EB 0% 25%, #F9FAFB 0% 50%) 0 0/16px 16px; /* Checkerboard background for transparent areas */
         }
 
         .no-file-state {
@@ -569,27 +580,27 @@
             gap: 14px;
             width: 100%;
         }
-
-        .img-preview-card {
+.img-preview-card {
             background: var(--white);
             border: 1.5px solid var(--accent-2);
             border-radius: 12px;
             overflow: hidden;
             transition: box-shadow .2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #000; /* Optional: dark frame contrast if images have transparent borders */
         }
 
         .img-preview-card:hover {
             box-shadow: 0 4px 16px rgba(59, 130, 246, .15);
             border-color: var(--blue-main);
         }
-
-        .img-preview-card canvas {
-            width: 100%;
-            display: block;
-        }
-
-        .img-card-footer {
+       .img-card-footer {
             padding: 8px 10px;
+            width: 100%;
+            background: var(--white);
         }
 
         .img-card-name {

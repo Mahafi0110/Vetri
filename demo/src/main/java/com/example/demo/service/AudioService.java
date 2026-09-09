@@ -35,26 +35,53 @@ public class AudioService {
     }
 
     // ── TRIM AUDIO ────────────────────────────
-    public File trimAudio(MultipartFile file, double start, double end) throws IOException, InterruptedException {
-        File input  = createTemp("input_", getExtension(file));
-        File output = createTemp("trimmed_", ".mp3");
+public File trimAudio(MultipartFile file, double start, double end, String format,
+                       boolean fadeIn, boolean fadeOut) throws IOException, InterruptedException {
+    if (format == null || format.isEmpty()) format = "mp3";
 
-        file.transferTo(input);
+    File input  = createTemp("input_", getExtension(file));
+    File output = createTemp("trimmed_", "." + format);
+    file.transferTo(input);
 
-        List<String> cmd = Arrays.asList(
-                FFMPEG, "-y",
-                "-threads", "1",
-                "-i", input.getAbsolutePath(),
-                "-ss", String.valueOf(start),
-                "-to", String.valueOf(end),
-                "-c", "copy",
-                output.getAbsolutePath()
-        );
+    double duration = end - start;
+    double fadeDur = Math.min(1.0, duration / 4); // 1s fade, capped at 1/4 of clip length
 
-        runFFmpeg(cmd);
-        input.delete();
-        return output;
+    StringBuilder afilter = new StringBuilder();
+    if (fadeIn) {
+        afilter.append("afade=t=in:st=0:d=").append(fadeDur);
     }
+    if (fadeOut) {
+        if (afilter.length() > 0) afilter.append(",");
+        double fadeOutStart = Math.max(0, duration - fadeDur);
+        afilter.append("afade=t=out:st=").append(fadeOutStart).append(":d=").append(fadeDur);
+    }
+
+    List<String> cmd = new ArrayList<>(Arrays.asList(
+            FFMPEG, "-y",
+            "-threads", "1",
+            "-i", input.getAbsolutePath(),
+            "-ss", String.valueOf(start),
+            "-to", String.valueOf(end),
+            "-acodec", getAudioCodec(format),
+            "-ar", "44100"
+    ));
+
+    if (afilter.length() > 0) {
+        cmd.add("-af");
+        cmd.add(afilter.toString());
+    }
+
+    String containerFormat = getContainerFormat(format);
+    if (containerFormat != null) {
+        cmd.add("-f");
+        cmd.add(containerFormat);
+    }
+    cmd.add(output.getAbsolutePath());
+
+    runFFmpeg(cmd);
+    input.delete();
+    return output;
+}
 
     // ── COMPRESS AUDIO ────────────────────────
     public File compressAudio(MultipartFile file, int bitrate,

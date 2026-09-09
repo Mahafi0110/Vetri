@@ -614,20 +614,27 @@
         }
 
         /* ── Brush canvas ── */
+        /* ── Brush canvas wrapper ── */
         .brush-wrap {
             width: 100%;
             display: none;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
             overflow: auto;
-            min-height: 360px
+            min-height: 360px;
+            max-height: 400px;
+            padding: 10px;
         }
 
         .brush-canvas {
             cursor: crosshair;
             max-width: 100%;
+            max-height: 340px;
+            width: auto;
             height: auto;
-            display: block
+            object-fit: contain;
+            display: block;
+            border-radius: 8px;
         }
 
         /* ── No file ── */

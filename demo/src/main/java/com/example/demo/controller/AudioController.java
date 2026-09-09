@@ -34,20 +34,23 @@ public class AudioController {
         }
     }
 
-    @PostMapping("/trim")
-    public ResponseEntity<StreamingResponseBody> trimAudio(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("start") double start,
-            @RequestParam("end") double end) throws Exception {
-        try {
-            File result = audioService.trimAudio(file, start, end);
-            log("Trim Audio", file, "success"); // ← ADD
-            return buildStreamResponse(result, result.getName());
-        } catch (Exception e) {
-            log("Trim Audio", file, "failed"); // ← ADD
-            throw e;
-        }
+ @PostMapping("/trim")
+public ResponseEntity<StreamingResponseBody> trimAudio(
+        @RequestParam("file") MultipartFile file,
+        @RequestParam("start") double start,
+        @RequestParam("end") double end,
+        @RequestParam(value = "format", defaultValue = "mp3") String format,
+        @RequestParam(value = "fadeIn", defaultValue = "false") boolean fadeIn,
+        @RequestParam(value = "fadeOut", defaultValue = "false") boolean fadeOut) throws Exception {
+    try {
+        File result = audioService.trimAudio(file, start, end, format, fadeIn, fadeOut);
+        log("Trim Audio", file, "success"); // ← ADD
+        return buildStreamResponse(result, result.getName());
+    } catch (Exception e) {
+        log("Trim Audio", file, "failed"); // ← ADD
+        throw e;
     }
+}
 
     @PostMapping("/compress")
     public ResponseEntity<StreamingResponseBody> compressAudio(
