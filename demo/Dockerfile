@@ -11,7 +11,6 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Verify both installed during build
 RUN ffmpeg -version && libreoffice --version
 
 COPY . .
@@ -20,13 +19,16 @@ RUN mvn clean package -DskipTests
 
 EXPOSE 8080
 
-# ✅ Optimized JVM flags for 512MB Render free tier
+# ✅ Leaves real headroom for LibreOffice's separate soffice process
 CMD ["java", \
-     "-Xmx420m", \
+     "-Xmx200m", \
      "-Xms64m", \
+     "-Xss512k", \
      "-XX:+UseG1GC", \
      "-XX:MaxGCPauseMillis=200", \
      "-XX:+UseStringDeduplication", \
-     "-XX:MetaspaceSize=64m", \
-     "-XX:MaxMetaspaceSize=128m", \
+     "-XX:MetaspaceSize=48m", \
+     "-XX:MaxMetaspaceSize=96m", \
+     "-XX:ReservedCodeCacheSize=48m", \
+     "-XX:MaxDirectMemorySize=32m", \
      "-jar", "target/demo-0.0.1-SNAPSHOT.jar"]
