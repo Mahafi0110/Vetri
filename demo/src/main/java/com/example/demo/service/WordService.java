@@ -225,8 +225,102 @@ public class WordService {
     // ─────────────────────────────────────────────────────────────────────────
     //  Core LibreOffice runner
     // ─────────────────────────────────────────────────────────────────────────
-    private byte[] runLibreOfficeConversion(MultipartFile file, String format) throws Exception {
+    // private byte[] runLibreOfficeConversion(MultipartFile file, String format) throws Exception {
 
+    //     // Give a clear error if LO not installed
+    //     File sofficeBin = new File(SOFFICE_PATH);
+    //     boolean isAbsolutePath = sofficeBin.isAbsolute();
+    //     if (isAbsolutePath && !sofficeBin.exists()) {
+    //         throw new RuntimeException(
+    //             "LibreOffice not found at: " + SOFFICE_PATH + "\n" +
+    //             "Please install LibreOffice from https://www.libreoffice.org/download/ " +
+    //             "and restart the application."
+    //         );
+    //     }
+
+    //     String ext    = getExtension(file.getOriginalFilename());
+    //     Path tmpDir   = Files.createTempDirectory("vetri-word-");
+    //     Path tmpInput = tmpDir.resolve(UUID.randomUUID() + "." + ext);
+    //     file.transferTo(tmpInput.toFile());
+
+    //     try {
+    //         // Unique user profile dir — prevents Windows lock conflicts when parallel requests
+    //         Path userProfile = tmpDir.resolve("lo-profile");
+    //         Files.createDirectories(userProfile);
+
+    //         // file:///C:/... on Windows,  file:////home/... on Linux
+    //         String profileUri = "file:///"
+    //             + userProfile.toAbsolutePath().toString().replace("\\", "/");
+
+    //         List<String> cmd = Arrays.asList(
+    //             SOFFICE_PATH,
+    //             "--headless",
+    //             "--norestore",
+    //             "--nofirststartwizard",
+    //             "-env:UserInstallation=" + profileUri,
+    //             "--convert-to", format,
+    //             "--outdir", tmpDir.toAbsolutePath().toString(),
+    //             tmpInput.toAbsolutePath().toString()
+    //         );
+
+    //         System.out.println("[WordService] Running: " + String.join(" ", cmd));
+
+    //         ProcessBuilder pb = new ProcessBuilder(cmd);
+    //         pb.redirectErrorStream(true);
+
+    //         // Linux/Mac: ensure HOME is set
+    //         if (!System.getProperty("os.name","").toLowerCase().contains("win")) {
+    //             pb.environment().putIfAbsent("HOME", System.getProperty("user.home", "/tmp"));
+    //         }
+
+    //         Process process = pb.start();
+    //         String loOutput = new String(process.getInputStream().readAllBytes());
+    //         int exitCode    = process.waitFor();
+
+    //         System.out.println("[WordService] LO exit=" + exitCode + " output=" + loOutput);
+
+    //         if (exitCode != 0) {
+    //             throw new RuntimeException(
+    //                 "LibreOffice exited with code " + exitCode + ". Output: " + loOutput);
+    //         }
+
+    //         // Locate output file (LO keeps the base name, just changes extension)
+    //         String base    = tmpInput.getFileName().toString();
+    //         String baseStem = base.substring(0, base.lastIndexOf('.'));
+    //         Path outPath    = tmpDir.resolve(baseStem + "." + format);
+
+    //         // LO sometimes produces .htm instead of .html
+    //         if (!Files.exists(outPath) && "html".equals(format)) {
+    //             Path htmPath = tmpDir.resolve(baseStem + ".htm");
+    //             if (Files.exists(htmPath)) outPath = htmPath;
+    //         }
+
+    //         if (!Files.exists(outPath)) {
+    //             throw new RuntimeException(
+    //                 "Output file not found after conversion. LO said: " + loOutput);
+    //         }
+
+    //         return Files.readAllBytes(outPath);
+
+    //     } finally {
+    //         // Always clean up temp files
+    //         try (var walk = Files.walk(tmpDir)) {
+    //             walk.sorted(Comparator.reverseOrder())
+    //                 .map(Path::toFile)
+    //                 .forEach(File::delete);
+    //         } catch (Exception ignored) {}
+    //     }
+    // }
+
+    private byte[] runLibreOfficeConversion(MultipartFile file, String format) throws Exception {
+    try {
+        LibreOfficeLock.acquire();
+    } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        throw new IOException("Interrupted waiting for LibreOffice lock", e);
+    }
+
+    try {
         // Give a clear error if LO not installed
         File sofficeBin = new File(SOFFICE_PATH);
         boolean isAbsolutePath = sofficeBin.isAbsolute();
@@ -310,7 +404,11 @@ public class WordService {
                     .forEach(File::delete);
             } catch (Exception ignored) {}
         }
+
+    } finally {
+        LibreOfficeLock.release();
     }
+}
 
     // ─────────────────────────────────────────────────────────────────────────
     //  Utilities

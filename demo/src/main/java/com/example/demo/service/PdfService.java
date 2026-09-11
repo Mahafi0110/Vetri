@@ -364,7 +364,108 @@ public class PdfService {
     // best it can, so results on heavily-designed or scanned PDFs won't
     // be as clean as the Word → PDF direction. Simple/text-based PDFs
     // convert well.
+    // public File convertPdfToWord(MultipartFile file) throws IOException {
+    //     String sofficePath = WordService.getSofficePath();
+
+    //     File sofficeBin = new File(sofficePath);
+    //     if (sofficeBin.isAbsolute() && !sofficeBin.exists()) {
+    //         throw new IOException(
+    //                 "LibreOffice not found at: " + sofficePath +
+    //                 ". Please install LibreOffice or set the SOFFICE_PATH env variable.");
+    //     }
+
+    //     File workDir = new File(System.getProperty("java.io.tmpdir"),
+    //             "pdf2word_" + UUID.randomUUID());
+    //     if (!workDir.mkdirs()) {
+    //         throw new IOException("Could not create temp working directory");
+    //     }
+
+    //     File inputPdf = new File(workDir, "input.pdf");
+    //     file.transferTo(inputPdf);
+
+    //     try {
+    //         // Unique user profile dir, same reasoning as WordService —
+    //         // prevents Windows lock conflicts on parallel requests.
+    //         File userProfile = new File(workDir, "lo-profile");
+    //         userProfile.mkdirs();
+    //         String profileUri = "file:///" + userProfile.getAbsolutePath().replace("\\", "/");
+
+    //         // IMPORTANT: each argument is its own array element.
+    //         // Never build this as a single concatenated string —
+    //         // that's what breaks on Windows paths with spaces.
+    //         // IMPORTANT: without --infilter, LibreOffice opens a PDF
+    //         // through its Draw component by default, which cannot be
+    //         // exported to "MS Word 2007 XML" (a Writer-only filter) —
+    //         // that mismatch is what causes the 0xc10 write error.
+    //         // Forcing writer_pdf_import makes LO import the PDF as an
+    //         // editable Writer document instead, matching the docx export.
+    //         List<String> cmd = Arrays.asList(
+    //                 sofficePath,
+    //                 "--headless",
+    //                 "--norestore",
+    //                 "--nofirststartwizard",
+    //                 "-env:UserInstallation=" + profileUri,
+    //                 "--infilter=writer_pdf_import",
+    //                 "--convert-to", "docx:MS Word 2007 XML",
+    //                 "--outdir", workDir.getAbsolutePath(),
+    //                 inputPdf.getAbsolutePath()
+    //         );
+
+    //         ProcessBuilder pb = new ProcessBuilder(cmd);
+    //         pb.redirectErrorStream(true);
+    //         if (!System.getProperty("os.name", "").toLowerCase().contains("win")) {
+    //             pb.environment().putIfAbsent("HOME", System.getProperty("user.home", "/tmp"));
+    //         }
+
+    //         Process process = pb.start();
+    //         String output;
+    //         try (InputStream is = process.getInputStream()) {
+    //             output = new String(is.readAllBytes());
+    //         }
+
+    //         boolean finished = process.waitFor(90, TimeUnit.SECONDS);
+    //         if (!finished) {
+    //             process.destroyForcibly();
+    //             throw new IOException("PDF to Word conversion timed out");
+    //         }
+    //         if (process.exitValue() != 0) {
+    //             throw new IOException("LibreOffice conversion failed: " + output);
+    //         }
+
+    //         File convertedDocx = new File(workDir, "input.docx");
+    //         if (!convertedDocx.exists()) {
+    //             throw new IOException("Conversion did not produce an output file: " + output);
+    //         }
+
+    //         File finalOutput = File.createTempFile("pdf_to_word_", ".docx",
+    //                 new File(System.getProperty("java.io.tmpdir")));
+    //         try (InputStream in = new FileInputStream(convertedDocx);
+    //              FileOutputStream out = new FileOutputStream(finalOutput)) {
+    //             byte[] buffer = new byte[8 * 1024];
+    //             int bytesRead;
+    //             while ((bytesRead = in.read(buffer)) != -1) {
+    //                 out.write(buffer, 0, bytesRead);
+    //             }
+    //         }
+    //         return finalOutput;
+
+    //     } catch (InterruptedException e) {
+    //         Thread.currentThread().interrupt();
+    //         throw new IOException("Conversion interrupted", e);
+    //     } finally {
+    //         deleteRecursively(workDir);
+    //     }
+    // }
+
     public File convertPdfToWord(MultipartFile file) throws IOException {
+    try {
+        LibreOfficeLock.acquire();
+    } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        throw new IOException("Interrupted waiting for LibreOffice lock", e);
+    }
+
+    try {
         String sofficePath = WordService.getSofficePath();
 
         File sofficeBin = new File(sofficePath);
@@ -455,7 +556,11 @@ public class PdfService {
         } finally {
             deleteRecursively(workDir);
         }
+
+    } finally {
+        LibreOfficeLock.release();
     }
+}
 
     private void deleteRecursively(File file) {
         File[] children = file.listFiles();
