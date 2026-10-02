@@ -957,6 +957,17 @@
         window.location.replace('/');
       }
     }
+    getFileBlob(function(file, meta) {
+  if (!file) {
+    // No file uploaded yet (e.g. arrived directly from All Tools)
+    document.getElementById('no-file-container').style.display = 'block';
+    document.getElementById('tool-workspace').style.display = 'none';
+    return;
+  }
+  
+  // Proceed with initializing the tool workspace with the file...
+  initToolWorkspace(file);
+});
 
     /* ── Hamburger toggle (mobile only) ── */
     // function toggleNavLinks() {

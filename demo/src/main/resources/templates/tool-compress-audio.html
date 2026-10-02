@@ -25,7 +25,7 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
     rel="stylesheet" />
   <!-- Shared navbar + footer styles (was duplicated per page before) -->
-    <link href="/css/common-nav-footer.css" rel="stylesheet" />
+  <link href="/css/common-nav-footer.css" rel="stylesheet" />
   <script type="application/ld+json">
     { 
       "@context": "https://schema.org", 
@@ -50,6 +50,7 @@
       --accent-2: #E5E7EB;
       --white: #ffffff;
       --green: #16A34A;
+      --gray-bg: #F3F4F6;
       --radius-card: 16px;
       --radius-btn: 50px;
     }
@@ -75,7 +76,8 @@
     .brand-name {
       font-family: 'Poppins', sans-serif;
     }
-    /* ── Page Header ── */
+
+    /* Page header */
     .page-header {
       background: var(--accent-1);
       padding: 20px 0 24px;
@@ -91,8 +93,6 @@
       text-decoration: none;
       margin-bottom: 6px;
       transition: color .2s;
-
-      /* 🔥 ADD THESE */
       background: none;
       border: none;
       outline: none;
@@ -111,57 +111,9 @@
       color: var(--heading);
       margin: 0;
     }
-    @media (max-width:767.98px) {
-      .tool-main {
-        padding: 20px 0 48px;
-      }
-
-      .settings-card {
-        margin-bottom: 16px;
-      }
-
-      .modal-box {
-        padding: 36px 24px 32px;
-      }
-      .stats-row {
-        flex-direction: column;
-      }
-
-      .success-stats {
-        flex-direction: column;
-      }
-    }
 
     .tool-main {
       padding: 24px 0 64px;
-    }
-
-    .page-header {
-      background: var(--accent-1);
-      padding: 20px 0 24px;
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: .9rem;
-      font-weight: 500;
-      color: var(--subtext);
-      text-decoration: none;
-      margin-bottom: 6px;
-      transition: color .2s;
-    }
-
-    .back-link:hover {
-      color: var(--blue-main);
-    }
-
-    .page-title {
-      font-size: clamp(1.4rem, 3vw, 1.9rem);
-      font-weight: 800;
-      color: var(--heading);
-      margin: 0;
     }
 
     /* Settings */
@@ -213,6 +165,10 @@
       margin-bottom: 20px;
     }
 
+    .file-info-box div {
+      min-width: 0;
+    }
+
     .file-info-icon {
       width: 36px;
       height: 36px;
@@ -240,18 +196,13 @@
       max-width: 100%;
     }
 
-    .file-info-box div {
-      min-width: 0;
-    }
-
-
     .file-info-size {
       font-size: .75rem;
       color: var(--subtext);
       margin: 0;
     }
 
-    /* Compression levels */
+    /* Compression levels (real buttons, so the keyboard works) */
     .comp-levels {
       display: flex;
       flex-direction: column;
@@ -259,6 +210,9 @@
     }
 
     .comp-level-btn {
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
       padding: 11px 12px;
       border: 1.5px solid var(--accent-2);
       border-radius: 12px;
@@ -270,11 +224,7 @@
       transition: all .2s;
     }
 
-    .comp-level-btn:hover {
-      border-color: #7C3AED;
-      background: #F5F3FF;
-    }
-
+    .comp-level-btn:hover,
     .comp-level-btn.active {
       border-color: #7C3AED;
       background: #F5F3FF;
@@ -356,7 +306,13 @@
       justify-content: space-between;
       font-size: .68rem;
       color: var(--subtext);
-      margin-bottom: 0;
+    }
+
+    .bitrate-note {
+      font-size: .72rem;
+      color: #B45309;
+      margin: 6px 0 0;
+      display: none;
     }
 
     /* Select */
@@ -375,7 +331,6 @@
       background-position: right 14px center;
       cursor: pointer;
       transition: border-color .2s;
-      margin-bottom: 0;
     }
 
     .select-custom:focus {
@@ -398,7 +353,6 @@
       margin-bottom: 16px;
     }
 
-    /* Audio player card */
     .audio-player-card {
       background: #1F2937;
       border-radius: 14px;
@@ -410,7 +364,6 @@
       justify-content: center;
     }
 
-    /* No audio state */
     .no-audio-state {
       text-align: center;
       color: #6B7280;
@@ -435,7 +388,6 @@
       color: #6B7280;
     }
 
-    /* Player UI */
     .player-ui {
       width: 100%;
     }
@@ -462,7 +414,6 @@
       left: 0;
       width: 2px;
       background: #7C3AED;
-      transition: left .1s linear;
       pointer-events: none;
     }
 
@@ -472,6 +423,7 @@
       align-items: center;
       gap: 12px;
       margin-bottom: 12px;
+      flex-wrap: wrap;
     }
 
     .ctrl-btn {
@@ -548,7 +500,6 @@
       cursor: pointer;
     }
 
-    /* Progress bar */
     .audio-progress-wrap {
       cursor: pointer;
       padding: 6px 0;
@@ -632,10 +583,14 @@
       white-space: nowrap;
     }
 
-    /* Process button */
-    .btn-process {
+    .saving-pct.larger {
+      color: #D97706;
+    }
+
+    /* Buttons */
+    .btn-process,
+    .btn-download {
       width: 100%;
-      padding: 16px;
       font-family: 'Poppins', sans-serif;
       font-size: 1rem;
       font-weight: 700;
@@ -652,9 +607,51 @@
       cursor: pointer;
     }
 
+    .btn-process {
+      padding: 16px;
+    }
+
+    .btn-download {
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
     .btn-process:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 28px rgba(124, 58, 237, .45);
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-process:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-another {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      background: var(--white);
+      color: var(--heading);
+      border: 1.5px solid var(--accent-2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+
+    .btn-another:hover {
+      border-color: #7C3AED;
+      color: #7C3AED;
     }
 
     /* Modals */
@@ -743,9 +740,12 @@
       gap: 5px;
       font-size: .85rem;
       color: var(--subtext);
-      text-decoration: none;
       margin-bottom: 20px;
       transition: color .2s;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
     }
 
     .success-back:hover {
@@ -780,6 +780,7 @@
       font-size: .9rem;
       color: var(--subtext);
       margin-bottom: 4px;
+      word-break: break-word;
     }
 
     .success-note {
@@ -815,53 +816,6 @@
       border-bottom: 1px solid var(--accent-2);
     }
 
-    .btn-download {
-      width: 100%;
-      padding: 15px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #7C3AED, #A855F7);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 4px 18px rgba(124, 58, 237, .35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: transform .2s;
-      cursor: pointer;
-      margin-bottom: 12px;
-    }
-
-    .btn-download:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-another {
-      width: 100%;
-      padding: 14px;
-      font-family: 'Poppins', sans-serif;
-      font-size: .95rem;
-      font-weight: 600;
-      background: var(--white);
-      color: var(--heading);
-      border: 1.5px solid var(--accent-2);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: border-color .2s, color .2s;
-    }
-
-    .btn-another:hover {
-      border-color: #7C3AED;
-      color: #7C3AED;
-    }
-
     @media (max-width:767.98px) {
       .tool-main {
         padding: 20px 0 48px;
@@ -893,28 +847,25 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6DBC8P6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
- <!-- ── NAVBAR (shared fragment) ── -->
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
-  <!-- ════════════════════════════════
-     PAGE HEADER
-════════════════════════════════ -->
+  <!-- ── NAVBAR (shared fragment) ── -->
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <!-- PAGE HEADER -->
   <div class="page-header">
     <div class="container">
-      <!-- <a href="/file-tools" class="back-link">
-        <i class="bi bi-arrow-left"></i> Back
-      </a> -->
       <button class="back-link" onclick="goBack()">
         <i class="bi bi-arrow-left"></i> Back
       </button>
       <h1 class="page-title">Compress Audio</h1>
     </div>
   </div>
+
   <!-- MAIN CONTENT -->
   <main class="tool-main">
     <div class="container">
       <div class="row g-4">
 
-        <!-- ── Settings Panel ── -->
+        <!-- Settings Panel -->
         <div class="col-12 col-lg-3">
           <div class="settings-card">
             <div class="settings-title">
@@ -927,9 +878,7 @@
                 <i class="bi bi-file-earmark-music-fill"></i>
               </div>
               <div>
-                <p class="file-info-name" id="fileInfoName">
-                  No file loaded
-                </p>
+                <p class="file-info-name" id="fileInfoName">No file loaded</p>
                 <p class="file-info-size" id="fileInfoSize">—</p>
               </div>
             </div>
@@ -937,71 +886,59 @@
             <hr class="divider-line" />
 
             <!-- Compression Level -->
-            <label class="form-label-custom">
-              Compression Level
-            </label>
+            <label class="form-label-custom">Compression Level</label>
             <div class="comp-levels">
 
-              <div class="comp-level-btn" onclick="setLevel('low', this)">
-                <div class="level-icon green-icon">
-                  <i class="bi bi-music-note"></i>
-                </div>
+              <button type="button" class="comp-level-btn" data-level="low" onclick="setLevel('low')">
+                <div class="level-icon green-icon"><i class="bi bi-music-note"></i></div>
                 <div class="level-info">
                   <p class="level-name">Low</p>
                   <p class="level-desc">320 kbps · Best quality</p>
                 </div>
                 <i class="bi bi-check-circle-fill level-check"></i>
-              </div>
+              </button>
 
-              <div class="comp-level-btn active" onclick="setLevel('medium', this)">
-                <div class="level-icon orange-icon">
-                  <i class="bi bi-music-note-beamed"></i>
-                </div>
+              <button type="button" class="comp-level-btn active" data-level="medium" onclick="setLevel('medium')">
+                <div class="level-icon orange-icon"><i class="bi bi-music-note-beamed"></i></div>
                 <div class="level-info">
                   <p class="level-name">Medium</p>
                   <p class="level-desc">128 kbps · Balanced</p>
                 </div>
                 <i class="bi bi-check-circle-fill level-check"></i>
-              </div>
+              </button>
 
-              <div class="comp-level-btn" onclick="setLevel('high', this)">
-                <div class="level-icon red-icon">
-                  <i class="bi bi-file-earmark-zip"></i>
-                </div>
+              <button type="button" class="comp-level-btn" data-level="high" onclick="setLevel('high')">
+                <div class="level-icon red-icon"><i class="bi bi-file-earmark-zip"></i></div>
                 <div class="level-info">
                   <p class="level-name">High</p>
                   <p class="level-desc">64 kbps · Smallest</p>
                 </div>
                 <i class="bi bi-check-circle-fill level-check"></i>
-              </div>
+              </button>
 
             </div>
 
             <hr class="divider-line" />
 
             <!-- Bitrate Custom -->
-            <label class="form-label-custom">
-              Custom Bitrate
-            </label>
+            <label class="form-label-custom" for="bitrateRange">Custom Bitrate</label>
             <div class="bitrate-row">
               <input type="range" class="range-custom" id="bitrateRange" min="32" max="320" value="128" step="32"
-                oninput="updateBitrate(this.value)" />
-              <span class="bitrate-val" id="bitrateVal">
-                128 kbps
-              </span>
+                oninput="setBitrate(parseInt(this.value, 10))" />
+              <span class="bitrate-val" id="bitrateVal">128 kbps</span>
             </div>
-            <div class="bitrate-marks">
+            <div class="bitrate-marks" id="bitrateMarks">
               <span>32</span>
-              <span>128</span>
-              <span>256</span>
+              <span>160</span>
               <span>320</span>
             </div>
+            <p class="bitrate-note" id="bitrateNote"></p>
 
             <hr class="divider-line" />
 
             <!-- Output Format -->
-            <label class="form-label-custom">Output Format</label>
-            <select class="select-custom" id="outputFormat">
+            <label class="form-label-custom" for="outputFormat">Output Format</label>
+            <select class="select-custom" id="outputFormat" onchange="applyBitrateLimit()">
               <option value="mp3">MP3</option>
               <option value="aac">AAC</option>
               <option value="ogg">OGG</option>
@@ -1011,8 +948,8 @@
             <hr class="divider-line" />
 
             <!-- Sample Rate -->
-            <label class="form-label-custom">Sample Rate</label>
-            <select class="select-custom" id="sampleRate">
+            <label class="form-label-custom" for="sampleRate">Sample Rate</label>
+            <select class="select-custom" id="sampleRate" onchange="applyBitrateLimit()">
               <option value="44100">44100 Hz (CD Quality)</option>
               <option value="22050">22050 Hz (FM Quality)</option>
               <option value="16000">16000 Hz (Voice)</option>
@@ -1022,7 +959,7 @@
           </div>
         </div>
 
-        <!-- ── Preview Panel ── -->
+        <!-- Preview Panel -->
         <div class="col-12 col-lg-9">
           <div class="preview-card">
             <p class="preview-title">Preview</p>
@@ -1030,34 +967,29 @@
             <!-- Audio Player -->
             <div class="audio-player-card" id="audioPlayerCard">
 
-              <!-- No file state -->
               <div class="no-audio-state" id="noAudioState">
                 <i class="bi bi-music-note-beamed"></i>
                 <p>No audio file loaded</p>
                 <span>Upload an audio file from the home page</span>
               </div>
 
-              <!-- Player UI -->
               <div class="player-ui" id="playerUI" style="display:none">
 
-                <!-- Waveform visualization -->
-                <div class="waveform-wrap">
-                  <canvas id="waveformCanvas" width="600" height="80">
-                  </canvas>
-                  <!-- Playback line -->
-                  <div class="playback-line" id="playbackLine">
-                  </div>
+                <!-- Waveform (drawn from the real audio) -->
+                <div class="waveform-wrap" onclick="seekByClick(event)">
+                  <canvas id="waveformCanvas" width="600" height="80"></canvas>
+                  <div class="playback-line" id="playbackLine"></div>
                 </div>
 
                 <!-- Controls -->
                 <div class="player-controls">
-                  <button class="ctrl-btn" onclick="seekAudio(-5)" title="Rewind 5s">
+                  <button class="ctrl-btn" onclick="seekAudio(-5)" title="Rewind 5s" aria-label="Rewind 5 seconds">
                     <i class="bi bi-skip-backward-fill"></i>
                   </button>
-                  <button class="play-btn" id="playBtn" onclick="togglePlay()">
+                  <button class="play-btn" id="playBtn" onclick="togglePlay()" aria-label="Play or pause">
                     <i class="bi bi-play-fill" id="playIcon"></i>
                   </button>
-                  <button class="ctrl-btn" onclick="seekAudio(5)" title="Forward 5s">
+                  <button class="ctrl-btn" onclick="seekAudio(5)" title="Forward 5s" aria-label="Forward 5 seconds">
                     <i class="bi bi-skip-forward-fill"></i>
                   </button>
                   <div class="time-display">
@@ -1068,19 +1000,17 @@
                   <div class="volume-wrap">
                     <i class="bi bi-volume-up-fill vol-icon"></i>
                     <input type="range" class="vol-range" id="volumeRange" min="0" max="1" step="0.1" value="1"
-                      oninput="setVolume(this.value)" />
+                      aria-label="Volume" oninput="setVolume(this.value)" />
                   </div>
                 </div>
 
                 <!-- Progress bar -->
                 <div class="audio-progress-wrap" onclick="seekByClick(event)">
                   <div class="audio-progress-track">
-                    <div class="audio-progress-fill" id="audioProgressFill">
-                    </div>
+                    <div class="audio-progress-fill" id="audioProgressFill"></div>
                   </div>
                 </div>
 
-                <!-- Hidden audio element -->
                 <audio id="audioEl" preload="metadata"></audio>
 
               </div>
@@ -1094,7 +1024,7 @@
               </div>
               <div class="size-arrow">
                 <i class="bi bi-arrow-right"></i>
-                <span id="savingPct" class="saving-pct">~50% smaller</span>
+                <span id="savingPct" class="saving-pct"></span>
               </div>
               <div class="size-box highlight">
                 <p class="size-label">Estimated Output</p>
@@ -1107,7 +1037,7 @@
             </div>
 
             <!-- Process Button -->
-            <button class="btn-process" onclick="startProcessing()">
+            <button class="btn-process" id="processBtn" onclick="startProcessing()">
               <i class="bi bi-file-earmark-zip-fill"></i>
               Compress &amp; Download
             </button>
@@ -1118,162 +1048,171 @@
       </div>
     </div>
   </main>
-<!-- ── How it works ── -->
-    <section class="section">
-        <div class="container">
-            <div class="row align-items-center g-5">
-                <div class="col-12 col-lg-5">
-                    <span class="section-badge">How It Works</span>
-                    <h2 class="section-title">Compress Audio - How to Compress Audio Files Online for Free?</h2>
-                </div>
-                <div class="col-12 col-lg-7">
-                    <div class="timeline">
-                        <div class="tl-item">
-                            <div class="tl-dot">1</div>
-                            <div class="tl-content">
-                                <h5>Click Upload Audio and select your audio file.</h5>
-                            </div>
-                        </div>
-                        <div class="tl-item">
-                            <div class="tl-dot">2</div>
-                            <div class="tl-content">
-                                <h5>Choose the desired compression level or quality settings.</h5>
-                            </div>
-                        </div>
-                        <div class="tl-item">
-                            <div class="tl-dot">3</div>
-                            <div class="tl-content">
-                                <h5>Click Compress Audio.</h5>
-                            </div>
-                        </div>
-                        <div class="tl-item">
-                            <div class="tl-dot">4</div>
-                            <div class="tl-content">
-                                <h5>Wait for the compression process to complete.</h5>
-                            </div>
-                        </div>
-                        <div class="tl-item">
-                            <div class="tl-dot">5</div>
-                            <div class="tl-content">
-                                <h5>Download the compressed audio file.</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!-- ── How it works ── -->
+  <section class="section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-12 col-lg-5">
+          <span class="section-badge">How It Works</span>
+          <h2 class="section-title">Compress Audio - How to Compress Audio Files Online for Free?</h2>
+        </div>
+        <div class="col-12 col-lg-7">
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot">1</div>
+              <div class="tl-content">
+                <h5>Click Upload Audio and select your audio file.</h5>
+              </div>
             </div>
+            <div class="tl-item">
+              <div class="tl-dot">2</div>
+              <div class="tl-content">
+                <h5>Choose the desired compression level or quality settings.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">3</div>
+              <div class="tl-content">
+                <h5>Click Compress Audio.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">4</div>
+              <div class="tl-content">
+                <h5>Wait for the compression process to complete.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">5</div>
+              <div class="tl-content">
+                <h5>Download the compressed audio file.</h5>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
   <section class="section" style="background: var(--gray-bg);">
-  <div class="container">
-    <div class="text-center mb-4">
-      <span class="section-badge">FAQ</span>
-      <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="container">
+      <div class="text-center mb-4">
+        <span class="section-badge">FAQ</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-wrap">
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What is Vetri Files Compress Audio?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Vetri Files Compress Audio is an online tool that helps reduce the file size
+              of supported audio files.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What does an audio compressor do?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">An audio compressor processes a supported audio file to reduce its overall
+              file size.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How do I compress audio online?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Upload the supported audio file, process it using the Compress Audio tool, and
+              download the resulting file.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Why should I compress an audio file?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Compressing audio can help reduce file size for easier storage, uploading, and
+              sharing.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            When should I use an audio compressor?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Use an audio compressor when an audio file is too large for convenient storage
+              or sharing.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I reduce a large audio file size?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Yes. Compress Audio can help reduce the size of supported audio files.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can compressed audio be easier to upload?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Reducing file size may make supported audio files easier to upload to
+              platforms with file-size limitations.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Who can use Compress Audio?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Content creators, students, businesses, and general users can use audio
+              compression tools.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I compress audio without installing software?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Vetri Files provides browser-based tools for processing supported audio files.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Is Compress Audio part of Vetri Files?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Yes. Compress Audio is one of the audio tools available through Vetri Files.
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <div class="faq-wrap">
-
-      <div class="faq-item">
-        <button class="faq-question">
-          What is Vetri Files Compress Audio?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Vetri Files Compress Audio is an online tool that helps reduce the file size of supported audio files.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          What does an audio compressor do?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">An audio compressor processes a supported audio file to reduce its overall file size.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          How do I compress audio online?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Upload the supported audio file, process it using the Compress Audio tool, and download the resulting file.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Why should I compress an audio file?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Compressing audio can help reduce file size for easier storage, uploading, and sharing.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          When should I use an audio compressor?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Use an audio compressor when an audio file is too large for convenient storage or sharing.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Can I reduce a large audio file size?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Compress Audio can help reduce the size of supported audio files.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-           Can compressed audio be easier to upload?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Reducing file size may make supported audio files easier to upload to platforms with file-size limitations.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-           Who can use Compress Audio?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Content creators, students, businesses, and general users can use audio compression tools.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Can I compress audio without installing software?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Vetri Files provides browser-based tools for processing supported audio files.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Is Compress Audio part of Vetri Files?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Compress Audio is one of the audio tools available through Vetri Files.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+  </section>
 
   <!-- PROCESSING MODAL -->
   <div class="modal-overlay" id="processingModal">
@@ -1292,9 +1231,9 @@
   <!-- SUCCESS MODAL -->
   <div class="modal-overlay" id="successModal">
     <div class="modal-box">
-      <a href="/file-tools" class="success-back">
+      <button class="success-back" onclick="goBack()">
         <i class="bi bi-arrow-left"></i> Back
-      </a>
+      </button>
       <div class="success-circle">
         <i class="bi bi-check-lg"></i>
       </div>
@@ -1314,7 +1253,7 @@
         </div>
         <div class="audio-summary-item">
           <i class="bi bi-arrow-down-circle-fill"></i>
-          <span id="summarySaving">~50% smaller</span>
+          <span id="summarySaving"></span>
         </div>
       </div>
       <button class="btn-download" onclick="downloadFile()">
@@ -1327,7 +1266,8 @@
       </button>
     </div>
   </div>
-  <!-- ── NETWORK ERROR MODAL ── -->
+
+  <!-- NETWORK ERROR MODAL -->
   <div class="modal-overlay" id="networkErrorModal">
     <div class="modal-box" style="text-align:center;">
       <div style="width:64px;height:64px;border-radius:50%;
@@ -1357,286 +1297,385 @@
     </div>
   </div>
 
-  <!-- ════════════════════════════════
-     FOOTER
-════════════════════════════════ -->
-  <!-- ── FOOTER (shared fragment) ── -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
+  <!-- FOOTER (shared fragment) -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/vetri-file-helper.js"></script>
-    <!-- Shared navbar/footer behavior (login state, dropdown, hamburger, logout) -->
-    <script src="/js/common-nav.js"></script>
+  <script src="/js/common-nav.js"></script>
   <script>
+    /* ── Globals ── */
     let currentFile = null;
     let processedBlob = null;
     let processedName = 'compressed.mp3';
     let bitrate = 128;
     let audioEl = null;
-    let isPlaying = false;
-    let animFrame = null;
+    let audioDuration = NaN;
+    let isProcessing = false;
+    let progressTimer = null;
+    let wavePeaks = null;           // real waveform data, once decoded
 
-    const levelMap = {
-      low: 320,
-      medium: 128,
-      high: 64
-    };
+    const levelMap = { low: 320, medium: 128, high: 64 };
 
-    /* ── Init — sessionStorage (small) or IndexedDB (large) via helper ── */
+    /* ════════════════════════════════
+       INIT
+    ════════════════════════════════ */
     window.addEventListener('DOMContentLoaded', () => {
-      // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
-      if (!isFromUpload()) {
-        // Show "no file" state — don't load previous file
+      applyBitrateLimit();
+
+      if (!isFromUpload()) { showNoFileState(); return; }
+
+      const stored = sessionStorage.getItem('vetri_file');
+      if (!stored) { showNoFileState(); return; }
+      try {
+        currentFile = JSON.parse(stored);
+      } catch (e) {
         showNoFileState();
         return;
       }
-      const stored = sessionStorage.getItem('vetri_file');
-      if (!stored) return;
-      try {
-        currentFile = JSON.parse(stored);
-      } catch (e) { return; }
+
+      // Make sure the pre-loaded file really is audio
+      const validAudioExtensions = ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac', 'wma'];
+      const ext = (currentFile.name || '').split('.').pop().toLowerCase();
+      if (!validAudioExtensions.includes(ext)) {
+        showWrongFileTypeState(currentFile.name);
+        return;
+      }
 
       getFileObjectURL(function (url) {
         if (!url) {
           const hint = document.querySelector('#noAudioState span');
           if (hint) {
-            hint.textContent =
-              'File data missing. Upload again from the home page (large files use browser storage).';
+            hint.textContent = 'File data missing. Upload again from the home page (large files use browser storage).';
           }
           return;
         }
         loadAudio(currentFile, url);
       });
     });
+
+    window.addEventListener('resize', () => { if (wavePeaks) renderWaveform(wavePeaks); });
+
+    function showWrongFileTypeState(filename) {
+      const nameEl = document.getElementById('fileInfoName');
+      const sizeEl = document.getElementById('fileInfoSize');
+      if (nameEl) nameEl.textContent = 'Unsupported file type';
+
+      // textContent (not innerHTML) so a strange file name can never run as code
+      if (sizeEl) {
+        sizeEl.textContent = '"' + filename + '" isn\'t an audio file. ';
+        const link = document.createElement('a');
+        link.href = '/';
+        link.style.cssText = 'color:#7C3AED;text-decoration:none;font-weight:bold;';
+        link.textContent = '⇦ Upload audio instead';
+        sizeEl.appendChild(link);
+      }
+
+      const noAudioState = document.getElementById('noAudioState');
+      if (noAudioState) {
+        noAudioState.textContent = '';
+        const icon = document.createElement('i');
+        icon.className = 'bi bi-file-earmark-x';
+        icon.style.color = '#DC2626';
+        const p = document.createElement('p');
+        p.style.color = '#DC2626';
+        p.textContent = 'Unsupported file type';
+        const span = document.createElement('span');
+        span.textContent = '"' + filename + '" cannot be compressed. ';
+        const link = document.createElement('a');
+        link.href = '/';
+        link.style.cssText = 'color:#7C3AED;text-decoration:none;font-weight:bold;';
+        link.textContent = 'Upload an audio file';
+        span.appendChild(link);
+        noAudioState.append(icon, p, span);
+      }
+
+      const btn = document.getElementById('processBtn');
+      if (btn) btn.disabled = true;
+    }
+
     function showNoFileState() {
-      // Show the empty state UI — each tool already has this
-      // e.g. for compress-audio:
       document.getElementById('noAudioState').style.display = 'block';
       document.getElementById('playerUI').style.display = 'none';
-      document.getElementById('fileInfoName').textContent = 'No file loaded';
       document.getElementById('fileInfoSize').textContent = '—';
-      // Add a button to go back and upload
-      // Show a link to go upload
       document.getElementById('fileInfoName').innerHTML =
         '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
     }
 
-    /* ── Load audio ── */
-    function loadAudio(f, dataURL) {
-      document.getElementById('fileInfoName').textContent =
-        f.name || 'audio';
-      document.getElementById('fileInfoSize').textContent =
-        formatSize(f.size);
-      document.getElementById('successFileName').textContent =
-        f.name || 'audio.mp3';
+    /* ════════════════════════════════
+       LOAD AUDIO
+    ════════════════════════════════ */
+    function loadAudio(f, url) {
+      document.getElementById('fileInfoName').textContent = f.name || 'audio';
+      document.getElementById('fileInfoSize').textContent = formatSize(f.size);
+      document.getElementById('successFileName').textContent = f.name || 'audio.mp3';
       processedName = 'compressed_' + (f.name || 'audio.mp3');
 
-      document.getElementById('noAudioState').style.display =
-        'none';
+      document.getElementById('noAudioState').style.display = 'none';
       document.getElementById('playerUI').style.display = 'block';
-      document.getElementById('sizeCompareRow').style.display =
-        'flex';
+      document.getElementById('sizeCompareRow').style.display = 'flex';
+      document.getElementById('origSize').textContent = formatSize(f.size);
 
-      // Load audio
       audioEl = document.getElementById('audioEl');
-      audioEl.src = dataURL;
+      audioEl.src = url;
+
       audioEl.addEventListener('loadedmetadata', () => {
-        document.getElementById('totalTime').textContent =
-          formatTime(audioEl.duration);
-        drawWaveform();
+        audioDuration = audioEl.duration;
+        document.getElementById('totalTime').textContent = formatTime(audioDuration);
+        updateEstimate();
       });
       audioEl.addEventListener('timeupdate', updateProgress);
+      audioEl.addEventListener('seeked', updateProgress);
+      // The button always follows what the audio is really doing
+      audioEl.addEventListener('play', () => { document.getElementById('playIcon').className = 'bi bi-pause-fill'; });
+      audioEl.addEventListener('pause', () => { document.getElementById('playIcon').className = 'bi bi-play-fill'; });
       audioEl.addEventListener('ended', () => {
-        isPlaying = false;
-        document.getElementById('playIcon').className =
-          'bi bi-play-fill';
-        cancelAnimationFrame(animFrame);
+        document.getElementById('playIcon').className = 'bi bi-play-fill';
+        updateProgress();
       });
 
-      // Size estimate
-      document.getElementById('origSize').textContent =
-        formatSize(f.size);
-      updateEstimate(f.size, 128);
+      buildWaveform(url, f.size);
+      updateEstimate();
     }
 
-    /* ── Draw waveform ── */
-    function drawWaveform() {
+    /* ════════════════════════════════
+       REAL WAVEFORM
+    ════════════════════════════════ */
+    const WAVE_BARS = 80;
+
+    function buildWaveform(url, size) {
+      // Start with quiet flat bars so the area is never empty
+      wavePeaks = new Array(WAVE_BARS).fill(0.08);
+      renderWaveform(wavePeaks);
+
+      // Decoding very large files can freeze the tab, so skip it above 100 MB
+      if (size && size > 100 * 1024 * 1024) return;
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+
+      fetch(url)
+        .then(r => r.arrayBuffer())
+        .then(buf => {
+          const ac = new AC();
+          return ac.decodeAudioData(buf).then(decoded => { ac.close(); return decoded; });
+        })
+        .then(decoded => {
+          const data = decoded.getChannelData(0);
+          const block = Math.max(1, Math.floor(data.length / WAVE_BARS));
+          const step = Math.max(1, Math.floor(block / 40));   // sample a subset, for speed
+          const peaks = [];
+          let max = 0;
+          for (let i = 0; i < WAVE_BARS; i++) {
+            let peak = 0;
+            const start = i * block;
+            for (let j = start; j < start + block && j < data.length; j += step) {
+              const v = Math.abs(data[j]);
+              if (v > peak) peak = v;
+            }
+            peaks.push(peak);
+            if (peak > max) max = peak;
+          }
+          wavePeaks = peaks.map(p => (max > 0 ? p / max : 0.08));
+          renderWaveform(wavePeaks);
+        })
+        .catch(() => { /* could not decode: the flat bars stay, which is fine */ });
+    }
+
+    function renderWaveform(peaks) {
       const canvas = document.getElementById('waveformCanvas');
+      const dpr = window.devicePixelRatio || 1;
+      const W = canvas.clientWidth || 600;
+      const H = 80;
+      // Real pixel size matches the screen size, so it stays sharp
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
       const ctx = canvas.getContext('2d');
-      const W = canvas.width;
-      const H = canvas.height;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
 
-      const bars = 80;
-      const barW = W / bars - 1;
-
-      for (let i = 0; i < bars; i++) {
-        const h = Math.random() * (H * 0.7) + (H * 0.1);
+      const barW = W / peaks.length - 1;
+      ctx.fillStyle = 'rgba(168,85,247,0.6)';
+      for (let i = 0; i < peaks.length; i++) {
+        const h = Math.max(3, peaks[i] * H * 0.9);
         const x = i * (barW + 1);
         const y = (H - h) / 2;
-        ctx.fillStyle = 'rgba(168,85,247,0.6)';
-        ctx.beginPath();
-        ctx.roundRect(x, y, barW, h, 2);
-        ctx.fill();
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect(x, y, barW, h, 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(x, y, barW, h);   // older browsers
+        }
       }
     }
 
-    /* ── Play / Pause ── */
+    /* ════════════════════════════════
+       PLAYER
+    ════════════════════════════════ */
     function togglePlay() {
       if (!audioEl) return;
-      if (isPlaying) {
-        audioEl.pause();
-        isPlaying = false;
-        document.getElementById('playIcon').className =
-          'bi bi-play-fill';
-        cancelAnimationFrame(animFrame);
+      if (audioEl.paused) {
+        const p = audioEl.play();
+        if (p && p.catch) p.catch(() => { /* blocked or unsupported: the button just stays on "play" */ });
       } else {
-        audioEl.play();
-        isPlaying = true;
-        document.getElementById('playIcon').className =
-          'bi bi-pause-fill';
-        animatePlayback();
+        audioEl.pause();
       }
     }
 
-    /* ── Animate playback line ── */
-    function animatePlayback() {
-      if (!isPlaying) return;
-      const canvas = document.getElementById('waveformCanvas');
-      const pct = audioEl.currentTime / (audioEl.duration || 1);
-      document.getElementById('playbackLine').style.left =
-        (pct * canvas.offsetWidth) + 'px';
-      animFrame = requestAnimationFrame(animatePlayback);
-    }
-
-    /* ── Update progress bar ── */
     function updateProgress() {
       if (!audioEl) return;
-      const pct = (audioEl.currentTime / (audioEl.duration || 1)) * 100;
-      document.getElementById('audioProgressFill').style.width =
-        pct + '%';
-      document.getElementById('currentTime').textContent =
-        formatTime(audioEl.currentTime);
+      const dur = Number.isFinite(audioEl.duration) && audioEl.duration > 0 ? audioEl.duration : 0;
+      const pct = dur ? Math.min(100, (audioEl.currentTime / dur) * 100) : 0;
+      document.getElementById('audioProgressFill').style.width = pct + '%';
+      document.getElementById('playbackLine').style.left = 'calc(' + pct + '% - ' + (pct / 100) * 2 + 'px)';
+      document.getElementById('currentTime').textContent = formatTime(audioEl.currentTime);
     }
 
-    /* ── Seek ── */
     function seekAudio(sec) {
-      if (!audioEl) return;
-      audioEl.currentTime =
-        Math.max(0, Math.min(
-          audioEl.currentTime + sec, audioEl.duration
-        ));
+      if (!audioEl || !Number.isFinite(audioEl.duration)) return;
+      audioEl.currentTime = Math.max(0, Math.min(audioEl.currentTime + sec, audioEl.duration));
     }
 
+    // Used by both the waveform and the progress bar
     function seekByClick(e) {
-      if (!audioEl) return;
+      if (!audioEl || !Number.isFinite(audioEl.duration)) return;
       const rect = e.currentTarget.getBoundingClientRect();
-      const pct = (e.clientX - rect.left) / rect.width;
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       audioEl.currentTime = pct * audioEl.duration;
     }
 
-    /* ── Volume ── */
-    function setVolume(val) {
-      if (audioEl) audioEl.volume = val;
+    function setVolume(val) { if (audioEl) audioEl.volume = val; }
+
+    /* ════════════════════════════════
+       SETTINGS
+    ════════════════════════════════ */
+    function setLevel(level) { setBitrate(levelMap[level]); }
+
+    function setBitrate(val) {
+      bitrate = val;
+      document.getElementById('bitrateRange').value = val;
+      document.getElementById('bitrateVal').textContent = val + ' kbps';
+      document.getElementById('infobitrate').textContent = val + ' kbps';
+      // Highlight a level card only when the bitrate really matches it
+      document.querySelectorAll('.comp-level-btn').forEach(b =>
+        b.classList.toggle('active', levelMap[b.dataset.level] === val));
+      updateEstimate();
     }
 
-    /* ── Compression level ── */
-    function setLevel(level, btn) {
-      document.querySelectorAll('.comp-level-btn')
-        .forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      bitrate = levelMap[level];
-      document.getElementById('bitrateRange').value = bitrate;
-      document.getElementById('bitrateVal').textContent =
-        bitrate + ' kbps';
-      document.getElementById('infobitrate').textContent =
-        bitrate + ' kbps';
-      if (currentFile) updateEstimate(currentFile.size, bitrate);
+    // MP3 does not allow high bitrates at low sample rates, so cap the slider
+    function applyBitrateLimit() {
+      const fmt = document.getElementById('outputFormat').value;
+      const sr = parseInt(document.getElementById('sampleRate').value, 10);
+      let max = 320;
+      if (fmt === 'mp3') {
+        if (sr <= 8000) max = 64;
+        else if (sr <= 24000) max = 160;
+      }
+      const range = document.getElementById('bitrateRange');
+      range.max = max;
+
+      const marks = document.getElementById('bitrateMarks');
+      const mid = Math.max(32, Math.round(max / 2 / 32) * 32);
+      marks.innerHTML = '<span>32</span><span>' + mid + '</span><span>' + max + '</span>';
+
+      const note = document.getElementById('bitrateNote');
+      if (bitrate > max) {
+        setBitrate(max);
+        note.textContent = 'Bitrate lowered to ' + max + ' kbps, the most MP3 allows at this sample rate.';
+        note.style.display = 'block';
+      } else {
+        note.style.display = 'none';
+      }
     }
 
-    /* ── Bitrate slider ── */
-    function updateBitrate(val) {
-      bitrate = parseInt(val);
-      document.getElementById('bitrateVal').textContent =
-        val + ' kbps';
-      document.getElementById('infobitrate').textContent =
-        val + ' kbps';
-      if (currentFile) updateEstimate(currentFile.size, bitrate);
+    /* ════════════════════════════════
+       SIZE ESTIMATE (based on the real length of the audio)
+    ════════════════════════════════ */
+    function setSavingText(el, origBytes, newBytes) {
+      const diff = Math.round((1 - newBytes / origBytes) * 100);
+      el.textContent = diff >= 0 ? '~' + diff + '% smaller' : '~' + Math.abs(diff) + '% larger';
+      el.classList.toggle('larger', diff < 0);
     }
 
-    /* ── Estimate output size ── */
-    function updateEstimate(origSize, br) {
-      const ratio = br / 320;
-      const estSize = Math.round(origSize * ratio * 0.9);
-      const saving = Math.round((1 - estSize / origSize) * 100);
-      document.getElementById('estSize').textContent =
-        formatSize(estSize);
-      document.getElementById('savingPct').textContent =
-        '~' + saving + '% smaller';
-      document.getElementById('summarySaving').textContent =
-        '~' + saving + '% smaller';
+    function updateEstimate() {
+      const estEl = document.getElementById('estSize');
+      const pctEl = document.getElementById('savingPct');
+      if (!currentFile || !currentFile.size || !Number.isFinite(audioDuration) || audioDuration <= 0) {
+        estEl.textContent = '—';
+        pctEl.textContent = '';
+        return;
+      }
+      // bitrate (kbps) x seconds x 125 = bytes
+      const estBytes = Math.round(audioDuration * bitrate * 125);
+      estEl.textContent = '~' + formatSize(estBytes);
+      setSavingText(pctEl, currentFile.size, estBytes);
     }
 
-    /* ── Format time ── */
+    /* ════════════════════════════════
+       FORMATTERS
+    ════════════════════════════════ */
     function formatTime(secs) {
-      if (isNaN(secs)) return '0:00';
+      if (!Number.isFinite(secs)) return '0:00';
       const m = Math.floor(secs / 60);
       const s = Math.floor(secs % 60);
       return m + ':' + (s < 10 ? '0' : '') + s;
     }
 
-    /* ── Format size ── */
     function formatSize(bytes) {
       if (!bytes) return '—';
       if (bytes < 1024) return bytes + ' B';
-      if (bytes < 1024 * 1024)
-        return (bytes / 1024).toFixed(1) + ' KB';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
       return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
     }
 
-    /* ── Start Processing ── */
+    /* ════════════════════════════════
+       PROCESSING
+    ════════════════════════════════ */
+    function endProcessing() {
+      clearInterval(progressTimer);
+      document.getElementById('processingModal').classList.remove('show');
+      document.getElementById('processBtn').disabled = false;
+      isProcessing = false;
+    }
+
     function startProcessing() {
+      if (isProcessing) return;   // ignore double clicks
+
       if (!currentFile) {
         alert('No audio file found. Please upload from home page.');
         window.location.href = '/';
         return;
       }
 
-      const format =
-        document.getElementById('outputFormat').value;
-      const sampleRate =
-        document.getElementById('sampleRate').value;
+      const format = document.getElementById('outputFormat').value;
+      const sampleRate = document.getElementById('sampleRate').value;
 
-      document.getElementById('summaryBitrate').textContent =
-        bitrate + ' kbps';
-      document.getElementById('summaryFormat').textContent =
-        format.toUpperCase() + ' format';
-      processedName = 'compressed_' +
-        (currentFile.name || 'audio').replace(/\.[^.]+$/, '')
-        + '.' + format;
+      document.getElementById('summaryBitrate').textContent = bitrate + ' kbps';
+      document.getElementById('summaryFormat').textContent = format.toUpperCase() + ' format';
+      processedName = 'compressed_' + (currentFile.name || 'audio').replace(/\.[^.]+$/, '') + '.' + format;
 
-      const processingModal =
-        document.getElementById('processingModal');
-      const progressFill =
-        document.getElementById('progressFill');
+      if (audioEl) audioEl.pause();
 
-      if (audioEl && isPlaying) {
-        audioEl.pause();
-        isPlaying = false;
-        document.getElementById('playIcon').className =
-          'bi bi-play-fill';
-      }
+      isProcessing = true;
+      document.getElementById('processBtn').disabled = true;
 
+      const processingModal = document.getElementById('processingModal');
+      const progressFill = document.getElementById('progressFill');
+      progressFill.style.width = '0%';
       processingModal.classList.add('show');
 
       getFileBlob(function (file, meta) {
+        // If the file could not be found, close the popup instead of leaving it stuck
+        if (!file || !meta) {
+          endProcessing();
+          showNetworkError('File Not Found', 'We could not read your file. Please upload it again.');
+          return;
+        }
+
         let progress = 0;
-        const interval = setInterval(() => {
+        progressTimer = setInterval(() => {
           progress += Math.random() * 15;
-          if (progress >= 95) {
-            progress = 95;
-            clearInterval(interval);
-          }
+          if (progress >= 95) { progress = 95; clearInterval(progressTimer); }
           progressFill.style.width = progress + '%';
         }, 350);
 
@@ -1645,84 +1684,76 @@
         formData.append('bitrate', bitrate);
         formData.append('format', format);
         formData.append('sampleRate', sampleRate);
-        fetch('/api/audio/compress', {
-          method: 'POST',
-          body: formData
-        })
+
+        fetch('/api/audio/compress', { method: 'POST', body: formData })
           .then(r => {
+            if (r.status === 413) throw new Error('too_large');
             if (!r.ok) throw new Error('Compression failed');
             return r.blob();
           })
           .then(blob => {
-            clearInterval(interval);
+            clearInterval(progressTimer);
             progressFill.style.width = '100%';
             processedBlob = blob;
+
+            // Show the real result, not just an estimate
+            setSavingText(document.getElementById('summarySaving'), currentFile.size, blob.size);
+            document.getElementById('summarySaving').textContent += ' (' + formatSize(blob.size) + ')';
+
             setTimeout(() => {
-              processingModal.classList.remove('show');
-              document.getElementById('successModal')
-                .classList.add('show');
+              endProcessing();
+              document.getElementById('successModal').classList.add('show');
             }, 400);
           })
-          // ✅ Replace with this
           .catch(err => {
-            clearInterval(interval);
-            processingModal.classList.remove('show');
-
-            if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
-              showNetworkError(
-                'No Internet Connection',
-                'Your connection was lost while compressing. Please check your WiFi and try again.'
-              );
-            } else if (err.message === 'too_large') {
-              showNetworkError(
-                'File Too Large',
-                'Your audio file is too large to process. Please try a smaller file.'
-              );
+            endProcessing();
+            if (err.message === 'too_large') {
+              showNetworkError('File Too Large', 'Your audio file is too large to process. Please try a smaller file.');
+            } else if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+              showNetworkError('No Internet Connection', 'Your connection was lost while compressing. Please check your WiFi and try again.');
             } else {
-              showNetworkError(
-                'Something Went Wrong',
-                'Could not compress your audio. Please try again.'
-              );
+              showNetworkError('Something Went Wrong', 'Could not compress your audio. Please try again.');
             }
           });
       });
     }
 
-    /* ── Download ── */
+    /* ════════════════════════════════
+       DOWNLOAD / NAVIGATION
+    ════════════════════════════════ */
     function downloadFile() {
-      if (processedBlob) {
-        const url = URL.createObjectURL(processedBlob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = processedName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }
+      if (!processedBlob) return;
+      const url = URL.createObjectURL(processedBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = processedName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      // Wait before releasing the link, or some browsers cancel the download
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
     }
 
-    /* ── Compress Another ── */
     function compressAnother() {
-      document.getElementById('successModal')
-        .classList.remove('show');
+      document.getElementById('successModal').classList.remove('show');
       document.getElementById('progressFill').style.width = '0%';
-      if (audioEl) { audioEl.pause(); audioEl.src = ''; }
+      if (audioEl) { audioEl.pause(); audioEl.removeAttribute('src'); audioEl.load(); }
       window.location.href = '/';
     }
-    function goBack() {
-      const ref = document.referrer || "";
 
+    function goBack() {
+      const ref = document.referrer || '';
       if (ref.includes('/all-tools')) {
         window.location.href = '/all-tools';
       } else if (ref.includes('/file-tools')) {
         window.location.href = '/file-tools';
       } else if (window.history.length > 1) {
-        window.history.back(); // smart fallback
+        window.history.back();
       } else {
         window.location.href = '/';
       }
     }
+
     function showNetworkError(title, message) {
       document.getElementById('netErrTitle').textContent = title;
       document.getElementById('netErrMsg').textContent = message;

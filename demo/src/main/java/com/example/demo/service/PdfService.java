@@ -32,6 +32,12 @@ import java.awt.Graphics2D;
 @Service
 public class PdfService {
 
+    // Define the absolute path to your Python script (adjust path based on your
+    // machine environment)
+    private static final String PYTHON_SCRIPT_PATH = "C:/FinalVetriFiles/Final/demo/scripts/convert_pdf.py";
+    private static final String PYTHON_EXECUTABLE = "python"; // Use full path if python is not in global PATH (e.g.,
+                                                              // "C:\\Python311\\python.exe")
+
     // ── MERGE PDFs ────────────────────────────
     public File mergePdfs(MultipartFile[] files) throws IOException {
         PDFMergerUtility merger = new PDFMergerUtility();
@@ -63,7 +69,7 @@ public class PdfService {
             throws IOException {
 
         try (InputStream is = file.getInputStream();
-             PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly())) {
+                PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly())) {
 
             AccessPermission ap = new AccessPermission();
             ap.setCanPrint(allowPrint);
@@ -74,10 +80,9 @@ public class PdfService {
             ap.setCanExtractForAccessibility(allowCopy);
 
             String effectiveOwner = ownerPassword.isEmpty() ? userPassword : ownerPassword;
-            String effectiveUser  = userPassword;
+            String effectiveUser = userPassword;
 
-            StandardProtectionPolicy policy =
-                new StandardProtectionPolicy(effectiveOwner, effectiveUser, ap);
+            StandardProtectionPolicy policy = new StandardProtectionPolicy(effectiveOwner, effectiveUser, ap);
 
             int keyLength = "256".equals(encryptionLevel) ? 256 : 128;
             policy.setEncryptionKeyLength(keyLength);
@@ -108,8 +113,8 @@ public class PdfService {
             }
 
             try (InputStream is2 = file.getInputStream();
-                 PDDocument doc = PDDocument.load(is2, password,
-                         MemoryUsageSetting.setupTempFileOnly())) {
+                    PDDocument doc = PDDocument.load(is2, password,
+                            MemoryUsageSetting.setupTempFileOnly())) {
                 doc.setAllSecurityToBeRemoved(true);
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 doc.save(out);
@@ -123,7 +128,7 @@ public class PdfService {
     // ── SPLIT PDF (single page) ───────────────
     public byte[] splitPdf(MultipartFile file, int pageNumber) throws IOException {
         try (InputStream is = file.getInputStream();
-             PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly())) {
+                PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly())) {
 
             int totalPages = document.getNumberOfPages();
             if (pageNumber < 1 || pageNumber > totalPages) {
@@ -144,9 +149,9 @@ public class PdfService {
         File zipOutput = File.createTempFile("split_parts_", ".zip", new File(System.getProperty("java.io.tmpdir")));
 
         try (InputStream is = file.getInputStream();
-             PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly());
-             FileOutputStream fos = new FileOutputStream(zipOutput);
-             ZipOutputStream zos = new ZipOutputStream(fos)) {
+                PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly());
+                FileOutputStream fos = new FileOutputStream(zipOutput);
+                ZipOutputStream zos = new ZipOutputStream(fos)) {
 
             int totalPages = document.getNumberOfPages();
             for (int i = 0; i < totalPages; i += n) {
@@ -154,7 +159,8 @@ public class PdfService {
                     for (int j = i; j < Math.min(i + n, totalPages); j++) {
                         part.addPage(document.getPage(j));
                     }
-                    File partFile = File.createTempFile("part_", ".pdf", new File(System.getProperty("java.io.tmpdir")));
+                    File partFile = File.createTempFile("part_", ".pdf",
+                            new File(System.getProperty("java.io.tmpdir")));
                     part.save(partFile);
 
                     ZipEntry entry = new ZipEntry("part_" + (i / n + 1) + ".pdf");
@@ -179,8 +185,8 @@ public class PdfService {
         File output = File.createTempFile("split_", ".pdf", new File(System.getProperty("java.io.tmpdir")));
 
         try (InputStream is = file.getInputStream();
-             PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly());
-             PDDocument extracted = new PDDocument()) {
+                PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly());
+                PDDocument extracted = new PDDocument()) {
 
             String[] ranges = pageRange.split(",");
             for (String range : ranges) {
@@ -210,29 +216,39 @@ public class PdfService {
         float imageQuality = Math.max(0.4f, Math.min(quality / 100f, 0.8f));
 
         try (InputStream is = file.getInputStream();
-             PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly())) {
+                PDDocument document = PDDocument.load(is, MemoryUsageSetting.setupTempFileOnly())) {
 
             for (PDPage page : document.getPages()) {
                 PDResources resources = page.getResources();
-                if (resources == null) continue;
+                if (resources == null)
+                    continue;
 
                 for (COSName name : resources.getXObjectNames()) {
                     PDXObject xObject;
-                    try { xObject = resources.getXObject(name); }
-                    catch (Exception e) { continue; }
+                    try {
+                        xObject = resources.getXObject(name);
+                    } catch (Exception e) {
+                        continue;
+                    }
 
-                    if (!(xObject instanceof PDImageXObject)) continue;
+                    if (!(xObject instanceof PDImageXObject))
+                        continue;
 
                     PDImageXObject image = (PDImageXObject) xObject;
-                    if (image.getStream().getLength() < 10_000) continue;
+                    if (image.getStream().getLength() < 10_000)
+                        continue;
 
                     BufferedImage buffered;
-                    try { buffered = image.getImage(); }
-                    catch (Exception e) { continue; }
-                    if (buffered == null) continue;
+                    try {
+                        buffered = image.getImage();
+                    } catch (Exception e) {
+                        continue;
+                    }
+                    if (buffered == null)
+                        continue;
 
                     try {
-                        int newWidth  = Math.max(1, buffered.getWidth()  / 2);
+                        int newWidth = Math.max(1, buffered.getWidth() / 2);
                         int newHeight = Math.max(1, buffered.getHeight() / 2);
 
                         BufferedImage resized = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
@@ -280,42 +296,48 @@ public class PdfService {
 
     // ── ADD SIGNATURE ─────────────────────────
     public File addSignature(MultipartFile pdfFile,
-                              MultipartFile signatureFile,
-                              String position,
-                              String pageRange,
-                              float sigSize,
-                              float opacity) throws IOException {
+            MultipartFile signatureFile,
+            String position,
+            String pageRange,
+            float sigSize,
+            float opacity) throws IOException {
 
         File output = File.createTempFile("signed_", ".pdf", new File(System.getProperty("java.io.tmpdir")));
 
         try (InputStream pdfIs = pdfFile.getInputStream();
-             InputStream sigIs = signatureFile.getInputStream();
-             PDDocument document = PDDocument.load(pdfIs, MemoryUsageSetting.setupTempFileOnly())) {
+                InputStream sigIs = signatureFile.getInputStream();
+                PDDocument document = PDDocument.load(pdfIs, MemoryUsageSetting.setupTempFileOnly())) {
 
             BufferedImage sigImage = ImageIO.read(sigIs);
-            if (sigImage == null) throw new RuntimeException("Invalid signature image");
+            if (sigImage == null)
+                throw new RuntimeException("Invalid signature image");
 
             int totalPages = document.getNumberOfPages();
             boolean[] pagesToSign = new boolean[totalPages];
 
             if (pageRange == null || pageRange.equals("all")) {
-                for (int i = 0; i < totalPages; i++) pagesToSign[i] = true;
+                for (int i = 0; i < totalPages; i++)
+                    pagesToSign[i] = true;
             } else if (pageRange.equals("current")) {
-                if (totalPages > 0) pagesToSign[0] = true;
+                if (totalPages > 0)
+                    pagesToSign[0] = true;
             } else if (pageRange.startsWith("custom:")) {
                 String[] parts = pageRange.split(":");
                 int from = Integer.parseInt(parts[1]) - 1;
                 int to = Integer.parseInt(parts[2]) - 1;
-                for (int i = Math.max(0, from); i <= Math.min(totalPages - 1, to); i++) pagesToSign[i] = true;
+                for (int i = Math.max(0, from); i <= Math.min(totalPages - 1, to); i++)
+                    pagesToSign[i] = true;
             }
 
             PDImageXObject pdImage = LosslessFactory.createFromImage(document, sigImage);
 
             for (int pageIndex = 0; pageIndex < totalPages; pageIndex++) {
-                if (!pagesToSign[pageIndex]) continue;
+                if (!pagesToSign[pageIndex])
+                    continue;
 
                 PDPage page = document.getPage(pageIndex);
-                PDPageContentStream cs = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, true, true);
+                PDPageContentStream cs = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND,
+                        true, true);
 
                 float pageW = page.getMediaBox().getWidth();
                 float pageH = page.getMediaBox().getHeight();
@@ -328,16 +350,43 @@ public class PdfService {
 
                 float x, y;
                 switch (position) {
-                    case "top-left": x = 30; y = pageH - sigH - 30; break;
-                    case "top-center": x = (pageW - sigW)/2; y = pageH - sigH - 30; break;
-                    case "top-right": x = pageW - sigW - 30; y = pageH - sigH - 30; break;
-                    case "mid-left": x = 30; y = (pageH - sigH)/2; break;
-                    case "mid-right": x = pageW - sigW - 30; y = (pageH - sigH)/2; break;
-                    case "center": x = (pageW - sigW)/2; y = (pageH - sigH)/2; break;
-                    case "bottom-left": x = 30; y = 30; break;
-                    case "bottom-right": x = pageW - sigW - 30; y = 30; break;
+                    case "top-left":
+                        x = 30;
+                        y = pageH - sigH - 30;
+                        break;
+                    case "top-center":
+                        x = (pageW - sigW) / 2;
+                        y = pageH - sigH - 30;
+                        break;
+                    case "top-right":
+                        x = pageW - sigW - 30;
+                        y = pageH - sigH - 30;
+                        break;
+                    case "mid-left":
+                        x = 30;
+                        y = (pageH - sigH) / 2;
+                        break;
+                    case "mid-right":
+                        x = pageW - sigW - 30;
+                        y = (pageH - sigH) / 2;
+                        break;
+                    case "center":
+                        x = (pageW - sigW) / 2;
+                        y = (pageH - sigH) / 2;
+                        break;
+                    case "bottom-left":
+                        x = 30;
+                        y = 30;
+                        break;
+                    case "bottom-right":
+                        x = pageW - sigW - 30;
+                        y = 30;
+                        break;
                     case "bottom-center":
-                    default: x = (pageW - sigW)/2; y = 30; break;
+                    default:
+                        x = (pageW - sigW) / 2;
+                        y = 30;
+                        break;
                 }
 
                 PDExtendedGraphicsState gs = new PDExtendedGraphicsState();
@@ -355,168 +404,34 @@ public class PdfService {
     }
 
     // ── PDF TO WORD ────────────────────────────
-    // Uses the SAME resolved LibreOffice path as WordService's Word → PDF
-    // conversion (via WordService.getSofficePath()) — this fixes the
-    // Windows "'C:\Program' is not recognized..." error, which happens
-    // when a path containing spaces gets passed as a single string
-    // instead of a proper array element to ProcessBuilder.
-    // NOTE: LibreOffice's PDF import filter reconstructs text/layout as
-    // best it can, so results on heavily-designed or scanned PDFs won't
-    // be as clean as the Word → PDF direction. Simple/text-based PDFs
-    // convert well.
-    // public File convertPdfToWord(MultipartFile file) throws IOException {
-    //     String sofficePath = WordService.getSofficePath();
-
-    //     File sofficeBin = new File(sofficePath);
-    //     if (sofficeBin.isAbsolute() && !sofficeBin.exists()) {
-    //         throw new IOException(
-    //                 "LibreOffice not found at: " + sofficePath +
-    //                 ". Please install LibreOffice or set the SOFFICE_PATH env variable.");
-    //     }
-
-    //     File workDir = new File(System.getProperty("java.io.tmpdir"),
-    //             "pdf2word_" + UUID.randomUUID());
-    //     if (!workDir.mkdirs()) {
-    //         throw new IOException("Could not create temp working directory");
-    //     }
-
-    //     File inputPdf = new File(workDir, "input.pdf");
-    //     file.transferTo(inputPdf);
-
-    //     try {
-    //         // Unique user profile dir, same reasoning as WordService —
-    //         // prevents Windows lock conflicts on parallel requests.
-    //         File userProfile = new File(workDir, "lo-profile");
-    //         userProfile.mkdirs();
-    //         String profileUri = "file:///" + userProfile.getAbsolutePath().replace("\\", "/");
-
-    //         // IMPORTANT: each argument is its own array element.
-    //         // Never build this as a single concatenated string —
-    //         // that's what breaks on Windows paths with spaces.
-    //         // IMPORTANT: without --infilter, LibreOffice opens a PDF
-    //         // through its Draw component by default, which cannot be
-    //         // exported to "MS Word 2007 XML" (a Writer-only filter) —
-    //         // that mismatch is what causes the 0xc10 write error.
-    //         // Forcing writer_pdf_import makes LO import the PDF as an
-    //         // editable Writer document instead, matching the docx export.
-    //         List<String> cmd = Arrays.asList(
-    //                 sofficePath,
-    //                 "--headless",
-    //                 "--norestore",
-    //                 "--nofirststartwizard",
-    //                 "-env:UserInstallation=" + profileUri,
-    //                 "--infilter=writer_pdf_import",
-    //                 "--convert-to", "docx:MS Word 2007 XML",
-    //                 "--outdir", workDir.getAbsolutePath(),
-    //                 inputPdf.getAbsolutePath()
-    //         );
-
-    //         ProcessBuilder pb = new ProcessBuilder(cmd);
-    //         pb.redirectErrorStream(true);
-    //         if (!System.getProperty("os.name", "").toLowerCase().contains("win")) {
-    //             pb.environment().putIfAbsent("HOME", System.getProperty("user.home", "/tmp"));
-    //         }
-
-    //         Process process = pb.start();
-    //         String output;
-    //         try (InputStream is = process.getInputStream()) {
-    //             output = new String(is.readAllBytes());
-    //         }
-
-    //         boolean finished = process.waitFor(90, TimeUnit.SECONDS);
-    //         if (!finished) {
-    //             process.destroyForcibly();
-    //             throw new IOException("PDF to Word conversion timed out");
-    //         }
-    //         if (process.exitValue() != 0) {
-    //             throw new IOException("LibreOffice conversion failed: " + output);
-    //         }
-
-    //         File convertedDocx = new File(workDir, "input.docx");
-    //         if (!convertedDocx.exists()) {
-    //             throw new IOException("Conversion did not produce an output file: " + output);
-    //         }
-
-    //         File finalOutput = File.createTempFile("pdf_to_word_", ".docx",
-    //                 new File(System.getProperty("java.io.tmpdir")));
-    //         try (InputStream in = new FileInputStream(convertedDocx);
-    //              FileOutputStream out = new FileOutputStream(finalOutput)) {
-    //             byte[] buffer = new byte[8 * 1024];
-    //             int bytesRead;
-    //             while ((bytesRead = in.read(buffer)) != -1) {
-    //                 out.write(buffer, 0, bytesRead);
-    //             }
-    //         }
-    //         return finalOutput;
-
-    //     } catch (InterruptedException e) {
-    //         Thread.currentThread().interrupt();
-    //         throw new IOException("Conversion interrupted", e);
-    //     } finally {
-    //         deleteRecursively(workDir);
-    //     }
-    // }
-
     public File convertPdfToWord(MultipartFile file) throws IOException {
-    try {
-        LibreOfficeLock.acquire();
-    } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
-        throw new IOException("Interrupted waiting for LibreOffice lock", e);
-    }
-
-    try {
-        String sofficePath = WordService.getSofficePath();
-
-        File sofficeBin = new File(sofficePath);
-        if (sofficeBin.isAbsolute() && !sofficeBin.exists()) {
-            throw new IOException(
-                    "LibreOffice not found at: " + sofficePath +
-                    ". Please install LibreOffice or set the SOFFICE_PATH env variable.");
-        }
-
-        File workDir = new File(System.getProperty("java.io.tmpdir"),
-                "pdf2word_" + UUID.randomUUID());
-        if (!workDir.mkdirs()) {
-            throw new IOException("Could not create temp working directory");
-        }
-
-        File inputPdf = new File(workDir, "input.pdf");
-        file.transferTo(inputPdf);
-
         try {
-            // Unique user profile dir, same reasoning as WordService —
-            // prevents Windows lock conflicts on parallel requests.
-            File userProfile = new File(workDir, "lo-profile");
-            userProfile.mkdirs();
-            String profileUri = "file:///" + userProfile.getAbsolutePath().replace("\\", "/");
+            LibreOfficeLock.acquire(); // Reuse your concurrency lock to coordinate local system processes safely
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted waiting for conversion lock", e);
+        }
 
-            // IMPORTANT: each argument is its own array element.
-            // Never build this as a single concatenated string —
-            // that's what breaks on Windows paths with spaces.
-            // IMPORTANT: without --infilter, LibreOffice opens a PDF
-            // through its Draw component by default, which cannot be
-            // exported to "MS Word 2007 XML" (a Writer-only filter) —
-            // that mismatch is what causes the 0xc10 write error.
-            // Forcing writer_pdf_import makes LO import the PDF as an
-            // editable Writer document instead, matching the docx export.
+        File workDir = null;
+        try {
+            workDir = new File(System.getProperty("java.io.tmpdir"),
+                    "pdf2word_" + UUID.randomUUID());
+            if (!workDir.mkdirs()) {
+                throw new IOException("Could not create temp working directory");
+            }
+
+            File inputPdf = new File(workDir, "input.pdf");
+            file.transferTo(inputPdf);
+            File outputDocx = new File(workDir, "output.docx");
+
             List<String> cmd = Arrays.asList(
-                    sofficePath,
-                    "--headless",
-                    "--norestore",
-                    "--nofirststartwizard",
-                    "-env:UserInstallation=" + profileUri,
-                    "--infilter=writer_pdf_import",
-                    "--convert-to", "docx:MS Word 2007 XML",
-                    "--outdir", workDir.getAbsolutePath(),
-                    inputPdf.getAbsolutePath()
-            );
+                    PYTHON_EXECUTABLE,
+                    PYTHON_SCRIPT_PATH,
+                    inputPdf.getAbsolutePath(),
+                    outputDocx.getAbsolutePath());
 
             ProcessBuilder pb = new ProcessBuilder(cmd);
             pb.redirectErrorStream(true);
-            if (!System.getProperty("os.name", "").toLowerCase().contains("win")) {
-                pb.environment().putIfAbsent("HOME", System.getProperty("user.home", "/tmp"));
-            }
 
             Process process = pb.start();
             String output;
@@ -524,24 +439,24 @@ public class PdfService {
                 output = new String(is.readAllBytes());
             }
 
-            boolean finished = process.waitFor(90, TimeUnit.SECONDS);
+            // OCR processing requires more headroom than LibreOffice, hence 120 seconds timeout
+            boolean finished = process.waitFor(120, TimeUnit.SECONDS);
             if (!finished) {
                 process.destroyForcibly();
-                throw new IOException("PDF to Word conversion timed out");
+                throw new IOException("PDF to Word conversion timed out during layout/OCR processing.");
             }
             if (process.exitValue() != 0) {
-                throw new IOException("LibreOffice conversion failed: " + output);
+                throw new IOException("Conversion script failed: " + output);
             }
-
-            File convertedDocx = new File(workDir, "input.docx");
-            if (!convertedDocx.exists()) {
+            if (!outputDocx.exists()) {
                 throw new IOException("Conversion did not produce an output file: " + output);
             }
 
+            // Create a safe independent temp file to return to the controller response stream
             File finalOutput = File.createTempFile("pdf_to_word_", ".docx",
                     new File(System.getProperty("java.io.tmpdir")));
-            try (InputStream in = new FileInputStream(convertedDocx);
-                 FileOutputStream out = new FileOutputStream(finalOutput)) {
+            try (InputStream in = new FileInputStream(outputDocx);
+                    FileOutputStream out = new FileOutputStream(finalOutput)) {
                 byte[] buffer = new byte[8 * 1024];
                 int bytesRead;
                 while ((bytesRead = in.read(buffer)) != -1) {
@@ -552,21 +467,24 @@ public class PdfService {
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new IOException("Conversion interrupted", e);
+            throw new IOException("Conversion process was interrupted", e);
         } finally {
-            deleteRecursively(workDir);
+            if (workDir != null) {
+                deleteRecursively(workDir);
+            }
+            LibreOfficeLock.release();
         }
-
-    } finally {
-        LibreOfficeLock.release();
     }
-}
 
-    private void deleteRecursively(File file) {
-        File[] children = file.listFiles();
-        if (children != null) {
-            for (File child : children) deleteRecursively(child);
+    private void deleteRecursively(File f) {
+        if (f.isDirectory()) {
+            File[] files = f.listFiles();
+            if (files != null) {
+                for (File child : files) {
+                    deleteRecursively(child);
+                }
+            }
         }
-        file.delete();
+        f.delete();
     }
 }

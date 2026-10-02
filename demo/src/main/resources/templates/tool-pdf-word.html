@@ -53,6 +53,7 @@
             --accent-1: #F3F4F6;
             --accent-2: #E5E7EB;
             --white: #ffffff;
+            --gray-bg: #F3F4F6;
             --radius-card: 16px;
             --radius-btn: 50px;
         }
@@ -196,9 +197,11 @@
         }
 
         .drop-zone:hover,
-        .drop-zone.dragover {
+        .drop-zone.dragover,
+        .drop-zone:focus-visible {
             border-color: var(--blue-main);
             background: #EFF6FF;
+            outline: none;
         }
 
         .drop-zone input {
@@ -433,6 +436,7 @@
             font-size: .9rem;
             color: var(--subtext);
             margin-bottom: 6px;
+            word-break: break-word;
         }
 
         .success-note {
@@ -494,9 +498,12 @@
             gap: 5px;
             font-size: .85rem;
             color: var(--subtext);
-            text-decoration: none;
             margin-bottom: 20px;
             transition: color .2s;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
         }
 
         .success-back:hover {
@@ -560,7 +567,7 @@
                     <div class="settings-card">
                         <div class="settings-title"><i class="bi bi-gear-fill"></i> Settings</div>
 
-                        <label class="form-label-custom">Output Format</label>
+                        <label class="form-label-custom" for="outputFormat">Output Format</label>
                         <select class="select-custom mb-4" id="outputFormat" disabled>
                             <option value="docx" selected>DOCX</option>
                         </select>
@@ -583,7 +590,8 @@
                     <div class="preview-card">
                         <p class="preview-title">Upload Your PDF File</p>
 
-                        <div class="drop-zone" id="dropZone">
+                        <div class="drop-zone" id="dropZone" role="button" tabindex="0"
+                            aria-label="Upload a PDF file. Press Enter to choose a file.">
                             <input type="file" id="fileInput" accept=".pdf,application/pdf" />
                             <i class="bi bi-file-earmark-pdf-fill drop-zone-icon" style="color:#DC2626;"></i>
                             <p class="drop-zone-title">Drag &amp; Drop your PDF file here</p>
@@ -600,8 +608,8 @@
                                 <div class="fi-name" id="stripName">—</div>
                                 <div class="fi-size" id="stripSize">—</div>
                             </div>
-                            <button class="fi-remove" onclick="removeFile()" title="Remove file"><i
-                                    class="bi bi-x-circle-fill"></i></button>
+                            <button class="fi-remove" onclick="removeFile()" title="Remove file"
+                                aria-label="Remove file"><i class="bi bi-x-circle-fill"></i></button>
                         </div>
 
                         <button class="btn-process" id="processBtn" onclick="startConversion()" disabled>
@@ -613,124 +621,179 @@
             </div>
         </div>
     </main>
+    <!-- ── How it works ── -->
+    <section class="section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-12 col-lg-5">
+                    <span class="section-badge">How It Works</span>
+                    <h2 class="section-title">PDF to Word - How to Convert PDF to Word Online for Free?</h2>
+                </div>
+                <div class="col-12 col-lg-7">
+                    <div class="timeline">
+                        <div class="tl-item">
+                            <div class="tl-dot">1</div>
+                            <div class="tl-content">
+                                <h5>Upload your PDF File.</h5>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">2</div>
+                            <div class="tl-content">
+                                <h5>Click Convert to Word.</h5>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">3</div>
+                            <div class="tl-content">
+                                <h5>Wait for the conversion to finish.</h5>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">4</div>
+                            <div class="tl-content">
+                                <h5>Preview the converted word if available.</h5>
+                            </div>
+                        </div>
+                        <div class="tl-item">
+                            <div class="tl-dot">5</div>
+                            <div class="tl-content">
+                                <h5>Download the word file.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="section" style="background: var(--gray-bg);">
-  <div class="container">
-    <div class="text-center mb-4">
-      <span class="section-badge">FAQ</span>
-      <h2 class="section-title">Frequently Asked Questions</h2>
-    </div>
-    <div class="faq-wrap">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-badge">FAQ</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-wrap">
 
-      <div class="faq-item">
-        <button class="faq-question">
-          What is Vetri Files PDF to Word?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Vetri Files PDF to Word is an online PDF Converter that converts supported PDF documents into a Word-compatible document format.</div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is Vetri Files PDF to Word?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Vetri Files PDF to Word is an online PDF Converter that converts
+                            supported PDF documents into a Word-compatible document format.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What does a PDF to Word Converter do?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">A PDF to Word converter transforms a supported PDF document into a
+                            Word document format.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I convert PDF to Word online?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Upload the supported PDF file, process it using the PDF to Word
+                            tool, and download the converted document.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How can I make a PDF document editable?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Converting a supported PDF using a PDF to Word tool may provide
+                            the document in a format designed for further editing.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Why convert PDF to Word?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Users may convert PDFs to Word format when they need to work with
+                            supported document content in an editable document environment.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        When should I use PDF to Word?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Use PDF to Word when you need a Word-compatible version of a
+                            supported PDF document.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is PDF to Word part of a Document Converter?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. PDF to Word is a document conversion function available
+                            through the Vetri Files platform.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can students convert PDF documents to Word?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Students and other users can use PDF to Word for supported
+                            document conversion needs.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is the difference between PDF to Word and Word to PDF?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">PDF to Word converts a PDF into a Word-compatible format, while
+                            Word to PDF converts a supported Word document into PDF format.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I convert PDF files online?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Vetri Files provides browser-based PDF Converter tools for
+                            supported document conversions.</div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          What does a PDF to Word Converter do?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">A PDF to Word converter transforms a supported PDF document into a Word document format.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          How do I convert PDF to Word online?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Upload the supported PDF file, process it using the PDF to Word tool, and download the converted document.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          How can I make a PDF document editable?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Converting a supported PDF using a PDF to Word tool may provide the document in a format designed for further editing.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Why convert PDF to Word?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Users may convert PDFs to Word format when they need to work with supported document content in an editable document environment.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          When should I use PDF to Word?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Use PDF to Word when you need a Word-compatible version of a supported PDF document.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-           Is PDF to Word part of a Document Converter?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. PDF to Word is a document conversion function available through the Vetri Files platform.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-           Can students convert PDF documents to Word?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Students and other users can use PDF to Word for supported document conversion needs.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          What is the difference between PDF to Word and Word to PDF?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">PDF to Word converts a PDF into a Word-compatible format, while Word to PDF converts a supported Word document into PDF format.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Can I convert PDF files online?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Vetri Files provides browser-based PDF Converter tools for supported document conversions.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- Processing Modal -->
     <div class="modal-overlay" id="processingModal">
         <div class="modal-box">
             <div class="spinner-ring"></div>
             <p class="modal-title-text">Converting Your File</p>
-            <p class="modal-sub-text">LibreOffice is rendering your document. Large files may take a moment...</p>
+            <p class="modal-sub-text">Converting your document. Large files may take a moment...</p>
             <div class="progress-track">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
@@ -740,12 +803,12 @@
     <!-- Success Modal -->
     <div class="modal-overlay" id="successModal">
         <div class="modal-box">
-            <a href="/file-tools" class="success-back"><i class="bi bi-arrow-left"></i> Back</a>
+            <button class="success-back" onclick="goBack()"><i class="bi bi-arrow-left"></i> Back</button>
             <div class="success-circle"><i class="bi bi-check-lg"></i></div>
             <p class="success-title">Your Word File is Ready!</p>
             <p class="success-file" id="successFileName">document.docx</p>
             <p class="success-note">Converted successfully</p>
-            <button class="btn-download" id="downloadBtn"><i class="bi bi-cloud-arrow-down-fill"></i> Download
+            <button class="btn-download" onclick="downloadResult()"><i class="bi bi-cloud-arrow-down-fill"></i> Download
                 DOCX</button>
             <button class="btn-convert-another" onclick="convertAnother()"><i class="bi bi-arrow-clockwise"></i> Convert
                 Another File</button>
@@ -759,10 +822,10 @@
                 style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#EF4444);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
                 <i class="bi bi-exclamation-lg" style="color:#fff;font-size:2rem;"></i>
             </div>
-            <p class="success-title" style="color:#DC2626;">Conversion Failed</p>
+            <p class="success-title" style="color:#DC2626;" id="errorTitle">Conversion Failed</p>
             <p class="success-file" id="errorMsg">Something went wrong. Please try again.</p>
             <button class="btn-download"
-                style="background:linear-gradient(135deg,#DC2626,#EF4444);box-shadow:0 4px 18px rgba(220,38,38,.35);"
+                style="background:linear-gradient(135deg,#DC2626,#EF4444);box-shadow:0 4px 18px rgba(220,38,38,.35);margin-top:20px;"
                 onclick="document.getElementById('errorModal').classList.remove('show')">
                 <i class="bi bi-arrow-clockwise"></i> Try Again
             </button>
@@ -780,11 +843,17 @@
         let selectedFile = null;
         let resultBlob = null;
         let resultName = '';
+        let isConverting = false;
+
+        const CONVERT_TIMEOUT_MS = 10 * 60 * 1000;   // stop waiting after 10 minutes
 
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const processBtn = document.getElementById('processBtn');
 
+        /* ════════════════════════════════
+           FILE PICKING
+        ════════════════════════════════ */
         dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
         dropZone.addEventListener('drop', e => {
@@ -792,11 +861,21 @@
             if (e.dataTransfer.files.length) bindFile(e.dataTransfer.files[0]);
         });
         dropZone.addEventListener('click', e => { if (!e.target.closest('.btn-browse')) fileInput.click(); });
+        // Keyboard users can open the file picker too
+        dropZone.addEventListener('keydown', e => {
+            if ((e.key === 'Enter' || e.key === ' ') && e.target === dropZone) { e.preventDefault(); fileInput.click(); }
+        });
         fileInput.addEventListener('change', () => { if (fileInput.files[0]) bindFile(fileInput.files[0]); });
+
+        // A file dropped outside the box would make the browser open it and leave this page
+        ['dragover', 'drop'].forEach(type => window.addEventListener(type, e => {
+            if (!e.target.closest || !e.target.closest('#dropZone')) e.preventDefault();
+        }));
 
         function bindFile(file) {
             const ext = file.name.split('.').pop().toLowerCase();
-            if (ext !== 'pdf') { showError('Please select a .pdf file.'); return; }
+            if (ext !== 'pdf') { showError('Please select a .pdf file.', 'Unsupported File'); return; }
+            if (file.size === 0) { showError('This file is empty. Please choose a different PDF.', 'Empty File'); return; }
             selectedFile = file;
             document.getElementById('stripName').textContent = file.name;
             document.getElementById('stripSize').textContent = formatSize(file.size);
@@ -812,38 +891,76 @@
             processBtn.disabled = true;
         }
 
+        /* ════════════════════════════════
+           CONVERSION
+        ════════════════════════════════ */
+        function messageForStatus(status) {
+            if (status === 413) return 'Your PDF is too large to convert. Please try a smaller file.';
+            if (status === 502 || status === 503 || status === 504) {
+                return 'The conversion took too long or the server is busy. Please try again in a moment.';
+            }
+            return 'We couldn\'t convert this PDF. It may be scanned, password-protected or damaged.';
+        }
+
+        function friendlyError(err) {
+            if (err && err.friendly) return err.message;
+            if (err && err.name === 'AbortError') return 'The conversion took too long. Please try a smaller file or try again later.';
+            if (err && err.name === 'TypeError') return 'Your connection was lost. Please check your internet and try again.';
+            return 'Something went wrong while converting. Please try again.';
+        }
+
         async function startConversion() {
-            if (!selectedFile) return;
+            if (!selectedFile || isConverting) return;   // ignore double clicks
+            isConverting = true;
             showProcessing();
             startProgress();
+
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), CONVERT_TIMEOUT_MS);
+
             try {
                 const fd = new FormData();
                 fd.append('file', selectedFile);
-                const res = await fetch('/api/pdf/to-word', { method: 'POST', body: fd });
-                if (!res.ok) { const t = await res.text(); throw new Error(t || 'Server error ' + res.status); }
+                const res = await fetch('/api/pdf/to-word', { method: 'POST', body: fd, signal: controller.signal });
+                if (!res.ok) {
+                    // The technical details go to the console, visitors get a clear message
+                    const detail = await res.text().catch(() => '');
+                    console.error('PDF to Word failed:', res.status, detail);
+                    const e = new Error(messageForStatus(res.status));
+                    e.friendly = true;
+                    throw e;
+                }
                 resultBlob = await res.blob();
                 resultName = selectedFile.name.replace(/\.pdf$/i, '') + '.docx';
                 stopProgress();
+                isConverting = false;
                 setTimeout(() => {
                     hideProcessing();
                     document.getElementById('successFileName').textContent = resultName;
-                    document.getElementById('downloadBtn').onclick = downloadResult;
                     document.getElementById('successModal').classList.add('show');
                 }, 400);
             } catch (err) {
+                console.error(err);
                 stopProgress();
+                isConverting = false;
                 hideProcessing();
-                showError(err.message || 'Conversion failed. Is LibreOffice installed on the server?');
+                showError(friendlyError(err));
+            } finally {
+                clearTimeout(timer);
             }
         }
 
         function downloadResult() {
             if (!resultBlob) return;
+            const url = URL.createObjectURL(resultBlob);
             const a = document.createElement('a');
-            a.href = URL.createObjectURL(resultBlob);
+            a.href = url;
             a.download = resultName;
+            document.body.appendChild(a);
             a.click();
-            URL.revokeObjectURL(a.href);
+            document.body.removeChild(a);
+            // Wait before releasing the link, or some browsers cancel the download
+            setTimeout(() => URL.revokeObjectURL(url), 3000);
         }
 
         function convertAnother() {
@@ -851,6 +968,9 @@
             removeFile(); resultBlob = null; resultName = '';
         }
 
+        /* ════════════════════════════════
+           PROGRESS + MODALS
+        ════════════════════════════════ */
         let progressInterval = null;
         let progressVal = 0;
 
@@ -877,10 +997,12 @@
 
         function hideProcessing() {
             document.getElementById('processingModal').classList.remove('show');
-            processBtn.disabled = false;
+            // Only allow converting again if a file is actually selected
+            processBtn.disabled = !selectedFile;
         }
 
-        function showError(msg) {
+        function showError(msg, title) {
+            document.getElementById('errorTitle').textContent = title || 'Conversion Failed';
             document.getElementById('errorMsg').textContent = msg;
             document.getElementById('errorModal').classList.add('show');
             hideProcessing();
@@ -893,29 +1015,35 @@
             return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
         }
 
-        // Pre-load file passed from file-tools page via sessionStorage
+        /* ════════════════════════════════
+           PRE-LOADED FILE (from the home page)
+           Uses the shared helper, so large files stored in IndexedDB work too
+        ════════════════════════════════ */
         window.addEventListener('DOMContentLoaded', () => {
-            if (!isFromUpload()) return;
+            if (typeof isFromUpload !== 'function' || !isFromUpload()) return;
             const stored = sessionStorage.getItem('vetri_file');
-            const storedData = sessionStorage.getItem('vetri_file_data');
-            if (!stored || !storedData) return;
-            try {
-                const meta = JSON.parse(stored);
-                const ext = (meta.name || '').split('.').pop().toLowerCase();
-                if (ext !== 'pdf') return;
+            if (!stored) return;
 
-                const arr = storedData.split(',');
-                const mimeMatch = arr[0].match(/:(.*?);/);
-                const mime = mimeMatch ? mimeMatch[1] : 'application/pdf';
-                const bstr = atob(arr[1]);
-                const u8 = new Uint8Array(bstr.length);
-                for (let i = 0; i < bstr.length; i++) u8[i] = bstr.charCodeAt(i);
-                bindFile(new File([u8], meta.name, { type: mime }));
-            } catch (e) { /* no pre-loaded file */ }
+            let meta;
+            try { meta = JSON.parse(stored); } catch (e) { return; }
+
+            const name = meta.name || 'document.pdf';
+            const ext = name.split('.').pop().toLowerCase();
+            if (ext !== 'pdf') {
+                showError('"' + name + '" isn\'t a PDF. Please choose a .pdf file.', 'Unsupported File');
+                return;
+            }
+
+            try {
+                getFileBlob((blob, m) => {
+                    if (!blob) return;
+                    bindFile(new File([blob], (m && m.name) || name, { type: 'application/pdf' }));
+                });
+            } catch (e) { /* no pre-loaded file: the upload box stays available */ }
         });
 
         function goBack() {
-            const ref = document.referrer || "";
+            const ref = document.referrer || '';
             if (ref.includes('/all-tools')) {
                 window.location.href = '/all-tools';
             } else if (ref.includes('/file-tools')) {

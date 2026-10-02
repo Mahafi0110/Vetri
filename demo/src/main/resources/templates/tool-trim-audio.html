@@ -1096,7 +1096,7 @@
 
                         <!-- Audio Player -->
                         <div class="audio-player-card" id="audioPlayerCard">
-                             <div class="no-audio-state" id="noAudioState">
+                            <div class="no-audio-state" id="noAudioState">
                                 <i class="bi bi-music-note-beamed"></i>
                                 <p>No audio file loaded</p>
                                 <span>Upload an audio file from the home page</span>
@@ -1471,8 +1471,24 @@
                 return;
             }
             const stored = sessionStorage.getItem('vetri_file');
-            if (!stored) return;
-            try { currentFile = JSON.parse(stored); } catch (e) { return; }
+            if (!stored) {
+                showNoFileState();
+                return;
+            }
+            try {
+                currentFile = JSON.parse(stored);
+            } catch (e) {
+                showNoFileState();
+                return;
+            }
+
+            // ✅ Validate the pre-loaded file is actually an audio before accepting it
+            const validAudioExtensions = ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac', 'wma'];
+            const ext = (currentFile.name || '').split('.').pop().toLowerCase();
+            if (!validAudioExtensions.includes(ext)) {
+                showWrongFileTypeState(currentFile.name);
+                return;
+            }
 
             getFileObjectURL(function (url) {
                 if (!url) {
@@ -1482,7 +1498,43 @@
                 }
                 loadAudio(currentFile, url);
             });
+
+            getFileBlob((blob, meta) => {
+                if (!blob) {
+                    alert('Failed to load file');
+                    return;
+                }
+            });
+            // return;
+            // try { currentFile = JSON.parse(stored); } catch (e) { return; }
+
+            // getFileObjectURL(function (url) {
+            //     if (!url) {
+            //         document.querySelector('#noAudioState span').textContent =
+            //             'File data missing. Upload again from the home page.';
+            //         return;
+            //     }
+            //     loadAudio(currentFile, url);
+            // });
         });
+        function showWrongFileTypeState(filename) {
+            const nameEl = document.getElementById('fileInfoName');
+            const sizeEl = document.getElementById('fileInfoSize');
+            if (nameEl) nameEl.textContent = 'Unsupported file type';
+            if (sizeEl) sizeEl.innerHTML = `"${filename}" isn't an audio file. <a href="/" style="color:#7C3AED;text-decoration:none;font-weight:bold;">⇦ Upload audio instead</a>`;
+
+            const noAudioState = document.getElementById('noAudioState');
+            if (noAudioState) {
+                noAudioState.innerHTML = `
+            <i class="bi bi-file-earmark-x" style="color:#DC2626;"></i>
+            <p style="color:#DC2626;">Unsupported file type</p>
+            <span>"${filename}" cannot be trimmed. <a href="/" style="color:#7C3AED;text-decoration:none;font-weight:bold;">Upload an audio file</a></span>
+        `;
+            }
+
+            const btn = document.querySelector('.btn-process');
+            if (btn) btn.disabled = true;
+        }
 
         function showNoFileState() {
             // Show the empty state UI — each tool already has this

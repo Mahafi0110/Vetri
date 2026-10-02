@@ -75,6 +75,7 @@
         .brand-name {
             font-family: 'Poppins', sans-serif;
         }
+
         /* ── Page Header ── */
         .page-header {
             background: var(--accent-1);
@@ -91,7 +92,6 @@
             text-decoration: none;
             margin-bottom: 6px;
             transition: color .2s;
-            /* 🔥 ADD THESE */
             background: none;
             border: none;
             outline: none;
@@ -110,57 +110,9 @@
             color: var(--heading);
             margin: 0;
         }
-        @media (max-width:767.98px) {
-            .tool-main {
-                padding: 20px 0 48px;
-            }
-
-            .settings-card {
-                margin-bottom: 16px;
-            }
-
-            .modal-box {
-                padding: 36px 24px 32px;
-            }
-            .stats-row {
-                flex-direction: column;
-            }
-
-            .success-stats {
-                flex-direction: column;
-            }
-        }
 
         .tool-main {
             padding: 24px 0 64px;
-        }
-
-        .page-header {
-            background: var(--accent-1);
-            padding: 20px 0 24px;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: .9rem;
-            font-weight: 500;
-            color: var(--subtext);
-            text-decoration: none;
-            margin-bottom: 6px;
-            transition: color .2s;
-        }
-
-        .back-link:hover {
-            color: var(--blue-main);
-        }
-
-        .page-title {
-            font-size: clamp(1.4rem, 3vw, 1.9rem);
-            font-weight: 800;
-            color: var(--heading);
-            margin: 0;
         }
 
         /* Settings */
@@ -243,7 +195,6 @@
             min-width: 0;
         }
 
-
         .file-info-size {
             font-size: .75rem;
             color: var(--subtext);
@@ -294,6 +245,25 @@
         .time-input:focus {
             border-color: #DB2777;
             box-shadow: 0 0 0 4px rgba(219, 39, 119, .08);
+        }
+
+        /* Red border when start/end times don't make sense */
+        .time-input.invalid,
+        .time-input.invalid:focus {
+            border-color: #DC2626;
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, .08);
+        }
+
+        .time-error {
+            display: none;
+            font-size: .78rem;
+            font-weight: 600;
+            color: #DC2626;
+            margin: 0 0 12px;
+        }
+
+        .time-error.show {
+            display: block;
         }
 
         /* Duration box */
@@ -475,6 +445,8 @@
             justify-content: center;
             gap: 2px;
             user-select: none;
+            /* Stops the page from scrolling while dragging on a phone */
+            touch-action: none;
         }
 
         .handle-line {
@@ -673,6 +645,13 @@
         .btn-process:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 28px rgba(219, 39, 119, .45);
+        }
+
+        .btn-process:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         /* Modals */
@@ -880,6 +859,36 @@
             color: #DB2777;
         }
 
+        /* Network / error modal buttons (pink, to match the page) */
+        .btn-error-primary {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #DB2777, #F472B6);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 18px rgba(219, 39, 119, .35);
+        }
+
+        .btn-error-secondary {
+            width: 100%;
+            padding: 13px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .95rem;
+            font-weight: 600;
+            background: #fff;
+            color: #1F2937;
+            border: 1.5px solid #E5E7EB;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        /* ── Mobile (one combined block) ── */
         @media (max-width:767.98px) {
             .tool-main {
                 padding: 20px 0 48px;
@@ -922,9 +931,6 @@
 ════════════════════════════════ -->
     <div class="page-header">
         <div class="container">
-            <!-- <a href="/file-tools" class="back-link">
-                <i class="bi bi-arrow-left"></i> Back
-            </a> -->
             <button class="back-link" onclick="goBack()">
                 <i class="bi bi-arrow-left"></i> Back
             </button>
@@ -968,7 +974,7 @@
                                 Start Time
                             </label>
                             <input type="text" class="time-input" id="startTime" value="00:00.000"
-                                placeholder="00:00.000" oninput="onStartTimeInput()" />
+                                placeholder="00:00.000" oninput="onStartTimeInput()" onchange="updateTimeInputs()" />
                         </div>
 
                         <!-- End Time -->
@@ -978,8 +984,11 @@
                                 End Time
                             </label>
                             <input type="text" class="time-input" id="endTime" value="00:00.000" placeholder="00:00.000"
-                                oninput="onEndTimeInput()" />
+                                oninput="onEndTimeInput()" onchange="updateTimeInputs()" />
                         </div>
+
+                        <!-- Live check message for start / end -->
+                        <p class="time-error" id="timeError">End time must be after start time.</p>
 
                         <!-- Duration display -->
                         <div class="duration-box" id="durationBox">
@@ -1185,117 +1194,127 @@
             </div>
         </div>
     </section>
-    <section class="section" style="background: var(--gray-bg);">
-  <div class="container">
-    <div class="text-center mb-4">
-      <span class="section-badge">FAQ</span>
-      <h2 class="section-title">Frequently Asked Questions</h2>
-    </div>
-    <div class="faq-wrap">
+    <section class="section" style="background: var(--gray-bg, #F3F4F6);">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-badge">FAQ</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-wrap">
 
-      <div class="faq-item">
-        <button class="faq-question">
-          What is Vetri Files Trim Video?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Vetri Files Trim Video is an online tool that helps users remove unwanted sections from supported video files.</div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is Vetri Files Trim Video?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Vetri Files Trim Video is an online tool that helps users remove
+                            unwanted sections from supported video files.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What does Trim Video do?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Trim Video allows users to select and keep the required section of
+                            a video.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I trim a video online?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Upload the supported video, select the required start and end
+                            points using available options, and save the processed result.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Why should I trim a video?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Trimming can help remove unnecessary footage and create shorter,
+                            more focused videos.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I create a shorter video clip?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Trim Video can help create a shorter clip from a supported
+                            video file.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        When should I use Trim Video?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Use Trim Video when you need only a specific section of a longer
+                            video.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I remove unwanted parts from a video?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Video trimming helps remove selected unwanted portions from
+                            supported videos.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is Trim Video useful for social media content?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Trimming can help create shorter video clips for different
+                            content requirements.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Who can use an online video trimmer?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Content creators, marketers, businesses, students, and general
+                            users can use video trimming tools.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is Trim Video part of Vetri Files?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Trim Video is one of the video-processing tools available
+                            through Vetri Files.</div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          What does Trim Video do?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Trim Video allows users to select and keep the required section of a video.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          How do I trim a video online?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Upload the supported video, select the required start and end points using available options, and save the processed result.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Why should I trim a video?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Trimming can help remove unnecessary footage and create shorter, more focused videos.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Can I create a shorter video clip?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Trim Video can help create a shorter clip from a supported video file.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          When should I use Trim Video?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Use Trim Video when you need only a specific section of a longer video.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-           Can I remove unwanted parts from a video?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Video trimming helps remove selected unwanted portions from supported videos.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-           Is Trim Video useful for social media content?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Trimming can help create shorter video clips for different content requirements.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Who can use an online video trimmer?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Content creators, marketers, businesses, students, and general users can use video trimming tools.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Is Trim Video part of Vetri Files?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Trim Video is one of the video-processing tools available through Vetri Files.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- PROCESSING MODAL -->
     <div class="modal-overlay" id="processingModal">
@@ -1363,19 +1382,10 @@
             font-weight:800;color:#1F2937;margin-bottom:10px;" id="netErrTitle">Something went wrong</p>
             <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;" id="netErrMsg">Please try
                 again.</p>
-            <button onclick="closeNetworkError()" style="
-            width:100%;padding:14px;margin-bottom:10px;
-            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
-            background:linear-gradient(135deg,#7C3AED,#A855F7);
-            color:#fff;border:none;border-radius:12px;cursor:pointer;
-            box-shadow:0 4px 18px rgba(124,58,237,.35);">
+            <button class="btn-error-primary" onclick="closeNetworkError()">
                 Try Again
             </button>
-            <button onclick="window.location.href='/'" style="
-            width:100%;padding:13px;
-            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
-            background:#fff;color:#1F2937;
-            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+            <button class="btn-error-secondary" onclick="window.location.href='/'">
                 Upload New File
             </button>
         </div>
@@ -1406,26 +1416,36 @@
 
         /* ── Init ── */
         window.addEventListener('DOMContentLoaded', () => {
-            // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+            // If opened directly (not from upload), show fresh state
             if (!isFromUpload()) {
-                // Show "no file" state — don't load previous file
                 showNoFileState();
                 return;
             }
             const stored = sessionStorage.getItem('vetri_file');
-            if (!stored) return;
+            if (!stored) {
+                showNoFileState();
+                return;
+            }
             try {
                 currentFile = JSON.parse(stored);
-                document.getElementById('fileInfoName').textContent =
-                    currentFile.name || 'video';
-                document.getElementById('fileInfoSize').textContent =
-                    formatSize(currentFile.size);
-                document.getElementById('successFileName').textContent =
-                    currentFile.name || 'video.mp4';
-                processedName = 'trimmed_' + (currentFile.name || 'video.mp4');
+            } catch (e) {
+                showNoFileState();
+                return;
+            }
 
-                loadVideo();
-            } catch (e) { }
+            // Make sure the pre-loaded file is actually a video
+            const validVideoExtensions = ['mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'm4v'];
+            const ext = (currentFile.name || '').split('.').pop().toLowerCase();
+            if (!validVideoExtensions.includes(ext)) {
+                showWrongFileTypeState(currentFile.name);
+                return;
+            }
+            document.getElementById('fileInfoName').textContent = currentFile.name || 'video';
+            document.getElementById('fileInfoSize').textContent = formatSize(currentFile.size);
+            document.getElementById('successFileName').textContent = currentFile.name || 'video.mp4';
+            processedName = 'trimmed_' + (currentFile.name || 'video.mp4');
+
+            loadVideo();
 
             document.addEventListener('mousemove', onDragMove);
             document.addEventListener('mouseup', onDragEnd);
@@ -1434,18 +1454,40 @@
             document.addEventListener('touchend', onDragEnd);
         });
 
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+
+        function showWrongFileTypeState(filename) {
+            const safeName = escapeHtml(filename || '');
+            const fileNameEl = document.getElementById('fileInfoName');
+            const fileSizeEl = document.getElementById('fileInfoSize');
+            if (fileNameEl) fileNameEl.textContent = 'Unsupported file type';
+            if (fileSizeEl) fileSizeEl.innerHTML = `"${safeName}" isn't a video. <a href="/" style="color:#DB2777;text-decoration:none;font-weight:bold;">⇦ Upload a video instead</a>`;
+
+            const noVideoState = document.getElementById('noVideoState');
+            if (noVideoState) {
+                noVideoState.innerHTML = `
+            <i class="bi bi-file-earmark-x" style="color:#DC2626;"></i>
+            <p style="color:#DC2626;">Unsupported file type</p>
+            <span>"${safeName}" cannot be trimmed. <a href="/" style="color:#DB2777;text-decoration:none;font-weight:bold;">Upload a video</a></span>
+        `;
+            }
+
+            const btn = document.querySelector('.btn-process');
+            if (btn) btn.disabled = true;
+        }
+
         function showNoFileState() {
-            const noVideo = document.getElementById('noVideoState');
-            const player = document.getElementById('playerUI');
-
-            if (noVideo) noVideo.style.display = 'block';
-            if (player) player.style.display = 'none'; // safe
-
             const fileName = document.getElementById('fileInfoName');
             if (fileName) {
                 fileName.innerHTML =
                     '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
             }
+            const btn = document.querySelector('.btn-process');
+            if (btn) btn.disabled = true;
         }
 
 
@@ -1457,7 +1499,6 @@
 
                 if (!url) {
                     // url is null — storageType missing or file lost
-                    // Show a helpful message instead of blank screen
                     document.getElementById('noVideoState').innerHTML = `
         <i class="bi bi-exclamation-circle" style="color:#F59E0B"></i>
         <p style="color:#F59E0B">Video not found</p>
@@ -1475,6 +1516,8 @@
           font-size:.88rem;
         ">Upload Video</a>
       `;
+                    const btn = document.querySelector('.btn-process');
+                    if (btn) btn.disabled = true;
                     return;
                 }
 
@@ -1520,9 +1563,6 @@
             const pct = t / (videoDuration || 1);
             document.getElementById('playhead').style.left =
                 (pct * 100) + '%';
-            document.getElementById('audioProgressFill') &&
-                (document.getElementById('audioProgressFill').style.width =
-                    (pct * 100) + '%');
 
             // Auto pause at end time
             if (t >= endSecs) {
@@ -1557,7 +1597,10 @@
         /* ── Set start/end from current position ── */
         function setStartFromCurrent() {
             startSecs = videoEl.currentTime;
-            if (startSecs >= endSecs) endSecs = startSecs + 1;
+            // FIX: the end can never go past the end of the video
+            if (startSecs >= endSecs) endSecs = Math.min(videoDuration, startSecs + 1);
+            // If we are at the very end of the video, move start back a little
+            if (startSecs >= endSecs) startSecs = Math.max(0, endSecs - 1);
             updateTimeInputs();
             updateTimeline();
         }
@@ -1580,7 +1623,7 @@
             const bar = document.getElementById('timelineBar');
             const rect = bar.getBoundingClientRect();
             const pct = (e.clientX - rect.left) / rect.width;
-            videoEl.currentTime = pct * videoDuration;
+            videoEl.currentTime = Math.max(0, Math.min(1, pct)) * videoDuration;
         }
 
         /* ── Handle drag ── */
@@ -1632,11 +1675,27 @@
         }
 
         function onDragEnd() {
-            isDragging = false;
+            // FIX: wait one tick so the "click" that follows mouseup
+            // still sees isDragging = true and does NOT jump the video
+            setTimeout(() => { isDragging = false; }, 0);
+        }
+
+        /* ── Check start / end and show a message if they are wrong ── */
+        function validateTimes() {
+            const startInput = document.getElementById('startTime');
+            const endInput = document.getElementById('endTime');
+            const msg = document.getElementById('timeError');
+            const ok = endSecs > startSecs;
+
+            startInput.classList.toggle('invalid', !ok);
+            endInput.classList.toggle('invalid', !ok);
+            msg.classList.toggle('show', !ok);
+            return ok;
         }
 
         /* ── Update timeline UI ── */
         function updateTimeline() {
+            if (!videoDuration) return;
             const startPct = (startSecs / videoDuration) * 100;
             const endPct = (endSecs / videoDuration) * 100;
 
@@ -1647,9 +1706,9 @@
             document.getElementById('selectedRegion').style.left =
                 startPct + '%';
             document.getElementById('selectedRegion').style.width =
-                (endPct - startPct) + '%';
+                Math.max(0, endPct - startPct) + '%';
 
-            const dur = endSecs - startSecs;
+            const dur = Math.max(0, endSecs - startSecs);
             document.getElementById('selectionDuration').textContent =
                 formatTime(dur);
             document.getElementById('summDuration').textContent =
@@ -1658,6 +1717,8 @@
                 formatTime(startSecs);
             document.getElementById('summEnd').textContent =
                 formatTime(endSecs);
+
+            validateTimes();
         }
 
         /* ── Update time inputs ── */
@@ -1734,12 +1795,14 @@
         }
 
         /* ── Format time ── */
+        // FIX: work with whole milliseconds so we never get ".1000"
         function formatTime(secs) {
             if (isNaN(secs) || secs < 0) return '00:00.000';
-            const h = Math.floor(secs / 3600);
-            const m = Math.floor((secs % 3600) / 60);
-            const s = Math.floor(secs % 60);
-            const ms = Math.round((secs % 1) * 1000);
+            const totalMs = Math.round(secs * 1000);
+            const h = Math.floor(totalMs / 3600000);
+            const m = Math.floor((totalMs % 3600000) / 60000);
+            const s = Math.floor((totalMs % 60000) / 1000);
+            const ms = totalMs % 1000;
             const hStr = h > 0 ? String(h).padStart(2, '0') + ':' : '';
             return hStr +
                 String(m).padStart(2, '0') + ':' +
@@ -1766,9 +1829,8 @@
                 return;
             }
 
-            if (endSecs <= startSecs) {
-                alert('End time must be after start time!');
-                return;
+            if (!validateTimes()) {
+                return; // red message is already showing
             }
 
             const format =
@@ -1808,14 +1870,23 @@
                 progressFill.style.width = progress + '%';
             }, 400);
 
-            // ── Use helper to get file blob ──
-            // Works for both small (sessionStorage)
-            // and large (IndexedDB) files
+            // Works for both small (sessionStorage) and large (IndexedDB) files
             getFileBlob((fileOrBlob, meta) => {
+                if (!fileOrBlob) {
+                    clearInterval(interval);
+                    processingModal.classList.remove('show');
+                    showNetworkError('Video Not Found',
+                        'We could not read your video. Please upload it again.');
+                    return;
+                }
+
                 const formData = new FormData();
                 formData.append('file', fileOrBlob, meta.name);
                 formData.append('start', startSecs.toFixed(3));
                 formData.append('end', endSecs.toFixed(3));
+                // FIX: the chosen format and quality are now sent to the server
+                formData.append('format', format);
+                formData.append('quality', quality);
 
                 fetch('/api/video/trim', {
                     method: 'POST', body: formData
@@ -1838,9 +1909,12 @@
                         clearInterval(interval);
                         processingModal.classList.remove('show');
                         console.error(err);
-                        if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+                        if (!navigator.onLine) {
                             showNetworkError('No Internet Connection',
                                 'Connection lost while trimming video. Check your WiFi and try again.');
+                        } else if (err.name === 'TypeError') {
+                            showNetworkError('Cannot Reach Server',
+                                'We could not reach the server. Please try again in a moment.');
                         } else {
                             showNetworkError('Trim Failed',
                                 'Could not trim your video. Please try again.');

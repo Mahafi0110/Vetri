@@ -1,4 +1,3 @@
-c
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,6 +76,7 @@ c
         .brand-name {
             font-family: 'Poppins', sans-serif;
         }
+
         /* ── Page Header ── */
         .page-header {
             background: var(--accent-1);
@@ -93,7 +93,6 @@ c
             text-decoration: none;
             margin-bottom: 6px;
             transition: color .2s;
-            /* 🔥 ADD THESE */
             background: none;
             border: none;
             outline: none;
@@ -206,7 +205,6 @@ c
             min-width: 0;
         }
 
-
         .file-info-size {
             font-size: .75rem;
             color: var(--subtext);
@@ -301,6 +299,25 @@ c
             display: flex;
             flex-direction: column;
             gap: 8px;
+            transition: opacity .2s;
+        }
+
+        /* WAV / FLAC are lossless, so quality does not apply */
+        .comp-levels.disabled {
+            opacity: .45;
+            pointer-events: none;
+        }
+
+        .lossless-note {
+            display: none;
+            font-size: .75rem;
+            color: var(--subtext);
+            margin: 8px 0 0;
+            line-height: 1.5;
+        }
+
+        .lossless-note.show {
+            display: block;
         }
 
         .comp-level-btn {
@@ -955,6 +972,7 @@ c
             border-color: var(--purple);
             color: var(--purple);
         }
+
         @media (max-width:767.98px) {
             .tool-main {
                 padding: 20px 0 48px;
@@ -971,6 +989,7 @@ c
             .stats-row {
                 flex-direction: column;
             }
+
             .format-btns {
                 grid-template-columns: 1fr 1fr;
             }
@@ -989,7 +1008,6 @@ c
     <!-- PAGE HEADER -->
     <div class="page-header">
         <div class="container">
-            <!-- <a href="/file-tools" class="back-link"><i class="bi bi-arrow-left"></i> Back</a> -->
             <button class="back-link" onclick="goBack()">
                 <i class="bi bi-arrow-left"></i> Back
             </button>
@@ -1028,8 +1046,8 @@ c
                             <p>Click or drag video here</p>
                             <span>MP4, MKV, MOV, AVI, WEBM</span>
                         </div>
-                        <input type="file" id="videoInput" accept="video/*" style="display:none"
-                            onchange="onFileSelect(event)" />
+                        <input type="file" id="videoInput" accept="video/*,.mp4,.mkv,.mov,.avi,.webm,.flv,.wmv,.m4v"
+                            style="display:none" onchange="onFileSelect(event)" />
 
                         <hr class="divider-line" />
 
@@ -1072,7 +1090,7 @@ c
 
                         <!-- Audio Quality -->
                         <label class="form-label-custom">Audio Quality</label>
-                        <div class="comp-levels">
+                        <div class="comp-levels" id="compLevels">
                             <div class="comp-level-btn" onclick="setQuality('high', this)">
                                 <div class="level-icon green-icon"><i class="bi bi-music-note"></i></div>
                                 <div>
@@ -1098,6 +1116,8 @@ c
                                 <i class="bi bi-check-circle-fill level-check"></i>
                             </div>
                         </div>
+                        <p class="lossless-note" id="losslessNote">WAV and FLAC are lossless, so they keep full
+                            quality and this setting is not used.</p>
 
                         <hr class="divider-line" />
 
@@ -1145,7 +1165,7 @@ c
                             <!-- Video element (hidden until loaded) -->
                             <video id="videoEl" style="display:none" preload="metadata"
                                 ontimeupdate="updateVideoProgress()" onended="onVideoEnded()"
-                                onloadedmetadata="onVideoLoaded()">
+                                onloadedmetadata="onVideoLoaded()" onerror="onVideoError()">
                             </video>
 
                             <!-- Controls bar -->
@@ -1246,7 +1266,7 @@ c
             </div>
         </div>
     </main>
-<!-- ── How it works ── -->
+    <!-- ── How it works ── -->
     <section class="section">
         <div class="container">
             <div class="row align-items-center g-5">
@@ -1291,117 +1311,117 @@ c
             </div>
         </div>
     </section>
-    <section class="section" style="background: var(--gray-bg);">
-  <div class="container">
-    <div class="text-center mb-4">
-      <span class="section-badge">FAQ</span>
-      <h2 class="section-title">Frequently Asked Questions</h2>
-    </div>
-    <div class="faq-wrap">
+    <section class="section" style="background: var(--gray-bg, #F3F4F6);">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-badge">FAQ</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-wrap">
 
-      <div class="faq-item">
-        <button class="faq-question">
-          What is Vetri Files Extract Audio?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Vetri Files Extract Audio is an online video-processing tool that helps users separate audio content from supported video files.</div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is Vetri Files Extract Audio?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Vetri Files Extract Audio is an online video-processing tool that helps users separate audio content from supported video files.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What does Extract Audio do?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Extract Audio separates the available audio content from a supported video file.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I extract audio from a video?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Upload the supported video file and use the Extract Audio tool to process the available audio content.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Why would I extract audio from a video?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Extracting audio can help users work separately with sound, voice, or other audio content from a video.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I separate audio from a video file?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. The Extract Audio tool is designed to separate available audio from supported video files.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        When should I use Extract Audio?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Use Extract Audio when you need the audio content from a supported video file.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can content creators extract audio from videos?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Content creators can use audio extraction when working with supported video content.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Who can use Extract Audio?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Content creators, editors, students, businesses, and general users can use audio extraction tools.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is Extract Audio available online?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Yes. Vetri Files provides an online Extract Audio tool for supported video files.</div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is the main benefit of extracting audio?
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Extracting audio allows users to work with the audio component separately from the original video.</div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          What does Extract Audio do?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Extract Audio separates the available audio content from a supported video file.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          How do I extract audio from a video?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Upload the supported video file and use the Extract Audio tool to process the available audio content.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Why would I extract audio from a video?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Extracting audio can help users work separately with sound, voice, or other audio content from a video.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Can I separate audio from a video file?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. The Extract Audio tool is designed to separate available audio from supported video files.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          When should I use Extract Audio?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Use Extract Audio when you need the audio content from a supported video file.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-           Can content creators extract audio from videos?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Content creators can use audio extraction when working with supported video content.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-           Who can use Extract Audio?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Content creators, editors, students, businesses, and general users can use audio extraction tools.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          Is Extract Audio available online?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Vetri Files provides an online Extract Audio tool for supported video files.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          What is the main benefit of extracting audio?
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Extracting audio allows users to work with the audio component separately from the original video.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- PROCESSING MODAL -->
     <div class="modal-overlay" id="processingModal">
@@ -1499,16 +1519,65 @@ c
         let isPlaying = false;
         let outputFormat = 'mp3';
         let outputQuality = '192';
+        let currentObjectUrl = null;      // so we can free it later
+        let defaultNoVideoHtml = '';      // original "No video file loaded" box
         const qualityMap = { high: '320', medium: '192', low: '128' };
+        const VIDEO_EXTENSIONS = ['mp4', 'mkv', 'mov', 'avi', 'webm', 'flv', 'wmv', 'm4v'];
+
+        /* ─────────────────────────────────────────
+           SMALL HELPERS
+        ───────────────────────────────────────── */
+        function getExt(name) {
+            const n = (name || '');
+            return n.includes('.') ? n.split('.').pop().toLowerCase() : '';
+        }
+
+        // FIX: the browser often gives an EMPTY type for .mkv, so also check the extension
+        function isVideoFile(f) {
+            if (!f) return false;
+            if (f.type && f.type.startsWith('video/')) return true;
+            return VIDEO_EXTENSIONS.includes(getExt(f.name));
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+
+        function isLossless() {
+            return outputFormat === 'wav' || outputFormat === 'flac';
+        }
+
+        function qualityText() {
+            return isLossless() ? 'Lossless' : outputQuality + ' kbps';
+        }
+
+        // Replace the text shown in the dark preview box
+        function setNoVideoMessage(iconClass, title, subHtml, color) {
+            const box = document.getElementById('noVideoState');
+            box.innerHTML =
+                '<i class="bi ' + iconClass + '"' + (color ? ' style="color:' + color + '"' : '') + '></i>' +
+                '<p' + (color ? ' style="color:' + color + '"' : '') + '>' + title + '</p>' +
+                '<span>' + subHtml + '</span>';
+            box.style.display = 'block';
+        }
+
+        function resetNoVideoMessage() {
+            const box = document.getElementById('noVideoState');
+            box.innerHTML = defaultNoVideoHtml;
+            box.style.display = 'block';
+        }
 
         /* ─────────────────────────────────────────
            INIT — try sessionStorage / helper first,
                   then fall back to manual upload
         ───────────────────────────────────────── */
         window.addEventListener('DOMContentLoaded', () => {
-            // ✅ D_020 FIX — if opened directly (not from upload), show fresh state
+            defaultNoVideoHtml = document.getElementById('noVideoState').innerHTML;
+
+            // If opened directly (not from upload), show the upload box
             if (!isFromUpload()) {
-                // Show "no file" state — don't load previous file
                 showNoFileState();
                 return;
             }
@@ -1517,11 +1586,17 @@ c
             if (stored) {
                 try {
                     currentFile = JSON.parse(stored);
-                    // Only accept video files from session
-                    if (currentFile.type && !currentFile.type.startsWith('video/')) {
-                        currentFile = null;
-                    }
                 } catch (e) { currentFile = null; }
+            }
+
+            // FIX: tell the user when the file from the home page is not a video
+            if (currentFile && !isVideoFile(currentFile)) {
+                const badName = escapeHtml(currentFile.name || 'This file');
+                currentFile = null;
+                showUploadZone();
+                setNoVideoMessage('bi-file-earmark-x', 'Unsupported file type',
+                    '"' + badName + '" is not a video. Please choose a video file.', '#DC2626');
+                return;
             }
 
             if (currentFile) {
@@ -1536,20 +1611,12 @@ c
                 showUploadZone();
             }
         });
+
+        // FIX: show the drag-and-drop box (it was hidden before, and the code
+        // looked for an element "playerUI" that does not exist on this page)
         function showNoFileState() {
-            const noVideo = document.getElementById('noVideoState');
-            const player = document.getElementById('playerUI');
-
-            if (noVideo) noVideo.style.display = 'block';
-            if (player) player.style.display = 'none'; // safe
-
-            const fileName = document.getElementById('fileInfoName');
-            if (fileName) {
-                fileName.innerHTML =
-                    '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
-            }
+            showUploadZone();
         }
-
 
         function showUploadZone() {
             document.getElementById('dropZone').style.display = 'block';
@@ -1569,19 +1636,28 @@ c
         function onDrop(e) {
             e.preventDefault();
             document.getElementById('dropZone').classList.remove('dragover');
-            const file = Array.from(e.dataTransfer.files).find(f => f.type.startsWith('video/'));
+            const file = Array.from(e.dataTransfer.files).find(isVideoFile);
             if (file) handleManualFile(file);
             else alert('Please upload a video file (MP4, MKV, MOV, AVI, WEBM).');
         }
         function onFileSelect(e) {
             const file = e.target.files[0];
-            if (file) handleManualFile(file);
+            if (file) {
+                if (isVideoFile(file)) handleManualFile(file);
+                else alert('Please upload a video file (MP4, MKV, MOV, AVI, WEBM).');
+            }
             e.target.value = '';
         }
 
         function handleManualFile(file) {
+            // Free the previous preview link, if any
+            if (currentObjectUrl) {
+                URL.revokeObjectURL(currentObjectUrl);
+                currentObjectUrl = null;
+            }
             currentFile = { name: file.name, size: file.size, type: file.type, _fileObj: file };
             const url = URL.createObjectURL(file);
+            currentObjectUrl = url;
             document.getElementById('dropZone').style.display = 'none';
             document.getElementById('fileInfoBox').style.display = 'flex';
             loadVideo(currentFile, url);
@@ -1594,6 +1670,7 @@ c
             // Sidebar file info
             document.getElementById('fileInfoName').textContent = f.name || 'video';
             document.getElementById('fileInfoSize').textContent = formatSize(f.size);
+            document.getElementById('fileInfoBox').style.display = 'flex';
 
             // Video element
             const videoEl = document.getElementById('videoEl');
@@ -1604,31 +1681,51 @@ c
             document.getElementById('noVideoState').style.display = 'none';
         }
 
+        // Fills in the info bar, stats and steps (used with and without a preview)
+        function showFileDetails(durationText) {
+            document.getElementById('videoInfoBar').style.display = 'flex';
+            document.getElementById('statsRow').style.display = 'flex';
+            document.getElementById('extractSteps').style.display = 'flex';
+
+            const kind = (getExt(currentFile.name) ||
+                ((currentFile.type || '').split('/')[1] || 'video')).toUpperCase();
+
+            document.getElementById('videoInfoName').textContent = currentFile.name || 'video.mp4';
+            document.getElementById('videoInfoMeta').textContent =
+                durationText + ' • ' + formatSize(currentFile.size) + ' • ' + kind;
+
+            document.getElementById('statDuration').textContent = durationText;
+            document.getElementById('statSize').textContent = formatSize(currentFile.size);
+
+            document.getElementById('summarySource').textContent = 'Source: ' + (currentFile.name || 'video.mp4');
+            document.getElementById('summaryDuration').textContent = 'Duration: ' + durationText;
+
+            updateStepLabels();
+        }
+
         function onVideoLoaded() {
             const videoEl = document.getElementById('videoEl');
             const dur = videoEl.duration;
 
             document.getElementById('totalTime').textContent = formatTime(dur);
             document.getElementById('videoControlsBar').style.display = 'block';
-            document.getElementById('videoInfoBar').style.display = 'flex';
-            document.getElementById('statsRow').style.display = 'flex';
-            document.getElementById('extractSteps').style.display = 'flex';
 
-            // Info bar
-            document.getElementById('videoInfoName').textContent = currentFile.name || 'video.mp4';
-            document.getElementById('videoInfoMeta').textContent =
-                formatTime(dur) + ' • ' + formatSize(currentFile.size) +
-                ' • ' + (currentFile.type || 'video').split('/')[1].toUpperCase();
+            showFileDetails(formatTime(dur));
+        }
 
-            // Stats
-            document.getElementById('statDuration').textContent = formatTime(dur);
-            document.getElementById('statSize').textContent = formatSize(currentFile.size);
+        // FIX: some files (certain AVI / MOV / MKV) cannot be played by the
+        // browser. Before, the page then showed nothing and gave no reason.
+        // The server can still extract the audio, so we allow it.
+        function onVideoError() {
+            const videoEl = document.getElementById('videoEl');
+            if (!currentFile || !videoEl.getAttribute('src')) return; // ignore our own reset
 
-            // Success modal
-            document.getElementById('summarySource').textContent = 'Source: ' + (currentFile.name || 'video.mp4');
-            document.getElementById('summaryDuration').textContent = 'Duration: ' + formatTime(dur);
+            videoEl.style.display = 'none';
+            document.getElementById('videoControlsBar').style.display = 'none';
+            setNoVideoMessage('bi-exclamation-circle', 'Preview not available',
+                'Your browser cannot play this video, but you can still extract the audio.', '#F59E0B');
 
-            updateStepLabels();
+            showFileDetails('—');
         }
 
         /* ─────────────────────────────────────────
@@ -1636,7 +1733,7 @@ c
         ───────────────────────────────────────── */
         function toggleVideoPlay() {
             const videoEl = document.getElementById('videoEl');
-            if (!videoEl.src) return;
+            if (!videoEl.getAttribute('src')) return;
             if (isPlaying) {
                 videoEl.pause();
                 isPlaying = false;
@@ -1666,7 +1763,7 @@ c
             if (!videoEl.duration) return;
             const rect = e.currentTarget.getBoundingClientRect();
             const pct = (e.clientX - rect.left) / rect.width;
-            videoEl.currentTime = pct * videoEl.duration;
+            videoEl.currentTime = Math.max(0, Math.min(1, pct)) * videoEl.duration;
         }
 
         function seekVideo(sec) {
@@ -1696,14 +1793,19 @@ c
             document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             document.getElementById('statFormat').textContent = fmt.toUpperCase();
+
+            // FIX: WAV and FLAC are lossless, so the quality buttons do not apply
+            document.getElementById('compLevels').classList.toggle('disabled', isLossless());
+            document.getElementById('losslessNote').classList.toggle('show', isLossless());
+
             updateStepLabels();
         }
 
         function setQuality(level, btn) {
+            if (isLossless()) return;
             outputQuality = qualityMap[level];
             document.querySelectorAll('.comp-level-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            document.getElementById('statQuality').textContent = outputQuality + ' kbps';
             updateStepLabels();
         }
 
@@ -1713,19 +1815,24 @@ c
             const outName = baseName + '.' + outputFormat;
             processedName = outName;
 
+            const q = qualityText();
+
+            document.getElementById('statQuality').textContent = q;
             document.getElementById('stepFormat').textContent = outputFormat.toUpperCase();
-            document.getElementById('stepQuality').textContent = outputQuality + ' kbps';
+            document.getElementById('stepQuality').textContent = isLossless() ? 'lossless quality' : q;
             document.getElementById('stepOutputName').textContent = outName;
             document.getElementById('successFileName').textContent = outName;
             document.getElementById('summaryFormat').textContent = 'Format: ' + outputFormat.toUpperCase();
-            document.getElementById('summaryQuality').textContent = 'Quality: ' + outputQuality + ' kbps';
+            document.getElementById('summaryQuality').textContent = 'Quality: ' + q;
 
-            // Detect audio track label from video type if known
-            const vtype = currentFile && currentFile.type ? currentFile.type : '';
+            // Detect audio track label from the file type or extension
+            const kind = currentFile
+                ? (getExt(currentFile.name) || (currentFile.type || ''))
+                : '';
             let trackLabel = 'audio track';
-            if (vtype.includes('mp4')) trackLabel = 'AAC/MP3 audio track';
-            if (vtype.includes('mkv')) trackLabel = 'audio track (AAC/AC3/MP3)';
-            if (vtype.includes('webm')) trackLabel = 'Opus/Vorbis audio track';
+            if (kind.includes('mp4')) trackLabel = 'AAC/MP3 audio track';
+            if (kind.includes('mkv') || kind.includes('matroska')) trackLabel = 'audio track (AAC/AC3/MP3)';
+            if (kind.includes('webm')) trackLabel = 'Opus/Vorbis audio track';
             document.getElementById('stepAudioTrack').textContent = trackLabel;
         }
 
@@ -1761,12 +1868,20 @@ c
                 } else if (typeof getFileBlob === 'function') {
                     getFileBlob(cb);
                 } else {
-                    alert('File data not found. Please re-upload.');
                     processingModal.classList.remove('show');
+                    showNetworkError('File Not Found', 'File data not found. Please upload your video again.');
                 }
             };
 
             getBlob(function (file, meta) {
+                // FIX: stop here with a clear message if the file could not be read
+                if (!file) {
+                    processingModal.classList.remove('show');
+                    showNetworkError('File Not Found',
+                        'We could not read your video. Please upload it again.');
+                    return;
+                }
+
                 let progress = 0;
                 const interval = setInterval(() => {
                     progress += Math.random() * 14;
@@ -1775,7 +1890,7 @@ c
                 }, 350);
 
                 const formData = new FormData();
-                formData.append('file', file, meta.name);
+                formData.append('file', file, (meta && meta.name) || currentFile.name || 'video');
                 formData.append('format', outputFormat);
                 formData.append('bitrate', outputQuality);
                 formData.append('sampleRate', sampleRate);
@@ -1786,6 +1901,12 @@ c
                     body: formData
                 })
                     .then(r => {
+                        if (r.status === 422) {
+                            // the server says: this video has no sound
+                            const noAudio = new Error('no-audio');
+                            noAudio.code = 'NO_AUDIO';
+                            throw noAudio;
+                        }
                         if (!r.ok) throw new Error('Extraction failed');
                         return r.blob();
                     })
@@ -1802,9 +1923,15 @@ c
                         clearInterval(interval);
                         processingModal.classList.remove('show');
                         console.error(err);
-                        if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+                        if (err.code === 'NO_AUDIO') {
+                            showNetworkError('No Audio Found',
+                                'This video has no audio track, so there is nothing to extract.');
+                        } else if (!navigator.onLine) {
                             showNetworkError('No Internet Connection',
                                 'Connection lost while extracting audio. Check your WiFi and try again.');
+                        } else if (err.name === 'TypeError') {
+                            showNetworkError('Cannot Reach Server',
+                                'We could not reach the server. Please try again in a moment.');
                         } else {
                             showNetworkError('Extraction Failed',
                                 'Could not extract audio from your video. Please try again.');
@@ -1836,13 +1963,18 @@ c
             document.getElementById('progressFill').style.width = '0%';
             const videoEl = document.getElementById('videoEl');
             videoEl.pause();
-            videoEl.src = '';
+            videoEl.removeAttribute('src');
+            videoEl.load();
             videoEl.style.display = 'none';
+            if (currentObjectUrl) {
+                URL.revokeObjectURL(currentObjectUrl);
+                currentObjectUrl = null;
+            }
             isPlaying = false;
             currentFile = null;
             processedBlob = null;
             document.getElementById('playIcon').className = 'bi bi-play-fill';
-            document.getElementById('noVideoState').style.display = 'block';
+            resetNoVideoMessage();
             document.getElementById('videoControlsBar').style.display = 'none';
             document.getElementById('videoInfoBar').style.display = 'none';
             document.getElementById('statsRow').style.display = 'none';

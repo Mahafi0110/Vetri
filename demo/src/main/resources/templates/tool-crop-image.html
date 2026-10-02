@@ -533,33 +533,34 @@
             right: -6px;
             cursor: se-resize;
         }
+
         .handle.n {
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    cursor: n-resize;
-}
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: n-resize;
+        }
 
-.handle.s {
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    cursor: s-resize;
-}
+        .handle.s {
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: s-resize;
+        }
 
-.handle.w {
-    left: -6px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: w-resize;
-}
+        .handle.w {
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: w-resize;
+        }
 
-.handle.e {
-    right: -6px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: e-resize;
-}
+        .handle.e {
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: e-resize;
+        }
 
         /* Rule of thirds grid */
         .crop-grid {
@@ -1396,22 +1397,65 @@
             }
             const stored = sessionStorage.getItem('vetri_file');
             const dataURL = sessionStorage.getItem('vetri_file_data');
-            if (!stored || !dataURL) return;
+            if (!stored || !dataURL) {
+                showNoFileState();
+                return;
+            }
             try {
                 currentFile = JSON.parse(stored);
-                loadImage(currentFile, dataURL);
-            } catch (e) { }
+            } catch (e) {
+                showNoFileState();
+                return;
+            }
+
+            // ✅ Validate the pre-loaded file is actually an image before accepting it
+            const validImageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp'];
+            const ext = (currentFile.name || '').split('.').pop().toLowerCase();
+            if (!validImageExtensions.includes(ext)) {
+                showWrongFileTypeState(currentFile.name);
+                return;
+            }
+
+            loadImage(currentFile, dataURL);
 
             document.addEventListener('mousemove', onMouseMove);
             document.addEventListener('mouseup', onMouseUp);
-        });
 
-        // function showNoFileState() {
-        //     document.getElementById('previewFilename').textContent = 'No file loaded';
-        //     document.getElementById('previewIcon').className = 'bi bi-cloud-upload';
-        //     document.querySelector('.preview-hint').innerHTML =
-        //         '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
-        // }
+            getFileBlob((blob, meta) => {
+                if (!blob) {
+                    alert('Failed to load file');
+                    return;
+                }
+            });
+        });
+        function showWrongFileTypeState(filename) {
+            const nameEl = document.getElementById('fileInfoName');
+            const sizeEl = document.getElementById('fileInfoSize');
+            if (nameEl) nameEl.textContent = 'Unsupported file type';
+            if (sizeEl) sizeEl.innerHTML = `"${filename}" isn't an image. <a href="/" style="color:#0D9488;text-decoration:none;font-weight:bold;">⇦ Upload an image instead</a>`;
+
+            const noImageState = document.getElementById('noImageState');
+            if (noImageState) {
+                noImageState.innerHTML = `
+            <i class="bi bi-file-earmark-x" style="color:#DC2626;"></i>
+            <p style="color:#DC2626;">Unsupported file type</p>
+            <span>"${filename}" cannot be cropped. <a href="/" style="color:#0D9488;text-decoration:none;font-weight:bold;">Upload an image</a></span>
+        `;
+            }
+
+            const btn = document.querySelector('.btn-process');
+            if (btn) btn.disabled = true;
+        }
+        // return;
+        // try {
+        //     currentFile = JSON.parse(stored);
+        //     loadImage(currentFile, dataURL);
+        // } catch (e) { }
+
+        // document.addEventListener('mousemove', onMouseMove);
+        // document.addEventListener('mouseup', onMouseUp);
+
+
         function showNoFileState() {
             // Clear out stored files if accessed directly without an upload
             sessionStorage.removeItem('vetri_file');

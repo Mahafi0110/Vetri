@@ -51,23 +51,102 @@ function clearStoredFile() {
 ════════════════════════════════════════════ */
 
 /* ── Get file blob ready for FormData ── */
+// function getFileBlob(callback) {
+//   const storageType = sessionStorage.getItem('vetri_storage_type');
+//   const stored      = sessionStorage.getItem('vetri_file');
+
+//   if (!stored) {
+//     alert('No file found. Please upload from home page.');
+//     window.location.href = '/';
+//     return;
+//   }
+
+//   const fileMeta = JSON.parse(stored);
+
+//   if (storageType === 'indexeddb') {
+//     _readFromDB(function(file) {
+//       if (file) { callback(file, fileMeta); return; }
+//       alert('File not found. Please upload again.');
+//       window.location.href = '/';
+//     });
+//   } else {
+//     const dataURL = sessionStorage.getItem('vetri_file_data');
+//     if (dataURL) {
+//       fetch(dataURL)
+//         .then(r => r.blob())
+//         .then(blob => {
+//           const file = new File([blob],
+//             fileMeta.name || 'file',
+//             { type: fileMeta.type || blob.type }
+//           );
+//           callback(file, fileMeta);
+//         })
+//         .catch(() => {
+//           alert('Error reading file. Please upload again.');
+//           window.location.href = '/';
+//         });
+//     } else {
+//       _readFromDB(function(file) {
+//         if (file) { callback(file, fileMeta); return; }
+//         alert('File not found. Please upload again.');
+//         window.location.href = '/';
+//       });
+//     }
+//   }
+// }
+/* ── Get file blob ready for FormData ── */
 function getFileBlob(callback) {
+  const path = window.location.pathname.toLowerCase();
+  if (
+    path === '/all-tools' ||
+    path === '/file-tools' ||
+    path === '/' ||
+    path === '/index' ||
+    path === '/feature' ||
+    path === '/features'
+  ) {
+    return;
+  }
+
   const storageType = sessionStorage.getItem('vetri_storage_type');
   const stored      = sessionStorage.getItem('vetri_file');
 
   if (!stored) {
-    alert('No file found. Please upload from home page.');
-    window.location.href = '/';
     return;
   }
 
-  const fileMeta = JSON.parse(stored);
+  let fileMeta;
+  try {
+    fileMeta = JSON.parse(stored);
+  } catch (e) {
+    return;
+  }
+
+  function getMimeType(filename, fallbackType) {
+    if (!filename) return fallbackType;
+    const ext = filename.split('.').pop().toLowerCase();
+    const map = {
+      'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'xls': 'application/vnd.ms-excel',
+      'csv': 'text/csv',
+      'pdf': 'application/pdf',
+      'doc': 'application/msword',
+      'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'png': 'image/png',
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg'
+    };
+    return map[ext] || fallbackType;
+  }
+
+  const correctedType = getMimeType(fileMeta.name, fileMeta.type);
 
   if (storageType === 'indexeddb') {
     _readFromDB(function(file) {
-      if (file) { callback(file, fileMeta); return; }
-      alert('File not found. Please upload again.');
-      window.location.href = '/';
+      if (file) {
+        const correctedFile = new File([file], fileMeta.name || 'file', { type: correctedType });
+        callback(correctedFile, fileMeta);
+      }
     });
   } else {
     const dataURL = sessionStorage.getItem('vetri_file_data');
@@ -75,21 +154,23 @@ function getFileBlob(callback) {
       fetch(dataURL)
         .then(r => r.blob())
         .then(blob => {
-          const file = new File([blob],
-            fileMeta.name || 'file',
-            { type: fileMeta.type || blob.type }
-          );
+          const file = new File([blob], fileMeta.name || 'file', { type: correctedType });
           callback(file, fileMeta);
         })
         .catch(() => {
-          alert('Error reading file. Please upload again.');
-          window.location.href = '/';
+          _readFromDB(function(file) {
+            if (file) {
+              const correctedFile = new File([file], fileMeta.name || 'file', { type: correctedType });
+              callback(correctedFile, fileMeta);
+            }
+          });
         });
     } else {
       _readFromDB(function(file) {
-        if (file) { callback(file, fileMeta); return; }
-        alert('File not found. Please upload again.');
-        window.location.href = '/';
+        if (file) {
+          const correctedFile = new File([file], fileMeta.name || 'file', { type: correctedType });
+          callback(correctedFile, fileMeta);
+        }
       });
     }
   }
