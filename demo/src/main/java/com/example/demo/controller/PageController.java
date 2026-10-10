@@ -263,10 +263,16 @@ public class PageController {
         return "tool-trim-video";
     }
 
-    @GetMapping("/tool-merge-videos")
-    public String toolMergeVideos() {
-        return "tool-merge-videos";
+    @GetMapping("/tool-merge-video")
+    public String toolMergeVideo() {
+        return "tool-merge-video";
     }
+
+    @GetMapping("/tool-convert-video")
+    public String toolconvertVideo() {
+        return "tool-convert-video";
+    }
+
 
     @GetMapping("/tool-extract-audio-video")
     public String toolExtractAudioVideo() {

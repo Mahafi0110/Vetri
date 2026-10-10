@@ -1278,7 +1278,7 @@
     <!-- Shared navbar/footer behavior (login state, dropdown, hamburger, logout) -->
     <script src="/js/common-nav.js"></script>
 
-    <script>
+    <!-- <script>
         /* ─────────────────────────────────────────
            STATE
         ───────────────────────────────────────── */
@@ -1657,7 +1657,535 @@
             document.getElementById('networkErrorModal').classList.remove('show');
             document.getElementById('progressFill').style.width = '0%';
         }
-    </script>
+    </script> -->
+<script>
+    /* ─────────────────────────────────────────
+   STATE
+───────────────────────────────────────── */
+let imageFiles = [];        // { id, file, name, size, objectURL, imgPromise }
+let nextImageId = 1;
+let wmType = 'text';
+let wmColor = '#ffffff';
+let wmPosition = 'center';
+let logoImage = null;       // HTMLImageElement for the logo
+let logoURL = null;
+let processedFiles = [];    // { blob, name }
+let isProcessing = false;
+
+// Font size, spacing and shadow are measured against an image that is 600px wide.
+// Bigger or smaller images scale them in the same proportion, so the live preview
+// and the downloaded image always look the same.
+const REF_WIDTH = 600;
+
+/* ─────────────────────────────────────────
+   SMALL HELPERS
+───────────────────────────────────────── */
+// File names can contain characters like " < & so never put them into HTML as-is
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, c => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+}
+
+// Loads an image once and remembers it (so moving a slider does not decode it again)
+function ensureImage(item) {
+    if (item.imgPromise) return item.imgPromise;
+    item.imgPromise = new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error('Cannot read ' + item.name));
+        img.src = item.objectURL;
+    });
+    return item.imgPromise;
+}
+
+/* ─────────────────────────────────────────
+   DRAG & DROP
+───────────────────────────────────────── */
+function onDragOver(e) {
+    e.preventDefault();
+    document.getElementById('dropZone').classList.add('dragover');
+}
+function onDragLeave() {
+    document.getElementById('dropZone').classList.remove('dragover');
+}
+function onDrop(e) {
+    e.preventDefault();
+    document.getElementById('dropZone').classList.remove('dragover');
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    addImages(files);
+}
+function onFileSelect(e) {
+    addImages(Array.from(e.target.files));
+    e.target.value = '';
+}
+
+/* ─────────────────────────────────────────
+   ADD / REMOVE IMAGES
+───────────────────────────────────────── */
+function addImages(files) {
+    files.forEach(f => {
+        if (imageFiles.find(x => x.name === f.name && x.size === f.size)) return;
+        imageFiles.push({
+            id: nextImageId++,
+            file: f,
+            name: f.name,
+            size: f.size,
+            objectURL: URL.createObjectURL(f),
+            imgPromise: null
+        });
+    });
+    renderFileList();
+    renderImageGrid();
+}
+
+function removeImage(id) {
+    const idx = imageFiles.findIndex(x => x.id === id);
+    if (idx === -1) return;
+    URL.revokeObjectURL(imageFiles[idx].objectURL);
+    imageFiles.splice(idx, 1);
+    renderFileList();
+    renderImageGrid();
+}
+
+/* ─────────────────────────────────────────
+   FILE LIST (sidebar)
+───────────────────────────────────────── */
+function renderFileList() {
+    const container = document.getElementById('fileList');
+    if (!imageFiles.length) { container.innerHTML = ''; return; }
+    container.innerHTML = imageFiles.map(item => `
+        <div class="file-item">
+            <img class="file-item-thumb" src="${item.objectURL}" alt="${escapeHtml(item.name)}" />
+            <div class="file-item-info">
+                <p class="file-item-name">${escapeHtml(item.name)}</p>
+                <p class="file-item-size">${formatSize(item.size)}</p>
+            </div>
+            <button class="file-item-remove" onclick="removeImage(${item.id})" aria-label="Remove image"><i class="bi bi-x"></i></button>
+        </div>`).join('');
+}
+
+/* ─────────────────────────────────────────
+   IMAGE GRID + CANVAS WATERMARK PREVIEW
+───────────────────────────────────────── */
+function renderImageGrid() {
+    const noState = document.getElementById('noFileState');
+    const grid = document.getElementById('imageGrid');
+
+    if (!imageFiles.length) {
+        noState.style.display = 'block';
+        grid.style.display = 'none';
+        grid.innerHTML = '';
+        return;
+    }
+    noState.style.display = 'none';
+    grid.style.display = 'grid';
+
+    grid.innerHTML = imageFiles.map(item => `
+        <div class="img-preview-card">
+            <canvas id="canvas_${item.id}"></canvas>
+            <div class="img-card-footer">
+                <p class="img-card-name">${escapeHtml(item.name)}</p>
+                <p class="img-card-size">${formatSize(item.size)}</p>
+            </div>
+        </div>`).join('');
+
+    imageFiles.forEach(drawWatermark);
+}
+
+function refreshPreviews() {
+    imageFiles.forEach(drawWatermark);
+}
+
+/* ─────────────────────────────────────────
+   CORE CANVAS WATERMARK ENGINE
+───────────────────────────────────────── */
+function drawWatermark(item) {
+    ensureImage(item).then(img => {
+        const canvas = document.getElementById('canvas_' + item.id);
+        if (!canvas) return;
+
+        // Small preview copy of the image (never bigger than 600px)
+        const s = Math.min(1, REF_WIDTH / img.naturalWidth, REF_WIDTH / img.naturalHeight);
+        const w = Math.max(1, Math.round(img.naturalWidth * s));
+        const h = Math.max(1, Math.round(img.naturalHeight * s));
+
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        applyWatermarkToCtx(ctx, w, h);
+    }).catch(() => {
+        // The browser could not open this file (damaged, or a format it does not support)
+        const canvas = document.getElementById('canvas_' + item.id);
+        if (canvas) {
+            const msg = document.createElement('div');
+            msg.className = 'img-error';
+            msg.textContent = 'This image cannot be previewed';
+            canvas.replaceWith(msg);
+        }
+    });
+}
+
+function applyWatermarkToCtx(ctx, w, h) {
+    const unit = w / REF_WIDTH;   // 1 for a 600px-wide image, 2 for 1200px, and so on
+    const opacity = parseInt(document.getElementById('wmOpacity').value) / 100;
+    const pad = Math.round(20 * unit);
+    ctx.globalAlpha = opacity;
+
+    if (wmType === 'text') {
+        const text = document.getElementById('wmText').value || '© Vetri Files';
+        const fontSize = parseInt(document.getElementById('fontSize').value);
+        const scaledFont = Math.max(1, Math.min(fontSize * unit, w * 0.15));
+
+        ctx.font = `bold ${scaledFont}px Poppins, sans-serif`;
+        ctx.fillStyle = wmColor;
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+
+        // Shadow for readability
+        ctx.shadowColor = (wmColor === '#000000') ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.45)';
+        ctx.shadowBlur = 4 * unit;
+        ctx.shadowOffsetX = unit;
+        ctx.shadowOffsetY = unit;
+
+        const { x, y } = getPosition(w, h, ctx.measureText(text).width, scaledFont, pad);
+        ctx.fillText(text, x, y);
+
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+    } else if (wmType === 'logo' && logoImage) {
+        const pct = parseInt(document.getElementById('logoSize').value) / 100;
+        const lw = Math.round(w * pct);
+        const lh = Math.round(lw * logoImage.naturalHeight / logoImage.naturalWidth);
+        const { x, y } = getPosition(w, h, lw, lh, pad);
+        ctx.drawImage(logoImage, x - lw / 2, y - lh / 2, lw, lh);
+    }
+
+    ctx.globalAlpha = 1;
+}
+
+/* ─────────────────────────────────────────
+   POSITION CALCULATOR
+───────────────────────────────────────── */
+function getPosition(canvasW, canvasH, elemW, elemH, pad) {
+    const positions = {
+        'top-left':   { x: pad + elemW / 2,            y: pad + elemH / 2 },
+        'top-center': { x: canvasW / 2,                y: pad + elemH / 2 },
+        'top-right':  { x: canvasW - pad - elemW / 2,  y: pad + elemH / 2 },
+        'mid-left':   { x: pad + elemW / 2,            y: canvasH / 2 },
+        'center':     { x: canvasW / 2,                y: canvasH / 2 },
+        'mid-right':  { x: canvasW - pad - elemW / 2,  y: canvasH / 2 },
+        'bot-left':   { x: pad + elemW / 2,            y: canvasH - pad - elemH / 2 },
+        'bot-center': { x: canvasW / 2,                y: canvasH - pad - elemH / 2 },
+        'bot-right':  { x: canvasW - pad - elemW / 2,  y: canvasH - pad - elemH / 2 },
+    };
+    return positions[wmPosition] || positions['center'];
+}
+
+/* ─────────────────────────────────────────
+   SETTINGS CONTROLS
+───────────────────────────────────────── */
+function setWmType(type) {
+    wmType = type;
+    document.getElementById('btnText').classList.toggle('active', type === 'text');
+    document.getElementById('btnLogo').classList.toggle('active', type === 'logo');
+    document.getElementById('textPanel').style.display = type === 'text' ? 'block' : 'none';
+    document.getElementById('logoPanel').style.display = type === 'logo' ? 'block' : 'none';
+    refreshPreviews();
+}
+
+function setColor(color, el, fromPicker) {
+    wmColor = color;
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+    if (el) el.classList.add('active');
+    if (!fromPicker) document.getElementById('customColor').value = color;
+    refreshPreviews();
+}
+
+function setPos(pos, btn) {
+    wmPosition = pos;
+    document.querySelectorAll('.pos-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    refreshPreviews();
+}
+
+function onLogoSelect(e) {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+        if (logoURL) URL.revokeObjectURL(logoURL);
+        logoURL = url;
+        logoImage = img;
+        document.getElementById('logoPreviewImg').src = url;
+        document.getElementById('logoPreviewName').textContent = file.name;
+        document.getElementById('logoPreviewWrap').style.display = 'flex';
+        refreshPreviews();
+    };
+    img.onerror = () => {
+        URL.revokeObjectURL(url);
+        alert('We could not read that logo image. Please try a PNG or JPG file.');
+    };
+    img.src = url;
+}
+
+function removeLogo() {
+    logoImage = null;
+    if (logoURL) { URL.revokeObjectURL(logoURL); logoURL = null; }
+    document.getElementById('logoPreviewWrap').style.display = 'none';
+    document.getElementById('logoPreviewImg').src = '';
+    refreshPreviews();
+}
+
+/* ─────────────────────────────────────────
+   OUTPUT FORMAT
+   - JPG stays JPG, PNG stays PNG, WEBP stays WEBP
+   - Anything else (GIF, BMP, AVIF...) is saved as PNG, so the file name
+     always matches what is really inside the file
+───────────────────────────────────────── */
+function outputFormatFor(name) {
+    const ext = (name.split('.').pop() || '').toLowerCase();
+    if (ext === 'jpg' || ext === 'jpeg') return { mime: 'image/jpeg', ext: ext };
+    if (ext === 'webp') return { mime: 'image/webp', ext: 'webp' };
+    return { mime: 'image/png', ext: 'png' };
+}
+
+function baseName(name) {
+    const i = name.lastIndexOf('.');
+    return i > 0 ? name.slice(0, i) : name;
+}
+
+function canvasToBlob(canvas, mime) {
+    return new Promise((resolve, reject) => {
+        canvas.toBlob(b => b ? resolve(b) : reject(new Error('Could not create image')), mime, 0.92);
+    });
+}
+
+// Two files can have the same name (from different folders), so add _2, _3... if needed
+function uniqueName(name, used) {
+    if (!used.has(name)) { used.add(name); return name; }
+    const dot = name.lastIndexOf('.');
+    const stem = dot > 0 ? name.slice(0, dot) : name;
+    const ext = dot > 0 ? name.slice(dot) : '';
+    let n = 2;
+    while (used.has(stem + '_' + n + ext)) n++;
+    const finalName = stem + '_' + n + ext;
+    used.add(finalName);
+    return finalName;
+}
+
+/* ─────────────────────────────────────────
+   PROCESSING & DOWNLOAD
+   Images are handled one at a time and turned into small files straight away,
+   so many large photos do not fill the browser's memory.
+───────────────────────────────────────── */
+async function startProcessing() {
+    if (isProcessing) return;
+
+    if (!imageFiles.length) {
+        alert('Please upload at least one image.');
+        return;
+    }
+    if (wmType === 'logo' && !logoImage) {
+        alert('Please upload a logo image for the logo watermark.');
+        return;
+    }
+
+    isProcessing = true;
+    const modal = document.getElementById('processingModal');
+    const progressFill = document.getElementById('progressFill');
+    progressFill.style.width = '0%';
+    modal.classList.add('show');
+
+    // Make sure the Poppins font is ready, so the saved text matches the preview
+    try { await document.fonts.load('bold 36px Poppins'); } catch (e) { /* use fallback font */ }
+
+    processedFiles = [];
+    const skipped = [];
+    const usedNames = new Set();
+
+    for (let i = 0; i < imageFiles.length; i++) {
+        const item = imageFiles[i];
+        try {
+            const img = await ensureImage(item);
+
+            const c = document.createElement('canvas');
+            c.width = img.naturalWidth;
+            c.height = img.naturalHeight;
+            const ctx = c.getContext('2d');
+            if (!ctx) throw new Error('Image is too large for this browser');
+            ctx.drawImage(img, 0, 0);
+            applyWatermarkToCtx(ctx, c.width, c.height);
+
+            const fmt = outputFormatFor(item.name);
+            const blob = await canvasToBlob(c, fmt.mime);
+
+            // Some browsers (Safari) cannot save WEBP and give PNG instead: fix the extension
+            let ext = fmt.ext;
+            if (blob.type === 'image/png') ext = 'png';
+            else if (blob.type === 'image/jpeg' && fmt.mime !== 'image/jpeg') ext = 'jpg';
+
+            const outName = uniqueName('watermarked_' + baseName(item.name) + '.' + ext, usedNames);
+            processedFiles.push({ blob: blob, name: outName });
+
+            c.width = 0; c.height = 0;   // free the memory right away
+        } catch (err) {
+            console.error(err);
+            skipped.push(item.name);
+        }
+
+        progressFill.style.width = Math.round(((i + 1) / imageFiles.length) * 100) + '%';
+        await new Promise(r => setTimeout(r, 0));   // let the page redraw the progress bar
+    }
+
+    modal.classList.remove('show');
+    isProcessing = false;
+
+    if (!processedFiles.length) {
+        showNetworkError('Could not process images',
+            'Your browser could not open these images. Please try JPG, PNG or WEBP files.');
+        return;
+    }
+
+    // Summary in the success popup
+    let summary = processedFiles.length + ' image' + (processedFiles.length > 1 ? 's' : '') + ' processed';
+    if (skipped.length) summary += ' (' + skipped.length + ' skipped)';
+    document.getElementById('summaryImages').textContent = summary;
+    document.getElementById('summaryType').textContent = wmType === 'text'
+        ? 'Text: "' + (document.getElementById('wmText').value || '© Vetri Files') + '"'
+        : 'Logo watermark';
+    document.getElementById('summaryPos').textContent = 'Position: ' + wmPosition.replace('-', ' ');
+    document.getElementById('downloadBtnLabel').textContent =
+        processedFiles.length > 1 ? 'Download All (ZIP)' : 'Download Image';
+
+    setTimeout(() => {
+        document.getElementById('successModal').classList.add('show');
+    }, 300);
+}
+
+async function downloadAll() {
+    if (!processedFiles.length) return;
+
+    try {
+        if (processedFiles.length === 1) {
+            triggerDownload(processedFiles[0].blob, processedFiles[0].name);
+        } else {
+            const zip = new JSZip();
+            const folder = zip.folder('watermarked_images');
+            processedFiles.forEach(f => folder.file(f.name, f.blob));
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            triggerDownload(zipBlob, 'watermarked_images.zip');
+        }
+    } catch (err) {
+        console.error(err);
+        showNetworkError('Download failed', 'We could not prepare your download. Please try again.');
+    }
+}
+
+function triggerDownload(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+
+function doAnother() {
+    document.getElementById('successModal').classList.remove('show');
+    imageFiles.forEach(f => URL.revokeObjectURL(f.objectURL));
+    imageFiles = [];
+    processedFiles = [];
+    document.getElementById('progressFill').style.width = '0%';
+    renderFileList();
+    renderImageGrid();
+}
+
+/* ─────────────────────────────────────────
+   UTILS
+───────────────────────────────────────── */
+function formatSize(bytes) {
+    if (!bytes) return '—';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(2) + ' MB';
+}
+
+function goBack() {
+    const ref = document.referrer || "";
+
+    if (ref.includes('/all-tools')) {
+        window.location.href = '/all-tools';
+    } else if (ref.includes('/file-tools')) {
+        window.location.href = '/file-tools';
+    } else if (window.history.length > 1) {
+        window.history.back(); // smart fallback
+    } else {
+        window.location.href = '/';
+    }
+}
+
+function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+
+// When the Poppins font finishes loading, redraw so the preview text uses it
+if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(refreshPreviews);
+}
+
+/* ─────────────────────────────────────────
+   LOAD THE IMAGE UPLOADED ON THE HOME PAGE
+   Same way the video tools do it: if the visitor came from the home page with a file,
+   it is added to the list automatically. They can still add more images, or open this
+   page directly and upload here, as before.
+   NOTE: isFromUpload() can only be used ONCE per visit (it clears its own flag),
+   so it must not be called anywhere else on this page.
+───────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+    try {
+        if (typeof isFromUpload !== 'function' || !isFromUpload()) return;
+        if (typeof getFileBlob !== 'function') return;
+
+        const stored = sessionStorage.getItem('vetri_file');
+        if (!stored) return;
+
+        const info = JSON.parse(stored);
+        const ext = (info.name || '').split('.').pop().toLowerCase();
+        const imageExt = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'avif'];
+        if (!imageExt.includes(ext)) return;   // not an image (for example a video): do nothing
+
+        getFileBlob((blob, meta) => {
+            if (!blob) return;
+            // vetri-file-helper already gives us a File with the right name and type
+            let file = blob;
+            if (!(file instanceof File)) {
+                const name = (meta && meta.name) || info.name || ('image.' + ext);
+                const mime = blob.type || ('image/' + (ext === 'jpg' ? 'jpeg' : ext));
+                file = new File([blob], name, { type: mime });
+            }
+            addImages([file]);
+        });
+    } catch (err) {
+        console.error('Could not load the image from the home page', err);
+    }
+});
+</script>
 </body>
 
 </html>

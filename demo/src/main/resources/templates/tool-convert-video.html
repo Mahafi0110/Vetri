@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-N6DBC8P6');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convert Video Format Online – MP4, AVI, MOV, MKV, WEBM | Vetri Files</title>
+  <meta name="description"
+    content="Convert video files between MP4, AVI, MOV, MKV and WEBM online. Choose your output format and quality, then download the converted video with Vetri Files." />
+  <link rel="canonical" href="https://www.vetrifiles.com/tool-convert-video" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link href="/css/common-nav-footer.css" rel="stylesheet" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Convert Video",
+      "url": "https://www.vetrifiles.com/tool-convert-video",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any (Web-based)",
+      "browserRequirements": "Requires JavaScript. Works in any modern browser.",
+      "description": "Convert video files between MP4, AVI, MOV, MKV and WEBM formats online for free.",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+  </script>
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue-main: #3B82F6;
+      --heading: #1F2937;
+      --subtext: #4A5565;
+      --accent-1: #F3F4F6;
+      --accent-2: #E5E7EB;
+      --white: #ffffff;
+      --green: #16A34A;
+      --gray-bg: #F3F4F6;
+      --radius-card: 16px;
+      --radius-btn: 50px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body { font-family: 'Inter', sans-serif; color: var(--heading); background: var(--accent-1); overflow-x: hidden; }
+    h1, h2, h3, h4, h5, .brand-name { font-family: 'Poppins', sans-serif; }
+
+    .page-header { background: var(--accent-1); padding: 20px 0 24px; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: .9rem; font-weight: 500;
+      color: var(--subtext); text-decoration: none; margin-bottom: 6px; transition: color .2s;
+      background: none; border: none; outline: none; box-shadow: none; padding: 0; cursor: pointer;
+    }
+    .back-link:hover { color: var(--blue-main); }
+    .page-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; color: var(--heading); margin: 0; }
+    .tool-main { padding: 24px 0 64px; }
+
+    .settings-card { background: var(--white); border: 1.5px solid var(--accent-2); border-radius: 16px; padding: 28px 24px; height: 100%; }
+    .settings-title { font-size: 1.1rem; font-weight: 700; color: var(--heading); margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+    .settings-title i { color: #DB2777; }
+    .divider-line { border: none; border-top: 1.5px solid var(--accent-2); margin: 20px 0; }
+    .form-label-custom { font-size: .85rem; font-weight: 600; color: var(--heading); margin-bottom: 8px; display: block; }
+
+    .file-info-box { background: var(--accent-1); border: 1.5px solid var(--accent-2); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .file-info-box div { min-width: 0; }
+    .file-info-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .95rem; flex-shrink: 0; }
+    .video-icon { background: linear-gradient(135deg, #DB2777, #F472B6); }
+    .file-info-name { font-size: .82rem; font-weight: 700; color: var(--heading); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .file-info-size { font-size: .75rem; color: var(--subtext); margin: 0; }
+
+    /* Format buttons */
+    .format-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .format-btn {
+      font-family: 'Poppins', sans-serif; font-size: .8rem; font-weight: 700; padding: 10px 6px;
+      border: 1.5px solid var(--accent-2); border-radius: 10px; background: var(--white);
+      color: var(--subtext); cursor: pointer; transition: all .2s;
+    }
+    .format-btn:hover, .format-btn.active { border-color: #DB2777; background: #FFF0F6; color: #DB2777; }
+
+    /* Quality levels */
+    .comp-levels { display: flex; flex-direction: column; gap: 8px; }
+    .comp-level-btn {
+      width: 100%; text-align: left; font-family: inherit; padding: 11px 12px; border: 1.5px solid var(--accent-2);
+      border-radius: 12px; background: var(--white); cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all .2s;
+    }
+    .comp-level-btn:hover, .comp-level-btn.active { border-color: #DB2777; background: #FFF0F6; }
+    .level-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .85rem; flex-shrink: 0; }
+    .green-icon { background: linear-gradient(135deg, #16A34A, #4ADE80); }
+    .orange-icon { background: linear-gradient(135deg, #D97706, #FCD34D); }
+    .red-icon { background: linear-gradient(135deg, #DC2626, #F87171); }
+    .level-name { font-size: .83rem; font-weight: 700; color: var(--heading); margin: 0 0 1px; }
+    .level-desc { font-size: .72rem; color: var(--subtext); margin: 0; }
+    .level-check { color: #DB2777; margin-left: auto; display: none; font-size: .9rem; }
+    .comp-level-btn.active .level-check { display: block; }
+
+    .select-custom {
+      width: 100%; padding: 10px 14px; font-size: .9rem; font-family: 'Inter', sans-serif; border: 1.5px solid var(--accent-2);
+      border-radius: 10px; background: var(--white); color: var(--heading); appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5565' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; transition: border-color .2s;
+    }
+    .select-custom:focus { outline: none; border-color: #DB2777; }
+    .target-hint { font-size: .72rem; color: var(--subtext); margin: 6px 0 0; }
+
+    .preview-card { background: var(--white); border: 1.5px solid var(--accent-2); border-radius: 16px; padding: 28px 24px; }
+    .preview-title { font-size: 1.1rem; font-weight: 700; color: var(--heading); margin-bottom: 16px; }
+
+    .video-player-wrap { background: #111827; border-radius: 12px; min-height: 280px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 12px; }
+    .no-video-state { text-align: center; color: #6B7280; padding: 24px; }
+    .no-video-state i { font-size: 3rem; display: block; margin-bottom: 12px; color: #4B5563; }
+    .no-video-state p { font-size: .95rem; font-weight: 600; margin-bottom: 4px; color: #9CA3AF; }
+    .no-video-state span { font-size: .82rem; }
+    #videoEl { width: 100%; max-height: 300px; display: block; object-fit: contain; }
+
+    .video-controls { display: flex; align-items: center; gap: 10px; background: var(--accent-1); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; flex-wrap: wrap; }
+    .v-ctrl-btn { padding: 6px 12px; font-size: .75rem; font-weight: 600; font-family: 'Inter', sans-serif; border: 1.5px solid var(--accent-2); border-radius: 8px; background: var(--white); color: var(--subtext); cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all .2s; }
+    .v-ctrl-btn:hover { border-color: #DB2777; color: #DB2777; }
+    .v-play-btn { width: 40px; height: 40px; background: linear-gradient(135deg, #DB2777, #F472B6); border: none; border-radius: 50%; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: transform .2s; flex-shrink: 0; box-shadow: 0 3px 12px rgba(219, 39, 119, .35); }
+    .v-play-btn:hover { transform: scale(1.05); }
+    .v-time-display { font-size: .78rem; font-weight: 600; color: var(--subtext); white-space: nowrap; }
+    .v-sep { margin: 0 3px; }
+    .v-vol-wrap { display: flex; align-items: center; gap: 5px; margin-left: auto; font-size: .85rem; color: var(--subtext); }
+    .v-vol-range { width: 60px; accent-color: #DB2777; }
+
+    .v-progress-wrap { cursor: pointer; padding: 4px 0; margin-bottom: 12px; }
+    .v-progress-track { height: 4px; background: var(--accent-2); border-radius: 4px; overflow: hidden; }
+    .v-progress-fill { height: 100%; background: linear-gradient(90deg, #DB2777, #F472B6); border-radius: 4px; width: 0%; transition: width .1s; }
+
+    .video-info-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .v-info-card { flex: 1; min-width: 70px; background: var(--accent-1); border: 1.5px solid var(--accent-2); border-radius: 10px; padding: 10px 12px; text-align: center; }
+    .v-info-card.highlight { background: #FFF0F6; border-color: #FBCFE8; }
+    .v-info-label { font-size: .7rem; color: var(--subtext); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+    .v-info-val { font-family: 'Poppins', sans-serif; font-size: .88rem; font-weight: 700; color: var(--heading); margin: 0; }
+    .v-info-val.pink { color: #DB2777; }
+    .v-info-arrow { color: #DB2777; font-size: .9rem; flex-shrink: 0; }
+
+    .btn-process, .btn-download {
+      width: 100%; font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700;
+      background: linear-gradient(135deg, #DB2777, #F472B6); color: #fff; border: none; border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(219, 39, 119, .35); display: flex; align-items: center; justify-content: center;
+      gap: 10px; transition: transform .2s, box-shadow .2s; cursor: pointer;
+    }
+    .btn-process { padding: 16px; }
+    .btn-download { padding: 15px; margin-bottom: 12px; }
+    .btn-process:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(219, 39, 119, .45); }
+    .btn-download:hover { transform: translateY(-2px); }
+    .btn-process:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .btn-another {
+      width: 100%; padding: 14px; font-family: 'Poppins', sans-serif; font-size: .95rem; font-weight: 600;
+      background: var(--white); color: var(--heading); border: 1.5px solid var(--accent-2); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: border-color .2s, color .2s;
+    }
+    .btn-another:hover { border-color: #DB2777; color: #DB2777; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(30, 30, 30, .55); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; pointer-events: none; transition: opacity .3s; }
+    .modal-overlay.show { opacity: 1; pointer-events: all; }
+    .modal-box { background: var(--white); border-radius: 24px; padding: 48px 40px 44px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 24px 64px rgba(0, 0, 0, .18); transform: scale(.95); transition: transform .3s; }
+    .modal-overlay.show .modal-box { transform: scale(1); }
+    .spinner-ring { width: 64px; height: 64px; border-radius: 50%; border: 5px solid var(--accent-2); border-top-color: #DB2777; animation: spin .9s linear infinite; margin: 0 auto 24px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .modal-title-text { font-size: 1.3rem; font-weight: 800; color: var(--heading); margin-bottom: 10px; }
+    .modal-sub-text { font-size: .9rem; color: var(--subtext); margin-bottom: 24px; }
+    .progress-track { background: var(--accent-2); border-radius: 50px; height: 6px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 50px; background: linear-gradient(90deg, #DB2777, #F472B6); width: 0%; transition: width .3s ease; }
+
+    .success-back { display: inline-flex; align-items: center; gap: 5px; font-size: .85rem; color: var(--subtext); margin-bottom: 20px; transition: color .2s; background: none; border: none; padding: 0; cursor: pointer; }
+    .success-back:hover { color: #DB2777; }
+    .success-circle { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #DB2777, #F472B6); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 6px 20px rgba(219, 39, 119, .3); }
+    .success-circle i { color: #fff; font-size: 2rem; }
+    .success-title { font-size: 1.4rem; font-weight: 800; color: var(--heading); margin-bottom: 8px; }
+    .success-file { font-size: .9rem; color: var(--subtext); margin-bottom: 4px; word-break: break-word; }
+    .success-note { font-size: .85rem; color: var(--subtext); margin-bottom: 20px; }
+    .compress-summary { background: var(--accent-1); border: 1.5px solid var(--accent-2); border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; text-align: left; }
+    .compress-summary-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: .85rem; color: var(--heading); }
+    .compress-summary-item i { color: #DB2777; width: 16px; }
+    .compress-summary-item:not(:last-child) { border-bottom: 1px solid var(--accent-2); }
+
+    @media (max-width:767.98px) {
+      .tool-main { padding: 20px 0 48px; }
+      .settings-card { margin-bottom: 16px; }
+      .modal-box { padding: 36px 24px 32px; }
+      .video-info-row { flex-wrap: wrap; gap: 8px; justify-content: center; }
+      .v-info-card { flex: 1 1 calc(50% - 8px); min-width: 0; padding: 10px; }
+      .v-info-arrow { display: none; }
+      .v-info-val { font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    }
+  </style>
+</head>
+
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6DBC8P6" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <button class="back-link" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+      <h1 class="page-title">Convert Video Format</h1>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="tool-main">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- Settings Panel -->
+        <div class="col-12 col-lg-3">
+          <div class="settings-card">
+            <div class="settings-title">
+              <i class="bi bi-gear-fill"></i> Settings
+            </div>
+
+            <div class="file-info-box">
+              <div class="file-info-icon video-icon">
+                <i class="bi bi-file-earmark-play-fill"></i>
+              </div>
+              <div>
+                <p class="file-info-name" id="fileInfoName">No file loaded</p>
+                <p class="file-info-size" id="fileInfoSize">—</p>
+              </div>
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Output Format -->
+            <label class="form-label-custom">Convert To</label>
+            <div class="format-grid" id="formatGrid">
+              <button type="button" class="format-btn active" data-format="mp4" onclick="setFormat('mp4')">MP4</button>
+              <button type="button" class="format-btn" data-format="avi" onclick="setFormat('avi')">AVI</button>
+              <button type="button" class="format-btn" data-format="mov" onclick="setFormat('mov')">MOV</button>
+              <button type="button" class="format-btn" data-format="mkv" onclick="setFormat('mkv')">MKV</button>
+              <button type="button" class="format-btn" data-format="webm" onclick="setFormat('webm')">WEBM</button>
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Quality -->
+            <label class="form-label-custom">Quality</label>
+            <div class="comp-levels">
+              <button type="button" class="comp-level-btn" data-level="high" onclick="setLevel('high')">
+                <div class="level-icon green-icon"><i class="bi bi-stars"></i></div>
+                <div class="level-info">
+                  <p class="level-name">High</p>
+                  <p class="level-desc">Best quality · Larger file</p>
+                </div>
+                <i class="bi bi-check-circle-fill level-check"></i>
+              </button>
+
+              <button type="button" class="comp-level-btn active" data-level="medium" onclick="setLevel('medium')">
+                <div class="level-icon orange-icon"><i class="bi bi-sliders"></i></div>
+                <div class="level-info">
+                  <p class="level-name">Medium</p>
+                  <p class="level-desc">Balanced · Recommended</p>
+                </div>
+                <i class="bi bi-check-circle-fill level-check"></i>
+              </button>
+
+              <button type="button" class="comp-level-btn" data-level="low" onclick="setLevel('low')">
+                <div class="level-icon red-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                <div class="level-info">
+                  <p class="level-name">Low</p>
+                  <p class="level-desc">Fastest · Smaller file</p>
+                </div>
+                <i class="bi bi-check-circle-fill level-check"></i>
+              </button>
+            </div>
+
+            <hr class="divider-line" />
+
+            <!-- Resolution -->
+            <label class="form-label-custom" for="resolution">Output Resolution</label>
+            <select class="select-custom" id="resolution">
+              <option value="original" selected>Keep Original</option>
+              <option value="1080">1080p (Full HD)</option>
+              <option value="720">720p (HD)</option>
+              <option value="480">480p (SD)</option>
+              <option value="360">360p</option>
+            </select>
+            <p class="target-hint">Keeping the original is best when you only want a new format</p>
+
+          </div>
+        </div>
+
+        <!-- Preview Panel -->
+        <div class="col-12 col-lg-9">
+          <div class="preview-card">
+            <p class="preview-title">Preview</p>
+
+            <div class="video-player-wrap" id="videoPlayerWrap">
+              <div class="no-video-state" id="noVideoState">
+                <i class="bi bi-camera-video"></i>
+                <p>No video loaded</p>
+                <span>Upload a video from the home page</span>
+              </div>
+              <video id="videoEl" playsinline style="display:none"></video>
+            </div>
+
+            <div class="video-controls" id="videoControls" style="display:none">
+              <button class="v-ctrl-btn" onclick="seekVideo(-10)" aria-label="Rewind 10 seconds">
+                <i class="bi bi-skip-backward-fill"></i> 10s
+              </button>
+              <button class="v-play-btn" id="vPlayBtn" onclick="togglePlay()" aria-label="Play or pause">
+                <i class="bi bi-play-fill" id="vPlayIcon"></i>
+              </button>
+              <button class="v-ctrl-btn" onclick="seekVideo(10)" aria-label="Forward 10 seconds">
+                <i class="bi bi-skip-forward-fill"></i> 10s
+              </button>
+              <div class="v-time-display">
+                <span id="vCurrentTime">0:00</span>
+                <span class="v-sep">/</span>
+                <span id="vTotalTime">0:00</span>
+              </div>
+              <div class="v-vol-wrap">
+                <i class="bi bi-volume-up-fill"></i>
+                <input type="range" class="v-vol-range" min="0" max="1" step="0.1" value="1" aria-label="Volume"
+                  oninput="setVolume(this.value)" />
+              </div>
+            </div>
+
+            <div class="v-progress-wrap" id="vProgressWrap" style="display:none" onclick="seekByProgress(event)">
+              <div class="v-progress-track">
+                <div class="v-progress-fill" id="vProgressFill"></div>
+              </div>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="video-info-row" id="videoInfoRow" style="display:none">
+              <div class="v-info-card">
+                <p class="v-info-label">Current Format</p>
+                <p class="v-info-val" id="infoFromFormat">—</p>
+              </div>
+              <div class="v-info-arrow"><i class="bi bi-arrow-right"></i></div>
+              <div class="v-info-card highlight">
+                <p class="v-info-label">New Format</p>
+                <p class="v-info-val pink" id="infoToFormat">MP4</p>
+              </div>
+              <div class="v-info-card">
+                <p class="v-info-label">Resolution</p>
+                <p class="v-info-val" id="infoResolution">—</p>
+              </div>
+              <div class="v-info-card">
+                <p class="v-info-label">File Size</p>
+                <p class="v-info-val" id="infoOrigSize">—</p>
+              </div>
+            </div>
+
+            <button class="btn-process" id="processBtn" onclick="startProcessing()">
+              <i class="bi bi-arrow-repeat"></i>
+              Convert &amp; Download
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ── How it works ── -->
+  <section class="section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-12 col-lg-5">
+          <span class="section-badge">How It Works</span>
+          <h2 class="section-title">Convert Video - How to Change a Video Format Online for Free?</h2>
+        </div>
+        <div class="col-12 col-lg-7">
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot">1</div>
+              <div class="tl-content">
+                <h5>Click Upload Video and select your video file.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">2</div>
+              <div class="tl-content">
+                <h5>Choose the format you want, such as MP4, AVI, MOV, MKV or WEBM.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">3</div>
+              <div class="tl-content">
+                <h5>Pick the quality and resolution, then click Convert &amp; Download.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">4</div>
+              <div class="tl-content">
+                <h5>Wait for the conversion to finish.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">5</div>
+              <div class="tl-content">
+                <h5>Download the converted video file.</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--gray-bg);">
+    <div class="container">
+      <div class="text-center mb-4">
+        <span class="section-badge">FAQ</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-wrap">
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What is Vetri Files Convert Video?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Vetri Files Convert Video is an online tool that changes a supported video
+              file from one format to another.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Which video formats can I convert to?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">You can convert supported videos to MP4, AVI, MOV, MKV and WEBM.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How do I convert a video online?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Upload the video, choose the output format, click Convert &amp; Download, and
+              save the converted file.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Why would I convert a video to MP4?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">MP4 plays on most phones, computers and websites, so it is a common choice
+              for sharing and uploading.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I convert a video without installing software?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Yes. Vetri Files provides browser-based tools, so no installation is needed.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESSING MODAL -->
+  <div class="modal-overlay" id="processingModal">
+    <div class="modal-box">
+      <div class="spinner-ring"></div>
+      <p class="modal-title-text">Converting Video</p>
+      <p class="modal-sub-text" id="processingSub">
+        This may take a few minutes for large videos...
+      </p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERROR MODAL -->
+  <div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+      <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+        <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+      </div>
+      <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;" id="netErrTitle">Something went wrong</p>
+      <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;" id="netErrMsg">Please try again.</p>
+      <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#DB2777,#F472B6);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(219,39,119,.35);">
+        Try Again
+      </button>
+      <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+        Upload New File
+      </button>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <button class="success-back" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+      <div class="success-circle">
+        <i class="bi bi-check-lg"></i>
+      </div>
+      <p class="success-title">Video Converted!</p>
+      <p class="success-file" id="successFileName">video.mp4</p>
+      <p class="success-note">has been converted successfully</p>
+      <div class="compress-summary">
+        <div class="compress-summary-item">
+          <i class="bi bi-arrow-left-right"></i>
+          <span id="summaryConversion">AVI → MP4</span>
+        </div>
+        <div class="compress-summary-item">
+          <i class="bi bi-sliders"></i>
+          <span id="summaryLevel">Medium quality</span>
+        </div>
+        <div class="compress-summary-item">
+          <i class="bi bi-display"></i>
+          <span id="summaryResolution">Original resolution</span>
+        </div>
+        <div class="compress-summary-item">
+          <i class="bi bi-hdd-fill"></i>
+          <span id="summarySize"></span>
+        </div>
+      </div>
+      <button class="btn-download" onclick="downloadFile()">
+        <i class="bi bi-cloud-arrow-down-fill"></i>
+        Download Converted Video
+      </button>
+      <button class="btn-another" onclick="convertAnother()">
+        <i class="bi bi-arrow-clockwise"></i>
+        Convert Another Video
+      </button>
+    </div>
+  </div>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/vetri-file-helper.js"></script>
+  <script src="/js/common-nav.js"></script>
+
+  <script>
+    /* ── Globals ── */
+    let currentFile = null;
+    let processedBlob = null;
+    let processedName = 'converted.mp4';
+    let level = 'medium';
+    let format = 'mp4';
+    let videoEl = null;
+    let videoDuration = NaN;
+    let videoW = 0, videoH = 0;
+    let isProcessing = false;
+    let progressTimer = null;
+
+    // Quality -> CRF value sent to the server (lower number = better quality)
+    const crf = { high: 20, medium: 24, low: 30 };
+
+    /* ════════════════════════════════
+       INIT
+    ════════════════════════════════ */
+    window.addEventListener('DOMContentLoaded', () => {
+      videoEl = document.getElementById('videoEl');
+      videoEl.addEventListener('loadedmetadata', onVideoLoaded);
+      videoEl.addEventListener('timeupdate', onTimeUpdate);
+      videoEl.addEventListener('seeked', onTimeUpdate);
+      videoEl.addEventListener('error', onVideoError);
+      videoEl.addEventListener('play', () => { document.getElementById('vPlayIcon').className = 'bi bi-pause-fill'; });
+      videoEl.addEventListener('pause', () => { document.getElementById('vPlayIcon').className = 'bi bi-play-fill'; });
+      videoEl.addEventListener('ended', () => { document.getElementById('vPlayIcon').className = 'bi bi-play-fill'; });
+
+      document.getElementById('resolution').addEventListener('change', updateInfoCards);
+
+      if (!isFromUpload()) { showNoFileState(); return; }
+
+      const stored = sessionStorage.getItem('vetri_file');
+      if (!stored) { showNoFileState(); return; }
+      try {
+        currentFile = JSON.parse(stored);
+      } catch (e) {
+        showNoFileState();
+        return;
+      }
+
+      const validVideoExtensions = ['mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'm4v'];
+      const ext = (currentFile.name || '').split('.').pop().toLowerCase();
+      if (!validVideoExtensions.includes(ext)) {
+        showWrongFileTypeState(currentFile.name);
+        return;
+      }
+
+      document.getElementById('fileInfoName').textContent = currentFile.name || 'video';
+      document.getElementById('fileInfoSize').textContent = formatSize(currentFile.size);
+      document.getElementById('successFileName').textContent = currentFile.name || 'video.mp4';
+      document.getElementById('infoFromFormat').textContent = ext.toUpperCase();
+
+      // Pick a sensible default output: if the video is already MP4, default to WEBM
+      setFormat(ext === 'mp4' ? 'webm' : 'mp4');
+      loadVideo();
+    });
+
+    function setVideoState(icon, color, title, msg, linkText) {
+      const box = document.getElementById('noVideoState');
+      box.textContent = '';
+      const i = document.createElement('i');
+      i.className = 'bi ' + icon;
+      i.style.color = color;
+      const p = document.createElement('p');
+      p.style.color = color;
+      p.textContent = title;
+      const s = document.createElement('span');
+      s.textContent = msg;
+      box.append(i, p, s);
+      if (linkText) {
+        const a = document.createElement('a');
+        a.href = '/';
+        a.textContent = linkText;
+        a.style.cssText = 'display:inline-block;margin-top:12px;padding:10px 24px;background:linear-gradient(135deg,#DB2777,#F472B6);color:#fff;border-radius:50px;text-decoration:none;font-weight:600;font-size:.88rem;';
+        box.append(document.createElement('br'), a);
+      }
+      box.style.display = 'block';
+    }
+
+    function showWrongFileTypeState(filename) {
+      document.getElementById('fileInfoName').textContent = 'Unsupported file type';
+      const sizeEl = document.getElementById('fileInfoSize');
+      sizeEl.textContent = '"' + filename + '" isn\'t a video. ';
+      const link = document.createElement('a');
+      link.href = '/';
+      link.style.cssText = 'color:#DB2777;text-decoration:none;font-weight:bold;';
+      link.textContent = '⇦ Upload a video instead';
+      sizeEl.appendChild(link);
+
+      setVideoState('bi-file-earmark-x', '#DC2626', 'Unsupported file type',
+        '"' + filename + '" cannot be converted.', 'Upload a video');
+      document.getElementById('processBtn').disabled = true;
+    }
+
+    function showNoFileState() {
+      document.getElementById('noVideoState').style.display = 'block';
+      document.getElementById('fileInfoName').innerHTML =
+        '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;"> ⇦ Upload a file first</a>';
+    }
+
+    /* ════════════════════════════════
+       LOAD VIDEO
+    ════════════════════════════════ */
+    function loadVideo() {
+      getFileObjectURL(function (url) {
+        if (!url) {
+          setVideoState('bi-exclamation-circle', '#F59E0B', 'Video not found',
+            'Please go back and upload your video again', 'Upload Video');
+          return;
+        }
+        videoEl.src = url;
+        videoEl.style.display = 'block';
+        document.getElementById('noVideoState').style.display = 'none';
+        videoEl.load();
+      });
+    }
+
+    function onVideoLoaded() {
+      videoDuration = videoEl.duration;
+      videoW = videoEl.videoWidth;
+      videoH = videoEl.videoHeight;
+
+      document.getElementById('videoControls').style.display = 'flex';
+      document.getElementById('vProgressWrap').style.display = 'block';
+      document.getElementById('videoInfoRow').style.display = 'flex';
+      document.getElementById('vTotalTime').textContent = formatTimeSec(videoDuration);
+
+      limitResolutionOptions();
+      updateInfoCards();
+    }
+
+    // AVI, MKV, WMV, FLV often can't play in a browser, but they can still be converted
+    function onVideoError() {
+      if (!videoEl.getAttribute('src')) return;
+      videoEl.style.display = 'none';
+      setVideoState('bi-camera-video-off', '#F59E0B', 'Preview not available',
+        'This format can\'t be played in the browser, but you can still convert it.');
+      document.getElementById('videoInfoRow').style.display = 'flex';
+      updateInfoCards();
+    }
+
+    function limitResolutionOptions() {
+      const short = Math.min(videoW, videoH);
+      if (!short) return;
+      const select = document.getElementById('resolution');
+      Array.from(select.options).forEach(o => {
+        const v = parseInt(o.value, 10);
+        o.disabled = !isNaN(v) && v > short;
+      });
+      if (select.selectedOptions[0] && select.selectedOptions[0].disabled) select.value = 'original';
+    }
+
+    /* ════════════════════════════════
+       PLAYER
+    ════════════════════════════════ */
+    function onTimeUpdate() {
+      if (!videoEl) return;
+      const pct = Number.isFinite(videoDuration) && videoDuration > 0 ? videoEl.currentTime / videoDuration : 0;
+      document.getElementById('vProgressFill').style.width = Math.min(100, pct * 100) + '%';
+      document.getElementById('vCurrentTime').textContent = formatTimeSec(videoEl.currentTime);
+    }
+
+    function togglePlay() {
+      if (!videoEl) return;
+      if (videoEl.paused) {
+        const p = videoEl.play();
+        if (p && p.catch) p.catch(() => { });
+      } else {
+        videoEl.pause();
+      }
+    }
+
+    function seekVideo(sec) {
+      if (!videoEl || !Number.isFinite(videoDuration)) return;
+      videoEl.currentTime = Math.max(0, Math.min(videoEl.currentTime + sec, videoDuration));
+    }
+
+    function seekByProgress(e) {
+      if (!videoEl || !Number.isFinite(videoDuration)) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      videoEl.currentTime = pct * videoDuration;
+    }
+
+    function setVolume(val) { if (videoEl) videoEl.volume = parseFloat(val); }
+
+    /* ════════════════════════════════
+       SETTINGS
+    ════════════════════════════════ */
+    function setFormat(f) {
+      format = f;
+      document.querySelectorAll('.format-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.format === f));
+      document.getElementById('infoToFormat').textContent = f.toUpperCase();
+    }
+
+    function setLevel(l) {
+      level = l;
+      document.querySelectorAll('.comp-level-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.level === l));
+    }
+
+    function updateInfoCards() {
+      if (!currentFile) return;
+      const res = document.getElementById('resolution').value;
+      document.getElementById('infoOrigSize').textContent = formatSize(currentFile.size);
+      if (res === 'original') {
+        document.getElementById('infoResolution').textContent =
+          videoW && videoH ? videoW + '×' + videoH : 'Original';
+      } else {
+        document.getElementById('infoResolution').textContent = res + 'p';
+      }
+    }
+
+    /* ════════════════════════════════
+       FORMATTERS
+    ════════════════════════════════ */
+    function formatTimeSec(secs) {
+      if (!Number.isFinite(secs)) return '0:00';
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return m + ':' + String(s).padStart(2, '0');
+    }
+
+    function formatSize(bytes) {
+      if (!bytes) return '—';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+    }
+
+    /* ════════════════════════════════
+       PROCESSING
+    ════════════════════════════════ */
+    function endProcessing() {
+      clearInterval(progressTimer);
+      document.getElementById('processingModal').classList.remove('show');
+      document.getElementById('processBtn').disabled = false;
+      isProcessing = false;
+    }
+
+    function startProcessing() {
+      if (isProcessing) return;
+
+      if (!currentFile) {
+        alert('No video found. Please upload from home page.');
+        window.location.href = '/';
+        return;
+      }
+
+      const resolution = document.getElementById('resolution').value;
+      const fromExt = (currentFile.name || '').split('.').pop().toLowerCase();
+
+      document.getElementById('summaryConversion').textContent = fromExt.toUpperCase() + ' → ' + format.toUpperCase();
+      document.getElementById('summaryLevel').textContent =
+        level.charAt(0).toUpperCase() + level.slice(1) + ' quality';
+      document.getElementById('summaryResolution').textContent =
+        resolution === 'original' ? 'Original resolution' : resolution + 'p';
+
+      processedName = 'converted_' + (currentFile.name || 'video').replace(/\.[^.]+$/, '') + '.' + format;
+
+      if (videoEl) videoEl.pause();
+
+      isProcessing = true;
+      document.getElementById('processBtn').disabled = true;
+
+      const processingModal = document.getElementById('processingModal');
+      const progressFill = document.getElementById('progressFill');
+      const sub = document.getElementById('processingSub');
+      progressFill.style.width = '0%';
+      sub.textContent = 'This may take a few minutes for large videos...';
+      processingModal.classList.add('show');
+
+      let progress = 0;
+      progressTimer = setInterval(() => {
+        progress += (95 - progress) * 0.04;
+        progressFill.style.width = progress + '%';
+        if (progress > 80) sub.textContent = 'Still working, large videos can take a few minutes...';
+      }, 600);
+
+      getFileBlob((blob, meta) => {
+        if (!blob || !meta) {
+          endProcessing();
+          showNetworkError('File Not Found', 'We could not read your video. Please upload it again.');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', blob, meta.name);
+        formData.append('format', format);
+        formData.append('level', level);
+        formData.append('crf', crf[level]);
+        formData.append('resolution', resolution);
+
+        fetch('/api/video/convert', { method: 'POST', body: formData })
+          .then(r => {
+            if (r.status === 413) throw new Error('too_large');
+            if (!r.ok) throw new Error('Conversion failed');
+            return r.blob();
+          })
+          .then(result => {
+            clearInterval(progressTimer);
+            progressFill.style.width = '100%';
+            processedBlob = result;
+            document.getElementById('summarySize').textContent = 'Output size: ' + formatSize(result.size);
+
+            setTimeout(() => {
+              endProcessing();
+              document.getElementById('successModal').classList.add('show');
+            }, 400);
+          })
+          .catch(err => {
+            endProcessing();
+            console.error(err);
+            if (err.message === 'too_large') {
+              showNetworkError('File Too Large', 'Your video is too large to process. Please try a smaller file.');
+            } else if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+              showNetworkError('No Internet Connection', 'Connection lost while converting video. Check your WiFi and try again.');
+            } else {
+              showNetworkError('Conversion Failed', 'Could not convert your video. Please try again.');
+            }
+          });
+      });
+    }
+
+    /* ════════════════════════════════
+       DOWNLOAD / NAVIGATION
+    ════════════════════════════════ */
+    function downloadFile() {
+      if (!processedBlob) return;
+      const url = URL.createObjectURL(processedBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = processedName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+
+    function convertAnother() {
+      document.getElementById('successModal').classList.remove('show');
+      document.getElementById('progressFill').style.width = '0%';
+      if (videoEl) { videoEl.pause(); videoEl.removeAttribute('src'); videoEl.load(); }
+      window.location.href = '/';
+    }
+
+    function goBack() {
+      const ref = document.referrer || '';
+      if (ref.includes('/all-tools')) {
+        window.location.href = '/all-tools';
+      } else if (ref.includes('/file-tools')) {
+        window.location.href = '/file-tools';
+      } else if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = '/';
+      }
+    }
+
+    function showNetworkError(title, message) {
+      document.getElementById('netErrTitle').textContent = title;
+      document.getElementById('netErrMsg').textContent = message;
+      document.getElementById('networkErrorModal').classList.add('show');
+    }
+
+    function closeNetworkError() {
+      document.getElementById('networkErrorModal').classList.remove('show');
+      document.getElementById('progressFill').style.width = '0%';
+    }
+  </script>
+
+</body>
+
+</html>

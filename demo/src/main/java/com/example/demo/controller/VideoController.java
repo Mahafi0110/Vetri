@@ -11,11 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/video")
 public class VideoController {
+
+    private static final int MAX_MERGE_CLIPS = 10;
 
     @Autowired private VideoService videoService;
     @Autowired private AdminService adminService;
@@ -36,6 +41,64 @@ public class VideoController {
         } catch (Exception e) {
             log("Compress Video", file, "failed");
             if (input != null) input.delete();
+            throw e;
+        }
+    }
+
+    // ── CONVERT FORMAT (NEW) ──────────────────
+    // The Convert page also sends "crf" and "level"; we use "level"
+    // (high / medium / low) so it matches Trim. Extra fields are simply ignored.
+    @PostMapping(value = "/convert", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<StreamingResponseBody> convertVideo(
+            @RequestPart("file") MultipartFile file,
+            @RequestParam(defaultValue = "mp4") String format,
+            @RequestParam(defaultValue = "medium") String level,
+            @RequestParam(defaultValue = "original") String resolution
+    ) throws Exception {
+        String fmt = videoService.safeVideoFormat(format);
+
+        File input = null;
+        try {
+            input = videoService.saveToTempFile(file);
+            File output = videoService.convertVideo(input, fmt, level, resolution);
+            log("Convert Video", file, "success");
+            return buildStreamResponse(output, "converted." + fmt, input, videoMediaTypeFor(fmt));
+        } catch (Exception e) {
+            log("Convert Video", file, "failed");
+            if (input != null) input.delete();
+            throw e;
+        }
+    }
+
+    // ── MERGE VIDEOS (NEW) ────────────────────
+    // The Merge page sends every clip under the same name, "files".
+    // The order they arrive in is the order they are joined.
+    @PostMapping(value = "/merge", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<StreamingResponseBody> mergeVideos(
+            @RequestPart("files") List<MultipartFile> files,
+            @RequestParam(defaultValue = "mp4") String format,
+            @RequestParam(defaultValue = "720") String resolution,
+            @RequestParam(defaultValue = "medium") String level
+    ) throws Exception {
+
+        // Clear 400 error instead of a 500
+        if (files == null || files.size() < 2 || files.size() > MAX_MERGE_CLIPS) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String fmt = videoService.safeVideoFormat(format);
+
+        List<File> inputs = new ArrayList<>();
+        try {
+            for (MultipartFile f : files) {
+                inputs.add(videoService.saveToTempFile(f));
+            }
+            File output = videoService.mergeVideos(inputs, fmt, resolution, level);
+            logMerge(files, "success");
+            return buildStreamResponse(output, "merged." + fmt, inputs, videoMediaTypeFor(fmt));
+        } catch (Exception e) {
+            logMerge(files, "failed");
+            for (File f : inputs) f.delete();
             throw e;
         }
     }
@@ -133,7 +196,7 @@ public class VideoController {
         }
     }
 
-    // ── LOG HELPER ────────────────────────────
+    // ── LOG HELPERS ───────────────────────────
     private void log(String tool, MultipartFile file, String status) {
         try {
             adminService.logFileProcess(
@@ -145,10 +208,32 @@ public class VideoController {
         }
     }
 
-    // ── STREAM HELPER ─────────────────────────
+    // One log line for the whole merge: "3 videos" with the combined size
+    private void logMerge(List<MultipartFile> files, String status) {
+        try {
+            long total = 0;
+            for (MultipartFile f : files) total += f.getSize();
+            adminService.logFileProcess(
+                null, "Guest User", "guest@vetrifiles.com",
+                "Merge Video", "video", files.size() + " videos",
+                total, status, "Unknown");
+        } catch (Exception e) {
+            System.err.println("Log failed: " + e.getMessage());
+        }
+    }
+
+    // ── STREAM HELPERS ────────────────────────
     // Cleans up BOTH input and output after streaming
     private ResponseEntity<StreamingResponseBody> buildStreamResponse(
             File output, String filename, File input, MediaType type) {
+        return buildStreamResponse(output, filename,
+                input == null ? Collections.<File>emptyList() : Collections.singletonList(input),
+                type);
+    }
+
+    // Same thing, for tools with several input files (Merge)
+    private ResponseEntity<StreamingResponseBody> buildStreamResponse(
+            File output, String filename, List<File> inputs, MediaType type) {
         StreamingResponseBody stream = outputStream -> {
             try (InputStream in = new FileInputStream(output)) {
                 byte[] buffer = new byte[8 * 1024];
@@ -158,7 +243,9 @@ public class VideoController {
                     outputStream.flush();
                 }
             } finally {
-                if (input != null) input.delete();
+                for (File f : inputs) {
+                    if (f != null) f.delete();
+                }
                 output.delete();
             }
         };

@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-N6DBC8P6');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merge Videos Online – Join Multiple Video Clips | Vetri Files</title>
+  <meta name="description"
+    content="Merge and join multiple video clips into one video online. Arrange the order, choose resolution and format, then download the combined video with Vetri Files." />
+  <link rel="canonical" href="https://www.vetrifiles.com/tool-merge-video" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link href="/css/common-nav-footer.css" rel="stylesheet" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Merge Video",
+      "url": "https://www.vetrifiles.com/tool-merge-video",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any (Web-based)",
+      "browserRequirements": "Requires JavaScript. Works in any modern browser.",
+      "description": "Merge multiple video clips into one video online for free.",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+  </script>
+  <style>
+    :root {
+      --blue-dark: #1E3A8A;
+      --blue-main: #3B82F6;
+      --heading: #1F2937;
+      --subtext: #4A5565;
+      --accent-1: #F3F4F6;
+      --accent-2: #E5E7EB;
+      --white: #ffffff;
+      --green: #16A34A;
+      --gray-bg: #F3F4F6;
+      --radius-card: 16px;
+      --radius-btn: 50px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body { font-family: 'Inter', sans-serif; color: var(--heading); background: var(--accent-1); overflow-x: hidden; }
+    h1, h2, h3, h4, h5, .brand-name { font-family: 'Poppins', sans-serif; }
+
+    .page-header { background: var(--accent-1); padding: 20px 0 24px; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; font-size: .9rem; font-weight: 500;
+      color: var(--subtext); text-decoration: none; margin-bottom: 6px; transition: color .2s;
+      background: none; border: none; outline: none; box-shadow: none; padding: 0; cursor: pointer;
+    }
+    .back-link:hover { color: var(--blue-main); }
+    .page-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; color: var(--heading); margin: 0; }
+    .tool-main { padding: 24px 0 64px; }
+
+    .settings-card { background: var(--white); border: 1.5px solid var(--accent-2); border-radius: 16px; padding: 28px 24px; height: 100%; }
+    .settings-title { font-size: 1.1rem; font-weight: 700; color: var(--heading); margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+    .settings-title i { color: #DB2777; }
+    .divider-line { border: none; border-top: 1.5px solid var(--accent-2); margin: 20px 0; }
+    .form-label-custom { font-size: .85rem; font-weight: 600; color: var(--heading); margin-bottom: 8px; display: block; }
+
+    .select-custom {
+      width: 100%; padding: 10px 14px; font-size: .9rem; font-family: 'Inter', sans-serif; border: 1.5px solid var(--accent-2);
+      border-radius: 10px; background: var(--white); color: var(--heading); appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A5565' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; transition: border-color .2s;
+    }
+    .select-custom:focus { outline: none; border-color: #DB2777; }
+    .target-hint { font-size: .72rem; color: var(--subtext); margin: 6px 0 0; }
+
+    /* File info box at the top of the sidebar (same as the Convert page) */
+    .file-info-box { background: var(--accent-1); border: 1.5px solid var(--accent-2); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .file-info-box div { min-width: 0; }
+    .file-info-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .95rem; flex-shrink: 0; }
+    .video-icon { background: linear-gradient(135deg, #DB2777, #F472B6); }
+    .file-info-name { font-size: .82rem; font-weight: 700; color: var(--heading); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .file-info-size { font-size: .75rem; color: var(--subtext); margin: 0; }
+
+    .preview-card { background: var(--white); border: 1.5px solid var(--accent-2); border-radius: 16px; padding: 28px 24px; }
+    .preview-title { font-size: 1.1rem; font-weight: 700; color: var(--heading); margin-bottom: 4px; }
+    .preview-sub { font-size: .85rem; color: var(--subtext); margin-bottom: 16px; }
+
+    /* Clip list */
+    .clip-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .clip-item { display: flex; align-items: center; gap: 12px; background: var(--accent-1); border: 1.5px solid var(--accent-2); border-radius: 12px; padding: 12px; }
+    .clip-num { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, #DB2777, #F472B6); color: #fff; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .8rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .clip-icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #DB2777, #F472B6); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .clip-info { min-width: 0; flex: 1; }
+    .clip-name { font-size: .85rem; font-weight: 700; color: var(--heading); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .clip-size { font-size: .75rem; color: var(--subtext); margin: 0; }
+    .clip-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .clip-btn { width: 32px; height: 32px; border: 1.5px solid var(--accent-2); border-radius: 8px; background: var(--white); color: var(--subtext); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+    .clip-btn:hover:not(:disabled) { border-color: #DB2777; color: #DB2777; }
+    .clip-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    /* Add clips drop box */
+    .add-box { border: 2px dashed var(--accent-2); border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; color: var(--subtext); transition: all .2s; margin-bottom: 16px; background: var(--white); }
+    .add-box:hover, .add-box.drag { border-color: #DB2777; background: #FFF0F6; color: #DB2777; }
+    .add-box i { font-size: 1.6rem; display: block; margin-bottom: 6px; }
+    .add-box p { margin: 0; font-size: .88rem; font-weight: 600; }
+    .add-box span { font-size: .75rem; }
+
+    .empty-state { text-align: center; color: #6B7280; padding: 36px 16px; background: #111827; border-radius: 12px; margin-bottom: 16px; }
+    .empty-state i { font-size: 3rem; display: block; margin-bottom: 12px; color: #4B5563; }
+    .empty-state p { font-size: .95rem; font-weight: 600; margin-bottom: 4px; color: #9CA3AF; }
+    .empty-state span { font-size: .82rem; }
+
+    .btn-process, .btn-download {
+      width: 100%; font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700;
+      background: linear-gradient(135deg, #DB2777, #F472B6); color: #fff; border: none; border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(219, 39, 119, .35); display: flex; align-items: center; justify-content: center;
+      gap: 10px; transition: transform .2s, box-shadow .2s; cursor: pointer;
+    }
+    .btn-process { padding: 16px; }
+    .btn-download { padding: 15px; margin-bottom: 12px; }
+    .btn-process:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(219, 39, 119, .45); }
+    .btn-download:hover { transform: translateY(-2px); }
+    .btn-process:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .btn-another {
+      width: 100%; padding: 14px; font-family: 'Poppins', sans-serif; font-size: .95rem; font-weight: 600;
+      background: var(--white); color: var(--heading); border: 1.5px solid var(--accent-2); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: border-color .2s, color .2s;
+    }
+    .btn-another:hover { border-color: #DB2777; color: #DB2777; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(30, 30, 30, .55); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; pointer-events: none; transition: opacity .3s; }
+    .modal-overlay.show { opacity: 1; pointer-events: all; }
+    .modal-box { background: var(--white); border-radius: 24px; padding: 48px 40px 44px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 24px 64px rgba(0, 0, 0, .18); transform: scale(.95); transition: transform .3s; }
+    .modal-overlay.show .modal-box { transform: scale(1); }
+    .spinner-ring { width: 64px; height: 64px; border-radius: 50%; border: 5px solid var(--accent-2); border-top-color: #DB2777; animation: spin .9s linear infinite; margin: 0 auto 24px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .modal-title-text { font-size: 1.3rem; font-weight: 800; color: var(--heading); margin-bottom: 10px; }
+    .modal-sub-text { font-size: .9rem; color: var(--subtext); margin-bottom: 24px; }
+    .progress-track { background: var(--accent-2); border-radius: 50px; height: 6px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 50px; background: linear-gradient(90deg, #DB2777, #F472B6); width: 0%; transition: width .3s ease; }
+
+    .success-back { display: inline-flex; align-items: center; gap: 5px; font-size: .85rem; color: var(--subtext); margin-bottom: 20px; transition: color .2s; background: none; border: none; padding: 0; cursor: pointer; }
+    .success-back:hover { color: #DB2777; }
+    .success-circle { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #DB2777, #F472B6); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 6px 20px rgba(219, 39, 119, .3); }
+    .success-circle i { color: #fff; font-size: 2rem; }
+    .success-title { font-size: 1.4rem; font-weight: 800; color: var(--heading); margin-bottom: 8px; }
+    .success-note { font-size: .9rem; color: var(--subtext); margin-bottom: 20px; }
+    .compress-summary { background: var(--accent-1); border: 1.5px solid var(--accent-2); border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; text-align: left; }
+    .compress-summary-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: .85rem; color: var(--heading); }
+    .compress-summary-item i { color: #DB2777; width: 16px; }
+    .compress-summary-item:not(:last-child) { border-bottom: 1px solid var(--accent-2); }
+
+
+    @media (max-width:767.98px) {
+      .tool-main { padding: 20px 0 48px; }
+      .settings-card { margin-bottom: 16px; }
+      .modal-box { padding: 36px 24px 32px; }
+    }
+  </style>
+</head>
+
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6DBC8P6" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <button class="back-link" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+      <h1 class="page-title">Merge Videos</h1>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="tool-main">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- Settings Panel -->
+        <div class="col-12 col-lg-3">
+          <div class="settings-card">
+            <div class="settings-title">
+              <i class="bi bi-gear-fill"></i> Settings
+            </div>
+
+            <div class="file-info-box">
+              <div class="file-info-icon video-icon">
+                <i class="bi bi-file-earmark-play-fill"></i>
+              </div>
+              <div>
+                <p class="file-info-name" id="fileInfoName"><a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;">&#8678; Upload a file first</a></p>
+                <p class="file-info-size" id="fileInfoSize">—</p>
+              </div>
+            </div>
+
+            <hr class="divider-line" />
+
+            <label class="form-label-custom" for="resolution">Output Resolution</label>
+            <select class="select-custom" id="resolution">
+              <option value="1080">1080p (Full HD)</option>
+              <option value="720" selected>720p (HD)</option>
+              <option value="480">480p (SD)</option>
+              <option value="360">360p</option>
+            </select>
+            <p class="target-hint">All clips are resized to this so they join smoothly</p>
+
+            <hr class="divider-line" />
+
+            <label class="form-label-custom" for="outputFormat">Output Format</label>
+            <select class="select-custom" id="outputFormat">
+              <option value="mp4" selected>MP4</option>
+              <option value="mov">MOV</option>
+              <option value="mkv">MKV</option>
+              <option value="webm">WEBM</option>
+            </select>
+
+          </div>
+        </div>
+
+        <!-- Clips Panel -->
+        <div class="col-12 col-lg-9">
+          <div class="preview-card">
+            <p class="preview-title">Your Clips</p>
+            <p class="preview-sub">Clips are joined from top to bottom. Use the arrows to change the order.</p>
+
+            <div class="empty-state" id="emptyState">
+              <i class="bi bi-collection-play"></i>
+              <p>No videos loaded</p>
+              <span>Upload a video from the home page</span>
+            </div>
+
+            <div class="clip-list" id="clipList"></div>
+
+            <div class="add-box" id="addBox" style="display:none" tabindex="0" role="button"
+              onclick="document.getElementById('addInput').click()">
+              <i class="bi bi-plus-circle-fill"></i>
+              <p>Add more videos</p>
+              <span>Click here or drop video files (MP4, AVI, MOV, MKV, WEBM)</span>
+            </div>
+            <input type="file" id="addInput" accept="video/*,.mkv,.avi,.mov,.flv,.wmv" multiple style="display:none" />
+
+            <button class="btn-process" id="processBtn" onclick="startProcessing()" disabled>
+              <i class="bi bi-intersect"></i>
+              Merge &amp; Download
+            </button>
+            <p class="target-hint text-center" id="mergeHint">Add at least 2 videos to merge</p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ── How it works ── -->
+  <section class="section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-12 col-lg-5">
+          <span class="section-badge">How It Works</span>
+          <h2 class="section-title">Merge Video - How to Join Video Clips Online for Free?</h2>
+        </div>
+        <div class="col-12 col-lg-7">
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot">1</div>
+              <div class="tl-content">
+                <h5>Click Upload Video and select your first video clip.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">2</div>
+              <div class="tl-content">
+                <h5>Add more video clips you want to join.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">3</div>
+              <div class="tl-content">
+                <h5>Arrange the clips in the order you want, then choose the resolution and format.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">4</div>
+              <div class="tl-content">
+                <h5>Click Merge &amp; Download and wait for the process to finish.</h5>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot">5</div>
+              <div class="tl-content">
+                <h5>Download the merged video file.</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--gray-bg);">
+    <div class="container">
+      <div class="text-center mb-4">
+        <span class="section-badge">FAQ</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-wrap">
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What is Vetri Files Merge Video?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Vetri Files Merge Video is an online tool that joins several video clips into
+              one video file.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How do I merge videos online?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Upload your clips, arrange them in the order you want, choose the output
+              resolution and format, then click Merge &amp; Download.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I merge videos in different formats?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Yes. Clips in different supported formats and sizes are converted to the
+              same resolution so they can be joined into one file.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I change the order of the clips?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Yes. Use the up and down arrows next to each clip to move it before merging.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I merge videos without installing software?
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Yes. Vetri Files provides browser-based tools, so no installation is needed.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESSING MODAL -->
+  <div class="modal-overlay" id="processingModal">
+    <div class="modal-box">
+      <div class="spinner-ring"></div>
+      <p class="modal-title-text">Merging Videos</p>
+      <p class="modal-sub-text" id="processingSub">
+        This may take a few minutes for large videos...
+      </p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERROR MODAL -->
+  <div class="modal-overlay" id="networkErrorModal">
+    <div class="modal-box" style="text-align:center;">
+      <div style="width:64px;height:64px;border-radius:50%;
+            background:linear-gradient(135deg,#DC2626,#EF4444);
+            display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;box-shadow:0 6px 20px rgba(220,38,38,.3);">
+        <i class="bi bi-wifi-off" style="color:#fff;font-size:1.8rem;"></i>
+      </div>
+      <p style="font-family:'Poppins',sans-serif;font-size:1.2rem;
+            font-weight:800;color:#1F2937;margin-bottom:10px;" id="netErrTitle">Something went wrong</p>
+      <p style="font-size:.9rem;color:#4A5565;margin-bottom:28px;line-height:1.6;" id="netErrMsg">Please try again.</p>
+      <button onclick="closeNetworkError()" style="
+            width:100%;padding:14px;margin-bottom:10px;
+            font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;
+            background:linear-gradient(135deg,#DB2777,#F472B6);
+            color:#fff;border:none;border-radius:12px;cursor:pointer;
+            box-shadow:0 4px 18px rgba(219,39,119,.35);">
+        Try Again
+      </button>
+      <button onclick="window.location.href='/'" style="
+            width:100%;padding:13px;
+            font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:600;
+            background:#fff;color:#1F2937;
+            border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;">
+        Upload New File
+      </button>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <button class="success-back" onclick="goBack()">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+      <div class="success-circle">
+        <i class="bi bi-check-lg"></i>
+      </div>
+      <p class="success-title">Videos Merged!</p>
+      <p class="success-note">Your clips have been joined into one video</p>
+      <div class="compress-summary">
+        <div class="compress-summary-item">
+          <i class="bi bi-collection-play-fill"></i>
+          <span id="summaryClips">2 clips</span>
+        </div>
+        <div class="compress-summary-item">
+          <i class="bi bi-display"></i>
+          <span id="summaryResolution">720p</span>
+        </div>
+        <div class="compress-summary-item">
+          <i class="bi bi-file-earmark-play-fill"></i>
+          <span id="summaryFormat">MP4 format</span>
+        </div>
+        <div class="compress-summary-item">
+          <i class="bi bi-hdd-fill"></i>
+          <span id="summarySize"></span>
+        </div>
+      </div>
+      <button class="btn-download" onclick="downloadFile()">
+        <i class="bi bi-cloud-arrow-down-fill"></i>
+        Download Merged Video
+      </button>
+      <button class="btn-another" onclick="mergeAnother()">
+        <i class="bi bi-arrow-clockwise"></i>
+        Merge More Videos
+      </button>
+    </div>
+  </div>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/vetri-file-helper.js"></script>
+  <script src="/js/common-nav.js"></script>
+
+  <script>
+    /* ── Globals ──
+       clips = list of { id, name, size, file }
+       The first clip comes from the home-page upload (stored by vetri-file-helper.js),
+       so its "file" is null and we fetch it with getFileBlob() when merging.
+       Clips added on this page are normal File objects kept in memory. */
+    let clips = [];
+    let nextId = 1;
+    let processedBlob = null;
+    let processedName = 'merged.mp4';
+    let isProcessing = false;
+    let progressTimer = null;
+
+    const MAX_CLIPS = 10;
+    const VIDEO_EXT = ['mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'm4v'];
+
+    /* ════════════════════════════════
+       INIT
+    ════════════════════════════════ */
+    window.addEventListener('DOMContentLoaded', () => {
+      const addInput = document.getElementById('addInput');
+      addInput.addEventListener('change', () => {
+        addFiles(addInput.files);
+        addInput.value = '';
+      });
+
+      const addBox = document.getElementById('addBox');
+      addBox.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); addInput.click(); }
+      });
+      ['dragenter', 'dragover'].forEach(ev => addBox.addEventListener(ev, e => {
+        e.preventDefault(); addBox.classList.add('drag');
+      }));
+      ['dragleave', 'drop'].forEach(ev => addBox.addEventListener(ev, e => {
+        e.preventDefault(); addBox.classList.remove('drag');
+      }));
+      addBox.addEventListener('drop', e => addFiles(e.dataTransfer.files));
+
+      document.getElementById('resolution').addEventListener('change', renderStats);
+
+      if (!isFromUpload()) { renderClips(); return; }
+
+      const stored = sessionStorage.getItem('vetri_file');
+      if (!stored) { renderClips(); return; }
+
+      let first;
+      try { first = JSON.parse(stored); } catch (e) { renderClips(); return; }
+
+      const ext = (first.name || '').split('.').pop().toLowerCase();
+      if (!VIDEO_EXT.includes(ext)) {
+        showNetworkError('Unsupported File', '"' + first.name + '" is not a video. Please upload a video file.');
+        renderClips();
+        return;
+      }
+
+      clips.push({ id: nextId++, name: first.name || 'video', size: first.size || 0, file: null });
+      renderClips();
+    });
+
+    /* ════════════════════════════════
+       CLIP LIST
+    ════════════════════════════════ */
+    function addFiles(fileList) {
+      const rejected = [];
+      Array.from(fileList).forEach(f => {
+        const ext = f.name.split('.').pop().toLowerCase();
+        if (!VIDEO_EXT.includes(ext) && !(f.type || '').startsWith('video/')) { rejected.push(f.name); return; }
+        if (clips.length >= MAX_CLIPS) { rejected.push(f.name + ' (limit ' + MAX_CLIPS + ' clips)'); return; }
+        clips.push({ id: nextId++, name: f.name, size: f.size, file: f });
+      });
+      renderClips();
+      if (rejected.length) {
+        showNetworkError('Some files were skipped', rejected.join(', '));
+      }
+    }
+
+    function moveClip(index, dir) {
+      const j = index + dir;
+      if (j < 0 || j >= clips.length) return;
+      const tmp = clips[index];
+      clips[index] = clips[j];
+      clips[j] = tmp;
+      renderClips();
+    }
+
+    function removeClip(index) {
+      clips.splice(index, 1);
+      renderClips();
+    }
+
+    function makeBtn(icon, label, disabled, handler) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'clip-btn';
+      b.setAttribute('aria-label', label);
+      b.disabled = disabled;
+      b.innerHTML = '<i class="bi ' + icon + '"></i>';
+      b.addEventListener('click', handler);
+      return b;
+    }
+
+    function renderClips() {
+      const list = document.getElementById('clipList');
+      list.textContent = '';
+
+      clips.forEach((c, i) => {
+        const item = document.createElement('div');
+        item.className = 'clip-item';
+
+        const num = document.createElement('div');
+        num.className = 'clip-num';
+        num.textContent = i + 1;
+
+        const icon = document.createElement('div');
+        icon.className = 'clip-icon';
+        icon.innerHTML = '<i class="bi bi-file-earmark-play-fill"></i>';
+
+        const info = document.createElement('div');
+        info.className = 'clip-info';
+        const name = document.createElement('p');
+        name.className = 'clip-name';
+        name.textContent = c.name;            // textContent keeps file names safe
+        const size = document.createElement('p');
+        size.className = 'clip-size';
+        size.textContent = formatSize(c.size);
+        info.append(name, size);
+
+        const actions = document.createElement('div');
+        actions.className = 'clip-actions';
+        actions.append(
+          makeBtn('bi-arrow-up', 'Move up', i === 0, () => moveClip(i, -1)),
+          makeBtn('bi-arrow-down', 'Move down', i === clips.length - 1, () => moveClip(i, 1)),
+          makeBtn('bi-trash3', 'Remove clip', false, () => removeClip(i))
+        );
+
+        item.append(num, icon, info, actions);
+        list.appendChild(item);
+      });
+
+      document.getElementById('emptyState').style.display = clips.length ? 'none' : 'block';
+      document.getElementById('addBox').style.display = clips.length ? 'block' : 'none';
+      renderStats();
+    }
+
+    function renderStats() {
+      const total = clips.reduce((sum, c) => sum + (c.size || 0), 0);
+      const nameEl = document.getElementById('fileInfoName');
+      const sizeEl = document.getElementById('fileInfoSize');
+      if (!clips.length) {
+        // No file yet: show the "Upload a file first" link (fixed text, so innerHTML is safe here)
+        nameEl.innerHTML =
+          '<a href="/" style="color:#3B82F6;text-decoration:none;font-weight:bold;font-size:.82rem;">&#8678; Upload a file first</a>';
+        sizeEl.textContent = '—';
+      } else {
+        nameEl.textContent = clips.length + (clips.length === 1 ? ' video loaded' : ' videos loaded');
+        sizeEl.textContent = 'Total size: ' + formatSize(total);
+      }
+
+      const ready = clips.length >= 2 && !isProcessing;
+      document.getElementById('processBtn').disabled = !ready;
+      document.getElementById('mergeHint').textContent =
+        clips.length >= 2 ? 'Ready to merge ' + clips.length + ' clips' : 'Add at least 2 videos to merge';
+    }
+
+    function formatSize(bytes) {
+      if (!bytes) return '—';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+    }
+
+    /* ════════════════════════════════
+       PROCESSING
+    ════════════════════════════════ */
+    function endProcessing() {
+      clearInterval(progressTimer);
+      document.getElementById('processingModal').classList.remove('show');
+      isProcessing = false;
+      renderStats();
+    }
+
+    // Gives back the real File/Blob for a clip (the first one lives in the helper storage)
+    function getClipBlob(clip, cb) {
+      if (clip.file) { cb(clip.file, clip.name); return; }
+      getFileBlob((blob, meta) => cb(blob, meta ? meta.name : clip.name));
+    }
+
+    function startProcessing() {
+      if (isProcessing) return;
+      if (clips.length < 2) {
+        showNetworkError('Need More Videos', 'Please add at least 2 videos to merge.');
+        return;
+      }
+
+      const resolution = document.getElementById('resolution').value;
+      const format = document.getElementById('outputFormat').value;
+
+      document.getElementById('summaryClips').textContent = clips.length + ' clips merged';
+      document.getElementById('summaryResolution').textContent = resolution + 'p';
+      document.getElementById('summaryFormat').textContent = format.toUpperCase() + ' format';
+      processedName = 'merged_video.' + format;
+
+      isProcessing = true;
+      document.getElementById('processBtn').disabled = true;
+
+      const progressFill = document.getElementById('progressFill');
+      const sub = document.getElementById('processingSub');
+      progressFill.style.width = '0%';
+      sub.textContent = 'This may take a few minutes for large videos...';
+      document.getElementById('processingModal').classList.add('show');
+
+      let progress = 0;
+      progressTimer = setInterval(() => {
+        progress += (95 - progress) * 0.03;
+        progressFill.style.width = progress + '%';
+        if (progress > 80) sub.textContent = 'Still working, merging can take a few minutes...';
+      }, 600);
+
+      // Collect every clip's data in order, then send them all together
+      const formData = new FormData();
+      let remaining = clips.length;
+      let failed = false;
+      const slots = new Array(clips.length);
+
+      clips.forEach((clip, i) => {
+        getClipBlob(clip, (blob, name) => {
+          if (failed) return;
+          if (!blob) {
+            failed = true;
+            endProcessing();
+            showNetworkError('File Not Found', 'We could not read "' + clip.name + '". Please upload it again.');
+            return;
+          }
+          slots[i] = { blob, name };
+          remaining--;
+          if (remaining === 0) send(slots);
+        });
+      });
+
+      function send(items) {
+        // The order of "files" is the order of the merge
+        items.forEach(it => formData.append('files', it.blob, it.name));
+        formData.append('resolution', resolution);
+        formData.append('format', format);
+
+        fetch('/api/video/merge', { method: 'POST', body: formData })
+          .then(r => {
+            if (r.status === 413) throw new Error('too_large');
+            if (!r.ok) throw new Error('Merge failed');
+            return r.blob();
+          })
+          .then(result => {
+            clearInterval(progressTimer);
+            progressFill.style.width = '100%';
+            processedBlob = result;
+            document.getElementById('summarySize').textContent = 'Output size: ' + formatSize(result.size);
+
+            setTimeout(() => {
+              endProcessing();
+              document.getElementById('successModal').classList.add('show');
+            }, 400);
+          })
+          .catch(err => {
+            endProcessing();
+            console.error(err);
+            if (err.message === 'too_large') {
+              showNetworkError('Files Too Large', 'The videos together are too large to process. Please try smaller clips.');
+            } else if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+              showNetworkError('No Internet Connection', 'Connection lost while merging. Check your WiFi and try again.');
+            } else {
+              showNetworkError('Merge Failed', 'Could not merge your videos. Please try again.');
+            }
+          });
+      }
+    }
+
+    /* ════════════════════════════════
+       DOWNLOAD / NAVIGATION
+    ════════════════════════════════ */
+    function downloadFile() {
+      if (!processedBlob) return;
+      const url = URL.createObjectURL(processedBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = processedName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+
+    function mergeAnother() {
+      document.getElementById('successModal').classList.remove('show');
+      document.getElementById('progressFill').style.width = '0%';
+      window.location.href = '/';
+    }
+
+    function goBack() {
+      const ref = document.referrer || '';
+      if (ref.includes('/all-tools')) {
+        window.location.href = '/all-tools';
+      } else if (ref.includes('/file-tools')) {
+        window.location.href = '/file-tools';
+      } else if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = '/';
+      }
+    }
+
+    function showNetworkError(title, message) {
+      document.getElementById('netErrTitle').textContent = title;
+      document.getElementById('netErrMsg').textContent = message;
+      document.getElementById('networkErrorModal').classList.add('show');
+    }
+
+    function closeNetworkError() {
+      document.getElementById('networkErrorModal').classList.remove('show');
+      document.getElementById('progressFill').style.width = '0%';
+    }
+  </script>
+
+</body>
+
+</html>

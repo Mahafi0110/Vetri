@@ -280,6 +280,17 @@
       background: linear-gradient(135deg, #EC4899, #FDE68A);
     }
 
+    .ti-pink-4 {
+      background: linear-gradient(135deg, #D6336C, #FF8FA3);
+    }
+
+    /* Merge */
+    .ti-pink-5 {
+      background: linear-gradient(135deg, #B5179E, #F472B6);
+    }
+
+    /* Convert */
+
     .tool-info {
       flex: 1;
       min-width: 0;
@@ -874,6 +885,25 @@
               </div>
             </a>
           </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-merge-video" class="tool-card">
+              <div class="tool-icon ti-pink-4"><i class="bi bi-collection-play-fill"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Merge Videos</p>
+                <p class="tool-desc">Combine multiple video files</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/tool-convert-video" class="tool-card">
+              <div class="tool-icon ti-pink-5"><i class="bi bi-arrow-repeat"></i></div>
+              <div class="tool-info">
+                <p class="tool-name">Convert Video</p>
+                <p class="tool-desc">Change video format or resolution</p>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -957,17 +987,17 @@
         window.location.replace('/');
       }
     }
-    getFileBlob(function(file, meta) {
-  if (!file) {
-    // No file uploaded yet (e.g. arrived directly from All Tools)
-    document.getElementById('no-file-container').style.display = 'block';
-    document.getElementById('tool-workspace').style.display = 'none';
-    return;
-  }
-  
-  // Proceed with initializing the tool workspace with the file...
-  initToolWorkspace(file);
-});
+    getFileBlob(function (file, meta) {
+      if (!file) {
+        // No file uploaded yet (e.g. arrived directly from All Tools)
+        document.getElementById('no-file-container').style.display = 'block';
+        document.getElementById('tool-workspace').style.display = 'none';
+        return;
+      }
+
+      // Proceed with initializing the tool workspace with the file...
+      initToolWorkspace(file);
+    });
 
     /* ── Hamburger toggle (mobile only) ── */
     // function toggleNavLinks() {

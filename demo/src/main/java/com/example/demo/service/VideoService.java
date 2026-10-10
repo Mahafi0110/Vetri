@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class VideoService {
@@ -15,9 +16,13 @@ public class VideoService {
     // ffprobe is installed together with ffmpeg
     private static final String FFPROBE = "ffprobe";
 
-    // Formats the Trim page offers. Anything else falls back to mp4.
+    // Formats the Trim / Convert / Merge pages offer. Anything else falls back to mp4.
     private static final Set<String> ALLOWED_VIDEO_FORMATS =
             new HashSet<>(Arrays.asList("mp4", "avi", "mov", "mkv", "webm"));
+
+    // Heights the Convert / Merge pages offer
+    private static final Set<String> ALLOWED_HEIGHTS =
+            new HashSet<>(Arrays.asList("1080", "720", "480", "360"));
 
     // Options the Extract Audio page offers. Anything else falls back to a default.
     private static final Set<String> ALLOWED_AUDIO_FORMATS =
@@ -113,6 +118,161 @@ public class VideoService {
             return input;
         }
 
+        return output;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // CONVERT VIDEO  (NEW)
+    // Changes the container/codec to the chosen format.
+    // "resolution" is "original" (no resize) or one of 1080 / 720 / 480 / 360.
+    // "quality" is high / medium / low (same helpers as Trim).
+    // ─────────────────────────────────────────────────────────────────────────
+    public File convertVideo(File input,
+            String format,
+            String quality,
+            String resolution) throws Exception {
+
+        format = normalizeVideoFormat(format);
+        String q = normalizeQuality(quality);
+
+        File output = File.createTempFile(
+                "convert_" + System.currentTimeMillis(), "." + format,
+                new File(System.getProperty("java.io.tmpdir")));
+
+        List<String> cmd = new ArrayList<>();
+        cmd.add(FFMPEG);
+        cmd.add("-y");
+        cmd.add("-nostdin");
+        cmd.add("-i");
+        cmd.add(input.getAbsolutePath());
+
+        // First video stream + any audio ("?" = don't fail if there is no audio)
+        cmd.add("-map");
+        cmd.add("0:v:0");
+        cmd.add("-map");
+        cmd.add("0:a?");
+
+        // Keep RAM low on the small server
+        cmd.add("-threads");
+        cmd.add("1");
+
+        // Only resize when the user asked for it
+        if (resolution != null && ALLOWED_HEIGHTS.contains(resolution.trim())) {
+            cmd.add("-vf");
+            cmd.add("scale=-2:" + resolution.trim());
+        }
+
+        addEncodeArgs(cmd, format, q);
+        cmd.add(output.getAbsolutePath());
+
+        try {
+            runFFmpeg(cmd);
+        } catch (Exception e) {
+            output.delete();
+            throw e;
+        }
+
+        // Do NOT delete input here — controller cleans up after streaming
+        return output;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // MERGE VIDEOS  (NEW)
+    // Joins the clips in the order given.
+    //  - Every clip is resized to the same 16:9 frame (black bars, no stretching),
+    //    given the same frame rate, and the same audio format, so they join cleanly.
+    //  - A clip with no sound gets silence of the same length, so one silent clip
+    //    does not break the whole merge.
+    // ─────────────────────────────────────────────────────────────────────────
+    public File mergeVideos(List<File> inputs,
+            String format,
+            String resolution,
+            String quality) throws Exception {
+
+        if (inputs == null || inputs.size() < 2) {
+            throw new IllegalArgumentException("Please give at least 2 videos to merge.");
+        }
+
+        format = normalizeVideoFormat(format);
+        String q = normalizeQuality(quality);
+        int h = (resolution != null && ALLOWED_HEIGHTS.contains(resolution.trim()))
+                ? Integer.parseInt(resolution.trim())
+                : 720;
+        int w = (int) (Math.round(h * 16.0 / 9.0 / 2.0) * 2);   // even width
+        int n = inputs.size();
+
+        File output = File.createTempFile(
+                "merge_" + System.currentTimeMillis(), "." + format,
+                new File(System.getProperty("java.io.tmpdir")));
+
+        List<String> cmd = new ArrayList<>();
+        cmd.add(FFMPEG);
+        cmd.add("-y");
+        cmd.add("-nostdin");
+
+        // Inputs 0..n-1 are the clips
+        for (File f : inputs) {
+            cmd.add("-i");
+            cmd.add(f.getAbsolutePath());
+        }
+
+        // For clips without sound, add a silent input after the clips
+        int[] audioInput = new int[n];
+        int nextInput = n;
+        for (int i = 0; i < n; i++) {
+            audioInput[i] = i;
+            if (!hasAudioStream(inputs.get(i))) {
+                double d = probeDuration(inputs.get(i));
+                cmd.addAll(Arrays.asList(
+                        "-f", "lavfi",
+                        "-t", String.format(Locale.US, "%.3f", d),
+                        "-i", "anullsrc=r=44100:cl=stereo"));
+                audioInput[i] = nextInput++;
+            }
+        }
+
+        StringBuilder filter = new StringBuilder();
+        StringBuilder joined = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            filter.append(String.format(Locale.US,
+                    "[%d:v:0]scale=%d:%d:force_original_aspect_ratio=decrease,"
+                            + "pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,"
+                            + "format=yuv420p,setpts=PTS-STARTPTS[v%d];",
+                    i, w, h, w, h, i));
+            // Silent inputs have no stream specifier suffix issue: "[k:a]" works for both
+            filter.append(String.format(Locale.US,
+                    "[%d:a]aresample=44100,aformat=sample_fmts=fltp:channel_layouts=stereo,"
+                            + "asetpts=PTS-STARTPTS[a%d];",
+                    audioInput[i], i));
+            joined.append(String.format("[v%d][a%d]", i, i));
+        }
+        filter.append(joined).append("concat=n=").append(n).append(":v=1:a=1[v][a]");
+
+        cmd.add("-filter_complex");
+        cmd.add(filter.toString());
+        cmd.add("-map");
+        cmd.add("[v]");
+        cmd.add("-map");
+        cmd.add("[a]");
+
+        // Keep RAM low on the small server
+        cmd.add("-threads");
+        cmd.add("1");
+        cmd.add("-filter_complex_threads");
+        cmd.add("1");
+
+        addEncodeArgs(cmd, format, q);
+        cmd.add(output.getAbsolutePath());
+
+        try {
+            // Merging takes longer than other tools, so allow a longer overall limit
+            runFFmpeg(cmd, 45);
+        } catch (Exception e) {
+            output.delete();
+            throw e;
+        }
+
+        // Do NOT delete inputs here — controller cleans up after streaming
         return output;
     }
 
@@ -216,10 +376,7 @@ public class VideoService {
         }
 
         format = normalizeVideoFormat(format);
-        String q = (quality == null) ? "medium" : quality.toLowerCase(Locale.ROOT);
-        if (!q.equals("high") && !q.equals("medium") && !q.equals("low")) {
-            q = "medium";
-        }
+        String q = normalizeQuality(quality);
 
         File output = File.createTempFile(
                 "trim_" + System.currentTimeMillis(), "." + format,
@@ -247,6 +404,24 @@ public class VideoService {
         cmd.add("-threads");
         cmd.add("1");
 
+        addEncodeArgs(cmd, format, q);
+        cmd.add(output.getAbsolutePath());
+
+        try {
+            runFFmpeg(cmd);
+        } catch (Exception e) {
+            output.delete(); // don't leave a half-written file behind
+            throw e;
+        }
+
+        // Do NOT delete input here — controller cleans up after streaming
+        return output;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // SHARED ENCODE SETTINGS (used by Trim, Convert and Merge)
+    // ─────────────────────────────────────────────────────────────────────────
+    private void addEncodeArgs(List<String> cmd, String format, String q) {
         if (format.equals("webm")) {
             // WEBM only accepts VP8/VP9 video and Opus/Vorbis audio
             cmd.addAll(Arrays.asList(
@@ -275,18 +450,6 @@ public class VideoService {
                 cmd.add("+faststart");
             }
         }
-
-        cmd.add(output.getAbsolutePath());
-
-        try {
-            runFFmpeg(cmd);
-        } catch (Exception e) {
-            output.delete(); // don't leave a half-written file behind
-            throw e;
-        }
-
-        // Do NOT delete input here — controller cleans up after streaming
-        return output;
     }
 
     // Lower CRF number = better quality + bigger file
@@ -371,11 +534,65 @@ public class VideoService {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // RUN FFMPEG
-    // The timeout really works: FFmpeg's log is read on a separate thread,
-    // so waitFor(...) can stop it after 5 minutes.
+    // GET VIDEO LENGTH IN SECONDS (uses ffprobe) — needed to make matching silence
     // ─────────────────────────────────────────────────────────────────────────
+    private double probeDuration(File input) throws Exception {
+        ProcessBuilder pb = new ProcessBuilder(
+                FFPROBE,
+                "-v", "error",
+                "-show_entries", "format=duration",
+                "-of", "csv=p=0",
+                input.getAbsolutePath());
+        pb.redirectErrorStream(true);
+        Process process = pb.start();
+
+        StringBuffer out = new StringBuffer();
+        Thread reader = new Thread(() -> {
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    out.append(line).append('\n');
+                }
+            } catch (IOException ignored) {
+                // process ended or was killed
+            }
+        });
+        reader.setDaemon(true);
+        reader.start();
+
+        if (!process.waitFor(30, TimeUnit.SECONDS)) {
+            process.destroyForcibly();
+            throw new RuntimeException("Could not read the video length.");
+        }
+        reader.join(2000);
+
+        try {
+            double d = Double.parseDouble(out.toString().trim());
+            if (d > 0) return d;
+        } catch (NumberFormatException ignored) {
+            // fall through
+        }
+        throw new RuntimeException("Could not read the video length.");
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // RUN FFMPEG
+    // Two safety limits (instead of one fixed 5-minute limit):
+    //  1. STALL limit: if FFmpeg prints nothing for 3 minutes, it is stuck → stop it.
+    //     FFmpeg prints a progress line about twice a second while it works,
+    //     so a long video that is still making progress is NOT stopped.
+    //  2. OVERALL limit: a maximum for the whole job (30 min normally, 45 for merge)
+    //     so one huge video cannot hold the server forever.
+    // FFmpeg's log is read on a separate thread so the checks below always run.
+    // ─────────────────────────────────────────────────────────────────────────
+    private static final long STALL_LIMIT_MS = 3 * 60 * 1000L;
+
     private void runFFmpeg(List<String> command) throws Exception {
+        runFFmpeg(command, 30);
+    }
+
+    private void runFFmpeg(List<String> command, int maxMinutes) throws Exception {
 
         System.out.println("===== FFMPEG COMMAND =====");
         System.out.println(String.join(" ", command));
@@ -385,11 +602,14 @@ public class VideoService {
 
         Process process = pb.start();
 
+        final AtomicLong lastOutput = new AtomicLong(System.currentTimeMillis());
+
         Thread logThread = new Thread(() -> {
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
+                    lastOutput.set(System.currentTimeMillis());
                     System.out.println("FFMPEG: " + line);
                 }
             } catch (IOException ignored) {
@@ -399,10 +619,23 @@ public class VideoService {
         logThread.setDaemon(true);
         logThread.start();
 
-        boolean finished = process.waitFor(5, TimeUnit.MINUTES);
-        if (!finished) {
-            process.destroyForcibly();
-            throw new RuntimeException("Video processing timed out. Try a shorter or smaller video.");
+        long startedAt = System.currentTimeMillis();
+        long overallLimitMs = maxMinutes * 60 * 1000L;
+
+        // Check every 2 seconds until FFmpeg finishes
+        while (!process.waitFor(2, TimeUnit.SECONDS)) {
+            long now = System.currentTimeMillis();
+
+            if (now - startedAt > overallLimitMs) {
+                process.destroyForcibly();
+                throw new RuntimeException(
+                        "Video processing took too long. Try a shorter or smaller video.");
+            }
+            if (now - lastOutput.get() > STALL_LIMIT_MS) {
+                process.destroyForcibly();
+                throw new RuntimeException(
+                        "Video processing stopped responding. Please try again.");
+            }
         }
 
         logThread.join(2000);
@@ -424,11 +657,24 @@ public class VideoService {
         return ALLOWED_VIDEO_FORMATS.contains(f) ? f : "mp4";
     }
 
+    private String normalizeQuality(String quality) {
+        String q = (quality == null) ? "medium" : quality.trim().toLowerCase(Locale.ROOT);
+        if (!q.equals("high") && !q.equals("medium") && !q.equals("low")) {
+            q = "medium";
+        }
+        return q;
+    }
+
     /** Public so the controller can use the same safe value for the file name. */
     public String normalizeAudioFormat(String format) {
         if (format == null) return "mp3";
         String f = format.trim().toLowerCase(Locale.ROOT);
         return ALLOWED_AUDIO_FORMATS.contains(f) ? f : "mp3";
+    }
+
+    /** Public so the controller can use the same safe value for the file name. */
+    public String safeVideoFormat(String format) {
+        return normalizeVideoFormat(format);
     }
 
     private String pick(String value, Set<String> allowed, String fallback) {

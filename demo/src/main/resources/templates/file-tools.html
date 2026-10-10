@@ -65,6 +65,7 @@
         .brand-name {
             font-family: 'Poppins', sans-serif;
         }
+
         /* ── Page Header ── */
         .page-header {
             background: var(--white);
@@ -303,9 +304,11 @@
         }
 
         .tac-pink-4 {
-            background: linear-gradient(135deg, #BE123C, #FB923C);
+            background: linear-gradient(135deg, #D6336C, #FF8FA3);
         }
-
+        .tac-pink-5 {
+            background: linear-gradient(135deg, #B5179E, #F472B6);
+        }
         /* word tools-greens */
         .tac-indigo-1 {
             background: linear-gradient(135deg, #1E3A8A, #3B82F6);
@@ -665,7 +668,7 @@
             }
         });
     </script> -->
-<script>
+    <script>
         /* Same IndexedDB as index.html + vetri-file-helper.js */
         const VETRI_IDB_NAME = 'VetriFilesDB';
         const VETRI_IDB_STORE = 'files';
@@ -700,6 +703,8 @@
                 { icon: 'bi-arrow-left-right', color: 'tac-pink-1', name: 'Compress Video', desc: 'Click to get started', page: '/tool-compress-video' },
                 { icon: 'bi-scissors', color: 'tac-pink-2', name: 'Trim Video', desc: 'Click to get started', page: '/tool-trim-video' },
                 { icon: 'bi-music-note-beamed', color: 'tac-pink-3', name: 'Extract Audio', desc: 'Click to get started', page: '/tool-extract-audio-video' },
+                { icon: 'bi-collection-play-fill', color: 'tac-pink-4', name: 'Merge Video', desc: 'Click to get started', page: '/tool-merge-video' },
+                { icon: 'bi-arrow-repeat', color: 'tac-pink-5', name: 'Convert Video', desc: 'Click to get started', page: '/tool-convert-video' },
             ],
             word: [
                 { icon: 'bi-file-earmark-pdf-fill', color: 'tac-indigo-1', name: 'Word to PDF', desc: 'Convert .doc / .docx to PDF', page: '/tool-word-pdf' },

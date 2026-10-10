@@ -1239,277 +1239,7 @@
     <script src="/js/vetri-file-helper.js"></script>
     <!-- Shared navbar/footer behavior (login state, dropdown, hamburger, logout) -->
     <script src="/js/common-nav.js"></script>
-    <!-- <script>
-        let fileList = [];        // Array of { file, name, size }
-        let processedBlob = null;
-        let mergeOrder = 'asAdded';
-
-        /* ── Drag & Drop ── */
-        function handleDragOver(e) {
-            e.preventDefault();
-            document.getElementById('dropZone').classList.add('dragover');
-        }
-
-        function handleDragLeave(e) {
-            document.getElementById('dropZone').classList.remove('dragover');
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            document.getElementById('dropZone').classList.remove('dragover');
-            const files = Array.from(e.dataTransfer.files).filter(f =>
-                f.type === 'application/pdf' || f.name.endsWith('.pdf'));
-            addFiles(files);
-        }
-
-        /* ── File Select ── */
-        function handleFileSelect(e) {
-            const files = Array.from(e.target.files);
-            addFiles(files);
-            e.target.value = '';
-        }
-
-        /* ── Add Files ── */
-        function addFiles(files) {
-            files.forEach(f => {
-                fileList.push({ file: f, name: f.name, size: f.size });
-            });
-            renderFileList();
-            updatePreview();
-        }
-
-        /* ── Render File List ── */
-        function renderFileList() {
-            const container = document.getElementById('fileList');
-            if (fileList.length === 0) {
-                container.innerHTML = '';
-                return;
-            }
-
-            const ordered = getOrderedFiles();
-            container.innerHTML = ordered.map((item, idx) => `
-                <div class="file-item" id="fileItem${idx}">
-                    <i class="bi bi-grip-vertical drag-handle"></i>
-                    <div class="file-item-icon">
-                        <i class="bi bi-file-earmark-pdf-fill"></i>
-                    </div>
-                    <div class="file-item-info">
-                        <p class="file-item-name">${item.name}</p>
-                        <p class="file-item-size">${formatSize(item.size)}</p>
-                    </div>
-                    <div class="file-item-actions">
-                        <button class="file-action-btn remove" onclick="removeFile('${item.name}')" title="Remove">
-                            <i class="bi bi-x"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        /* ── Remove File ── */
-        function removeFile(name) {
-            fileList = fileList.filter(f => f.name !== name);
-            renderFileList();
-            updatePreview();
-        }
-
-        /* ── Set Order ── */
-        function setOrder(order, btn) {
-            mergeOrder = order;
-            document.querySelectorAll('.order-option').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderFileList();
-            updatePreview();
-        }
-
-        /* ── Get Ordered Files ── */
-        function getOrderedFiles() {
-            if (mergeOrder === 'alpha') {
-                return [...fileList].sort((a, b) => a.name.localeCompare(b.name));
-            }
-            return [...fileList];
-        }
-
-        /* ── Update Preview ── */
-        function updatePreview() {
-            const noState = document.getElementById('noFileState');
-            const flowArea = document.getElementById('mergeFlowArea');
-            const flowItems = document.getElementById('mergeFlowItems');
-            const statsRow = document.getElementById('mergeStatsRow');
-            const flowTitle = document.getElementById('mergeFlowTitle');
-
-            if (fileList.length === 0) {
-                noState.style.display = 'block';
-                flowArea.style.display = 'none';
-                return;
-            }
-
-            noState.style.display = 'none';
-            flowArea.style.display = 'block';
-
-            const ordered = getOrderedFiles();
-            const totalSize = fileList.reduce((s, f) => s + f.size, 0);
-
-            if (fileList.length === 1) {
-                flowTitle.textContent = 'Add at least 1 more PDF to merge';
-            } else {
-                flowTitle.textContent = ordered.length + ' PDFs will be merged into 1 file';
-            }
-
-            /* Flow items */
-            let html = '';
-            ordered.forEach((item, idx) => {
-                const shortName = item.name.length > 12
-                    ? item.name.substring(0, 10) + '…'
-                    : item.name;
-                html += `
-                    <div class="merge-flow-file">
-                        <div class="file-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div>
-                        <p class="file-label">${shortName}</p>
-                        <span class="file-badge">${idx + 1}</span>
-                    </div>`;
-                if (idx < ordered.length - 1) {
-                    html += `<i class="bi bi-plus merge-arrow"></i>`;
-                }
-            });
-
-            if (fileList.length >= 2) {
-                const outputName = getOutputName();
-                html += `
-                    <i class="bi bi-arrow-right merge-arrow"></i>
-                    <div class="merge-result-file">
-                        <div class="file-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div>
-                        <p class="file-label">${outputName}</p>
-                        <span class="file-badge">Merged</span>
-                    </div>`;
-            }
-
-            flowItems.innerHTML = html;
-
-            /* Stats */
-            statsRow.innerHTML = `
-                <div class="merge-stat">
-                    <p class="merge-stat-value">${fileList.length}</p>
-                    <p class="merge-stat-label">Files</p>
-                </div>
-                <div class="merge-stat">
-                    <p class="merge-stat-value">${formatSize(totalSize)}</p>
-                    <p class="merge-stat-label">Total size</p>
-                </div>
-                <div class="merge-stat">
-                    <p class="merge-stat-value">${mergeOrder === 'alpha' ? 'A–Z' : 'Order'}</p>
-                    <p class="merge-stat-label">Sort mode</p>
-                </div>
-            `;
-        }
-
-        /* ── Get Output Name ── */
-        function getOutputName() {
-            let name = document.getElementById('outputName').value.trim() || 'merged.pdf';
-            if (!name.toLowerCase().endsWith('.pdf')) name += '.pdf';
-            return name;
-        }
-
-        /* ── Format Size ── */
-        function formatSize(bytes) {
-            if (!bytes) return '—';
-            if (bytes < 1024) return bytes + ' B';
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-        }
-
-        /* ── Start Processing ── */
-        function startProcessing() {
-            if (fileList.length < 2) {
-                alert('Please add at least 2 PDF files to merge.');
-                return;
-            }
-
-            const outputName = getOutputName();
-
-            /* Update success modal summary */
-            document.getElementById('successFileName').textContent = outputName;
-            document.getElementById('summaryFiles').textContent = fileList.length + ' files merged';
-            document.getElementById('summaryOrder').textContent =
-                mergeOrder === 'alpha' ? 'Merged alphabetically' : 'Merged in upload order';
-            document.getElementById('summaryOutput').textContent = 'Output: ' + outputName;
-
-            const processingModal = document.getElementById('processingModal');
-            const progressFill = document.getElementById('progressFill');
-            processingModal.classList.add('show');
-
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 20;
-                if (progress >= 95) {
-                    progress = 95;
-                    clearInterval(interval);
-                }
-                progressFill.style.width = progress + '%';
-            }, 300);
-
-            const ordered = getOrderedFiles();
-            const formData = new FormData();
-            ordered.forEach((item, idx) => {
-                formData.append('files', item.file, item.name);
-            });
-            formData.append('outputName', outputName);
-            formData.append('order', mergeOrder);
-
-            fetch('/api/pdf/merge', {
-                method: 'POST',
-                body: formData
-            })
-                .then(r => {
-                    if (!r.ok) throw new Error('Merge failed');
-                    return r.blob();
-                })
-                .then(blob => {
-                    clearInterval(interval);
-                    progressFill.style.width = '100%';
-                    processedBlob = blob;
-                    setTimeout(() => {
-                        processingModal.classList.remove('show');
-                        document.getElementById('successModal').classList.add('show');
-                    }, 400);
-                })
-                .catch(err => {
-                    clearInterval(interval);
-                    processingModal.classList.remove('show');
-                    alert('Merge failed: ' + err.message);
-                });
-        }
-
-        /* ── Download ── */
-        function downloadFile() {
-            if (processedBlob) {
-                const url = URL.createObjectURL(processedBlob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = getOutputName();
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-        }
-
-        /* ── Merge Another ── */
-        function mergeAnother() {
-            document.getElementById('successModal').classList.remove('show');
-            document.getElementById('progressFill').style.width = '0%';
-            fileList = [];
-            processedBlob = null;
-            renderFileList();
-            updatePreview();
-        }
-
-        /* Live preview update on output name change */
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('outputName').addEventListener('input', updatePreview);
-        });
-    </script> -->
-    <script>
+ <!-- <script>
         let fileList = [];        // [{ file, name, size }]
         let processedBlob = null;
         let mergeOrder = 'asAdded'; // 'asAdded' | 'alpha' | 'manual'
@@ -1923,7 +1653,504 @@
             document.getElementById('networkErrorModal').classList.remove('show');
             document.getElementById('progressFill').style.width = '0%';
         }
-    </script>
+    </script> -->
+<script>
+    /* ─────────────────────────────────────────
+   STATE
+───────────────────────────────────────── */
+let fileList = [];          // [{ id, seq, file, name, size }]  (the list IS the merge order)
+let nextId = 1;             // unique id for every file in the list
+let nextSeq = 1;            // upload order, so "As Added" can be restored later
+let processedBlob = null;
+let mergeOrder = 'asAdded'; // 'asAdded' | 'alpha' | 'manual'
+let dragSrcIdx = null;      // for drag-to-reorder
+let isProcessing = false;
+
+// Must match spring.servlet.multipart.max-request-size in application.properties
+const MAX_TOTAL_BYTES = 200 * 1024 * 1024;
+
+/* ─────────────────────────────────────────
+   SMALL HELPERS
+───────────────────────────────────────── */
+// File names can contain characters like ' " < & so never put them into HTML as-is
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, c => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+}
+
+// A real PDF starts with "%PDF-" near the beginning. This catches other files renamed to .pdf
+async function hasPdfHeader(file) {
+    try {
+        const head = await file.slice(0, 1024).text();
+        return head.indexOf('%PDF-') !== -1;
+    } catch (e) {
+        return true;   // could not check: let the server decide
+    }
+}
+
+function byName(a, b) {
+    // numeric: "file2.pdf" comes before "file10.pdf"
+    return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' });
+}
+
+/* ═══════════════════════════════
+   FILE INPUT / DROP ZONE
+═══════════════════════════════ */
+function handleDragOver(e) {
+    e.preventDefault();
+    document.getElementById('dropZone').classList.add('dragover');
+}
+
+function handleDragLeave() {
+    document.getElementById('dropZone').classList.remove('dragover');
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    document.getElementById('dropZone').classList.remove('dragover');
+    addFiles(Array.from(e.dataTransfer.files));
+}
+
+function handleFileSelect(e) {
+    addFiles(Array.from(e.target.files));
+    e.target.value = '';
+}
+
+async function addFiles(files) {
+    const skipped = [];
+
+    for (const f of files) {
+        const looksLikePdf = f.name.toLowerCase().endsWith('.pdf') || f.type === 'application/pdf';
+        if (!looksLikePdf || !(await hasPdfHeader(f))) {
+            skipped.push(f.name);
+            continue;
+        }
+        // Same file added twice = skip. Two different files with the same name are both kept.
+        const duplicate = fileList.find(x =>
+            x.name === f.name && x.size === f.size && x.file.lastModified === f.lastModified);
+        if (duplicate) continue;
+
+        fileList.push({ id: nextId++, seq: nextSeq++, file: f, name: f.name, size: f.size });
+    }
+
+    if (mergeOrder === 'alpha') fileList.sort(byName);
+
+    renderFileList();
+    updatePreview();
+
+    if (skipped.length) {
+        showNetworkError('Some files were skipped',
+            'Only real PDF files can be merged. Skipped: ' + skipped.join(', '));
+    }
+}
+
+/* ═══════════════════════════════
+   RENDER FILE LIST
+   each item can be dragged to a new position
+═══════════════════════════════ */
+function renderFileList() {
+    const container = document.getElementById('fileList');
+    if (fileList.length === 0) { container.innerHTML = ''; return; }
+
+    container.innerHTML = fileList.map((item, idx) => `
+        <div class="file-item"
+             id="fi-${idx}"
+             draggable="true"
+             ondragstart="onItemDragStart(event, ${idx})"
+             ondragover="onItemDragOver(event, ${idx})"
+             ondragleave="onItemDragLeave(event)"
+             ondrop="onItemDrop(event, ${idx})"
+             ondragend="onItemDragEnd(event)">
+            <i class="bi bi-grip-vertical drag-handle" title="Drag to reorder"></i>
+            <div class="file-item-icon">
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+            </div>
+            <div class="file-item-info">
+                <p class="file-item-name">${escapeHtml(item.name)}</p>
+                <p class="file-item-size">${formatSize(item.size)}</p>
+            </div>
+            <div class="file-item-actions">
+                <button class="file-action-btn" onclick="moveFile(${idx}, -1)" title="Move Up"
+                    ${idx === 0 ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>
+                    <i class="bi bi-chevron-up"></i>
+                </button>
+                <button class="file-action-btn" onclick="moveFile(${idx}, 1)" title="Move Down"
+                    ${idx === fileList.length - 1 ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <button class="file-action-btn remove" onclick="removeFile(${item.id})" title="Remove">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+/* ═══════════════════════════════
+   ↑↓ BUTTON REORDERING
+═══════════════════════════════ */
+function switchToManual() {
+    if (mergeOrder === 'manual') return;
+    mergeOrder = 'manual';
+    document.querySelectorAll('.order-option').forEach(b => b.classList.remove('active'));
+    document.getElementById('orderManual').classList.add('active');
+}
+
+function moveFile(idx, dir) {
+    const target = idx + dir;
+    if (target < 0 || target >= fileList.length) return;
+
+    [fileList[idx], fileList[target]] = [fileList[target], fileList[idx]];
+
+    switchToManual();
+    renderFileList();
+    updatePreview();
+}
+
+/* ═══════════════════════════════
+   DRAG-TO-REORDER (HTML5 DnD)
+═══════════════════════════════ */
+function onItemDragStart(e, idx) {
+    dragSrcIdx = idx;
+    e.dataTransfer.effectAllowed = 'move';
+    // Small timeout so the ghost image renders before we style the source
+    setTimeout(() => {
+        const el = document.getElementById('fi-' + idx);
+        if (el) el.style.opacity = '0.4';
+    }, 0);
+}
+
+function onItemDragOver(e, idx) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (dragSrcIdx !== null && idx !== dragSrcIdx) {
+        document.getElementById('fi-' + idx).style.outline = '2px solid var(--blue-main)';
+    }
+}
+
+function onItemDragLeave(e) {
+    e.currentTarget.style.outline = '';
+}
+
+function onItemDrop(e, dropIdx) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (dragSrcIdx === null || dragSrcIdx === dropIdx) return;
+
+    const moved = fileList.splice(dragSrcIdx, 1)[0];
+    fileList.splice(dropIdx, 0, moved);
+
+    dragSrcIdx = null;
+    switchToManual();
+    renderFileList();
+    updatePreview();
+}
+
+function onItemDragEnd() {
+    document.querySelectorAll('.file-item').forEach(el => {
+        el.style.opacity = '';
+        el.style.outline = '';
+    });
+    dragSrcIdx = null;
+}
+
+/* ═══════════════════════════════
+   REMOVE FILE (by id, so file names never matter)
+═══════════════════════════════ */
+function removeFile(id) {
+    fileList = fileList.filter(f => f.id !== id);
+    renderFileList();
+    updatePreview();
+}
+
+/* ═══════════════════════════════
+   ORDER OPTIONS
+═══════════════════════════════ */
+function setOrder(order, btn) {
+    mergeOrder = order;
+    document.querySelectorAll('.order-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    if (order === 'alpha') {
+        fileList.sort(byName);
+    } else if (order === 'asAdded') {
+        // Go back to the order the files were added in
+        fileList.sort((a, b) => a.seq - b.seq);
+    }
+    // 'manual' keeps the order as it is now
+
+    renderFileList();
+    updatePreview();
+}
+
+/* ═══════════════════════════════
+   PREVIEW
+═══════════════════════════════ */
+function updatePreview() {
+    const noState = document.getElementById('noFileState');
+    const flowArea = document.getElementById('mergeFlowArea');
+    const flowItems = document.getElementById('mergeFlowItems');
+    const statsRow = document.getElementById('mergeStatsRow');
+    const flowTitle = document.getElementById('mergeFlowTitle');
+
+    if (fileList.length === 0) {
+        noState.style.display = 'block';
+        flowArea.style.display = 'none';
+        return;
+    }
+
+    noState.style.display = 'none';
+    flowArea.style.display = 'block';
+
+    const totalSize = fileList.reduce((s, f) => s + f.size, 0);
+
+    flowTitle.textContent = fileList.length === 1
+        ? 'Add at least 1 more PDF to merge'
+        : fileList.length + ' PDFs will be merged into 1 file';
+
+    let html = '';
+    fileList.forEach((item, idx) => {
+        const shortName = item.name.length > 12
+            ? item.name.substring(0, 10) + '…'
+            : item.name;
+        html += `
+        <div class="merge-flow-file">
+            <div class="file-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+            <p class="file-label">${escapeHtml(shortName)}</p>
+            <span class="file-badge">${idx + 1}</span>
+        </div>`;
+        if (idx < fileList.length - 1) {
+            html += `<i class="bi bi-plus merge-arrow"></i>`;
+        }
+    });
+
+    if (fileList.length >= 2) {
+        html += `
+        <i class="bi bi-arrow-right merge-arrow"></i>
+        <div class="merge-result-file">
+            <div class="file-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+            <p class="file-label">${escapeHtml(getOutputName())}</p>
+            <span class="file-badge">Merged</span>
+        </div>`;
+    }
+
+    flowItems.innerHTML = html;
+
+    const orderLabel = mergeOrder === 'alpha' ? 'A–Z'
+        : mergeOrder === 'manual' ? 'Custom'
+            : 'Order';
+
+    statsRow.innerHTML = `
+        <div class="merge-stat">
+            <p class="merge-stat-value">${fileList.length}</p>
+            <p class="merge-stat-label">Files</p>
+        </div>
+        <div class="merge-stat">
+            <p class="merge-stat-value">${formatSize(totalSize)}</p>
+            <p class="merge-stat-label">Total size</p>
+        </div>
+        <div class="merge-stat">
+            <p class="merge-stat-value">${orderLabel}</p>
+            <p class="merge-stat-label">Sort mode</p>
+        </div>
+    `;
+}
+
+/* ═══════════════════════════════
+   OUTPUT NAME
+   characters that are not allowed in file names are removed
+═══════════════════════════════ */
+function getOutputName() {
+    let name = document.getElementById('outputName').value.trim()
+        .replace(/[\\/:*?"<>|]/g, '')   // not allowed in file names
+        .replace(/^\.+/, '');           // no leading dots
+    const base = name.replace(/\.pdf$/i, '').slice(0, 80) || 'merged';
+    return base + '.pdf';
+}
+
+function formatSize(bytes) {
+    if (!bytes) return '—';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+/* ═══════════════════════════════
+   PROCESS + DOWNLOAD
+═══════════════════════════════ */
+function finishProcessing() {
+    isProcessing = false;
+    const btn = document.getElementById('processBtn');
+    if (btn) btn.disabled = false;
+}
+
+function startProcessing() {
+    if (isProcessing) return;   // ignore double clicks
+
+    if (fileList.length < 2) {
+        alert('Please add at least 2 PDF files to merge.');
+        return;
+    }
+
+    // Check the total size before uploading, so the message is clear
+    const totalSize = fileList.reduce((s, f) => s + f.size, 0);
+    if (totalSize > MAX_TOTAL_BYTES) {
+        showNetworkError('Files Too Large',
+            'The PDFs together are ' + formatSize(totalSize) + '. The limit is ' +
+            formatSize(MAX_TOTAL_BYTES) + ' in total. Please remove some files.');
+        return;
+    }
+
+    isProcessing = true;
+    const btn = document.getElementById('processBtn');
+    if (btn) btn.disabled = true;
+
+    const outputName = getOutputName();
+
+    document.getElementById('successFileName').textContent = outputName;
+    document.getElementById('summaryFiles').textContent = fileList.length + ' files merged';
+    document.getElementById('summaryOrder').textContent =
+        mergeOrder === 'alpha' ? 'Merged alphabetically' :
+            mergeOrder === 'manual' ? 'Merged in custom order' :
+                'Merged in upload order';
+    document.getElementById('summaryOutput').textContent = 'Output: ' + outputName;
+
+    const processingModal = document.getElementById('processingModal');
+    const progressFill = document.getElementById('progressFill');
+    progressFill.style.width = '0%';
+    processingModal.classList.add('show');
+
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 20;
+        if (progress >= 90) { progress = 90; clearInterval(interval); }
+        progressFill.style.width = progress + '%';
+    }, 300);
+
+    // The files go to the server in exactly the order shown on the page
+    const formData = new FormData();
+    fileList.forEach(item => formData.append('files', item.file, item.name));
+    formData.append('outputName', outputName);
+    formData.append('order', mergeOrder);
+
+    fetch('/api/pdf/merge', { method: 'POST', body: formData })
+        .then(r => {
+            if (r.status === 413) throw new Error('too_large');
+            if (!r.ok) return r.text().then(t => { throw new Error(t || 'Merge failed ' + r.status); });
+            return r.blob();
+        })
+        .then(blob => {
+            clearInterval(interval);
+            progressFill.style.width = '100%';
+            processedBlob = blob;
+            setTimeout(() => {
+                processingModal.classList.remove('show');
+                document.getElementById('successModal').classList.add('show');
+                finishProcessing();
+            }, 500);
+        })
+        .catch(err => {
+            clearInterval(interval);
+            processingModal.classList.remove('show');
+            finishProcessing();
+            console.error(err);
+            if (err.message === 'too_large') {
+                showNetworkError('Files Too Large',
+                    'Your PDFs are too large to process together. Please try fewer or smaller files.');
+            } else if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+                showNetworkError('No Internet Connection',
+                    'Connection lost while merging PDFs. Check your WiFi and try again.');
+            } else {
+                showNetworkError('Processing Failed',
+                    'Could not merge your PDFs. One of them may be damaged or password protected.');
+            }
+        });
+}
+
+function downloadFile() {
+    if (!processedBlob) { alert('No file available.'); return; }
+    const url = URL.createObjectURL(processedBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = getOutputName();
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+
+function mergeAnother() {
+    document.getElementById('successModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+    fileList = [];
+    processedBlob = null;
+    mergeOrder = 'asAdded';
+    document.querySelectorAll('.order-option').forEach(b => b.classList.remove('active'));
+    document.getElementById('orderAsAdded').classList.add('active');
+    renderFileList();
+    updatePreview();
+}
+
+function goBack() {
+    const ref = document.referrer || "";
+
+    if (ref.includes('/all-tools')) {
+        window.location.href = '/all-tools';
+    } else if (ref.includes('/file-tools')) {
+        window.location.href = '/file-tools';
+    } else if (window.history.length > 1) {
+        window.history.back(); // smart fallback
+    } else {
+        window.location.href = '/';
+    }
+}
+
+function showNetworkError(title, message) {
+    document.getElementById('netErrTitle').textContent = title;
+    document.getElementById('netErrMsg').textContent = message;
+    document.getElementById('networkErrorModal').classList.add('show');
+}
+
+function closeNetworkError() {
+    document.getElementById('networkErrorModal').classList.remove('show');
+    document.getElementById('progressFill').style.width = '0%';
+}
+
+/* ═══════════════════════════════
+   START-UP
+═══════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('outputName').addEventListener('input', updatePreview);
+
+    // If the visitor came from the home page with a PDF, add it to the list automatically.
+    // NOTE: isFromUpload() can only be used ONCE per visit (it clears its own flag),
+    // so it must not be called anywhere else on this page.
+    try {
+        if (typeof isFromUpload !== 'function' || !isFromUpload()) return;
+        if (typeof getFileBlob !== 'function') return;
+
+        const stored = sessionStorage.getItem('vetri_file');
+        if (!stored) return;
+
+        const info = JSON.parse(stored);
+        const ext = (info.name || '').split('.').pop().toLowerCase();
+        if (ext !== 'pdf') return;   // not a PDF: do nothing
+
+        getFileBlob((blob, meta) => {
+            if (!blob) return;
+            let file = blob;
+            if (!(file instanceof File)) {
+                const name = (meta && meta.name) || info.name || 'document.pdf';
+                file = new File([blob], name, { type: 'application/pdf' });
+            }
+            addFiles([file]);
+        });
+    } catch (err) {
+        console.error('Could not load the PDF from the home page', err);
+    }
+});
+</script>
 </body>
 
 </html>
